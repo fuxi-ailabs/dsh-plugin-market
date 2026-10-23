@@ -15,8 +15,11 @@ Fuxi 团队插件目录
 | 插件 | 版本 | DSH 兼容范围 |
 |---|---|---|
 | AgentLineage | `0.1.0-alpha.3` | `^0.2.1-rc.2` |
+| workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。安装准备见 [AgentLineage 使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.3/integrations/dsh/README.md)。
+
+workflow-rsi 操作台在 DSH 里查看 workflow-rsi 的会话、请求、评测资产、Run、闭环与工作计划，写操作只由人在 `/wrsi … --confirm` 执行。使用前需要安装并启动 workflow-rsi 本体 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 操作台文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 ## 版本与兼容性
 

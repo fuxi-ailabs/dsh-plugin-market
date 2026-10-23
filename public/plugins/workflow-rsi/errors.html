@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>错误与写操作 | workflow-rsi 操作台文档</title>
+<script>try{var t=localStorage.getItem("wrsi-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 13.7-5.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M20 12a8 8 0 0 1-13.7 5.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" opacity=".55"/><path d="M17.7 2.6v4.2h-4.2M6.3 21.4v-4.2h4.2" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="2.4"/></svg>workflow-rsi 操作台文档</a>
+    <span class="ver">v0.1.0-alpha.1</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="tools.html" class="on">参考</a><a href="versions.html">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html">首次使用</a><a href="tools.html">工具与命令</a><a href="errors.html" class="on" aria-current="page">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>错误与写操作</h1>
+<h2 id="errors">常见错误<a class="hash" href="#errors" aria-label="本节链接">#</a></h2><div class="table"><table><thead><tr><th>情形</th><th>返回</th></tr></thead><tbody><tr><td>wrsi-server 没启动或地址错</td><td><code>available:false</code>，<code>wrsi-server &lt;url&gt; is not reachable (…)</code></td></tr><tr><td><code>key_file</code> 不存在或读不了</td><td><code>available:false</code>，<code>key file &lt;path&gt; is not readable (ENOENT)</code></td></tr><tr><td>key 错</td><td><code>available:false</code>，<code>wrsi-server rejected the key (a restarted server has a new key file)</code></td></tr><tr><td>没配置 <code>wie</code></td><td><code>available:false</code>，<code>wie is not configured</code></td></tr><tr><td>所配 <code>wie</code> 版本没有该命令</td><td><code>available:false</code>，<code>the configured wie has no &quot;loop list&quot; command</code></td></tr><tr><td>workflow-rsi 返回错误（如会话不存在）</td><td><code>available:true, ok:false</code>，<code>error</code> 为服务端原文</td></tr><tr><td><code>/wrsi</code> 子命令或参数写错</td><td>返回用法说明，不执行</td></tr></tbody></table></div><p>插件不重试，也不在不可用时猜测结果；以上情况会话都正常继续。</p><h2 id="writes">写操作的副作用<a class="hash" href="#writes" aria-label="本节链接">#</a></h2><div class="table"><table><thead><tr><th>命令</th><th>实际做什么</th><th>重复执行</th><th>失败时</th></tr></thead><tbody><tr><td><code>admit</code></td><td><code>POST /api/assets/transition</code>，注册表追加一条准入记录</td><td>资产已准入时服务端拒绝</td><td>原样返回服务端错误，注册表不变</td></tr><tr><td><code>publish</code></td><td><code>POST /api/assets/publish</code>，把资产记录推送到 Workflow owner 的资产仓</td><td>已推送的提交不会重复产生</td><td>原样返回错误（未配资产仓时 501）</td></tr><tr><td><code>loop-resume</code></td><td><code>wie loop resume &lt;id&gt; --decision …</code>，闭环账本追加一条恢复记录</td><td>只对等人或等合入的闭环有效</td><td>原样返回 <code>wie</code> 的错误输出</td></tr><tr><td><code>plan-decide</code></td><td><code>wie plan decide</code>，工作计划台账追加一条裁决</td><td>追加新记录，以最后一条为准</td><td>原样返回 <code>wie</code> 的错误输出</td></tr></tbody></table></div><p>每次写操作只发一次请求或起一次 <code>wie</code>，不自动重试；写入都落在 workflow-rsi 的只追加台账里。</p><h2 id="process">子进程<a class="hash" href="#process" aria-label="本节链接">#</a></h2><p><code>wie</code> 用固定的可执行文件与参数数组启动（不经 shell），超时取 <code>timeout_ms</code>，结束即回收。插件不持有其他进程或连接。</p>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="tools.html"><span>上一页</span>工具与命令</a><a class="pg next" href="versions.html"><span>下一页</span>组件与版本</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#errors">常见错误</a><a href="#writes">写操作的副作用</a><a href="#process">子进程</a></nav>
+  </main>
+</div>
+<footer class="foot">workflow-rsi 操作台 · Apache-2.0 · 维护：cacheline</footer>
+</body>
+</html>

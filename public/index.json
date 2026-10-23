@@ -15,6 +15,12 @@
           "en": "Evidence and lineage",
           "zh": "证据与溯源"
         }
+      },
+      "workflow": {
+        "title": {
+          "en": "Workflow improvement",
+          "zh": "工作流改进"
+        }
       }
     },
     "labels": {
@@ -70,6 +76,47 @@
           },
           "engines": {
             "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@fuxi-ailabs/workflow-rsi-dsh-console",
+      "title": {
+        "en": "workflow-rsi Console",
+        "zh": "workflow-rsi 操作台"
+      },
+      "description": {
+        "en": "Read-only console for workflow-rsi in DSH: the agent inspects sessions, requests, evaluation assets, runs, closed loops and work plans; writes run only when a person confirms /wrsi … --confirm. Requires the workflow-rsi server from @fuxi-ailabs/workflow-rsi.",
+        "zh": "在 DSH 里查看 workflow-rsi：Agent 只用只读工具查会话、请求、评测资产、Run、闭环与工作计划，写操作只由人在 /wrsi … --confirm 执行。需要先安装并启动 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
+      },
+      "icon": "icons/workflow-rsi.svg",
+      "author": "cacheline",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/",
+      "metadata": {
+        "category": "workflow",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "workflow-rsi",
+          "workflow",
+          "evaluation",
+          "RSI",
+          "工作流",
+          "评测",
+          "闭环"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0-alpha.1",
+          "publishTimestamp": 1792774765,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "0.1.6-alpha.2 || ^0.2.1-rc.2"
           }
         }
       ]
