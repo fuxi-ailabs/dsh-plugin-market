@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>首次使用 | workflow-rsi 操作台文档</title>
+<script>try{var t=localStorage.getItem("wrsi-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 64 64" aria-hidden="true"><path d="M19 47.5L26 41.5M37 39.5L44 33.5" stroke="currentColor" stroke-width="4" stroke-linecap="round" opacity=".55"/><rect x="8" y="42" width="11" height="11" rx="3"/><rect x="26" y="35" width="11" height="11" rx="3"/><rect x="44" y="28" width="11" height="11" rx="3"/><path d="M49.5 23C49.5 7 13.5 7 13.5 33M9 29.5L13.5 35.5L18 29.5" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>workflow-rsi 操作台文档</a>
+    <span class="ver">v0.1.0-alpha.1</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="tools.html">参考</a><a href="versions.html">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html" class="on" aria-current="page">首次使用</a><a href="tools.html">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>首次使用</h1>
+<p>workflow-rsi 以评测结果驱动对一个 Workflow 的修改，每次修改产出 PR，合入由 Workflow 所在仓决定。本插件是它在 DSH 里的操作台：Agent 只拿到只读工具，用来查看会话、请求、评测资产、Run、闭环与工作计划；写操作只能由人在 <code>/wrsi</code> 命令里带 <code>--confirm</code> 执行。</p>
+<p>由两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。</p></div><h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
+which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部库，只另外从 registry 安装 TypeScript（用于符号级的改动范围检查）。</p><h2 id="start">启动服务<a class="hash" href="#start" aria-label="本节链接">#</a></h2><p>写一个最小配置 <code>wie.config.json</code>，路径都放在工作目录之外：</p><div class="code"><div class="code-bar"><span>json</span><button type="button" class="copy">复制</button></div><pre><code>{
+  &quot;business&quot;: &quot;&lt;业务名&gt;&quot;,
+  &quot;actor&quot;: &quot;&lt;你的 id&gt;&quot;,
+  &quot;registry_root&quot;: &quot;/abs/path/registry&quot;,
+  &quot;server&quot;: { &quot;data_root&quot;: &quot;/abs/path/wrsi-server&quot;, &quot;key_file&quot;: &quot;/abs/path/wrsi-server.key&quot; }
+}</code></pre></div><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>wrsi-server --config /abs/path/wie.config.json --port 8799</code></pre></div><p><code>key_file</code> 不存在时服务首次启动会生成它（权限 0600），之后重启沿用同一个 key。服务只监听本机，API 请求都要带这个 key。</p><h2 id="plugin">安装插件<a class="hash" href="#plugin" aria-label="本节链接">#</a></h2><p>桌面版：打开「插件」→「发现」，在 Fuxi DSH 插件市场中找到 workflow-rsi 操作台，点击安装。</p><p>命令行：</p><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/workflow-rsi-dsh-console</code></pre></div><p>建议给操作台单独建一个 profile（例如 <code>dsh wrsi-console --from-default-profile web --dump-config</code>），只放这一个插件。</p><h2 id="config">配置<a class="hash" href="#config" aria-label="本节链接">#</a></h2><p>在该 profile 的 <code>cordis.patch.yml</code> 里写上 key 与 <code>wie</code>：</p><div class="code"><div class="code-bar"><span>yaml</span><button type="button" class="copy">复制</button></div><pre><code>- id: wrsi-console
+  config:
+    server_url: http:&#47;&#47;127.0.0.1:8799
+    key_file: /abs/path/wrsi-server.key
+    wie: { argv: [wie], config: /abs/path/wie.config.json }
+    timeout_ms: 30000</code></pre></div><div class="table"><table><thead><tr><th>配置</th><th>含义</th><th>默认</th></tr></thead><tbody><tr><td><code>server_url</code></td><td>wrsi-server 的 http(s) origin</td><td><code>127.0.0.1:8799</code>（http）</td></tr><tr><td><code>key_file</code></td><td>wrsi-server 的 key 文件绝对路径（可写 <code>~/…</code>）</td><td>无；不配时 HTTP 类功能不可用</td></tr><tr><td><code>wie.argv</code> / <code>wie.config</code></td><td><code>wie</code> 命令前缀与它的配置文件</td><td>无；不配时闭环与工作计划功能不可用</td></tr><tr><td><code>timeout_ms</code></td><td>单次 HTTP 请求或 <code>wie</code> 子进程的超时</td><td>30000</td></tr></tbody></table></div><p>未知字段在插件加载时报错。key 每次请求时从文件读，只放进请求头，输出里出现时替换为 <code>&lt;key&gt;</code>。</p><h2 id="verify">验证<a class="hash" href="#verify" aria-label="本节链接">#</a></h2><p>在操作台 profile 里输入：</p><div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi status</code></pre></div><p>返回业务名、actor 与服务状态即为连通。也可以直接问 Agent「workflow-rsi 现在有哪些会话」，它会调用 <code>wrsi_sessions</code>。服务没启动时插件不影响会话，工具返回 <code>available: false</code> 与原因，见<a href="errors.html">错误与写操作</a>。</p>
+      <nav class="pager" aria-label="翻页"><a class="pg next" href="tools.html"><span>下一页</span>工具与命令</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
+  </main>
+</div>
+<footer class="foot">workflow-rsi 操作台 · Apache-2.0 · 维护：cacheline</footer>
+</body>
+</html>

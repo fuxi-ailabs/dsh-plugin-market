@@ -22,6 +22,8 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
 const publicPages = new Map([['agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'evidence.js',
   'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
+])], ['workflow-rsi', new Set([
+  'index.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
 ])]]);
 for (const directory of await readdir('public/plugins', { withFileTypes: true })) {
   if (!directory.isDirectory() || !publicPages.has(directory.name)) {
