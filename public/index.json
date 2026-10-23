@@ -15,6 +15,12 @@
           "en": "Evidence and lineage",
           "zh": "证据与溯源"
         }
+      },
+      "refactoring": {
+        "title": {
+          "en": "Refactoring and quality",
+          "zh": "重构与代码质量"
+        }
       }
     },
     "labels": {
@@ -67,6 +73,51 @@
             "url": "https://github.com/fuxi-ailabs/AgentLineage",
             "commit": "bf28b828710f1c146895bdfb63108934edbd1fe5",
             "path": "integrations/dsh"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-ecat",
+      "title": {
+        "en": "ECAT",
+        "zh": "ECAT · 熵驱动代码改进循环"
+      },
+      "description": {
+        "en": "Configure and run ECAT's adversarial entropy-reduction loop from DSH: interview-driven dimension design, then a background refine loop you can inspect and stop.",
+        "zh": "在 DSH 中配置并运行 ECAT 的对抗式降熵循环：访谈式设计评分维度，后台迭代并可随时查看与停止。"
+      },
+      "icon": "icons/ecat.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/ecat/",
+      "repository": {
+        "url": "https://github.com/fuxi-ailabs/ECAT",
+        "directory": "integrations/dsh"
+      },
+      "metadata": {
+        "category": "refactoring",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "ECAT",
+          "entropy",
+          "refactoring",
+          "code quality",
+          "熵",
+          "重构",
+          "代码质量"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0-alpha.1",
+          "publishTimestamp": 1792738462,
+          "source": {
+            "type": "npm"
           },
           "engines": {
             "dsh": "^0.2.1-rc.2"

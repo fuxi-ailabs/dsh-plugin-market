@@ -19,10 +19,13 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
   }
 }
 // Each page is reviewed independently. Add its exact resource list here before publishing.
-const publicPages = new Map([['agentlineage', new Set([
-  'index.html', 'styles.css', 'page.js', 'evidence.js',
-  'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
-])]]);
+const publicPages = new Map([
+  ['agentlineage', new Set([
+    'index.html', 'styles.css', 'page.js', 'evidence.js',
+    'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
+  ])],
+  ['ecat', new Set(['index.html'])],
+]);
 for (const directory of await readdir('public/plugins', { withFileTypes: true })) {
   if (!directory.isDirectory() || !publicPages.has(directory.name)) {
     throw new Error(`Unapproved plugin page: ${directory.name}`);
