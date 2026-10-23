@@ -15,6 +15,12 @@
           "en": "Evidence and lineage",
           "zh": "证据与溯源"
         }
+      },
+      "verification": {
+        "title": {
+          "en": "Verification",
+          "zh": "验证与验收"
+        }
       }
     },
     "labels": {
@@ -67,6 +73,49 @@
             "url": "https://github.com/fuxi-ailabs/AgentLineage",
             "commit": "bf28b828710f1c146895bdfb63108934edbd1fe5",
             "path": "integrations/dsh"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-dt-verify",
+      "title": {
+        "en": "DT Verification",
+        "zh": "DT 验证组件 · dt-verify"
+      },
+      "description": {
+        "en": "Turn a Spec into accepted verification plans, review them, verify HarmonyOS Stage projects with Harmony UT/UI tests, and summarize results with evidence. HarmonyOS projects only.",
+        "zh": "按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程，并汇总结果与证据。只用于鸿蒙 Stage 工程。"
+      },
+      "icon": "icons/dt-verify.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/",
+      "metadata": {
+        "category": "verification",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "dt-verify",
+          "verification",
+          "HarmonyOS",
+          "Hypium",
+          "验证",
+          "验收",
+          "鸿蒙",
+          "迁移"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0-dev.20",
+          "publishTimestamp": 1792738620,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
           },
           "engines": {
             "dsh": "^0.2.1-rc.2"

@@ -15,8 +15,11 @@ Fuxi 团队插件目录
 | 插件 | 版本 | DSH 兼容范围 |
 |---|---|---|
 | AgentLineage | `0.1.0-alpha.3` | `^0.2.1-rc.2` |
+| DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.20` | `^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。安装准备见 [AgentLineage 使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.3/integrations/dsh/README.md)。
+
+DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。
 
 ## 版本与兼容性
 
