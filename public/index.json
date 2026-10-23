@@ -15,6 +15,12 @@
           "en": "Evidence and lineage",
           "zh": "证据与溯源"
         }
+      },
+      "memory": {
+        "title": {
+          "en": "Memory",
+          "zh": "记忆"
+        }
       }
     },
     "labels": {
@@ -70,6 +76,46 @@
           },
           "engines": {
             "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@fuxi-ailabs/crowdmemory-dsh-adapter",
+      "title": {
+        "en": "Crowd Memory",
+        "zh": "Crowd Memory · 群体记忆"
+      },
+      "description": {
+        "en": "Memory plugin for DSH. When a tool fails, a session starts or a workflow phase begins, it shows the agent records of how the same problem was solved before, with their source and why they matched. Requires the local memory service @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "DSH 记忆插件。工具失败、会话开始或进入工作流阶段时，把以前同类问题的解决记录推送给 Agent，附出处和命中理由。需要先安装本机记忆服务 @fuxi-ailabs/crowdmemory-runtime。"
+      },
+      "icon": "icons/crowdmemory.svg",
+      "author": "cacheline",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/",
+      "metadata": {
+        "category": "memory",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "Crowd Memory",
+          "memory",
+          "agent memory",
+          "群体记忆",
+          "记忆",
+          "经验"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1792740637,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "0.1.6-alpha.2 || ^0.2.0-rc.2"
           }
         }
       ]

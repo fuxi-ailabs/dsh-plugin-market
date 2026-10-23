@@ -22,6 +22,12 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
 const publicPages = new Map([['agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'evidence.js',
   'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
+])], ['crowdmemory', new Set([
+  'changelog.html', 'configuration.html', 'docs.css', 'docs.js',
+  'errors.html', 'evaluation.html', 'faq.html', 'index.html',
+  'limits.html', 'push.html', 'runtime.html', 'security.html',
+  'stats.html', 'team.html', 'tools.html', 'versions.html',
+  'workflow.html',
 ])]]);
 for (const directory of await readdir('public/plugins', { withFileTypes: true })) {
   if (!directory.isDirectory() || !publicPages.has(directory.name)) {

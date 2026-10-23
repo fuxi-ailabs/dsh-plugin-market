@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Crowd Memory">
+  <rect width="64" height="64" rx="14" fill="#0b6e6c"/>
+  <path d="M16 18l16 14M32 12v20M48 18L32 32M32 32v10" fill="none" stroke="#9fe0d9" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#e9fbf8"><circle cx="16" cy="18" r="5"/><circle cx="32" cy="12" r="5"/><circle cx="48" cy="18" r="5"/></g>
+  <rect x="20" y="40" width="24" height="5" rx="2.5" fill="#f2c27a"/>
+  <rect x="20" y="47.5" width="24" height="5" rx="2.5" fill="#e9fbf8"/>
+</svg>
