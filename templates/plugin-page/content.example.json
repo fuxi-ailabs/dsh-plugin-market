@@ -1,0 +1,61 @@
+{
+  "slug": "your-plugin",
+  "name": "YourPlugin",
+  "category": "YOUR CATEGORY",
+  "version": "0.1.0",
+  "compatibility": "填写已验证的 DSH 版本与发布状态",
+  "description": "用一句话写清楚：插件把什么输入变成什么结果，用户因此能完成什么。",
+  "headline": ["一个用户真的会问的", "具体问题？"],
+  "promise": "输入 → 处理过程 → 看得见的结果",
+  "heroQuestion": "用一个具体对象提问，而不是堆功能词。",
+  "heroAnswer": "用一句话给出这个例子的预期结果。",
+  "heroFile": "example.txt",
+  "heroNodes": ["输入", "处理", "结果"],
+  "preview": {"terminal": "your-plugin / preview", "objectLabel": "INPUT", "contextLabel": "运行上下文", "contextMeta": "input + output"},
+  "facts": ["一个已验证的能力", "一个用户能感知的特点", "实际运行条件"],
+  "example": {
+    "title": "一个问题，一个最小例子。",
+    "description": "告诉用户点什么、看哪里，以及预期得到什么。",
+    "label": "交互演示 · 固定示意数据",
+    "file": "example.txt",
+    "question": "输入为什么会得到这个结果？",
+    "answer": "填写该例子的具体答案，能够与下面的操作和输出对照。",
+    "session": "demo-context-01",
+    "ui": {"events": "演示步骤", "context": "DEMO CONTEXT", "contextNote": "说明演示的上下文", "changeTab": "输入与输出", "evidenceTab": "运行细节", "action": "操作", "contextField": "上下文", "request": "输入位置", "result": "输出位置", "resultText": "执行结果", "status": "已完成"},
+    "operations": [
+      {"tool": "input", "title": "准备输入", "description": "说明最小输入。", "removed": [], "added": ["一段最小输入"], "result": "输入已准备", "requestRef": "demo:input-01", "resultRef": "demo:output-01"},
+      {"tool": "run", "title": "得到结果", "description": "说明插件做了什么。", "removed": ["一段最小输入"], "added": ["一个具体结果"], "result": "填写可核对的输出", "requestRef": "demo:input-02", "resultRef": "demo:output-02"}
+    ],
+    "prompt": "填写可以在 DSH 中复现此例的真实提示词；不要虚构命令或工具。",
+    "note": "这是固定示意数据，不连接用户会话。请在提交前补充截图来源与复现说明。"
+  },
+  "comparison": {
+    "title": "同一任务，使用前后有什么不同？",
+    "description": "固定同一个输入与任务，对照操作方式和输出；没有实测数据时不写提速百分比。",
+    "before": {"title": "使用前怎么做", "description": "写清楚用户原本需要的操作。", "image": "assets/before.jpg", "alt": "填写使用前截图中可核对的具体内容。"},
+    "after": {"title": "使用后怎么做", "description": "写清楚插件带来的具体改变。", "image": "assets/after.jpg", "alt": "填写使用后截图中可核对的具体内容。"},
+    "takeaways": ["一个能从截图验证的改变", "另一个明确的结果"]
+  },
+  "useCases": [
+    {"tag": "01 / SCENARIO A", "title": "谁在什么情况下用", "question": "“一个真实的用户问题？”", "description": "用户提供什么，插件返回什么，下一步能做什么。", "prompt": "填写此场景可复制的提问。"},
+    {"tag": "02 / SCENARIO B", "title": "另一个独立的使用场景", "question": "“另一个具体问题？”", "description": "不要把功能名称当作场景，写清触发条件与预期结果。", "prompt": "填写第二个场景可复制的提问。"}
+  ],
+  "quickstart": {
+    "summaryTitle": "准备好，就开始。",
+    "title": "五步，完成第一次使用。",
+    "description": "每一步都说明操作与预期结果；把额外运行环境放在安装之前。",
+    "steps": [
+      {"title": "确认运行条件", "description": "写明系统、DSH 与额外运行时的已验证版本。", "code": "填写真实的环境检查命令或提问", "codeLabel": "运行环境"},
+      {"title": "安装插件", "description": "写明市场路径、索引地址及插件名称。", "code": "https://fuxi-ailabs.github.io/dsh-plugin-market/index.json", "codeLabel": "插件市场索引"},
+      {"title": "检查是否就绪", "description": "给出一个检查及预期输出。", "code": "填写真实的就绪检查提问", "codeLabel": "发送给 DSH"},
+      {"title": "运行最小例子", "description": "使用与页面上方相同的最小例子。", "code": "填写可复现的完整提问", "codeLabel": "发送给 DSH"},
+      {"title": "核对结果并继续", "description": "写明成功时看到什么，以及下一次如何使用。", "code": "填写查看结果或继续使用的提问", "codeLabel": "发送给 DSH"}
+    ]
+  },
+  "boundaries": [
+    {"title": "适用条件", "description": "写明输入、环境或权限上的真实条件。"},
+    {"title": "结果的范围", "description": "写明插件能覆盖什么，以及哪些结论仍需用户判断。"}
+  ],
+  "closing": {"eyebrow": "YOUR PLUGIN. A CLEAR OUTCOME.", "title": "用一句具体的话提醒用户能得到什么。"},
+  "links": [{"label": "安装与使用文档 ↗", "url": "https://github.com/fuxi-ailabs/dsh-plugin-market"}]
+}

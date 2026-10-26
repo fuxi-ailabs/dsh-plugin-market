@@ -20,8 +20,13 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
 }
 // Each page is reviewed independently. Add its exact resource list here before publishing.
 const publicPages = new Map([['agentlineage', new Set([
-  'index.html', 'styles.css', 'page.js', 'evidence.js',
+  'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
+])]]);
+// Exact documentation URLs are reviewed alongside each page, never inferred from its content.
+const publicLinks = new Map([['agentlineage', new Set([
+  'https://github.com/fuxi-ailabs/AgentLineage/blob/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh/README.md',
+  'https://github.com/fuxi-ailabs/AgentLineage/tree/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh',
 ])]]);
 for (const directory of await readdir('public/plugins', { withFileTypes: true })) {
   if (!directory.isDirectory() || !publicPages.has(directory.name)) {
@@ -40,7 +45,13 @@ for (const directory of await readdir('public/plugins', { withFileTypes: true })
           if (data[0] !== 0xff || data[1] !== 0xd8 || data.at(-2) !== 0xff || data.at(-1) !== 0xd9) {
             throw new Error(`Invalid JPEG: ${path}`);
           }
-        } else if (/Bearer |core-token|api_key|[A-Za-z]:[\\/]|Administrator/.test(data.toString('utf8'))) {
+        } else if (path.endsWith('.mp4')) {
+          if (data.toString('ascii',4,8) !== 'ftyp') throw new Error(`Invalid MP4: ${path}`);
+        } else if (path.endsWith('.webm')) {
+          if (data.subarray(0,4).toString('hex') !== '1a45dfa3') throw new Error(`Invalid WebM: ${path}`);
+        } else if (path.endsWith('.vtt') && !data.toString('utf8').startsWith('WEBVTT')) {
+          throw new Error(`Invalid captions: ${path}`);
+        } else if (/Bearer |core-token|api_key|(?:^|[\s"'<>=(])[A-Za-z]:[\\/]|Administrator/m.test(data.toString('utf8'))) {
           throw new Error(`Review private data in page asset: ${path}`);
         }
         found.add(path);
@@ -53,8 +64,8 @@ for (const directory of await readdir('public/plugins', { withFileTypes: true })
   if (found.size !== allowed.size) throw new Error(`Missing page resources: ${directory.name}`);
   const html = await readFile(`public/plugins/${directory.name}/index.html`, 'utf8');
   const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]));
-  for (const [, url] of html.matchAll(/\b(?:src|href)="([^"]+)"/g)) {
-    if (url.startsWith('#') ? !ids.has(url.slice(1)) : !allowed.has(url)) {
+  for (const [, url] of html.matchAll(/\b(?:src|href|poster)="([^"]+)"/g)) {
+    if (url.startsWith('#') ? !ids.has(url.slice(1)) : !allowed.has(url) && !publicLinks.get(directory.name)?.has(url)) {
       throw new Error(`Unreviewed page link: ${url}`);
     }
   }
@@ -66,6 +77,14 @@ for (const entry of await readdir('public/icons', { withFileTypes: true })) {
   }
 }
 for (const plugin of index.plugins) {
+  if (!plugin.homepage) throw new Error(`Plugin needs an introduction page: ${plugin.name}`);
+  const homepage = new URL(plugin.homepage);
+  const pagePrefix = new URL('plugins/', indexUrl);
+  if (homepage.origin !== pagePrefix.origin || !homepage.pathname.startsWith(pagePrefix.pathname) || homepage.search || homepage.hash) {
+    throw new Error(`Plugin homepage must be a reviewed market page: ${plugin.name}`);
+  }
+  const slug = homepage.pathname.slice(pagePrefix.pathname.length).replace(/\/$/, '');
+  if (!publicPages.has(slug)) throw new Error(`Missing reviewed plugin page: ${slug}`);
   if (plugin.icon?.startsWith(new URL('icons/', indexUrl).href)) {
     await readFile(new URL(plugin.icon).pathname.replace('/dsh-plugin-market/', 'public/'));
   }

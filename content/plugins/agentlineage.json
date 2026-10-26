@@ -1,0 +1,68 @@
+{
+  "slug": "agentlineage",
+  "name": "AgentLineage",
+  "category": "EVIDENCE & LINEAGE",
+  "version": "0.1.0-alpha.3",
+  "compatibility": "DSH 0.2.1-rc.2 · 预览版",
+  "description": "把 Agent 的文件改动关联到来源会话、工具调用和回执。想知道一个文件怎么变成现在这样，从文件开始查就行。",
+  "headline": ["这行改动，", "从哪次对话来？"],
+  "promise": "文件 → 修改记录 → 来源会话 → 原始证据",
+  "heroQuestion": "release-note.md 为什么变了？",
+  "heroAnswer": "一次创建，两次修改。每一步，都能回到对应的调用与回执。",
+  "heroFile": "release-note.md",
+  "heroNodes": ["write · 创建", "edit · 改功能", "edit · 改状态"],
+  "preview": {"terminal": "lineage / trace", "objectLabel": "FILE", "contextLabel": "来源会话", "contextMeta": "call + result"},
+  "facts": ["按文件找来源", "调用与回执一起看", "Core 在本机运行"],
+  "example": {
+    "title": "一份发布说明，三次操作。",
+    "description": "不用安装，先点下面的记录：看看一句“改好了”，如何拆成可以核对的修改过程。",
+    "label": "交互演示 · 固定示意数据",
+    "file": "release-note.md",
+    "question": "谁把发布说明的状态改成了“待评审”？",
+    "answer": "第 3 次操作：来源会话 demo-session-01，用 edit 把“草稿”改为“待评审”，并收到了成功回执。",
+    "session": "demo-session-01",
+    "ui": {"events": "文件操作", "context": "SOURCE SESSION", "contextNote": "每条操作都有对应来源", "changeTab": "文件变化", "evidenceTab": "调用与回执", "action": "工具", "contextField": "来源会话", "request": "调用引用", "result": "成功回执引用", "resultText": "回执内容", "status": "成功回执"},
+    "initial": "# 搜索功能发布说明\n功能：新增搜索\n状态：草稿",
+    "operations": [
+      {"tool": "write", "title": "创建发布说明", "description": "写入最初的功能说明与草稿状态。", "removed": [], "added": ["# 搜索功能发布说明", "功能：新增搜索", "状态：草稿"], "result": "文件创建成功", "requestRef": "demo:call-01", "resultRef": "demo:result-01"},
+      {"tool": "edit", "title": "补充搜索范围", "description": "把功能描述细化为标题与标签搜索。", "removed": ["功能：新增搜索"], "added": ["功能：支持标题和标签搜索"], "result": "文本替换成功", "requestRef": "demo:call-02", "resultRef": "demo:result-02"},
+      {"tool": "edit", "title": "更新评审状态", "description": "把状态从草稿改成待评审。", "removed": ["状态：草稿"], "added": ["状态：待评审"], "result": "文本替换成功", "requestRef": "demo:call-03", "resultRef": "demo:result-03"}
+    ],
+    "prompt": "请用 DSH 的 write 工具创建 release-note.md，内容为“# 搜索功能发布说明\\n功能：新增搜索\\n状态：草稿”；再用 edit 分两次修改：先把“新增搜索”改为“支持标题和标签搜索”，再把“草稿”改为“待评审”。不要使用 shell 写文件。完成后刷新当前会话的 Lineage 快照，查询这个文件的三次写入，给出来源会话、调用、成功回执和原文引用。",
+    "note": "这里用示意数据解释查询方式，不连接你的会话。下方截图展示现有运行效果；复制提示词可在自己的 DSH 中复现。"
+  },
+  "comparison": {
+    "title": "同一个问题，少一些翻找。",
+    "description": "“这份发布说明怎么改成现在这样？”从分散的会话轨迹，到围绕一个文件查看来历。",
+    "before": {"title": "在对话里找改动", "description": "搜索文件名，逐条打开 write / edit，再对照参数与结果。", "image": "assets/before-dsh.jpg", "alt": "现有 DSH 运行截图：搜索 release-note.md 后逐条查看 write 和 edit 工具调用。"},
+    "after": {"title": "从文件直达证据", "description": "选中 release-note.md，把三次写入、来源会话与具体 diff 放在一起看。", "image": "assets/after-viewer.jpg", "alt": "现有 AgentLineage Viewer 截图：release-note.md 的三次写入聚合在文件证据视图中，可展开 diff。"},
+    "takeaways": ["同一文件的操作聚合到一起", "每次修改关联来源会话", "沿引用继续核对原始记录"]
+  },
+  "useCases": [
+    {"tag": "01 / CODE REVIEW", "title": "审查一个可疑改动", "question": "“这段配置是谁改的？”", "description": "从文件定位修改，再看是哪次会话、哪个工具完成了操作。", "prompt": "刷新当前会话的 Lineage 快照，列出修改过的文件；再查询我选中的文件，给出每次修改的来源会话、调用和成功回执。"},
+    {"tag": "02 / TASK REPLAY", "title": "接手或复盘历史任务", "question": "“昨天那个 Agent 做了什么？”", "description": "选择项目的历史任务，查看文件改动及其子会话中的操作。", "prompt": "用 lineage_sessions 列出这个项目最近的 DSH 历史任务，按时间让我选一个；导入我选的任务及子会话，再分析它改了哪些文件。"},
+    {"tag": "03 / EVIDENCE CHECK", "title": "核对报告里的依据", "question": "“这个结论有原文支持吗？”", "description": "检查归因报告的引用与证据覆盖，找到需要补充或修订的地方。", "prompt": "用当前分析快照查询到的原文引用，检查这份归因报告的证据是否完整；指出缺失的引用和未被观测材料支持的部分。"}
+  ],
+  "quickstart": {
+    "summaryTitle": "准备好，就开始追溯。",
+    "title": "从安装，到查清一处改动。",
+    "description": "首次使用按这五步走。准备好运行环境后，日常直接在 DSH 对话里提问。",
+    "steps": [
+      {"title": "准备本地运行环境", "description": "使用 Node 24+、Python 3.12+。先检出与插件匹配的 AgentLineage 发布版本，在仓库根目录安装 Core。", "code": "git clone --branch dsh-agentlineage-v0.1.0-alpha.3 --depth 1 https://github.com/fuxi-ailabs/AgentLineage.git\ncd AgentLineage\npy -3.12 -m venv .venv\n.\\.venv\\Scripts\\python.exe -m pip install ./components/core\n$env:AGENTLINEAGE_PYTHON = (Resolve-Path .\\.venv\\Scripts\\python.exe).Path", "codeLabel": "PowerShell · Windows", "note": "从设好环境变量的同一终端启动 DSH，让插件能找到这个 Python。其他平台按安装文档配置等效的 Python 路径。"},
+      {"title": "在 DSH 安装插件", "description": "打开「插件」→「实验性插件」旁的「更多」，启用「自定义插件市场」。在「发现」→「添加索引源」填入下方地址，安装 AgentLineage 0.1.0-alpha.3。", "code": "https://fuxi-ailabs.github.io/dsh-plugin-market/index.json", "codeLabel": "插件市场索引", "note": "已有同名旧插件时先卸载旧版，再安装新版。"},
+      {"title": "确认服务已经就绪", "description": "在项目会话中发送下面这句话。返回能力包含 dsh-native-v4，就可以继续；首次 binding 为 null 是正常的。", "code": "请调用 lineage_status，确认 Core 能力包含 dsh-native-v4。不要显示任何 token。", "codeLabel": "发送给 DSH"},
+      {"title": "做一次最小实验", "description": "让 Agent 用 write 创建一个文件，再用 edit 修改。刷新快照，核对两次确认写入及其证据。", "code": "用 DSH 的 write 工具创建 lineage-check.txt，内容为 hello；再用 edit 把 hello 改成 hello lineage。不要使用 shell 写文件。完成后刷新当前会话的 Lineage 快照，查询这个文件的修改来源，给出调用、成功回执和原文引用。不要让我提供 snapshot_id。", "codeLabel": "发送给 DSH", "note": "预期看到：同一文件的两次确认写入，以及各自的调用和回执引用。"},
+      {"title": "打开视图，继续追溯", "description": "让 Agent 打开当前快照的 Viewer，选择文件并展开 diff。后续又改了文件时，再刷新快照查看新增记录。", "code": "打开当前分析快照的 Viewer。", "codeLabel": "发送给 DSH", "note": "Viewer 首次打开需要本机登录；按安装文档在本机读取凭据并粘贴到登录框，不要把凭据发给 Agent。Core 重启后需重新登录。"}
+    ]
+  },
+  "boundaries": [
+    {"title": "快照是一个时间截面", "description": "继续工作后，发送“刷新当前会话的分析材料”才能查看新增记录。当前 DSH 插件没有持续后台采集。"},
+    {"title": "只解释已观测的记录", "description": "未导入的会话、缺少成功回执的调用，以及不透明 shell 脚本里的文件操作，可能留下证据缺口。"},
+    {"title": "来源清楚，仍要判断对错", "description": "溯源与引用检查帮助你核对依据；代码是否正确、业务结论是否成立，需要结合实际结果判断。"}
+  ],
+  "closing": {"eyebrow": "LESS GUESSING. MORE TRACING.", "title": "从一个文件，找回它的来历。"},
+  "links": [
+    {"label": "安装与使用文档 ↗", "url": "https://github.com/fuxi-ailabs/AgentLineage/blob/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh/README.md"},
+    {"label": "查看插件源码 ↗", "url": "https://github.com/fuxi-ailabs/AgentLineage/tree/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh"}
+  ]
+}

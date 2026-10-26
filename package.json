@@ -3,9 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:pages": "node scripts/build-plugin-pages.mjs",
+    "check:pages": "node scripts/build-plugin-pages.mjs --check",
+    "preview": "node scripts/preview.mjs",
     "validate": "node scripts/validate.mjs",
     "check:policy": "node scripts/check-market-policy.mjs",
-    "ci": "npm run validate && npm run check:policy"
+    "ci": "npm run check:pages && npm run validate && npm run check:policy"
   },
   "devDependencies": {
     "@deepseek-ai/dsh-plugin-market-index": "0.2.1-rc.2",
