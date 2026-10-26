@@ -1,0 +1,49 @@
+{
+  "recorded_on": "2026-10-26",
+  "dsh": "0.2.1-rc.2",
+  "plugin": "0.1.0-alpha.3",
+  "core": "0.1.0a10",
+  "plugin_commit": "bf28b828710f1c146895bdfb63108934edbd1fe5",
+  "model": "DeepSeek-V4.1-Flash",
+  "snapshot_id": "snap_147b1b1b99cf36fe21a682c9c25ed13288ce65548be2f506286e677856ef4625",
+  "snapshot_cutoff": "2026-10-26T03:05:27.140000+00:00",
+  "source_session": "session-10ddc2f9-064a-4e8f-9af3-ea4cecb449a3",
+  "confirmed_writes": 3,
+  "writes": [
+    {
+      "at": "2026-10-26T03:05:23.797000+00:00",
+      "request": "e-67431871fd4e",
+      "result": "e-77b9082e1377",
+      "strength": "confirmed",
+      "status": "returned"
+    },
+    {
+      "at": "2026-10-26T03:05:24.967000+00:00",
+      "request": "e-159af80d9ed7",
+      "result": "e-e8711803c50e",
+      "strength": "confirmed",
+      "status": "returned"
+    },
+    {
+      "at": "2026-10-26T03:05:25.981000+00:00",
+      "request": "e-5f431b9e8c85",
+      "result": "e-58315f95c9b9",
+      "strength": "confirmed",
+      "status": "returned"
+    }
+  ],
+  "original_references_resolved": 6,
+  "final_file": "release-note.md",
+  "final_content": "# 搜索功能发布说明\n功能：支持标题和标签搜索\n状态：待评审\n",
+  "final_file_sha256": "74916eda8020cc9283901a35d77e0376698b27aacbc30f8f791c25ccb0847b5e",
+  "capture_manifest_sha256": "1bfe48e1fd5b8dabfb0142419e3a2a244ef51405ad55eb9e8db448f47bfa2596",
+  "editing": "Real browser frame capture; login, inactive gaps and trajectory overview omitted; local path masked. Tool results are not reconstructed.",
+  "video": {
+    "file": "dsh-release-note-demo.mp4",
+    "duration_seconds": 51.744,
+    "width": 1280,
+    "height": 720,
+    "codec": "H.264",
+    "sha256": "7c4ae5bbee18c1990e12942d41a29e5381ebecdb7025c94d96a14d663a7bde9e"
+  }
+}

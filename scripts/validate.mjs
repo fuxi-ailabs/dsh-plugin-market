@@ -22,6 +22,7 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
 const publicPages = new Map([['agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
+  'assets/dsh-release-note-demo.mp4', 'assets/dsh-release-note-poster.jpg', 'assets/dsh-release-note-zh.vtt',
 ])]]);
 // Exact documentation URLs are reviewed alongside each page, never inferred from its content.
 const publicLinks = new Map([['agentlineage', new Set([

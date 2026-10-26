@@ -59,7 +59,7 @@ export function renderPage(p) {
         <div class="demo-answer"><span class="answer-icon" aria-hidden="true">↳</span><p><strong>得到的答案</strong>${e(x.answer)}</p></div>
       </div>
       <p class="media-note">${e(x.note)}</p>
-      ${x.video ? `<figure class="video-demo"><video controls playsinline preload="none" poster="${e(x.video.poster)}" aria-label="${e(x.video.title)}"><source src="${e(x.video.src)}" type="${x.video.src.endsWith('.webm')?'video/webm':'video/mp4'}"><track kind="captions" src="${e(x.video.captions)}" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video><figcaption>${e(x.video.title)}</figcaption></figure>` : ''}
+      ${x.video ? `<figure id="recording" class="video-demo"><figcaption><span class="mono accent">${e(x.video.label ?? 'VIDEO DEMO')}</span><strong>${e(x.video.title)}</strong>${x.video.description ? `<p>${e(x.video.description)}</p>` : ''}</figcaption><video controls playsinline preload="none" poster="${e(x.video.poster)}" aria-label="${e(x.video.title)}"><source src="${e(x.video.src)}" type="${x.video.src.endsWith('.webm')?'video/webm':'video/mp4'}"><track kind="captions" src="${e(x.video.captions)}" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video></figure>` : ''}
       <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在自己的 DSH 里复现这个例子</span><span aria-hidden="true">＋</span></summary><div>${code(x.prompt, '发送给 DSH · 先完成下方安装步骤')}</div></details>
       <noscript><p class="noscript-note">启用 JavaScript 可切换操作和证据。当前示例的结论与复现提示词已显示在页面中。</p></noscript>
     </section>

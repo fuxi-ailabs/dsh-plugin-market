@@ -54,11 +54,12 @@ public/plugins/<slug>/
 
 ## 可选视频
 
-这版 AgentLineage 使用交互演示，没有录制或伪造真实操作视频。将来有经审核的录屏后，可在 `example` 添加：
+AgentLineage 已同时提供固定交互示例和真实 DSH 实录。其他插件准备好经审核的录屏后，可在 `example` 添加：
 
 ```json
 "video": {
   "title": "用一个具体问题解释这段操作",
+  "description": "说明真实运行的版本、预期结果和必要的剪辑处理",
   "src": "assets/demo.webm",
   "poster": "assets/demo-poster.jpg",
   "captions": "assets/demo-zh.vtt"

@@ -2,6 +2,8 @@
 
 会议评审入口。统一深色模板已经套用到 AgentLineage；下面是浏览器实际渲染的截图。
 
+后续更新：介绍页已补充约 52 秒的[真实 DSH 操作视频](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/#recording)，使用同一个发布说明最小例子。[录制说明与证据](../demos/agentlineage-recording.md)。
+
 ![AgentLineage 深色介绍页首屏](assets/agentlineage-hero.png)
 
 ## 本次要确认什么
@@ -55,4 +57,4 @@ GitHub 中直接看这份文档和截图。要操作页面，可以检出本 PR 
 - 关闭 JavaScript 后仍能阅读定位、例子答案和五步使用；交互控件需要 JavaScript。
 - 独立代理静态评审已完成：修复通用模板中溯源专属状态文案和可选视频尺寸约束两项建议。独立代理评审不等同于 GitHub 维护者 approval。
 
-本次未重跑真实 DSH 任务。交互例子是明确标注的固定示意数据；Before / After 使用仓库既有截图。真实操作视频尚未录制，已准备录屏分镜与带字幕的视频槽。
+模板初版的交互例子是明确标注的固定示意数据，Before / After 使用仓库既有截图。后续已独立完成真实 DSH 任务并补录操作视频；其运行与剪辑边界见上方录制说明。
