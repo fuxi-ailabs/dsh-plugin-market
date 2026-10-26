@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>记忆服务命令 | Crowd Memory 文档</title>
+<script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
+    <span class="ver">v0.1.0</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="push.html">指南</a><a href="runtime.html" class="on">参考</a><a href="evaluation.html">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">参考</div><a href="runtime.html" class="on" aria-current="page">记忆服务命令</a><a href="limits.html">上限与超时</a><a href="security.html">隐私与安全</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>记忆服务命令</h1>
+<p><code>crowdmemory-runtime</code> 命令由 npm 包 <code>@fuxi-ailabs/crowdmemory-runtime</code> 安装。所有命令都接受 <code>--prefix &lt;目录&gt;</code>（默认 <code>~/.crowdmemory</code>）。</p>
+<h2 id="commands">命令<a class="hash" href="#commands" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td><code>install</code></td><td>安装、升级或回滚</td></tr><tr><td><code>start</code></td><td>前台运行记忆服务。已经在运行时拒绝启动第二个</td></tr><tr><td><code>status [--json]</code></td><td>查询运行状态：会话数、模板、最近错误</td></tr><tr><td><code>version [--json]</code></td><td>包版本、组件版本和当前安装的版本</td></tr><tr><td><code>prune [--keep N] [--dry-run]</code></td><td>删除旧版本，默认保留当前和上一个</td></tr><tr><td><code>uninstall [--keep-state]</code></td><td>卸载。加 <code>--keep-state</code> 保留记忆库和配置</td></tr></tbody></table></div>
+<p>退出码：<code>0</code> 成功；<code>1</code> 记忆服务没有运行或没有安装；<code>2</code> 用法或环境错误，例如找不到合适的 Python、包校验失败。</p>
+<h2 id="install">install 选项<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>选项</th><th>说明</th></tr></thead><tbody><tr><td><code>--prefix &lt;目录&gt;</code></td><td>安装目录，默认 <code>~/.crowdmemory</code>，也可以用 <code>CROWDMEMORY_RUNTIME_PREFIX</code></td></tr><tr><td><code>--python &lt;路径&gt;</code></td><td>用于建虚拟环境的 Python。默认沿用上次的，没有时在 PATH 中查找</td></tr><tr><td><code>--service none|launchd|systemd</code></td><td>生成用户服务文件，默认 <code>none</code>。只生成不加载，加载命令会打印出来</td></tr><tr><td><code>--profile session-default|workflow-default</code></td><td>首次安装时的默认模板</td></tr><tr><td><code>--socket &lt;路径&gt;</code></td><td>首次安装时的套接字路径。macOS 上不能超过 103 字节</td></tr><tr><td><code>--json</code></td><td>输出 JSON</td></tr></tbody></table></div>
+<h2 id="layout">目录<a class="hash" href="#layout" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>路径</th><th>内容</th></tr></thead><tbody><tr><td><code>&lt;prefix&gt;/releases/&lt;id&gt;/</code></td><td>每个版本一个目录，含独立的虚拟环境</td></tr><tr><td><code>&lt;prefix&gt;/current</code></td><td>指向当前版本</td></tr><tr><td><code>&lt;prefix&gt;/host-config.json</code></td><td>记忆服务配置。首次安装时生成，之后不会被覆盖</td></tr><tr><td><code>&lt;prefix&gt;/state/</code></td><td>记忆库、令牌、<code>endpoint.json</code>。升级时保留</td></tr><tr><td><code>&lt;prefix&gt;/service/</code></td><td>生成的服务文件</td></tr></tbody></table></div>
+<h2 id="upgrade">升级与回滚<a class="hash" href="#upgrade" aria-label="本节链接">#</a></h2>
+<div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/crowdmemory-runtime@&lt;版本&gt;
+crowdmemory-runtime install</code></pre></div>
+<p><code>current</code> 原子切换到新版本，<code>state/</code> 和 <code>host-config.json</code> 保留。正在运行的记忆服务要重启后才使用新版本。回滚用同样的两步，装回旧版本。</p>
+<h2 id="uninstall">卸载<a class="hash" href="#uninstall" aria-label="本节链接">#</a></h2>
+<div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>crowdmemory-runtime uninstall
+npm uninstall -g @fuxi-ailabs/crowdmemory-runtime</code></pre></div>
+<p>加载过服务文件时，先停止服务：macOS 执行 <code>launchctl bootout gui/$(id -u)/com.crowdmemory.runtime</code>，Linux 执行 <code>systemctl --user stop crowdmemory-runtime.service</code>。</p>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="stats.html"><span>上一页</span>使用统计</a><a class="pg next" href="limits.html"><span>下一页</span>上限与超时</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#commands">命令</a><a href="#install">install 选项</a><a href="#layout">目录</a><a href="#upgrade">升级与回滚</a><a href="#uninstall">卸载</a></nav>
+  </main>
+</div>
+<footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
+</body>
+</html>

@@ -27,6 +27,12 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
 ])], ['templates/plugin-page', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'content.example.json',
   'review.css', 'review.js', 'assets/before.svg', 'assets/after.svg',
+])], ['plugins/crowdmemory', new Set([
+  'changelog.html', 'configuration.html', 'docs.css', 'docs.js',
+  'errors.html', 'evaluation.html', 'faq.html', 'index.html',
+  'limits.html', 'push.html', 'runtime.html', 'security.html',
+  'stats.html', 'team.html', 'tools.html', 'versions.html',
+  'workflow.html',
 ])]]);
 // Exact documentation URLs are reviewed alongside each page, never inferred from its content.
 const publicLinks = new Map([['plugins/agentlineage', new Set([

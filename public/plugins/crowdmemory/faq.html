@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>常见问题 | Crowd Memory 文档</title>
+<script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
+    <span class="ver">v0.1.0</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html" class="on">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">其他</div><a href="evaluation.html">评测</a><a href="faq.html" class="on" aria-current="page">常见问题</a><a href="changelog.html">更新日志</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>常见问题</h1>
+<h2 id="not-running">记忆服务没有启动会怎样？<a class="hash" href="#not-running" aria-label="本节链接">#</a></h2>
+<p>会话照常进行。插件不推送，记忆工具返回「记忆暂不可用」。记忆服务启动后，新会话自动恢复。</p>
+<h2 id="network">安装需要联网吗？<a class="hash" href="#network" aria-label="本节链接">#</a></h2>
+<p><code>npm install</code> 需要从 npm 下载包。之后的 <code>crowdmemory-runtime install</code> 不联网，包内已包含所有组件。</p>
+<h2 id="visibility">写下的笔记什么时候能用？<a class="hash" href="#visibility" aria-label="本节链接">#</a></h2>
+<p>从下一个会话开始。同一个会话写的笔记不会推送给自己。</p>
+<h2 id="upload">会上传我的代码吗？<a class="hash" href="#upload" aria-label="本节链接">#</a></h2>
+<p>本机记忆不上传。记录写入前会去掉密钥、令牌和家目录路径。详见<a href="security.html">隐私与安全</a>。</p>
+<h2 id="other-agents">支持 DSH 以外的 Agent 吗？<a class="hash" href="#other-agents" aria-label="本节链接">#</a></h2>
+<p>记忆服务的接入协议 <code>memory-agent-ingress/v1</code> 与宿主无关。0.1.0 只提供 DSH 插件。</p>
+<h2 id="retention">记录会被清理吗？<a class="hash" href="#retention" aria-label="本节链接">#</a></h2>
+<p>记忆库不会自动清理。会话状态保留 30 天。</p>
+<h2 id="feedback">怎么反馈问题？<a class="hash" href="#feedback" aria-label="本节链接">#</a></h2>
+<p>发邮件到 cacheline999@gmail.com，请附上 <code>crowdmemory-runtime status --json</code> 的输出、插件与 DSH 的版本，以及出错的会话日志。</p>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="evaluation.html"><span>上一页</span>评测</a><a class="pg next" href="changelog.html"><span>下一页</span>更新日志</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#not-running">记忆服务没有启动会怎样？</a><a href="#network">安装需要联网吗？</a><a href="#visibility">写下的笔记什么时候能用？</a><a href="#upload">会上传我的代码吗？</a><a href="#other-agents">支持 DSH 以外的 Agent 吗？</a><a href="#retention">记录会被清理吗？</a><a href="#feedback">怎么反馈问题？</a></nav>
+  </main>
+</div>
+<footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
+</body>
+</html>

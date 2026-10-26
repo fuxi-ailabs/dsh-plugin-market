@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>团队记忆 | Crowd Memory 文档</title>
+<script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
+    <span class="ver">v0.1.0</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="push.html" class="on">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">指南</div><a href="push.html">推送</a><a href="tools.html">记忆工具</a><a href="workflow.html">工作流记忆</a><a href="team.html" class="on" aria-current="page">团队记忆</a><a href="stats.html">使用统计</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>团队记忆</h1>
+<div class="note"><strong>内部预览</strong><p>团队记忆目前只在内部使用，0.1.0 不对外提供中心服务。本页说明其工作方式。</p></div>
+<p>团队记忆让多台机器共享经过核验的记录。各台机器把记录上传到原始记录仓；中心定期运行 <code>crowdmemory gate-run</code>，逐条核验候选记录，通过的发布到发布仓；各台机器拉取发布仓，把其中的记录推送给 Agent。整个过程不需要人工审核。</p>
+<h2 id="checks">核验<a class="hash" href="#checks" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>检查</th><th>内容</th><th>不通过时</th></tr></thead><tbody><tr><td>C1</td><td>记录中的引用、修法和失败签名都能在原始记录中找到</td><td>拒绝</td></tr><tr><td>C2</td><td>恢复失败时的工作区，重跑失败步骤，失败能复现</td><td>拒绝</td></tr><tr><td>C3</td><td>按修法修改后，失败步骤通过</td><td>拒绝</td></tr><tr><td>C4</td><td>修法没有修改或跳过测试、放宽阈值、关闭检查</td><td>拒绝</td></tr><tr><td>C5</td><td>与已有记录不冲突</td><td>拒绝</td></tr><tr><td>C6</td><td>来自至少 3 个独立会话或项目</td><td>保留为草稿</td></tr><tr><td>E1</td><td>同一快照上交替运行两组，一组只装这条记录，一组不装。修法能直接执行且 C3 已通过时，要求装记录的一组不比对照组差；其他情况要求装记录的一组更好</td><td>拒绝</td></tr></tbody></table></div>
+<p>全部通过后，记录发布为团队核验记录，推送中的出处显示为 <code>团队 · 已在 &lt;N&gt; 次回放验证</code>，并附一行核验结果。</p>
+<h2 id="withdraw">撤下<a class="hash" href="#withdraw" aria-label="本节链接">#</a></h2>
+<p>已发布的记录在重新核验时被拒绝，或新版本核验失败时撤下。撤下的记录不再推送，历史版本保留在发布仓中。核验结果待定（例如回放时间不足）时不撤下。</p>
+<h2 id="requirements">要求<a class="hash" href="#requirements" aria-label="本节链接">#</a></h2>
+<ul><li>回放会执行 Agent 记下的命令，回放端口必须在一次性沙箱中运行。</li><li>失败快照只适合小工作区（2000 个文件、16 MB 以内），默认关闭。</li><li>快照遇到疑似凭据的内容时整个跳过。</li></ul>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="workflow.html"><span>上一页</span>工作流记忆</a><a class="pg next" href="stats.html"><span>下一页</span>使用统计</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#checks">核验</a><a href="#withdraw">撤下</a><a href="#requirements">要求</a></nav>
+  </main>
+</div>
+<footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
+</body>
+</html>

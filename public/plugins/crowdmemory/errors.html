@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>错误码 | Crowd Memory 文档</title>
+<script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
+    <span class="ver">v0.1.0</span>
+    <button type="button" class="theme" aria-label="切换明暗">◐</button>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html">首次使用</a><a href="versions.html">组件与版本</a><a href="configuration.html">配置</a><a href="errors.html" class="on" aria-current="page">错误码</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>错误码</h1>
+<p>记忆服务不可用或请求被拒绝时，记忆工具返回一段带错误码的文本，会话照常进行，推送跳过这一步。</p>
+<h2 id="text">工具返回的文本<a class="hash" href="#text" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>情况</th><th>返回</th></tr></thead><tbody><tr><td>记忆服务不可用</td><td><code>记忆暂不可用 (memory temporarily unavailable: &lt;错误码&gt;). Continue without it.</code></td></tr><tr><td>会话不归本插件管，或已结束</td><td><code>记忆暂不可用 (memory is not available for this session: &lt;错误码&gt;).</code></td></tr><tr><td>请求被拒绝</td><td><code>memory request refused (&lt;错误码&gt;): &lt;原因&gt;</code></td></tr></tbody></table></div>
+<h2 id="codes">错误码<a class="hash" href="#codes" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>错误码</th><th>描述</th></tr></thead><tbody><tr><td><code>endpoint_unavailable</code></td><td>原因：读不到 <code>endpoint.json</code>。记忆服务没有运行，或文件路径不对<br>解决方法：运行 <code>crowdmemory-runtime start</code>；装在其他目录时检查 <code>CROWDMEMORY_ENDPOINT_FILE</code></td></tr><tr><td><code>runtime_unavailable</code></td><td>原因：本会话还没连上记忆服务<br>解决方法：启动记忆服务。插件会自动重试，间隔从 5 秒开始翻倍，最长 60 秒</td></tr><tr><td><code>endpoint_untrusted</code></td><td>原因：<code>endpoint.json</code> 不安全：相对路径、符号链接、属主不是当前用户、组或其他用户可写<br>解决方法：使用记忆服务写出的原文件，不要软链接或放宽权限</td></tr><tr><td><code>token_unavailable</code></td><td>原因：令牌文件 <code>adapter-token</code> 读不到或为空<br>解决方法：检查 <code>&lt;state&gt;/adapter-token</code> 是否存在、属主是否为运行 DSH 的用户</td></tr><tr><td><code>token_untrusted</code></td><td>原因：令牌文件权限不是 0600、是符号链接，或不在 <code>endpoint.json</code> 所在目录<br>解决方法：删除令牌文件后重启记忆服务，会重新生成</td></tr><tr><td><code>unauthorized</code></td><td>原因：记忆服务拒绝了令牌<br>解决方法：确认 DSH 和记忆服务以同一个用户运行</td></tr><tr><td><code>transport_error</code></td><td>原因：连不上套接字<br>解决方法：检查记忆服务是否在运行</td></tr><tr><td><code>timeout</code></td><td>原因：请求超时<br>解决方法：检查记忆服务负载；必要时调大 <code>timeoutMs</code></td></tr><tr><td><code>protocol_incompatible</code></td><td>原因：插件与记忆服务的协议版本不一致<br>解决方法：升级到同一个大版本</td></tr><tr><td><code>session_unbound</code></td><td>原因：会话不归本插件管（配置了 <code>sessionId</code>），或会话句柄已失效<br>解决方法：新开会话</td></tr><tr><td><code>session_ended</code></td><td>原因：会话已结束<br>解决方法：新开会话</td></tr><tr><td><code>budget_exhausted</code></td><td>原因：本会话读取的字数达到上限（默认 20000 字符）<br>解决方法：新开会话，或在记忆服务的本机配置中调高 <code>read_chars</code></td></tr><tr><td><code>note_rejected</code></td><td>原因：笔记被拒绝：必填项为空、超出长度、<code>topic_key</code> 格式不对，或内容命中提示注入规则<br>解决方法：按返回的原因修改后重新记录</td></tr><tr><td><code>unavailable</code></td><td>原因：记忆服务内部出错。<code>memory_note</code> 遇到时，笔记已经保存为原始记录<br>解决方法：稍后重试；问题持续时查看 <code>crowdmemory-runtime status</code></td></tr></tbody></table></div>
+<h2 id="symptoms">常见问题<a class="hash" href="#symptoms" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>现象</th><th>原因</th><th>处理</th></tr></thead><tbody><tr><td>会话里没有记忆工具</td><td>插件没加载，或既没设置 <code>CROWDMEMORY_ENDPOINT_FILE</code>，进程也没有 <code>HOME</code></td><td>用 <code>dsh --dump-config</code> 检查插件；设置环境变量</td></tr><tr><td>启动时报套接字路径过长</td><td>macOS 上套接字路径不能超过约 103 字节</td><td>用 <code>--socket</code> 指定更短的路径</td></tr><tr><td>第二个记忆服务启动失败</td><td>同一个状态目录已有一个在运行</td><td>只保留一个</td></tr></tbody></table></div>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="configuration.html"><span>上一页</span>配置</a><a class="pg next" href="push.html"><span>下一页</span>推送</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#text">工具返回的文本</a><a href="#codes">错误码</a><a href="#symptoms">常见问题</a></nav>
+  </main>
+</div>
+<footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
+</body>
+</html>
