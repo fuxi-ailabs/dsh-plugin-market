@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="在这里用一句话说明：插件解决什么问题，用户提供什么，以及最后会得到什么。">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090c10">
+  <title>插件介绍页模板 · 预览与评审</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="review.css">
+  <script src="demo-data.js" defer></script>
+  <script src="page.js" defer></script>
+  <script src="review.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#overview">跳到主要内容</a>
+  <aside class="template-banner" aria-label="模板预览与评审"><div class="wrap">
+    <div class="review-topline"><div><p class="eyebrow">TEMPLATE / PREVIEW</p><h2>通用插件介绍页模板</h2><p>评审六段结构、视觉和交互。以下内容均为占位示意，不代表可安装的插件。</p></div><div class="review-actions"><button id="toggle-notes" type="button" aria-pressed="true">隐藏填写提示</button><a href="content.example.json" download="plugin-page-content.example.json">下载内容骨架 ↓</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/">查看已套用实例 ↗</a></div></div>
+    <nav class="review-questions" aria-label="会议评审问题"><span>会上看这四件事</span><a href="#overview">01 做什么</a><a href="#use-cases">02 何时用</a><a href="#example">03 例子是否直观</a><a href="#quickstart">04 能否按步骤完成</a></nav>
+    <p class="review-status" id="review-status" role="status">填写提示已显示；可关闭提示，查看实际页面布局。</p>
+  </div></aside>
+  <header class="site-header"><div class="wrap header-inner">
+    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">f<span>_</span></span> FUXI <span class="brand-divider">/</span> <span class="brand-sub">DSH PLUGINS</span></a>
+    <nav aria-label="页面导航"><a href="#example">动手试试</a><a href="#comparison">前后对比</a><a href="#use-cases">使用场景</a><a class="nav-cta" href="#quickstart">五步使用 <span aria-hidden="true">↗</span></a></nav>
+  </div></header>
+  <main>
+    <section id="overview" class="wrap hero" aria-labelledby="page-title">
+      <div class="hero-copy"><aside class="author-note" data-review-note><span>OVERVIEW</span><p><strong>填写提示</strong>首屏先回答“这是做什么的”。替换插件名、一句话定位、具体问题和输入到结果的示意。</p></aside><p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> PLUGIN PAGE / TEMPLATE</p>
+        <div class="plugin-name">YourPlugin <span class="version">v0.1.0</span></div>
+        <h1 id="page-title"><span>你的插件，</span><span class="accent">解决什么问题？</span></h1>
+        <p class="lede">在这里用一句话说明：插件解决什么问题，用户提供什么，以及最后会得到什么。</p>
+        <div class="actions"><a class="button primary" href="#example">试试最小例子 <span aria-hidden="true">↓</span></a><a class="button secondary" href="#quickstart">看步骤占位 <span aria-hidden="true">↗</span></a></div>
+        <p class="compatibility"><span aria-hidden="true">◈</span> 填写已验证的 DSH 版本与发布状态</p>
+      </div>
+      <div class="hero-visual" aria-label="输入 → 处理过程 → 看得见的结果">
+        <div class="window-bar"><div class="window-dots" aria-hidden="true"><i></i><i></i><i></i></div><span>your-plugin / preview</span><span class="micro-label">流程示意</span></div>
+        <div class="trace-question"><span class="prompt-sign">›</span> 用一个具体对象提问，而不是堆功能词。</div>
+        <div class="trace-map"><div class="trace-file"><span aria-hidden="true">▤</span><strong>example.txt</strong><span class="micro-label">INPUT</span></div><div class="trace-connector" aria-hidden="true"></div><div class="trace-nodes"><div><span class="node-dot" aria-hidden="true"></span><span>输入</span><small>01</small></div><div><span class="node-dot" aria-hidden="true"></span><span>处理</span><small>02</small></div><div><span class="node-dot" aria-hidden="true"></span><span>结果</span><small>03</small></div></div><div class="trace-session"><span aria-hidden="true">⌁</span> 运行上下文 <span>input + output</span></div></div>
+        <div class="trace-answer"><span class="accent" aria-hidden="true">↳</span><p>用一句话给出这个例子的预期结果。</p></div>
+      </div>
+      <div class="hero-bottom"><span class="mono">输入 → 处理过程 → 看得见的结果</span><div><span><i aria-hidden="true">✓</i> 一个已验证的能力</span><span><i aria-hidden="true">✓</i> 一个用户能感知的特点</span><span><i aria-hidden="true">✓</i> 实际运行条件</span></div><a href="#example" aria-label="向下查看最小例子">SCROLL TO EXPLORE ↓</a></div>
+    </section>
+
+    <section id="example" class="wrap section" aria-labelledby="example-title"><aside class="author-note" data-review-note><span>01 / EXAMPLE</span><p><strong>填写提示</strong>准备最小输入、执行动作、预期结果和复现提问。上方是固定交互；真实视频可以放在下面。</p></aside>
+      <div class="section-heading"><p class="eyebrow"><span>01</span> THE SMALLEST EXAMPLE</p><h2 id="example-title">一个问题，一个最小例子。</h2><p class="section-description">告诉用户点什么、看哪里，以及预期得到什么。</p></div>
+      <div class="demo-shell"><div class="demo-toolbar"><span><span class="live-dot" aria-hidden="true"></span> example.txt</span><span class="demo-badge">交互演示 · 固定示意数据</span></div>
+        <div class="demo-question"><span class="mono">YOU ASK</span><p>输入为什么会得到这个结果？</p><button id="play-demo" type="button" class="play-button"><span aria-hidden="true">▶</span> 自动演示</button></div>
+        <div class="demo-workspace"><aside class="demo-timeline" aria-label="选择一次演示操作"><div class="timeline-label"><span>演示步骤</span><span>2 EVENTS</span></div>
+          <button type="button" class="event-button" data-operation="0" aria-pressed="false"><span class="event-index">01</span><span><strong>准备输入</strong><small>input <span aria-hidden="true">·</span> 已完成</small></span><span class="event-arrow" aria-hidden="true">↗</span></button><button type="button" class="event-button is-active" data-operation="1" aria-pressed="true"><span class="event-index">02</span><span><strong>得到结果</strong><small>run <span aria-hidden="true">·</span> 已完成</small></span><span class="event-arrow" aria-hidden="true">↗</span></button>
+          <div class="timeline-session"><span class="mono">DEMO CONTEXT</span><code>demo-context-01</code><span>说明演示的上下文</span></div></aside>
+          <div class="demo-detail"><div class="detail-top"><p class="mono" id="operation-label">RUN / 02</p><span class="success-badge">✓ 已完成</span></div><h3 id="operation-title">得到结果</h3><p id="operation-description">说明插件做了什么。</p>
+            <div class="demo-tabs" role="tablist" aria-label="查看演示结果"><button id="tab-diff" type="button" role="tab" aria-selected="true" aria-controls="panel-diff" tabindex="0">输入与输出</button><button id="tab-evidence" type="button" role="tab" aria-selected="false" aria-controls="panel-evidence" tabindex="-1">运行细节</button></div>
+            <div id="panel-diff" role="tabpanel" aria-labelledby="tab-diff"><div class="diff-file mono">example.txt</div><pre class="diff-lines" id="diff-lines"></pre></div>
+            <div id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence" hidden><dl class="evidence-list"><div><dt>操作</dt><dd id="evidence-tool"></dd></div><div><dt>上下文</dt><dd>demo-context-01</dd></div><div><dt>输入位置</dt><dd id="request-ref"></dd></div><div><dt>输出位置</dt><dd id="result-ref"></dd></div><div><dt>执行结果</dt><dd id="evidence-result"></dd></div></dl></div>
+          </div></div>
+        <div class="demo-answer"><span class="answer-icon" aria-hidden="true">↳</span><p><strong>得到的答案</strong>填写该例子的具体答案，能够与下面的操作和输出对照。</p></div>
+      </div>
+      <p class="media-note">此处用于评审交互方式，步骤与结果均为占位示意。发布实际插件前，替换成可核对的最小例子。</p>
+      <figure id="recording" class="video-demo"><figcaption><span class="mono accent">OPTIONAL / VIDEO SLOT</span><strong>真实操作视频的位置</strong><p>有视频时使用封面、原生播放控件和中文字幕；没有视频时保留上方交互示例即可。</p></figcaption><div class="video-placeholder"><span class="mono">YOUR VIDEO HERE / 30–60 SEC</span><p>一个问题 → 一次完整操作 → 一个明确结果</p><span>这里是视频位示意，不是可播放的录像。</span><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/#recording">看真实视频实例 ↗</a></div></figure>
+      <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 复现提示词的位置与填写要求</span><span aria-hidden="true">＋</span></summary><div><div class="code-block"><div class="code-bar"><span>填写真实可复现的提问</span><button type="button" class="copy-button" data-copy="填写可以在 DSH 中复现此例的真实提示词；不要虚构命令或工具。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>填写可以在 DSH 中复现此例的真实提示词；不要虚构命令或工具。</code></pre></div></div></details>
+      <noscript><p class="noscript-note">启用 JavaScript 可切换操作和证据。当前示例的结论与复现提示词已显示在页面中。</p></noscript>
+    </section>
+
+    <section id="comparison" class="wrap section" aria-labelledby="comparison-title"><aside class="author-note" data-review-note><span>02 / BEFORE & AFTER</span><p><strong>填写提示</strong>使用同一个任务与输入做对照。这里是布局占位图，发布插件时替换成经审核的真实材料。</p></aside>
+      <div class="section-heading"><p class="eyebrow"><span>02</span> BEFORE / AFTER</p><h2 id="comparison-title">同一任务，使用前后有什么不同？</h2><p class="section-description">固定同一个输入与任务，对照操作方式和输出；没有实测数据时不写提速百分比。</p></div>
+      <div class="comparison-grid"><article class="comparison-card before"><div class="comparison-copy"><span class="mono">− BEFORE</span><h3>使用前怎么做</h3><p>写清楚用户原本需要的操作。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/before.svg" data-title="使用前怎么做" aria-label="放大查看：使用前怎么做"><img src="assets/before.svg" width="1280" height="720" alt="布局占位示意：手动准备输入、逐项执行、核对结果；不是真实运行截图。" loading="lazy"><span>布局占位示意 <span aria-hidden="true">⤢</span></span></button></article><article class="comparison-card after"><div class="comparison-copy"><span class="mono">+ AFTER / YourPlugin</span><h3>使用后怎么做</h3><p>写清楚插件带来的具体改变。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/after.svg" data-title="使用后怎么做" aria-label="放大查看：使用后怎么做"><img src="assets/after.svg" width="1280" height="720" alt="布局占位示意：最小输入、插件处理、可核对的输出；不是真实运行截图。" loading="lazy"><span>布局占位示意 <span aria-hidden="true">⤢</span></span></button></article></div>
+      <div class="takeaways"><p><span aria-hidden="true">↳</span> 一个能从截图验证的改变</p><p><span aria-hidden="true">↳</span> 另一个明确的结果</p></div>
+    </section>
+
+    <section id="use-cases" class="wrap section" aria-labelledby="cases-title"><aside class="author-note" data-review-note><span>03 / USE CASES</span><p><strong>填写提示</strong>每个场景写清：谁在什么情况下，遇到什么问题，如何提问，最后得到什么。</p></aside>
+      <div class="section-heading"><p class="eyebrow"><span>03</span> WHEN TO USE IT</p><h2 id="cases-title">带着你的问题来。</h2><p class="section-description">这些时候，可以让插件帮你找到下一步要看的材料。</p></div>
+      <div class="case-grid"><article class="case-card"><p class="mono case-tag">01 / SCENARIO A</p><h3>谁在什么情况下用</h3><blockquote>“一个真实的用户问题？”</blockquote><p>用户提供什么，插件返回什么，下一步能做什么。</p><button type="button" class="copy-button" data-copy="填写此场景可复制的提问。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="mono case-tag">02 / SCENARIO B</p><h3>另一个独立的使用场景</h3><blockquote>“另一个具体问题？”</blockquote><p>不要把功能名称当作场景，写清触发条件与预期结果。</p><button type="button" class="copy-button" data-copy="填写第二个场景可复制的提问。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="mono case-tag">03 / SCENARIO C</p><h3>需要核对结果的时候</h3><blockquote>“这个输出能作为下一步的依据吗？”</blockquote><p>说明用户如何核对输出，以及哪些地方仍需要判断。</p><button type="button" class="copy-button" data-copy="填写第三个场景可复制的提问。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
+    </section>
+
+    <section id="quickstart" class="wrap section" aria-labelledby="start-title"><aside class="author-note" data-review-note><span>04 / FIVE STEPS</span><p><strong>填写提示</strong>写齐真实依赖、安装入口、就绪检查、最小实验和成功标志。下方文字是填写提示，不是可执行命令。</p></aside>
+      <div class="section-heading"><p class="eyebrow"><span>04</span> GET STARTED</p><h2 id="start-title">五步，完成第一次使用。</h2><p class="section-description">每一步都说明操作与预期结果；把额外运行环境放在安装之前。</p></div>
+      <div class="quickstart-layout"><aside class="setup-summary"><span class="terminal-icon" aria-hidden="true">&gt;_</span><h3>准备好，就开始。</h3><p>填写已验证的 DSH 版本与发布状态</p><a class="text-link" href="https://github.com/fuxi-ailabs/dsh-plugin-market/blob/main/docs/plugin-page-template.md">模板填写说明 ↗</a><p class="setup-note">先做最小实验，再分析真实任务。每一步都有可核对的结果。</p></aside>
+        <ol class="steps"><li><span class="step-index" aria-hidden="true">01</span><div><h3>确认运行条件</h3><p>写明系统、DSH 与额外运行时的已验证版本。</p><div class="code-block"><div class="code-bar"><span>运行环境</span><button type="button" class="copy-button" data-copy="填写真实的环境检查命令或提问" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>填写真实的环境检查命令或提问</code></pre></div></div></li><li><span class="step-index" aria-hidden="true">02</span><div><h3>安装插件</h3><p>写明市场路径、索引地址及插件名称。</p><div class="code-block"><div class="code-bar"><span>插件市场索引</span><button type="button" class="copy-button" data-copy="https://fuxi-ailabs.github.io/dsh-plugin-market/index.json" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre></div></div></li><li><span class="step-index" aria-hidden="true">03</span><div><h3>检查是否就绪</h3><p>给出一个检查及预期输出。</p><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="填写真实的就绪检查提问" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>填写真实的就绪检查提问</code></pre></div></div></li><li><span class="step-index" aria-hidden="true">04</span><div><h3>运行最小例子</h3><p>使用与页面上方相同的最小例子。</p><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="填写可复现的完整提问" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>填写可复现的完整提问</code></pre></div></div></li><li><span class="step-index" aria-hidden="true">05</span><div><h3>核对结果并继续</h3><p>写明成功时看到什么，以及下一次如何使用。</p><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="填写查看结果或继续使用的提问" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>填写查看结果或继续使用的提问</code></pre></div></div></li></ol>
+      </div>
+    </section>
+
+    <section id="details" class="wrap section details-section" aria-labelledby="details-title"><div><aside class="author-note" data-review-note><span>05 / CONDITIONS</span><p><strong>填写提示</strong>写明已验证的版本、输入覆盖范围和限制，帮助用户判断结果适用到哪里。</p></aside><p class="eyebrow"><span>05</span> GOOD TO KNOW</p><h2 id="details-title">使用前，了解这几点。</h2><p class="section-description">知道记录覆盖到哪里，才能更准确地理解结果。</p></div><div class="boundary-list"><details><summary>适用条件<span aria-hidden="true">＋</span></summary><p>写明输入、环境或权限上的真实条件。</p></details><details><summary>结果的范围<span aria-hidden="true">＋</span></summary><p>写明插件能覆盖什么，以及哪些结论仍需用户判断。</p></details></div></section>
+    <div class="wrap final-cta"><div><span class="mono accent">YOUR PLUGIN. A CLEAR OUTCOME.</span><p>用一句具体的话提醒用户能得到什么。</p></div><a class="button primary" href="#quickstart">回看五步使用 <span aria-hidden="true">↗</span></a></div>
+  </main>
+  <footer class="wrap footer"><a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">f<span>_</span></span> FUXI AI LABS</a><span>YourPlugin / DSH PLUGIN</span><div><a href="https://github.com/fuxi-ailabs/dsh-plugin-market/blob/main/docs/plugin-page-template.md">模板填写说明 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/">查看已套用实例 ↗</a><a href="#overview">回到顶部 ↑</a></div></footer>
+  <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
+  <dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="screenshot-title"><div class="dialog-bar"><h2 id="screenshot-title">运行截图</h2><button id="close-screenshot" type="button">关闭 ×</button></div><img id="screenshot-full" alt=""></dialog>
+</body>
+</html>

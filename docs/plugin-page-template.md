@@ -2,6 +2,10 @@
 
 目标：第一次打开页面的人，可以迅速回答四个问题：它做什么、什么情况下用、能看到什么例子、怎么开始。所有市场插件都需要一个介绍页。
 
+**独立网页预览：** [通用模板预览与评审](https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/)。会议中可直接查看六段布局、切换填写提示、操作示例、放大 Before / After 占位图，或下载内容 JSON 骨架。
+
+预览由同一份内容骨架、HTML 生成器、CSS 和交互脚本生成。它位于 `public/templates/plugin-page/`，不加入可安装插件索引；占位图和视频位均明确标为示意。填写提示与评审工具只出现在此预览页。
+
 ## 六段固定结构
 
 | 顺序 | Section | 必须讲清楚 | 材料 |
@@ -32,6 +36,8 @@ templates/plugin-page/
   render.mjs             # 通用 HTML，统一修改
   styles.css             # 通用深色样式，统一修改
   page.js                # 通用交互，统一修改
+  preview.mjs            # 独立预览的数据映射与 SVG 占位图
+  review.css / review.js # 预览页的填写提示与评审工具
 content/plugins/<slug>.json
 public/plugins/<slug>/
   index.html             # 以下四个文件由生成器输出
@@ -39,6 +45,8 @@ public/plugins/<slug>/
   page.js
   demo-data.js
   assets/                # 人工审核的截图/录屏
+public/templates/plugin-page/
+  ...                    # 同源生成的独立预览与可下载内容骨架
 ```
 
 新增插件：
@@ -46,7 +54,7 @@ public/plugins/<slug>/
 1. 将 `templates/plugin-page/content.example.json` 复制到 `content/plugins/<slug>.json`。改 `slug`、插件名与所有示例文案；不要沿用 AgentLineage 的工具名或运行条件。`links[0]` 必须是该版本的安装文档。
 2. 填齐六段。`headline` 是首屏两行标题；`preview` 控制首屏简图术语；`example.operations` 是可点选的步骤；`removed`/`added` 是输入输出的删减行，也可以表达非代码文本变化。上下文及输入/输出引用的字段标题由 `example.ui` 改名。固定演示数据的引用使用 `demo:` 前缀，不冒充真实运行证据。
 3. 准备两张已审核的 JPEG 截图到 `public/plugins/<slug>/assets/`，在 `comparison.before/after` 指定路径、描述和 alt。目录与文件只用小写字母、数字和连字符。
-4. 在 `scripts/validate.mjs` 的 `publicPages` 登记该页每个文件，在 `publicLinks` 登记精确的 HTTPS 文档地址。保留逐页资源审核，不能改成允许任意外链。
+4. 在 `scripts/validate.mjs` 的 `publicPages` 以 `plugins/<slug>` 为键登记该页每个文件，在 `publicLinks` 的同名条目登记精确的 HTTPS 文档地址。保留逐页资源审核，不能改成允许任意外链。
 5. 在 `public/index.json` 的插件条目填写对应 `/plugins/<slug>/` 的 `homepage`。每个索引插件都必须指向已登记的市场介绍页。
 6. 运行 `npm run build:pages`、`npm run ci`、`npm run preview`。预览路径为 `http://127.0.0.1:4173/plugins/<slug>/`。提交生成结果与源内容，`check:pages` 会发现漏生成或手改输出。
 

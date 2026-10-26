@@ -4,6 +4,8 @@ Fuxi 团队插件目录
 
 索引地址：**https://fuxi-ailabs.github.io/dsh-plugin-market/index.json**
 
+介绍页模板：[独立网页预览与评审](https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/) · [填写与复用说明](docs/plugin-page-template.md)。预览展示六段通用结构，支持开关填写提示和下载内容骨架。
+
 `public/` 是 Pages 站点根目录，目录名不出现在公开 URL 中。例如 `public/index.json` 对应上面的索引地址，`public/plugins/agentlineage/` 对应 `/dsh-plugin-market/plugins/agentlineage/`。
 
 ## 在 DSH 中添加
