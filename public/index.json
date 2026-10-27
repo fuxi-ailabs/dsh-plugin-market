@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Stops DSH agents from hitting the same problem twice. When an error that was fixed before shows up again in another session or workflow run, the agent sees the earlier fix, its source and why it matched before its next step. In a paired test, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "让 DSH 里的 Agent 不再重复踩同一个坑：修好过的问题在别的会话或 workflow 里再出现时，Agent 在下一步之前就能看到当时的修法、出处和命中理由。开关记忆配对评测中完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Collective memory for DSH. What each agent learns at work is checked against task outcomes and then shared with other sessions, other agents in the same workflow, and the team, with no model retraining. In a paired on/off test with the same model and budget, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验，按任务结果判断可信后，提供给其他会话、同一 workflow 里的其他 Agent 和团队复用，模型不需要重新训练。开关记忆配对评测中，同样的模型和预算下完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",

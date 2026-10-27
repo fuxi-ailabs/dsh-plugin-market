@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="让 DSH 里的 Agent 不再重复踩同一个坑：修好过的问题再出现时，Agent 在下一步之前就能看到当时的修法。">
-<title>Crowd Memory：修好过的问题，下次不用再查</title>
+<meta name="description" content="Crowd Memory 是 DSH 的群体记忆：每个 Agent 的经验经过结果核验后，提供给其他会话、workflow 中的其他 Agent 和团队复用。">
+<title>Crowd Memory：DSH 的群体记忆</title>
 <script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -24,40 +24,36 @@
   <main class="main">
     <article class="doc">
       <h1>Crowd Memory</h1>
-<p>Crowd Memory 让 DSH 里的 Agent 不再重复踩同一个坑。一个会话里修好的问题，之后在别的会话或 workflow 里再出现时，Agent 在下一步之前就能看到当时的修法、出处和命中理由。</p>
+<p>Crowd Memory 是 DeepSeek Harness（DSH）的群体记忆。每个 Agent 在工作中得到的经验，包括任务是怎么完成的、在哪一步失败、后来怎样通过，都会被记录下来，按任务结果判断是否可信，再提供给其他会话、同一 workflow 里的其他 Agent，以及团队里其他人的 Agent。</p>
+<p>模型本身不需要重新训练。经验积累在记忆里，使用的 Agent 和任务越多，可以复用的经验就越多。</p>
 
 <h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>没有插件时</th><th>装上插件后</th></tr></thead><tbody><tr><td>昨天修好的报错，今天换个会话又出现，Agent 从头读源码、试错</td><td>失败后的下一步之前，Agent 先收到昨天的修法，核对后直接用</td></tr><tr><td>新会话不知道这个项目以前踩过什么坑</td><td>会话开始时，按任务描述先给出相关的记录</td></tr><tr><td>重复跑的 workflow，每次运行都在同一个阶段卡住</td><td>进入该阶段时，子 Agent 先收到上次运行留下的修法</td></tr></tbody></table></div>
-<p>经验由 Agent 在修好问题后自己记下，您不用整理笔记，也不用提醒 Agent 去查。每条推送都写明出处和为什么命中，Agent 会先判断是否适用。记忆服务没启动或超时时，会话照常执行，只是这一步没有记忆。</p>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>经验在 Agent 之间流动</td><td>一个 Agent 得到的经验，后续的会话、workflow 的下一次运行、其他阶段的子 Agent 都可以直接使用</td></tr><tr><td>不需要人整理</td><td>Agent 自己记录、自己检索；系统按任务结果判断经验是否可信，失败、被反驳或被替代的经验自动降权</td></tr><tr><td>在需要的时候出现</td><td>会话开始、工具失败后、workflow 进入某个阶段时，在 Agent 的下一步之前给出相关经验，并附上出处和命中理由</td></tr><tr><td>效果可以度量</td><td>按任务统计 Agent 是否用上了经验，以及用上之后原来失败的步骤是否通过</td></tr><tr><td>不影响现有工作</td><td>记忆服务不可用或超时时，DSH 会话照常执行，只是这一步不带记忆</td></tr></tbody></table></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>适合</th><th>不太适合</th></tr></thead><tbody><tr><td>在同一个项目或同类项目上反复工作，例如移植、构建、跑测试</td><td>一次性任务，以后不会再遇到同类问题</td></tr><tr><td>同一类报错隔几天又出现，或者换个人、换个会话又出现</td><td>每次遇到的问题都不一样</td></tr><tr><td>同一个 workflow 要跑很多次，或由多个子 Agent 分阶段完成</td><td>原生 Windows（暂不支持，可用 WSL）</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>场景</th><th>会积累下来的经验</th></tr></thead><tbody><tr><td>长期在同一批项目上工作，例如移植、构建、测试</td><td>项目的构建方式、环境差异、常见失败及其解决方法</td></tr><tr><td>同一个 workflow 反复运行，由多个子 Agent 分阶段完成</td><td>每个阶段怎样才算完成，前几次运行在哪里卡住、怎样通过</td></tr><tr><td>多人、多台机器同时用 Agent 做同类任务</td><td>一个人的 Agent 解决过的问题，其他人的 Agent 不必再解决一次（团队共享为内部预览）</td></tr></tbody></table></div>
+<p>一次性任务、以后不会再遇到同类情况的工作，用处不大。</p>
 
-<h2 id="benefit">用上后有什么收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
-<p>我们把同一个任务各跑两次，一次开记忆、一次关记忆，在每次最多 10 次工具调用、300 秒的条件下比较完成率：</p>
-<div class="table"><table><thead><tr><th></th><th>完成</th><th>完成率</th></tr></thead><tbody><tr><td>关记忆</td><td>47 / 120</td><td>39.2%</td></tr><tr><td>开记忆</td><td>94 / 120</td><td>78.3%</td></tr></tbody></table></div>
-<p>10 类任务中 9 类提升，1 类持平。这组任务是合成任务，预算放宽到 30 次工具调用后，关记忆也能做完；真实业务任务还没有测。完整条件见<a href="evaluation.html">评测</a>。</p>
-<p>在您自己的机器上，记忆服务会按任务记录 Agent 有没有用上记忆，以及收到修法后原来失败的那一步有没有通过。数据只保存在本机，可以按项目和时间查看。查看命令和指标含义见<a href="stats.html">使用统计</a>。</p>
+<h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
+<p>同样的模型、同样的预算，带上之前积累的经验后，完成率提高了一倍。我们把每个任务各运行两次，一次开记忆、一次关记忆，每次最多 10 次工具调用、300 秒：</p>
+<div class="table"><table><thead><tr><th>条件</th><th>完成</th><th>完成率</th></tr></thead><tbody><tr><td>关记忆</td><td>47 / 120</td><td>39.2%</td></tr><tr><td>开记忆</td><td>94 / 120</td><td>78.3%</td></tr></tbody></table></div>
+<p>10 类任务中 9 类提升，1 类持平。这组任务是合成任务；预算放宽到 30 次工具调用后，关记忆也能完成；真实业务任务还没有测。完整条件见<a href="evaluation.html">评测</a>。</p>
+<p>在您自己的环境里，记忆服务按任务记录经验是否被用上、用上后失败的步骤是否通过。数据只保存在本机，查看方法见<a href="stats.html">使用统计</a>。</p>
 
 <h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
-<h3 id="example-session">同一个报错，换个会话再出现</h3>
-<p>一个项目链接时报 <code>ld: undefined symbol deflate</code>，Agent 查出要在目标文件之后加 <code>-lz</code>，修好后记了下来。几天后另一个会话遇到同样的报错，命令一失败，Agent 在下一步之前就收到：</p>
+<p><strong>workflow 的下一次运行。</strong>一个“构建 → 验证”的 workflow，第一次运行时构建阶段失败，负责构建的子 Agent 找到原因后记录下来。第二次运行进入构建阶段时，新的子 Agent 先收到这条经验，照做后构建通过，验证阶段也通过。这是在 DSH 桌面版上实测的结果。</p>
+<p><strong>另一个会话遇到同样的情况。</strong>一个会话在链接时遇到 <code>ld: undefined symbol deflate</code>，查明原因后记录下来。之后另一个会话遇到同样的报错，命令失败后、下一步之前，Agent 收到：</p>
 <div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>[1] Link zlib with -lz
 出处：本机自动确认 · zlib-port
 命中：错误签名命中、代码符号 deflate、工具名 bash
 现象：ld: undefined symbol deflate
 做法：add -lz after the object files</code></pre></div>
-<p>Agent 确认当前项目也缺 zlib 后，加上 <code>-lz</code> 重新构建。</p>
+<p>Agent 根据出处和命中理由判断这条经验适用于当前项目，然后采用。</p>
+<p><strong>评测中的一对运行。</strong>一个测试工具默认按 latin-1 读取 UTF-8 测试数据，测试报 <code>E112 value mismatch</code>。之前的一次会话已经查明原因并记录。两次运行的对比：</p>
+<div class="table"><table><thead><tr><th>关记忆</th><th>开记忆</th></tr></thead><tbody><tr><td>读了 7 次源码、执行了 3 次命令，仍未找到原因；10 次工具调用用完，任务未完成</td><td>会话开始时和第一次失败后各收到一次这条经验，按经验修改配置；4 次工具调用完成</td></tr></tbody></table></div>
 
-<h3 id="example-eval">评测里的一对运行</h3>
-<p>一个测试工具默认用 latin-1 读测试数据，UTF-8 的地名被读成乱码，测试报 <code>E112 value mismatch</code>。修法是在项目根目录的配置文件里把编码改成 UTF-8。之前一次会话已经修过并记下了这条。</p>
-<div class="table"><table><thead><tr><th></th><th>过程</th><th>结果</th></tr></thead><tbody><tr><td>关记忆</td><td>读了 7 次源码，跑了 3 次命令，还没找到原因</td><td>10 次工具调用用完，未完成</td></tr><tr><td>开记忆</td><td>会话开始和第一次失败后各收到一次这条记录，按记录改配置</td><td>4 次工具调用完成</td></tr></tbody></table></div>
-
-<h3 id="example-workflow">workflow 的第二次运行</h3>
-<p>一个“构建 → 验证”的 workflow，第一次运行时构建阶段因为缺 zlib 失败，修好后记下。第二次运行进入构建阶段时，负责构建的子 Agent 先收到这条修法，照做后构建通过，验证阶段也通过。这是在 DSH 桌面版上实测的结果。</p>
-
-<h2 id="scope">经验能共享到多大范围<a class="hash" href="#scope" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>范围</th><th>谁能用到</th><th>0.1.0</th></tr></thead><tbody><tr><td>本机</td><td>同一台机器上的所有 DSH 会话</td><td>可用</td></tr><tr><td>workflow</td><td>同一个 workflow 的后续运行和各阶段的子 Agent</td><td>可用，需选用 <code>workflow-default</code> 模板，见<a href="workflow.html">工作流记忆</a></td></tr><tr><td>团队</td><td>不同机器、不同成员；记录先自动核验再共享</td><td>内部预览，见<a href="team.html">团队记忆</a></td></tr></tbody></table></div>
+<h2 id="scope">共享范围<a class="hash" href="#scope" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>范围</th><th>谁能用到</th><th>0.1.0 状态</th></tr></thead><tbody><tr><td>本机</td><td>同一台机器上的所有 DSH 会话</td><td>可用</td></tr><tr><td>workflow</td><td>同一个 workflow 的后续运行和各阶段的子 Agent</td><td>可用，需选用 <code>workflow-default</code> 模板，见<a href="workflow.html">工作流记忆</a></td></tr><tr><td>团队</td><td>不同机器、不同成员；经验先经过自动回放核验再共享，不需要人工审核</td><td>内部预览，见<a href="team.html">团队记忆</a></td></tr></tbody></table></div>
 
 <h2 id="install">安装记忆服务<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
 <p>Crowd Memory 由 DSH 插件和本机记忆服务两个 npm 包组成：</p>
