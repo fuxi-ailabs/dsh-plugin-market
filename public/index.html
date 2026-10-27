@@ -12,6 +12,8 @@
   #plugins>p{column-span:all}
   #plugins article{display:flow-root;box-sizing:border-box;break-inside:avoid;margin:0 0 20px;overflow-wrap:anywhere}
   .url{overflow-wrap:anywhere}article img{width:48px;height:48px;float:right}h2{margin:0}
+  h2 a{color:inherit;text-decoration:none}h2 a:hover{text-decoration:underline;text-underline-offset:.15em}
+  h2 a:focus-visible{outline:2px solid #126b70;outline-offset:4px;border-radius:2px}
   .note{color:#526674;font-size:14px}code{overflow-wrap:anywhere}footer{margin-top:32px}
   .install-command{margin:16px 0;background:#050608;color:#edf7f2;border:1px solid #20282d;border-radius:9px;padding:12px;min-width:0}
   .install-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;color:#aebdb6;font-size:12px}
@@ -93,7 +95,7 @@
         const url = new URL(plugin.homepage, location.href);
         if (url.protocol === 'https:') {
           const details = document.createElement('a'); details.href = url.href;
-          details.textContent = '了解插件 →'; card.append(details);
+          details.textContent = title.textContent; title.replaceChildren(details);
         }
       }
       section.append(card);
