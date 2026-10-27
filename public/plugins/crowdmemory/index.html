@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="让已经解决过的故障，不必在下一个 DSH 会话里从零排查。记录一次，在相同失败发生后的下一步自动给出修法、出处和命中理由。">
-<title>Crowd Memory：让已解决的故障跨会话复用</title>
+<meta name="description" content="把一个 Agent 解决问题时形成的经验，变成后续会话、workflow 中的其他 Agent 和团队成员可以复用的群体记忆。">
+<title>Crowd Memory：让一个 Agent 的经验被其他 Agent 复用</title>
 <script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -24,12 +24,16 @@
   <main class="main">
     <article class="doc">
       <h1>Crowd Memory</h1>
-<p>Crowd Memory 解决的是 Agent 跨会话重复排查同一个故障的问题。一个会话里已经修好的构建、测试或工具错误，到了新会话通常只剩下难以发现的历史记录，Agent 仍会重新搜索、定位和试错。</p>
-<p>使用 Crowd Memory，修好后通过 <code>memory_note</code> 记录一次；相同失败再次出现时，插件会在 Agent 的下一步之前自动给出以前的修法、出处和命中理由。Agent 要做的是检查旧修法是否仍然适用，而不是从零开始。</p>
-<div class="note"><strong>核心价值</strong><p>让一次排查的结果跨会话复用，并能统计这条记忆是否被使用、使用后原来失败的步骤是否通过。</p></div>
+<p>Crowd Memory 把不同 Agent 解决问题时形成的经验，组织成后续 Agent 可以复用的群体记忆。当前 Agent 不需要亲自经历过某个故障；只要群体中已经有人解决并留下记录，它就能在需要时看到以前的修法。</p>
+<p>修好问题后，通过 <code>memory_note</code> 记录现象、原因和做法。以后出现相同失败、开始相关任务或进入相同 workflow 阶段时，插件在 Agent 的下一步之前给出相关记录、出处和命中理由。</p>
+<div class="note"><strong>核心价值</strong><p>让一个 Agent 的一次解决，成为后续 Agent 的共同经验；同时统计记忆是否被使用、使用后原来失败的步骤是否通过。</p></div>
+
+<h2 id="levels">“群体”包括哪些范围<a class="hash" href="#levels" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>层级</th><th>共享范围</th><th>0.1.0 状态</th></tr></thead><tbody><tr><td>本机记忆（L0）</td><td>同一台机器上的不同 DSH 会话</td><td>可用</td></tr><tr><td>团队记忆（L1）</td><td>不同机器和团队成员；记录经过回放核验后发布</td><td>内部预览，公开版暂不提供中心服务</td></tr><tr><td>工作流记忆（L2）</td><td>同类 workflow 的不同运行、阶段和子 Agent</td><td>使用 <code>workflow-default</code> 时可用</td></tr></tbody></table></div>
+<p>因此，跨会话只是群体记忆的第一层。完整设计还包括跨 Agent 的工作流经验，以及经过核验后在团队内共享的经验。团队记忆的核验和发布方式见<a href="team.html">团队记忆</a>。</p>
 
 <h2 id="difference">与历史会话和项目笔记的区别<a class="hash" href="#difference" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>方式</th><th>再次遇到问题时</th></tr></thead><tbody><tr><td>翻历史会话</td><td>需要先记得答案在哪个会话，再人工查找当时的错误和修法</td></tr><tr><td>写项目笔记</td><td>需要提前整理和维护，并要求 Agent 主动阅读；当前错误与哪条笔记相关仍要判断</td></tr><tr><td>Crowd Memory</td><td>按当前错误签名、代码符号和工具名自动匹配，在 Agent 下一步之前给出修法，同时说明来源和命中原因</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>方式</th><th>再次遇到问题时</th></tr></thead><tbody><tr><td>翻历史会话</td><td>经验仍属于原来的会话，需要先记得答案在哪里，再人工查找</td></tr><tr><td>写项目笔记</td><td>需要提前整理和维护，并要求每个 Agent 主动阅读；当前情况与哪条笔记相关仍要判断</td></tr><tr><td>Crowd Memory</td><td>把经验从原会话中提取出来，按当前错误、任务或 workflow 阶段匹配，在其他 Agent 的下一步之前给出，并说明来源和命中原因</td></tr></tbody></table></div>
 <div class="note"><strong>配对评测</strong><p>在 10 类合成任务、共 120 对运行中，每次最多 10 次工具调用和 300 秒：关闭记忆完成 47 次（39.2%），打开记忆完成 94 次（78.3%）。该结果没有覆盖不限预算和真实业务任务，完整条件见<a href="evaluation.html">评测</a>。</p></div>
 
 <h2 id="use-cases">适合什么时候用<a class="hash" href="#use-cases" aria-label="本节链接">#</a></h2>
@@ -85,7 +89,7 @@ crowdmemory-runtime install</code></pre></div>
 <p>推送的格式和规则见<a href="push.html">推送</a>。记忆服务没有运行时，插件不影响会话：不推送，记忆工具返回「记忆暂不可用」。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="versions.html"><span>下一页</span>组件与版本</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#difference">与其他方式的区别</a><a href="#use-cases">适合什么时候用</a><a href="#example">例子</a><a href="#measurement">收益统计</a><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#levels">群体记忆范围</a><a href="#difference">与其他方式的区别</a><a href="#use-cases">适合什么时候用</a><a href="#example">例子</a><a href="#measurement">收益统计</a><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>

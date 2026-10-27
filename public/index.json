@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Stop solved failures from becoming a fresh investigation in the next DSH session. Record a fix once; when the same failure returns, Crowd Memory shows the fix, source and match reason before the agent's next step, then measures whether it helped the failed step recover. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "让已经解决过的故障，不必在下一个 DSH 会话里从零排查。修好后记录一次；相同失败再次出现时，在 Agent 下一步前自动给出修法、出处和命中理由，并统计使用后原来失败的步骤是否通过。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Turn what one DSH agent learned while solving a problem into collective memory that later sessions and workflow agents can reuse. Relevant fixes arrive before the agent's next step with their source and match reason; usage and recovery are measured locally. Team-wide sharing is currently an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "把一个 DSH Agent 解决问题时形成的经验，变成后续会话和 workflow 中其他 Agent 可以复用的群体记忆；在下一步前给出相关修法、出处和命中理由，并在本机统计使用与恢复结果。跨机器的团队共享目前为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
