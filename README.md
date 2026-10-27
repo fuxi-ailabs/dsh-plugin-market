@@ -19,7 +19,7 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
-| DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.20` | `^0.2.1-rc.2` |
+| DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.21` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.0.1` | `^0.2.1-rc.2` |
 | Session Audit · 会话审计 | `1.0.1` | `^0.2.1-rc.2` |
 
@@ -32,7 +32,7 @@ Insight 把当前 DSH 会话导入 Insight，读回评分卡，并在插件配�
 
 Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，并在右侧只读报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
 
-DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。
+DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.20 在 DSH 运行中从市场安装后，“子智能体委派工具 · dt-verify.subagent”会显示异常（重启 DSH 后恢复），0.1.0-dev.21 已修复。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装 dev.20 的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.21；或先退出 DSH，执行 `dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.21` 再启动。
 
 ## 版本与兼容性
 
