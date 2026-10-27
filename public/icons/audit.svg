@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Audit</title>
+  <defs>
+    <linearGradient id="bg" x1="16" y1="8" x2="112" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101827"/>
+      <stop offset="1" stop-color="#182d3b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="28" y1="92" x2="98" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#bg)"/>
+  <path d="M64 22 98 35v27c0 23-14 38-34 46-20-8-34-23-34-46V35l34-13Z" fill="#0c2331" stroke="#2f5969" stroke-width="3"/>
+  <path d="m43 60 12 12 27-29" fill="none" stroke="url(#accent)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="89" cy="86" r="18" fill="#07111f" stroke="#fbbf24" stroke-width="4"/>
+  <path d="m102 99 13 13" stroke="#fbbf24" stroke-width="6" stroke-linecap="round"/>
+  <path d="M81 86h16M89 78v16" stroke="#fff7d6" stroke-width="3.5" stroke-linecap="round"/>
+</svg>

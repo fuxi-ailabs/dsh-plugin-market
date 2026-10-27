@@ -301,8 +301,53 @@
       },
       "versions": [
         {
-          "version": "1.0.0",
-          "publishTimestamp": 1793072314,
+          "version": "1.0.1",
+          "publishTimestamp": 1793087735,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-audit-bundle",
+      "title": {
+        "en": "Session Audit",
+        "zh": "Session Audit · 会话审计"
+      },
+      "description": {
+        "en": "Audit real DSH Session trajectories with SIFT, review findings and evidence, and open the report in a native right-side panel.",
+        "zh": "用 SIFT 审计真实的 DSH 会话执行轨迹，查看 finding、证据和 turn 引用，并在右侧面板浏览完整报告。"
+      },
+      "icon": "icons/audit.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/",
+      "repository": {
+        "url": "https://github.com/guixu-labs/dsh-plugin",
+        "directory": "bundles/dsh-audit-bundle"
+      },
+      "metadata": {
+        "category": "evidence",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "Session Audit",
+          "SIFT",
+          "audit",
+          "finding",
+          "evidence",
+          "会话审计",
+          "证据"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.1",
+          "publishTimestamp": 1793089816,
           "source": {
             "type": "npm"
           },

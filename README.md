@@ -20,7 +20,8 @@ Fuxi 团队插件目录
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
 | DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.20` | `^0.2.1-rc.2` |
-| Insight · 会话导入与评分 | `1.0.0` | `^0.2.1-rc.2` |
+| Insight · 会话导入与评分 | `1.0.1` | `^0.2.1-rc.2` |
+| Session Audit · 会话审计 | `1.0.1` | `^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
@@ -28,6 +29,8 @@ Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验�
 workflow-rsi 操作台在 DSH 里查看 workflow-rsi 的会话、请求、评测资产、Run、闭环与工作计划，写操作只由人在 `/wrsi … --confirm` 执行。使用前需要安装并启动 workflow-rsi 本体 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 操作台文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 Insight 把当前 DSH 会话导入 Insight，读回评分卡，并在插件配置页检查 Provider Auth、Insight CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。
+
+Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，并在右侧只读报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
 
 DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。
 
