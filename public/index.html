@@ -6,9 +6,14 @@
 <style>
   :root{font-family:system-ui,sans-serif;color:#183047;background:#f5f7f9;line-height:1.7}
   main{max-width:780px;margin:64px auto;padding:0 24px}h1{line-height:1.2}a{color:#126b70}
-  .url,article{background:white;border:1px solid #dbe3e8;border-radius:12px;padding:22px;margin:20px 0}
+  .url,article{background:white;border:1px solid #dbe3e8;border-radius:12px;padding:22px}
+  .url{margin:20px 0}
+  #plugins{columns:2;column-gap:20px;margin-top:20px}
+  #plugins>p{column-span:all}
+  #plugins article{display:flow-root;box-sizing:border-box;break-inside:avoid;margin:0 0 20px;overflow-wrap:anywhere}
   .url{overflow-wrap:anywhere}article img{width:48px;height:48px;float:right}h2{margin:0}
   .note{color:#526674;font-size:14px}code{overflow-wrap:anywhere}footer{margin-top:32px}
+  @media(max-width:640px){#plugins{columns:1}}
 </style>
 <main>
   <p>FUXI AI LABS</p>
