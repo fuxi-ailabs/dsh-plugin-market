@@ -23,7 +23,7 @@ Fuxi 团队插件目录
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
-Crowd Memory 把一个 DSH Agent 解决问题时形成的经验，变成后续会话和 workflow 中其他 Agent 可以复用的群体记忆；在下一步前给出相关修法、出处和命中理由，并在本机统计使用与恢复结果。0.1.0 提供本机跨会话和工作流记忆，跨机器的团队共享目前为内部预览。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)。
+Crowd Memory 让 DSH 里的 Agent 不再重复踩同一个坑：修好过的问题在别的会话或 workflow 里再出现时，Agent 在下一步之前就能看到当时的修法、出处和命中理由。适合在同一个项目上反复构建、移植、跑测试，或同一个 workflow 要跑很多次的场景；开关记忆配对评测中完成率从 39% 提高到 78%。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)。
 workflow-rsi 操作台在 DSH 里查看 workflow-rsi 的会话、请求、评测资产、Run、闭环与工作计划，写操作只由人在 `/wrsi … --confirm` 执行。使用前需要安装并启动 workflow-rsi 本体 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 操作台文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。

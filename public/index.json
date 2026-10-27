@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Turn what one DSH agent learned while solving a problem into collective memory that later sessions and workflow agents can reuse. Relevant fixes arrive before the agent's next step with their source and match reason; usage and recovery are measured locally. Team-wide sharing is currently an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "把一个 DSH Agent 解决问题时形成的经验，变成后续会话和 workflow 中其他 Agent 可以复用的群体记忆；在下一步前给出相关修法、出处和命中理由，并在本机统计使用与恢复结果。跨机器的团队共享目前为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Stops DSH agents from hitting the same problem twice. When an error that was fixed before shows up again in another session or workflow run, the agent sees the earlier fix, its source and why it matched before its next step. In a paired test, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "让 DSH 里的 Agent 不再重复踩同一个坑：修好过的问题在别的会话或 workflow 里再出现时，Agent 在下一步之前就能看到当时的修法、出处和命中理由。开关记忆配对评测中完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
