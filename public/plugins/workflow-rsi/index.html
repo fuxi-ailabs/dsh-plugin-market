@@ -23,34 +23,38 @@
   <main class="main">
     <article class="doc">
       <h1>workflow-rsi</h1>
-<p>workflow-rsi 让 Workflow 根据自己的运行结果持续改进。给它一个 Workflow 和一份任务输入，它运行 Workflow；Run 停下后，它按停止证据定位原因，对能修的问题生成改动、验证通过后以 PR 提交到 Workflow 所在的仓；PR 合入后，用同一份输入重跑，检查是否越过了原来的停止点。</p>
-<p>找问题、写改动、验证、重跑都由 workflow-rsi 完成，人负责审 PR，以及处理它判断需要人决定的停止。每一轮为什么停、改了什么、验证结果如何，都有记录可以回查。</p>
+<p>workflow-rsi 以评测结果驱动 Workflow 的修改。改动有三个来源：人提出的请求、按产品需求排出的工作计划，以及 Run 停下后的闭环诊断。每个改动都用人准入的评测资产判定，以 PR 交付；是否合入由 Workflow 所在的仓决定，合入后再验收一次。</p>
+<p>每次尝试都记成一条 Trial：起因、改动、评测结论、合入后是否还在。哪种改进方法更有效、预算投向哪里，都按这些记录计算。人负责准入评测规则、审 PR，以及处理需要人决定的情况。</p>
 
 <h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
-<p>一轮闭环的流程：</p>
-<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>任务输入
-  ↓ 运行 Workflow
-Run 停下：记录停在哪个阶段、哪个节点、什么错误
-  ↓ 分诊（需要人决定、环境故障 → 等人）
-诊断：根因、所属层、置信度（把握不足 → 等人）
+<p>一个改动从提出到落地：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>改动来源
+  请求：人描述要改什么
+  工作计划：产品需求拆成需求集，逐条发起请求
+  闭环：Run 停下，按停止证据诊断
   ↓
-修复候选：独立分支上的改动和测试
-  ↓ 验证：改动范围检查、L1～L3 测试（不通过 → 等人）
-PR：人审、合入
+改动：人在自己的目录里改（workflow-rsi 只读快照），或由 agent 在独立 worktree 里改
   ↓
-同一份输入重跑：越过原停止点，或在新位置停下，进入下一轮</code></pre></div>
-<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>从停止证据定位问题</td><td>记录 Run 停在哪个阶段、哪个节点、什么错误，按停止类型决定继续、诊断或交给人；诊断给出根因、所属层和置信度</td></tr><tr><td>改动先验证再提交</td><td>修复候选在独立分支上生成，先检查改动范围，再跑测试，通过后才提出 PR；验证不过就不提交</td></tr><tr><td>用同一份输入检验效果</td><td>PR 合入后，用同一份输入重跑，看问题是否真正解决</td></tr><tr><td>人只在需要的时候介入</td><td>诊断把握不足、候选验证不过、环境故障时停下等人；它不会自己合入 PR</td></tr><tr><td>全程可以回查</td><td>停止记录、诊断结论、改动、验证结果、PR 与模型用量都保存下来，可在 DSH 操作台或 <code>wie</code> 中查看</td></tr></tbody></table></div>
+评测：人准入的测试、judge 与判定规则（不通过 → 等人）
+  ↓
+PR：正文带评测结论，人审、合入
+  ↓
+合入后验收：同一份输入重跑，或在目标分支上重跑冻结的测试
+  ↓
+Trial 记录：起因、改动、评测结论、是否落地</code></pre></div>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>三种改动来源</td><td>请求：人描述要改什么，自己改或交给 agent 改；工作计划：产品需求拆成需求集，逐条发起请求；闭环：Run 停下后按停止证据诊断、生成修复</td></tr><tr><td>以评测判定改动</td><td>测试、judge 与判定规则都是评测资产，只由人准入；被评测的改动不能修改评测工具本身；配置了 validation 与 holdout 时，validation 选候选，holdout 决定能否发布</td></tr><tr><td>隔离修改，以 PR 交付</td><td>agent 的改动在独立 worktree 和操作系统沙箱里完成；人在自己目录里的改动，workflow-rsi 只读快照；PR 正文带评测结论，合入由 Workflow 仓决定</td></tr><tr><td>合入后再验收</td><td>闭环用同一份输入重跑，看是否越过原停止点；工作计划在目标分支上重跑冻结的独立测试，通过才算完成</td></tr><tr><td>全程可以回查</td><td>每次尝试都是一条 Trial；<code>wie report rsi</code> 按工程、业务、递归三栏汇总，DSH 操作台也能查看</td></tr></tbody></table></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 反复处理同类任务</td><td>每次停止都落到 Workflow 本身的修复上，后面的任务一起受益</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，经常停在中间某一步</td><td>停在哪一步、为什么停的结构化记录，以及对应的修复 PR</td></tr><tr><td>团队要求 Workflow 的每个改动都经过评审、可以回退</td><td>每个改动都是带测试和验证结果的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 反复处理同类任务</td><td>每次停止都落到 Workflow 本身的修复上，后面的任务一起受益</td></tr><tr><td>产品需求变了，Workflow 要跟着改</td><td>需求拆成一条条请求，每条带冻结的验收测试，合入后在目标分支上验收</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，经常停在中间某一步</td><td>停在哪一步、为什么停的结构化记录，以及对应的修复 PR</td></tr><tr><td>团队要求 Workflow 的每个改动都经过评审、可以回退</td><td>每个改动都是带测试和验证结果的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
 <p>只跑一次的任务，或者 Workflow 还没有接入 workflow-rsi 时，用处不大。接入一个 Workflow 需要它的适配器，用来读取 Run 的状态和停止记录。</p>
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
-<p>Workflow 的改进从“人看日志、想办法、改代码、再跑一遍”，变成审一个带证据和测试的 PR。下面是一个已接入的多阶段 Workflow 在同一份输入上的两轮闭环：</p>
+<p>Workflow 的改进从“人看日志、想办法、改代码、再跑一遍”，变成审一个带证据和评测结论的 PR。下面是闭环入口在一个已接入的多阶段 Workflow、同一份输入上的两轮：</p>
 <div class="table"><table><thead><tr><th>轮次</th><th>停在哪里</th><th>workflow-rsi 做了什么，结果如何</th></tr></thead><tbody><tr><td>第 1 轮</td><td>第 5 个阶段的一个节点，在处理输入之前</td><td>定位到节点的输入检查过严，把一种合法输入判为无法处理；生成 45 行改动并附测试，测试通过后提出 PR，PR 合入。从 Run 停下到提出 PR 用时 4 小时 8 分钟，其中等人 14 分钟</td></tr><tr><td>第 2 轮</td><td>同一份输入重跑，越过第 1 轮的停止点，停在同一阶段的后一个节点</td><td>定位到这个节点只支持一种处理方式，不覆盖这份输入；第一次修复超时没有改动，第二次改动没有通过改动范围检查，不提 PR，停下交给人</td></tr></tbody></table></div>
 <p>这是一个 Workflow、一份输入上的实测，还没有做多 Workflow 统计。第 1 轮的模型用量约 3113 万 token，其中 2908 万为缓存命中。诊断也会出错：在另一次运行中，诊断把原因归到了错误的节点，由人纠正后修复。</p>
 
 <h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
+<p>下面三个例子都来自闭环入口。</p>
 <p><strong>一次完整的闭环。</strong>第一轮 Run 前四个阶段通过，在第五个阶段停下，报“输入无法准备”。workflow-rsi 读取停止证据后确认，这份输入本身合法，问题出在节点的输入检查规则。中间诊断三次停下等人：两次把握不足，一次诊断 Agent 自身失败，人确认后继续。第四次诊断的置信度为 0.9，随后在独立分支上生成改动和测试，验证通过后提出 PR。这一轮的事件记录（时间为 UTC，诊断一行依次为处理方式、所属层、置信度）：</p>
 <div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>17:23  loop.created
 17:24  run.started
@@ -95,12 +99,12 @@ no_safe_repair; choose it only when neither a safe fix nor a
 redesign can address the failure.</code></pre></div>
 
 <h2 id="roles">人和 workflow-rsi 各做什么<a class="hash" href="#roles" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>运行、记录停止、诊断、生成并验证改动、提出 PR、合入后重跑</td><td>workflow-rsi</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr><tr><td>判定规则：什么算通过、什么时候停、预算怎么分</td><td>只由人修改，workflow-rsi 和 Agent 都改不了</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>评测改动、提出 PR、合入后验收、记录 Trial</td><td>workflow-rsi</td></tr><tr><td>闭环中的运行、诊断与生成修复</td><td>workflow-rsi 调用的 agent，在沙箱里运行</td></tr><tr><td>请求中的改动</td><td>人自己改，或交给 workflow-rsi 托管的 agent</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr><tr><td>评测资产与判定规则：什么算通过、什么时候停、改进方法与预算怎么分</td><td>只由人准入，workflow-rsi 和 agent 都改不了</td></tr></tbody></table></div>
 <p>市场收录的是 workflow-rsi 的 DSH 操作台：在 DSH 里查看会话、Run、停止记录、闭环和工作计划，需要人决定的操作由人执行。例如查看一个闭环，再让停下的闭环继续修复：</p>
 <div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi loop &lt;loop id&gt;
 /wrsi loop-resume &lt;loop id&gt; fix --confirm</code></pre></div>
 <div class="table"><table><thead><tr><th>决定</th><th>含义</th></tr></thead><tbody><tr><td><code>fix</code></td><td>重新诊断，再生成修复候选</td></tr><tr><td><code>rerun</code></td><td>不改动，重跑 Workflow，例如环境恢复之后</td></tr><tr><td><code>give-up</code></td><td>结束这个闭环</td></tr><tr><td><code>merge-done</code></td><td>PR 已在 Workflow 仓合入，开始重跑</td></tr></tbody></table></div>
-<p>写命令不带 <code>--confirm</code> 时只显示将要执行的操作，不执行。运行、诊断、验证和提出 PR 由 workflow-rsi 本体完成。</p>
+<p>写命令不带 <code>--confirm</code> 时只显示将要执行的操作，不执行。评测、提出 PR 和闭环都由 workflow-rsi 本体完成，操作台只查看和转交人的决定。</p>
 
 <h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
 <p>workflow-rsi 由本体和 DSH 操作台两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。运行闭环还需要被改进 Workflow 的适配器、仓库与闭环配置。</p></div><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi

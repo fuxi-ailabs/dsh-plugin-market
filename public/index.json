@@ -145,8 +145,8 @@
         "zh": "workflow-rsi 操作台"
       },
       "description": {
-        "en": "workflow-rsi improves a Workflow from its own runs. When a Run stops, it locates the cause from the stop evidence, verifies a fix and opens it as a PR to the Workflow repo, then reruns the same input after merge; people review PRs and decide stops that need them. This DSH console requires wrsi-server from @fuxi-ailabs/workflow-rsi.",
-        "zh": "workflow-rsi 让 Workflow 根据自己的运行结果持续改进：Run 停下后，按停止证据定位原因，验证改动后以 PR 提交到 Workflow 所在的仓，合入后用同一份输入重跑；人负责审 PR 和处理需要人决定的停止。需要 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
+        "en": "workflow-rsi drives Workflow changes by evaluation results. Changes come from requests, work plans built from product requirements, or closed-loop diagnosis after a Run stops, and each is judged by human-admitted evaluation assets, delivered as a PR and accepted again after merge. This DSH console requires wrsi-server from @fuxi-ailabs/workflow-rsi.",
+        "zh": "workflow-rsi 以评测结果驱动 Workflow 的修改：改动来自请求、按产品需求排出的工作计划，或 Run 停下后的闭环诊断，都用人准入的评测资产判定，以 PR 交付，合入后再验收。需要 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
       },
       "icon": "icons/workflow-rsi.svg",
       "author": "cacheline",
