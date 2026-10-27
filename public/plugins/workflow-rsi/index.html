@@ -23,38 +23,41 @@
   <main class="main">
     <article class="doc">
       <h1>workflow-rsi</h1>
-<p>workflow-rsi 以评测结果驱动 Workflow 的修改。改动有三个来源：人提出的请求、按产品需求排出的工作计划，以及 Run 停下后的闭环诊断。每个改动都用人准入的评测资产判定，以 PR 交付；是否合入由 Workflow 所在的仓决定，合入后再验收一次。</p>
-<p>每次尝试都记成一条 Trial：起因、改动、评测结论、合入后是否还在。哪种改进方法更有效、预算投向哪里，都按这些记录计算。人负责准入评测规则、审 PR，以及处理需要人决定的情况。</p>
+<p>workflow-rsi 让 Workflow 递归自我改进（RSI，Recursive Self-Improvement）。在不改模型权重的前提下，它用 Workflow 的真实运行结果，持续搜索、评测并发布更好的 Workflow 结构。“自我改进”指它自己发现问题、提出改动、判断好坏；“递归”指它还会评估并改进自己的改进方法。</p>
+<p>同一个模型，放在搭得好和搭得差的 Workflow 里，结果差别很大。Workflow 的改动见效快、可以回滚，改好一次，之后的任务都能复用。所有候选在隔离环境里生成，用人准入的评测资产在整个 Workflow 上判定，以 PR 交付；生产运行始终使用已发布的版本。</p>
 
 <h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
-<p>一个改动从提出到落地：</p>
-<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>改动来源
-  请求：人描述要改什么
-  工作计划：产品需求拆成需求集，逐条发起请求
-  闭环：Run 停下，按停止证据诊断
+<p>一轮改进的流程：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>改进入口：闭环、Memory 共性、请求、工作计划、假设驱动
   ↓
-改动：人在自己的目录里改（workflow-rsi 只读快照），或由 agent 在独立 worktree 里改
+诊断：沿 Workflow 结构回溯，区分结构问题与节点内容问题
   ↓
-评测：人准入的测试、judge 与判定规则（不通过 → 等人）
+生成候选
+  结构问题：已审批的结构算子 + 受约束搜索
+  节点内容问题：交给 skill / agent RSI 接口
   ↓
-PR：正文带评测结论，人审、合入
+整体评测：分级打分；validation 选候选，holdout 定发布
   ↓
-合入后验收：同一份输入重跑，或在目标分支上重跑冻结的测试
+PR：人审、合入；合入后重跑原任务，跟踪改动是否被保留
   ↓
-Trial 记录：起因、改动、评测结论、是否落地</code></pre></div>
-<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>三种改动来源</td><td>请求：人描述要改什么，自己改或交给 agent 改；工作计划：产品需求拆成需求集，逐条发起请求；闭环：Run 停下后按停止证据诊断、生成修复</td></tr><tr><td>以评测判定改动</td><td>测试、judge 与判定规则都是评测资产，只由人准入；被评测的改动不能修改评测工具本身；配置了 validation 与 holdout 时，validation 选候选，holdout 决定能否发布</td></tr><tr><td>隔离修改，以 PR 交付</td><td>agent 的改动在独立 worktree 和操作系统沙箱里完成；人在自己目录里的改动，workflow-rsi 只读快照；PR 正文带评测结论，合入由 Workflow 仓决定</td></tr><tr><td>合入后再验收</td><td>闭环用同一份输入重跑，看是否越过原停止点；工作计划在目标分支上重跑冻结的独立测试，通过才算完成</td></tr><tr><td>全程可以回查</td><td>每次尝试都是一条 Trial；<code>wie report rsi</code> 按工程、业务、递归三栏汇总，DSH 操作台也能查看</td></tr></tbody></table></div>
+Trial 记录 → 评估改进方法，按收益分配预算</code></pre></div>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>优化 Workflow 结构</td><td>步骤怎么排、步骤之间交接什么、哪里分支、哪里设门禁。只用四类已审批的改法：插入已审步骤、删除可选步骤、调整允许的交接、切换已审策略；门禁和受保护路径不能动</td></tr><tr><td>先小步试，再深挖</td><td>受约束搜索（MCTS）在真实任务上试跑候选、回传分数，把资源集中到最有希望的方向；按 seed 和快照可以完整重放</td></tr><tr><td>节点内容经接口改</td><td>每一步的指令、Skill、工具说明和模型选择，交给 skill / agent RSI 接口的提供方处理，每次只改指定的节点；结构和节点内容的改动都在整个 Workflow 上统一判定，局部得分只作参考</td></tr><tr><td>整体评测、分级打分</td><td>按阶段推进、通过的用例数、覆盖率和成本打分；validation 选候选，holdout 决定能否发布；效果相同时选成本更低的；打分没有区分度时自动停止投入，模型本身做不到的任务会被识别出来</td></tr><tr><td>改进方法也在改进</td><td>每次尝试（包括失败和被拒的）都记成一条 Trial；按收益在改进方法之间分配预算，保留最低探索；method-author 提出新的改进方法，经影子试验和人工准入后启用</td></tr><tr><td>裁判只由人改</td><td>评分规则、能否发布的标准、预算怎么分，只由人准入，workflow-rsi 和 agent 都改不了；适配器只读取 Workflow 的运行状态、输出事实，不下结论</td></tr></tbody></table></div>
+
+<h2 id="sources">改进从哪里来<a class="hash" href="#sources" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>入口</th><th>说明</th></tr></thead><tbody><tr><td>闭环</td><td>Run 停下后，自动收集证据、启动诊断，是最主要的入口</td></tr><tr><td>Memory 共性</td><td>多次运行中反复出现的缺陷和有效的步骤，汇总后作为改进输入，一次修复跨任务的共性问题；读固定版本，每个结束的 Trial 写回一次</td></tr><tr><td>请求</td><td>人写一段需求，由实施 agent 落地，独立的评测 agent 出题</td></tr><tr><td>工作计划</td><td>产品 SDD 抽成需求集，按依赖排成计划逐条推进，合入后在目标分支上重跑验收</td></tr><tr><td>假设驱动</td><td>没有现成失败可对照的改进，例如调整角色指令或流程，先写下预期观察和拒绝条件，再实现、再验证</td></tr></tbody></table></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 反复处理同类任务</td><td>每次停止都落到 Workflow 本身的修复上，后面的任务一起受益</td></tr><tr><td>产品需求变了，Workflow 要跟着改</td><td>需求拆成一条条请求，每条带冻结的验收测试，合入后在目标分支上验收</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，经常停在中间某一步</td><td>停在哪一步、为什么停的结构化记录，以及对应的修复 PR</td></tr><tr><td>团队要求 Workflow 的每个改动都经过评审、可以回退</td><td>每个改动都是带测试和验证结果的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 反复处理同类任务</td><td>改好一次，之后的任务都复用；真实缺陷持续沉淀为回归测试</td></tr><tr><td>模型只能通过 API 调用，拿不到权重</td><td>不训练模型，通过改进 Workflow 提升效果</td></tr><tr><td>要把 Workflow 换到另一个模型上运行</td><td>强模型在诊断和修复中的判断已经固化成 Workflow 代码和测试，换模型后直接复用</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，团队要求改动可审计、可回滚</td><td>每个改动都是带评测结论的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
 <p>只跑一次的任务，或者 Workflow 还没有接入 workflow-rsi 时，用处不大。接入一个 Workflow 需要它的适配器，用来读取 Run 的状态和停止记录。</p>
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
-<p>Workflow 的改进从“人看日志、想办法、改代码、再跑一遍”，变成审一个带证据和评测结论的 PR。下面是闭环入口在一个已接入的多阶段 Workflow、同一份输入上的两轮：</p>
+<div class="table"><table><thead><tr><th>收益</th><th>说明</th></tr></thead><tbody><tr><td>一次修复，后续复用</td><td>改动落在 Workflow 上，之后所有适用的任务都受益</td></tr><tr><td>可审计、可回滚</td><td>每个改动都有证据、评测结论和 PR，合入后持续跟踪是否被保留或回退</td></tr><tr><td>缺陷沉淀为回归测试</td><td>修复候选带测试，测试先红后绿，证明改的是真问题</td></tr><tr><td>人从盯着跑转向审 PR</td><td>发现问题、提出改动、评测都由 workflow-rsi 完成，人负责准入规则和审 PR</td></tr></tbody></table></div>
+<p>以闭环入口为例，下面是一个已接入的多阶段 Workflow 在同一份输入上的两轮：</p>
 <div class="table"><table><thead><tr><th>轮次</th><th>停在哪里</th><th>workflow-rsi 做了什么，结果如何</th></tr></thead><tbody><tr><td>第 1 轮</td><td>第 5 个阶段的一个节点，在处理输入之前</td><td>定位到节点的输入检查过严，把一种合法输入判为无法处理；生成 45 行改动并附测试，测试通过后提出 PR，PR 合入。从 Run 停下到提出 PR 用时 4 小时 8 分钟，其中等人 14 分钟</td></tr><tr><td>第 2 轮</td><td>同一份输入重跑，越过第 1 轮的停止点，停在同一阶段的后一个节点</td><td>定位到这个节点只支持一种处理方式，不覆盖这份输入；第一次修复超时没有改动，第二次改动没有通过改动范围检查，不提 PR，停下交给人</td></tr></tbody></table></div>
-<p>这是一个 Workflow、一份输入上的实测，还没有做多 Workflow 统计。第 1 轮的模型用量约 3113 万 token，其中 2908 万为缓存命中。诊断也会出错：在另一次运行中，诊断把原因归到了错误的节点，由人纠正后修复。</p>
+<p>第 1 轮的模型用量约 3113 万 token，其中 2908 万为缓存命中。</p>
 
 <h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
-<p>下面三个例子都来自闭环入口。</p>
+<p>下面三个例子来自闭环入口：前两个是节点实现的问题，第三个是结构（阶段之间交接）的问题。</p>
 <p><strong>一次完整的闭环。</strong>第一轮 Run 前四个阶段通过，在第五个阶段停下，报“输入无法准备”。workflow-rsi 读取停止证据后确认，这份输入本身合法，问题出在节点的输入检查规则。中间诊断三次停下等人：两次把握不足，一次诊断 Agent 自身失败，人确认后继续。第四次诊断的置信度为 0.9，随后在独立分支上生成改动和测试，验证通过后提出 PR。这一轮的事件记录（时间为 UTC，诊断一行依次为处理方式、所属层、置信度）：</p>
 <div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>17:23  loop.created
 17:24  run.started
@@ -99,7 +102,7 @@ no_safe_repair; choose it only when neither a safe fix nor a
 redesign can address the failure.</code></pre></div>
 
 <h2 id="roles">人和 workflow-rsi 各做什么<a class="hash" href="#roles" aria-label="本节链接">#</a></h2>
-<div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>评测改动、提出 PR、合入后验收、记录 Trial</td><td>workflow-rsi</td></tr><tr><td>闭环中的运行、诊断与生成修复</td><td>workflow-rsi 调用的 agent，在沙箱里运行</td></tr><tr><td>请求中的改动</td><td>人自己改，或交给 workflow-rsi 托管的 agent</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr><tr><td>评测资产与判定规则：什么算通过、什么时候停、改进方法与预算怎么分</td><td>只由人准入，workflow-rsi 和 agent 都改不了</td></tr></tbody></table></div>
+<div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>诊断、生成结构候选、整体评测、提出 PR、合入后重跑与跟踪、记录 Trial</td><td>workflow-rsi</td></tr><tr><td>节点内容：指令、Skill、工具说明、模型选择</td><td>skill / agent RSI 接口的提供方，结果仍由 workflow-rsi 整体评测</td></tr><tr><td>Harness：会话、沙箱、预算、状态、证据</td><td>不自动修改，评测和判定都依赖它</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>评分规则、发布标准、预算分配、新改进方法的启用</td><td>只由人准入</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr></tbody></table></div>
 <p>市场收录的是 workflow-rsi 的 DSH 操作台：在 DSH 里查看会话、Run、停止记录、闭环和工作计划，需要人决定的操作由人执行。例如查看一个闭环，再让停下的闭环继续修复：</p>
 <div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi loop &lt;loop id&gt;
 /wrsi loop-resume &lt;loop id&gt; fix --confirm</code></pre></div>
@@ -121,7 +124,7 @@ which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部�
     timeout_ms: 30000</code></pre></div><div class="table"><table><thead><tr><th>配置</th><th>含义</th><th>默认</th></tr></thead><tbody><tr><td><code>server_url</code></td><td>wrsi-server 的 http(s) origin</td><td><code>127.0.0.1:8799</code>（http）</td></tr><tr><td><code>key_file</code></td><td>wrsi-server 的 key 文件绝对路径（可写 <code>~/…</code>）</td><td>无；不配时 HTTP 类功能不可用</td></tr><tr><td><code>wie.argv</code> / <code>wie.config</code></td><td><code>wie</code> 命令前缀与它的配置文件</td><td>无；不配时闭环与工作计划功能不可用</td></tr><tr><td><code>timeout_ms</code></td><td>单次 HTTP 请求或 <code>wie</code> 子进程的超时</td><td>30000</td></tr></tbody></table></div><p>未知字段在插件加载时报错。key 每次请求时从文件读，只放进请求头，输出里出现时替换为 <code>&lt;key&gt;</code>。</p><h2 id="verify">验证<a class="hash" href="#verify" aria-label="本节链接">#</a></h2><p>在操作台 profile 里输入：</p><div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi status</code></pre></div><p>返回业务名、actor 与服务状态即为连通。也可以直接问 Agent「workflow-rsi 现在有哪些会话」，它会调用 <code>wrsi_sessions</code>。服务没启动时插件不影响会话，工具返回 <code>available: false</code> 与原因，见<a href="errors.html">错误与写操作</a>。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="tools.html"><span>下一页</span>工具与命令</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#what">有什么用</a><a href="#when">什么时候用</a><a href="#benefit">用上后的收益</a><a href="#examples">例子</a><a href="#roles">人和 workflow-rsi 各做什么</a><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#what">有什么用</a><a href="#sources">改进从哪里来</a><a href="#when">什么时候用</a><a href="#benefit">用上后的收益</a><a href="#examples">例子</a><a href="#roles">人和 workflow-rsi 各做什么</a><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">workflow-rsi 操作台 · Apache-2.0 · 维护：cacheline</footer>

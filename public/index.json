@@ -145,8 +145,8 @@
         "zh": "workflow-rsi 操作台"
       },
       "description": {
-        "en": "workflow-rsi drives Workflow changes by evaluation results. Changes come from requests, work plans built from product requirements, or closed-loop diagnosis after a Run stops, and each is judged by human-admitted evaluation assets, delivered as a PR and accepted again after merge. This DSH console requires wrsi-server from @fuxi-ailabs/workflow-rsi.",
-        "zh": "workflow-rsi 以评测结果驱动 Workflow 的修改：改动来自请求、按产品需求排出的工作计划，或 Run 停下后的闭环诊断，都用人准入的评测资产判定，以 PR 交付，合入后再验收。需要 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
+        "en": "Recursive self-improvement for Workflows: without touching model weights, workflow-rsi uses real run results to search, evaluate and publish better Workflow structures, and improves its own improvement methods. Candidates are judged on the whole Workflow by human-admitted evaluation assets and delivered as PRs. This DSH console requires wrsi-server from @fuxi-ailabs/workflow-rsi.",
+        "zh": "workflow-rsi 让 Workflow 递归自我改进：不改模型权重，用真实运行结果持续搜索、评测并发布更好的 Workflow 结构，并改进自己的改进方法。候选在整个 Workflow 上由人准入的评测资产判定，以 PR 交付。需要 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
       },
       "icon": "icons/workflow-rsi.svg",
       "author": "cacheline",
