@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="让 DSH Agent 在相似问题再次出现时，看到过去验证过的解决方法，减少重复排查，并用本机统计观察记忆是否真正带来帮助。">
-<title>Crowd Memory：让 Agent 复用解决过的问题</title>
+<meta name="description" content="让已经解决过的故障，不必在下一个 DSH 会话里从零排查。记录一次，在相同失败发生后的下一步自动给出修法、出处和命中理由。">
+<title>Crowd Memory：让已解决的故障跨会话复用</title>
 <script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -24,8 +24,13 @@
   <main class="main">
     <article class="doc">
       <h1>Crowd Memory</h1>
-<p>Crowd Memory 是 DeepSeek Harness（DSH）的记忆插件。一个问题修好后，可以把当时的现象和做法留给后面的会话；相似问题再次出现时，插件在 Agent 采取下一步动作前给出相关记录。</p>
-<p>每条记录都带出处和命中理由。Agent 可以据此核对以前的修法，不需要只从当前错误重新开始排查。记录是参考材料，不是必须执行的指令。</p>
+<p>Crowd Memory 解决的是 Agent 跨会话重复排查同一个故障的问题。一个会话里已经修好的构建、测试或工具错误，到了新会话通常只剩下难以发现的历史记录，Agent 仍会重新搜索、定位和试错。</p>
+<p>使用 Crowd Memory，修好后通过 <code>memory_note</code> 记录一次；相同失败再次出现时，插件会在 Agent 的下一步之前自动给出以前的修法、出处和命中理由。Agent 要做的是检查旧修法是否仍然适用，而不是从零开始。</p>
+<div class="note"><strong>核心价值</strong><p>让一次排查的结果跨会话复用，并能统计这条记忆是否被使用、使用后原来失败的步骤是否通过。</p></div>
+
+<h2 id="difference">与历史会话和项目笔记的区别<a class="hash" href="#difference" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>方式</th><th>再次遇到问题时</th></tr></thead><tbody><tr><td>翻历史会话</td><td>需要先记得答案在哪个会话，再人工查找当时的错误和修法</td></tr><tr><td>写项目笔记</td><td>需要提前整理和维护，并要求 Agent 主动阅读；当前错误与哪条笔记相关仍要判断</td></tr><tr><td>Crowd Memory</td><td>按当前错误签名、代码符号和工具名自动匹配，在 Agent 下一步之前给出修法，同时说明来源和命中原因</td></tr></tbody></table></div>
+<div class="note"><strong>配对评测</strong><p>在 10 类合成任务、共 120 对运行中，每次最多 10 次工具调用和 300 秒：关闭记忆完成 47 次（39.2%），打开记忆完成 94 次（78.3%）。该结果没有覆盖不限预算和真实业务任务，完整条件见<a href="evaluation.html">评测</a>。</p></div>
 
 <h2 id="use-cases">适合什么时候用<a class="hash" href="#use-cases" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>情况</th><th>插件会做什么</th></tr></thead><tbody><tr><td>以前解决过的构建、测试或工具错误再次出现</td><td>在失败后的下一步之前，按错误签名、代码符号和工具名查找以前的修法</td></tr><tr><td>新会话继续同一项目的同类工作</td><td>在会话第一步之前，按任务描述提供相关记录</td></tr><tr><td>重复 workflow 进入同一个阶段</td><td>使用 <code>workflow-default</code> 时，在阶段开始时向子 Agent 提供该阶段积累的记录</td></tr></tbody></table></div>
@@ -44,7 +49,6 @@
 <p>记忆服务在本机按任务统计是否接触和使用过记忆，以及任务结果。数据分为：</p>
 <div class="table"><table><thead><tr><th>指标</th><th>含义</th></tr></thead><tbody><tr><td>用了记忆</td><td>执行了记录中的修法、读过全文或在回答中引用了记录</td></tr><tr><td>只曝光</td><td>收到过推送或检索结果，但没有实际使用</td></tr><tr><td>没用</td><td>任务没有接触任何记录</td></tr><tr><td>失败后推送 → 同一步随后通过</td><td>收到相关记录后，原来失败的步骤是否成功</td></tr></tbody></table></div>
 <p>这些统计只保存在本机，可以按项目和时间筛选，也可以输出 JSON。命令和判定规则见<a href="stats.html">使用统计</a>。</p>
-<div class="note"><strong>已有评测</strong><p>在 10 类合成任务、共 120 对配对运行中，每次最多 10 次工具调用和 300 秒：关闭记忆完成 47 次（39.2%），打开记忆完成 94 次（78.3%）。该结果没有覆盖不限预算和真实业务任务，完整条件见<a href="evaluation.html">评测</a>。</p></div>
 
 <h2 id="install">安装记忆服务<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
 <p>Crowd Memory 由 DSH 插件和本机记忆服务两个 npm 包组成：</p>
@@ -81,7 +85,7 @@ crowdmemory-runtime install</code></pre></div>
 <p>推送的格式和规则见<a href="push.html">推送</a>。记忆服务没有运行时，插件不影响会话：不推送，记忆工具返回「记忆暂不可用」。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="versions.html"><span>下一页</span>组件与版本</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#use-cases">适合什么时候用</a><a href="#example">例子</a><a href="#measurement">收益统计</a><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#difference">与其他方式的区别</a><a href="#use-cases">适合什么时候用</a><a href="#example">例子</a><a href="#measurement">收益统计</a><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>

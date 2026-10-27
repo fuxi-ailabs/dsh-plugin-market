@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Help DSH agents reuse solutions that worked before. When a similar failure or task appears, Crowd Memory shows the relevant fix with its source and match reason before the agent's next step, reducing repeated investigation. Requires the local memory service @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "让 DSH Agent 复用以前解决过的问题。相似失败或任务再次出现时，在下一步前给出相关修法、出处和命中理由，减少重复排查。需要先安装本机记忆服务 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Stop solved failures from becoming a fresh investigation in the next DSH session. Record a fix once; when the same failure returns, Crowd Memory shows the fix, source and match reason before the agent's next step, then measures whether it helped the failed step recover. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "让已经解决过的故障，不必在下一个 DSH 会话里从零排查。修好后记录一次；相同失败再次出现时，在 Agent 下一步前自动给出修法、出处和命中理由，并统计使用后原来失败的步骤是否通过。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
