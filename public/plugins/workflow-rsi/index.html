@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>闭环改进用例与首次使用 | workflow-rsi 操作台文档</title>
+<title>介绍与安装 | workflow-rsi 操作台文档</title>
 <script>try{var t=localStorage.getItem("wrsi-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -19,19 +19,36 @@
   <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="tools.html">参考</a><a href="versions.html">其他</a></nav>
 </header>
 <div class="layout">
-  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html" class="on" aria-current="page">首次使用</a><a href="tools.html">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html" class="on" aria-current="page">介绍与安装</a><a href="tools.html">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
   <main class="main">
     <article class="doc">
-      <h1>用同一个任务，检验 Workflow 的改进</h1>
-<p>workflow-rsi 本体面向负责改进 Workflow 的团队：给它一个库名和版本，它运行完整 Workflow。遇到可修复的停止时，它根据运行证据定位问题，验证对 Workflow 的改动，并向 Workflow 所在仓提出 PR。合入后再用同一个库、同一个版本重跑，检查这次改动是否真正解决了问题。</p>
-<h2 id="when">什么时候用：一个闭环例子</h2>
-<p>例如，你负责让 Workflow 处理 <code>usearch 2.26.2</code>。第一轮运行在某一步停下了。你希望修的是 Workflow 的通用能力，并确认修复对同一个任务有效，而不是只看一次运行的报错。</p>
-<ol><li>workflow-rsi 记录这次 Run 的停止位置和证据，按停止原因决定继续、诊断或交给人处理。</li><li>对于能在允许范围内修复的问题，修复候选经过检查和验证后，以 PR 交给 Workflow 仓维护者评审。</li><li>PR 合入后，用同一个 <code>usearch 2.26.2</code> 再跑一轮；你能看到它是否越过原来的停止点，以及新一轮的结果。</li></ol>
-<p>这样，每一轮为什么停止、改了什么、验证结果如何，都有记录可回查；是否合入仍由 Workflow 仓决定。</p>
-<p class="small">这是工作机制示例，不代表该库版本已在此页面实跑成功。运行前需要准备对应 Workflow 的适配器、仓库与闭环配置；环境故障或需要人工判断时，闭环会停下来等人处理。</p>
-<h2 id="console">DSH 操作台在其中做什么</h2>
-<p>市场收录的是 workflow-rsi 的 DSH 操作台。它连接本体的 <code>wrsi-server</code> 和 <code>wie</code>，让你在 DSH 查看会话、Run、停止记录和工作计划，并对需要人工决定的操作明确确认。真正运行、诊断、验证和提出 PR 的是 workflow-rsi 本体。</p>
-<p>本体与操作台由两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。</p></div><h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
+      <h1>workflow-rsi</h1>
+<p>workflow-rsi 让 Workflow 根据自己的运行结果持续改进。给它一个任务，例如一个库名和版本，它运行 Workflow；Run 停下后，它按停止证据定位原因，对能修的问题生成改动、验证通过后以 PR 提交到 Workflow 所在的仓；PR 合入后，用同一份输入重跑，检查是否越过了原来的停止点。</p>
+<p>找问题、写改动、验证、重跑都由 workflow-rsi 完成，人负责审 PR，以及处理它判断需要人决定的停止。每一轮为什么停、改了什么、验证结果如何，都有记录可以回查。</p>
+
+<h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>从停止证据定位问题</td><td>记录 Run 停在哪个阶段、哪个节点、什么错误，按停止类型决定继续、诊断或交给人；诊断给出根因、所属层和置信度</td></tr><tr><td>改动先验证再提交</td><td>修复候选在独立分支上生成，先检查改动范围，再跑测试，通过后才提出 PR；验证不过就不提交</td></tr><tr><td>用同一份输入检验效果</td><td>PR 合入后，用同一个库、同一个版本、同一份源码重跑，看问题是否真正解决</td></tr><tr><td>人只在需要的时候介入</td><td>诊断把握不足、候选验证不过、环境故障时停下等人；它不会自己合入 PR</td></tr><tr><td>全程可以回查</td><td>停止记录、诊断结论、改动、验证结果、PR 与模型用量都保存下来，可在 DSH 操作台或 <code>wie</code> 中查看</td></tr></tbody></table></div>
+
+<h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 要处理一批同类任务，例如一批库的迁移</td><td>每次停止都落到 Workflow 本身的修复上，后面的任务一起受益</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，经常停在中间某一步</td><td>停在哪一步、为什么停的结构化记录，以及对应的修复 PR</td></tr><tr><td>团队要求 Workflow 的每个改动都经过评审、可以回退</td><td>每个改动都是带测试和验证结果的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
+<p>只跑一次的任务，或者还没有为 Workflow 准备适配器时，用处不大。</p>
+
+<h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
+<p>Workflow 的改进从“人看日志、想办法、改代码、再跑一遍”，变成审一个带证据和测试的 PR。下面是在鸿蒙 PC 真机上，用库迁移 Workflow 处理 <code>memray 1.20.0</code> 的两轮闭环：</p>
+<div class="table"><table><thead><tr><th>轮次</th><th>停在哪里</th><th>workflow-rsi 做了什么，结果如何</th></tr></thead><tbody><tr><td>第 1 轮</td><td>execution 阶段准备源码时，源码里有一个上游的符号链接</td><td>定位到引擎把符号链接一律判为不可准备；生成 45 行改动并附测试，L1、L2 测试通过后提出 PR，PR 合入</td></tr><tr><td>第 2 轮</td><td>同一份源码重跑，越过第 1 轮的停止点，停在 execution 阶段的构建</td><td>定位到构建路由只支持 setuptools，而该库用 scikit-build-core；两次修复候选都没有通过验证，不提 PR，停下交给人</td></tr></tbody></table></div>
+<p>这是一个 Workflow、一个库上的实测，还没有做多库统计。诊断也会出错：在另一个库上，诊断曾把测试插件没有加载归到错误的原因，由人纠正后修复。</p>
+
+<h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
+<p><strong>一次完整的闭环。</strong><code>memray 1.20.0</code> 的第一轮 Run 在 execution 阶段停下，报“源码树里有符号链接，无法准备”。workflow-rsi 读取停止证据后确认，这个链接是上游仓库本来就有的，复制时解引用即可，问题出在引擎的源码准备规则。它在独立分支上改了源码准备逻辑并补上测试，检查改动范围、跑完测试后提出 PR。这一轮中，诊断曾三次因为把握不足停下等人，人处理后恢复，最后一次诊断的置信度为 0.9。PR 合入后，同一份源码再跑，Run 越过了原来的停止点。</p>
+<p><strong>验证不过就不提交。</strong>第二轮停在构建：该库用 scikit-build-core 构建，而引擎的构建路由只支持 setuptools，修复 Agent 两轮都在改构建文件，无效。workflow-rsi 的诊断指出了这一点（置信度 0.82），但两次修复候选都没有通过验证，它没有提出 PR，停下来把诊断结论留给人决定。</p>
+<p><strong>定位 Workflow 的交接缺口。</strong>处理 <code>usearch</code> 时，Run 停在 verification 阶段：Repair 角色选择“不处理”之后，流程没有出口，以修复预算耗尽结束。诊断定位到 Repair 的任务说明没有写清“不处理即终止、要求重新设计才进入 Redesign”，这是阶段之间的交接问题，Repair 的修复能力本身没有问题。按诊断修复后再跑，Repair 要求重新设计时正确进入了 Redesign。</p>
+
+<h2 id="roles">人和 workflow-rsi 各做什么<a class="hash" href="#roles" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>运行、记录停止、诊断、生成并验证改动、提出 PR、合入后重跑</td><td>workflow-rsi</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr><tr><td>判定规则：什么算通过、什么时候停、预算怎么分</td><td>只由人修改，workflow-rsi 和 Agent 都改不了</td></tr></tbody></table></div>
+<p>市场收录的是 workflow-rsi 的 DSH 操作台：在 DSH 里查看会话、Run、停止记录、闭环和工作计划，需要人决定的操作由人用 <code>/wrsi … --confirm</code> 执行。运行、诊断、验证和提出 PR 由 workflow-rsi 本体完成。</p>
+
+<h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
+<p>workflow-rsi 由本体和 DSH 操作台两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。运行闭环还需要对应 Workflow 的适配器、仓库与闭环配置。</p></div><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
 which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部库，只另外从 registry 安装 TypeScript（用于符号级的改动范围检查）。</p><h2 id="start">启动服务<a class="hash" href="#start" aria-label="本节链接">#</a></h2><p>写一个最小配置 <code>wie.config.json</code>，路径都放在工作目录之外：</p><div class="code"><div class="code-bar"><span>json</span><button type="button" class="copy">复制</button></div><pre><code>{
   &quot;business&quot;: &quot;&lt;业务名&gt;&quot;,
   &quot;actor&quot;: &quot;&lt;你的 id&gt;&quot;,
@@ -45,7 +62,7 @@ which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部�
     timeout_ms: 30000</code></pre></div><div class="table"><table><thead><tr><th>配置</th><th>含义</th><th>默认</th></tr></thead><tbody><tr><td><code>server_url</code></td><td>wrsi-server 的 http(s) origin</td><td><code>127.0.0.1:8799</code>（http）</td></tr><tr><td><code>key_file</code></td><td>wrsi-server 的 key 文件绝对路径（可写 <code>~/…</code>）</td><td>无；不配时 HTTP 类功能不可用</td></tr><tr><td><code>wie.argv</code> / <code>wie.config</code></td><td><code>wie</code> 命令前缀与它的配置文件</td><td>无；不配时闭环与工作计划功能不可用</td></tr><tr><td><code>timeout_ms</code></td><td>单次 HTTP 请求或 <code>wie</code> 子进程的超时</td><td>30000</td></tr></tbody></table></div><p>未知字段在插件加载时报错。key 每次请求时从文件读，只放进请求头，输出里出现时替换为 <code>&lt;key&gt;</code>。</p><h2 id="verify">验证<a class="hash" href="#verify" aria-label="本节链接">#</a></h2><p>在操作台 profile 里输入：</p><div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi status</code></pre></div><p>返回业务名、actor 与服务状态即为连通。也可以直接问 Agent「workflow-rsi 现在有哪些会话」，它会调用 <code>wrsi_sessions</code>。服务没启动时插件不影响会话，工具返回 <code>available: false</code> 与原因，见<a href="errors.html">错误与写操作</a>。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="tools.html"><span>下一页</span>工具与命令</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#when">闭环例子</a><a href="#console">DSH 操作台</a><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#what">有什么用</a><a href="#when">什么时候用</a><a href="#benefit">用上后的收益</a><a href="#examples">例子</a><a href="#roles">人和 workflow-rsi 各做什么</a><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">workflow-rsi 操作台 · Apache-2.0 · 维护：cacheline</footer>

@@ -19,7 +19,7 @@
   <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="tools.html" class="on">参考</a><a href="versions.html">其他</a></nav>
 </header>
 <div class="layout">
-  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html">首次使用</a><a href="tools.html" class="on" aria-current="page">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html">介绍与安装</a><a href="tools.html" class="on" aria-current="page">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
   <main class="main">
     <article class="doc">
       <h1>工具与命令</h1>
@@ -28,7 +28,7 @@
 { &quot;available&quot;: false, &quot;reason&quot;: &quot;wrsi-server … is not reachable (…)&quot; }</code></pre></div><p>第一种是成功，<code>data</code> 为 workflow-rsi 的原始返回；第二种是 workflow-rsi 返回了错误；第三种是用不了。结果超过 20000 字符时截断，末尾写明还剩多少字符。</p><h2 id="guard">守卫<a class="hash" href="#guard" aria-label="本节链接">#</a></h2><p><code>tools/pre-execute</code> 守卫拒绝任何名字以 <code>wrsi_</code> 开头、但不在上表里的工具调用，不论是谁注册的。Agent 因此无法经工具改动 workflow-rsi。</p><h2 id="command">/wrsi 命令（给人）<a class="hash" href="#command" aria-label="本节链接">#</a></h2><div class="table"><table><thead><tr><th>类别</th><th>子命令</th></tr></thead><tbody><tr><td>读</td><td><code>status</code>、<code>sessions</code>、<code>session &lt;id&gt;</code>、<code>assets [key=value …]</code>、<code>loop [&lt;id&gt;]</code>、<code>plan &lt;计划 uri&gt;</code></td></tr><tr><td>写</td><td><code>admit &lt;uri&gt; --reason &lt;文字&gt;</code>、<code>publish</code>、<code>loop-resume &lt;id&gt; &lt;rerun|fix|give-up|merge-done&gt;</code>、<code>plan-decide &lt;计划&gt; &lt;需求集/Dnn&gt; &lt;裁决&gt;</code></td></tr></tbody></table></div><p>写命令缺 <code>--confirm</code> 时只回显将要执行的操作，不执行：</p><div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi admit asset:&#47;/b/rubric/r@1 --reason &quot;复核通过&quot;
 Not run. This would admit asset:&#47;/b/rubric/r@1 with the reason &quot;复核通过&quot; (POST /api/assets/transition).
 Repeat the command with --confirm to run it.</code></pre></div>
-      <nav class="pager" aria-label="翻页"><a class="pg prev" href="index.html"><span>上一页</span>首次使用</a><a class="pg next" href="errors.html"><span>下一页</span>错误与写操作</a></nav>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="index.html"><span>上一页</span>介绍与安装</a><a class="pg next" href="errors.html"><span>下一页</span>错误与写操作</a></nav>
     </article>
     <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#tools">只读工具</a><a href="#result">返回结构</a><a href="#guard">守卫</a><a href="#command">/wrsi 命令</a></nav>
   </main>

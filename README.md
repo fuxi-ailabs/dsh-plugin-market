@@ -24,7 +24,7 @@ Fuxi 团队插件目录
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
 Crowd Memory 是 DSH 记忆插件：工具失败、会话开始或进入工作流阶段时，把以前同类问题的解决记录推送给 Agent，附出处和命中理由。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)。
-workflow-rsi 本体对指定任务运行 Workflow，遇到可修复的停止时诊断并验证改动，向 Workflow 仓提出 PR；合入后用同一输入重跑。市场中的操作台让使用者在 DSH 查看闭环并确认人工决策。使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 用例与操作台文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
+workflow-rsi 让 Workflow 根据自己的运行结果持续改进：Run 停下后，它按停止证据定位原因，对能修的问题生成改动、验证通过后以 PR 提交到 Workflow 所在的仓，合入后用同一份输入重跑；人负责审 PR 和处理需要人决定的停止。适合同一个 Workflow 反复处理同类任务、经常停在中间某一步的场景；在鸿蒙 PC 真机上的 memray 1.20.0 闭环中，它提出的修复合入后，重跑越过了原来的停止点。市场收录的是 DSH 操作台，使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。
 

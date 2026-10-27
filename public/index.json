@@ -145,8 +145,8 @@
         "zh": "workflow-rsi 操作台"
       },
       "description": {
-        "en": "Give workflow-rsi a library and version: it runs the Workflow, diagnoses fixable stops, proposes a verified change as a PR, and reruns the same input after merge. This DSH console shows the loop and lets a person confirm decisions.",
-        "zh": "给 workflow-rsi 一个库名和版本：它运行 Workflow，定位可修复的停止原因，验证改动并提出 PR；合入后用同一输入重跑。DSH 操作台用于查看闭环和确认人工决策。"
+        "en": "workflow-rsi improves a Workflow from its own runs. When a Run stops, it locates the cause from the stop evidence, verifies a fix and opens it as a PR to the Workflow repo, then reruns the same input after merge; people review PRs and decide stops that need them. On a HarmonyOS PC device, its merged fix let the rerun of memray 1.20.0 pass the original stop. This DSH console requires wrsi-server from @fuxi-ailabs/workflow-rsi.",
+        "zh": "workflow-rsi 让 Workflow 根据自己的运行结果持续改进：Run 停下后，按停止证据定位原因，验证改动后以 PR 提交到 Workflow 所在的仓，合入后用同一份输入重跑；人负责审 PR 和处理需要人决定的停止。鸿蒙 PC 真机上 memray 1.20.0 的闭环中，它的修复合入后重跑越过了原停止点。需要 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
       },
       "icon": "icons/workflow-rsi.svg",
       "author": "cacheline",
