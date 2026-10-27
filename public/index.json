@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Memory plugin for DSH. When a tool fails, a session starts or a workflow phase begins, it shows the agent records of how the same problem was solved before, with their source and why they matched. Requires the local memory service @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "DSH 记忆插件。工具失败、会话开始或进入工作流阶段时，把以前同类问题的解决记录推送给 Agent，附出处和命中理由。需要先安装本机记忆服务 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Collective memory for DSH. What each agent learns at work is checked against task outcomes and then shared with other sessions, other agents in the same workflow, and the team, with no model retraining. In a paired on/off test with the same model and budget, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验，按任务结果判断可信后，提供给其他会话、同一 workflow 里的其他 Agent 和团队复用，模型不需要重新训练。开关记忆配对评测中，同样的模型和预算下完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
