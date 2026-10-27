@@ -266,6 +266,51 @@
           }
         }
       ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-insight-bundle",
+      "title": {
+        "en": "Insight",
+        "zh": "Insight · 会话导入与评分"
+      },
+      "description": {
+        "en": "Import DSH sessions into Insight, read back scorecards, and verify Provider Auth and runtime readiness from the plugin configuration page.",
+        "zh": "把 DSH 会话导入 Insight，在 DSH 内读回评分卡，并从插件配置页核对 Provider Auth 与运行环境状态。"
+      },
+      "icon": "icons/insight.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/",
+      "repository": {
+        "url": "https://github.com/guixu-labs/dsh-plugin",
+        "directory": "bundles/dsh-insight-bundle"
+      },
+      "metadata": {
+        "category": "workflow",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "Insight",
+          "session import",
+          "scoring",
+          "DSH",
+          "会话",
+          "评分",
+          "环境检查"
+        ]
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1793072314,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
     }
   ]
 }
