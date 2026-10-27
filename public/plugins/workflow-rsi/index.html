@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>首次使用 | workflow-rsi 操作台文档</title>
+<title>闭环改进用例与首次使用 | workflow-rsi 操作台文档</title>
 <script>try{var t=localStorage.getItem("wrsi-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -22,9 +22,16 @@
   <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">文档</div><a href="index.html" class="on" aria-current="page">首次使用</a><a href="tools.html">工具与命令</a><a href="errors.html">错误与写操作</a><a href="versions.html">组件与版本</a></div></aside>
   <main class="main">
     <article class="doc">
-      <h1>首次使用</h1>
-<p>workflow-rsi 以评测结果驱动对一个 Workflow 的修改，每次修改产出 PR，合入由 Workflow 所在仓决定。本插件是它在 DSH 里的操作台：Agent 只拿到只读工具，用来查看会话、请求、评测资产、Run、闭环与工作计划；写操作只能由人在 <code>/wrsi</code> 命令里带 <code>--confirm</code> 执行。</p>
-<p>由两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。</p></div><h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
+      <h1>用同一个任务，检验 Workflow 的改进</h1>
+<p>workflow-rsi 本体面向负责改进 Workflow 的团队：给它一个库名和版本，它运行完整 Workflow。遇到可修复的停止时，它根据运行证据定位问题，验证对 Workflow 的改动，并向 Workflow 所在仓提出 PR。合入后再用同一个库、同一个版本重跑，检查这次改动是否真正解决了问题。</p>
+<h2 id="when">什么时候用：一个闭环例子</h2>
+<p>例如，你负责让 Workflow 处理 <code>usearch 2.26.2</code>。第一轮运行在某一步停下了。你希望修的是 Workflow 的通用能力，并确认修复对同一个任务有效，而不是只看一次运行的报错。</p>
+<ol><li>workflow-rsi 记录这次 Run 的停止位置和证据，按停止原因决定继续、诊断或交给人处理。</li><li>对于能在允许范围内修复的问题，修复候选经过检查和验证后，以 PR 交给 Workflow 仓维护者评审。</li><li>PR 合入后，用同一个 <code>usearch 2.26.2</code> 再跑一轮；你能看到它是否越过原来的停止点，以及新一轮的结果。</li></ol>
+<p>这样，每一轮为什么停止、改了什么、验证结果如何，都有记录可回查；是否合入仍由 Workflow 仓决定。</p>
+<p class="small">这是工作机制示例，不代表该库版本已在此页面实跑成功。运行前需要准备对应 Workflow 的适配器、仓库与闭环配置；环境故障或需要人工判断时，闭环会停下来等人处理。</p>
+<h2 id="console">DSH 操作台在其中做什么</h2>
+<p>市场收录的是 workflow-rsi 的 DSH 操作台。它连接本体的 <code>wrsi-server</code> 和 <code>wie</code>，让你在 DSH 查看会话、Run、停止记录和工作计划，并对需要人工决定的操作明确确认。真正运行、诊断、验证和提出 PR 的是 workflow-rsi 本体。</p>
+<p>本体与操作台由两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。</p></div><h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
 which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部库，只另外从 registry 安装 TypeScript（用于符号级的改动范围检查）。</p><h2 id="start">启动服务<a class="hash" href="#start" aria-label="本节链接">#</a></h2><p>写一个最小配置 <code>wie.config.json</code>，路径都放在工作目录之外：</p><div class="code"><div class="code-bar"><span>json</span><button type="button" class="copy">复制</button></div><pre><code>{
   &quot;business&quot;: &quot;&lt;业务名&gt;&quot;,
   &quot;actor&quot;: &quot;&lt;你的 id&gt;&quot;,
@@ -38,7 +45,7 @@ which wie wrsi-server</code></pre></div><p>包内自带 workflow-rsi 的内部�
     timeout_ms: 30000</code></pre></div><div class="table"><table><thead><tr><th>配置</th><th>含义</th><th>默认</th></tr></thead><tbody><tr><td><code>server_url</code></td><td>wrsi-server 的 http(s) origin</td><td><code>127.0.0.1:8799</code>（http）</td></tr><tr><td><code>key_file</code></td><td>wrsi-server 的 key 文件绝对路径（可写 <code>~/…</code>）</td><td>无；不配时 HTTP 类功能不可用</td></tr><tr><td><code>wie.argv</code> / <code>wie.config</code></td><td><code>wie</code> 命令前缀与它的配置文件</td><td>无；不配时闭环与工作计划功能不可用</td></tr><tr><td><code>timeout_ms</code></td><td>单次 HTTP 请求或 <code>wie</code> 子进程的超时</td><td>30000</td></tr></tbody></table></div><p>未知字段在插件加载时报错。key 每次请求时从文件读，只放进请求头，输出里出现时替换为 <code>&lt;key&gt;</code>。</p><h2 id="verify">验证<a class="hash" href="#verify" aria-label="本节链接">#</a></h2><p>在操作台 profile 里输入：</p><div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi status</code></pre></div><p>返回业务名、actor 与服务状态即为连通。也可以直接问 Agent「workflow-rsi 现在有哪些会话」，它会调用 <code>wrsi_sessions</code>。服务没启动时插件不影响会话，工具返回 <code>available: false</code> 与原因，见<a href="errors.html">错误与写操作</a>。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="tools.html"><span>下一页</span>工具与命令</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#when">闭环例子</a><a href="#console">DSH 操作台</a><a href="#install">安装 workflow-rsi 本体</a><a href="#start">启动服务</a><a href="#plugin">安装插件</a><a href="#config">配置</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">workflow-rsi 操作台 · Apache-2.0 · 维护：cacheline</footer>

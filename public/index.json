@@ -145,8 +145,8 @@
         "zh": "workflow-rsi 操作台"
       },
       "description": {
-        "en": "Read-only console for workflow-rsi in DSH: the agent inspects sessions, requests, evaluation assets, runs, closed loops and work plans; writes run only when a person confirms /wrsi … --confirm. Requires the workflow-rsi server from @fuxi-ailabs/workflow-rsi.",
-        "zh": "在 DSH 里查看 workflow-rsi：Agent 只用只读工具查会话、请求、评测资产、Run、闭环与工作计划，写操作只由人在 /wrsi … --confirm 执行。需要先安装并启动 @fuxi-ailabs/workflow-rsi 提供的 wrsi-server。"
+        "en": "Give workflow-rsi a library and version: it runs the Workflow, diagnoses fixable stops, proposes a verified change as a PR, and reruns the same input after merge. This DSH console shows the loop and lets a person confirm decisions.",
+        "zh": "给 workflow-rsi 一个库名和版本：它运行 Workflow，定位可修复的停止原因，验证改动并提出 PR；合入后用同一输入重跑。DSH 操作台用于查看闭环和确认人工决策。"
       },
       "icon": "icons/workflow-rsi.svg",
       "author": "cacheline",
