@@ -1,5 +1,7 @@
 # AgentLineage 介绍页材料
 
+安装指引已更新为 0.1.0-alpha.4：Windows x64 随包提供运行环境，并通过 DSH 同源认证打开 Viewer。下方录像和旧版实录依据保留原版本信息，不作为新版安装验证结果。
+
 材料对应市场索引里的插件 `0.1.0-alpha.3`，来源固定为 AgentLineage 提交 `bf28b828710f1c146895bdfb63108934edbd1fe5`。2026-10-26 已在真实 DSH 0.2.1-rc.2、Core 0.1.0a10 和 DeepSeek-V4.1-Flash 中完成最小例子，并录制了约 52 秒短片。
 
 ## 已准备

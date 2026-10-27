@@ -58,8 +58,8 @@
         "zh": "AgentLineage · 会话证据与溯源"
       },
       "description": {
-        "en": "Trace file changes to native agent sessions, inspect evidence, and open the lineage viewer.",
-        "zh": "追溯文件改动来源，查询原生会话证据并打开溯源视图。"
+        "en": "Trace file changes to native sessions and evidence. Includes a local analysis runtime for Windows x64.",
+        "zh": "追溯文件改动来源，查询会话证据并打开溯源视图。Windows x64 随插件安装本地分析环境。"
       },
       "icon": "icons/agentlineage.svg",
       "author": "Fuxi AI Labs",
@@ -84,12 +84,12 @@
       },
       "versions": [
         {
-          "version": "0.1.0-alpha.3",
-          "publishTimestamp": 1792412242,
+          "version": "0.1.0-alpha.4",
+          "publishTimestamp": 1793071870,
           "source": {
             "type": "git",
             "url": "https://github.com/fuxi-ailabs/AgentLineage",
-            "commit": "bf28b828710f1c146895bdfb63108934edbd1fe5",
+            "commit": "211057da3b42eabbf92a7f723ce8c3fa46ce05ef",
             "path": "integrations/dsh"
           },
           "engines": {

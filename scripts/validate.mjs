@@ -38,8 +38,8 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
 ])], ['plugins/ecat', new Set(['index.html'])], ['plugins/dt-verify', new Set(['index.html', 'styles.css'])]]);
 // Exact documentation URLs are reviewed alongside each page, never inferred from its content.
 const publicLinks = new Map([['plugins/agentlineage', new Set([
-  'https://github.com/fuxi-ailabs/AgentLineage/blob/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh/README.md',
-  'https://github.com/fuxi-ailabs/AgentLineage/tree/bf28b828710f1c146895bdfb63108934edbd1fe5/integrations/dsh',
+  'https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md',
+  'https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh',
 ])], ['templates/plugin-page', new Set([
   'https://github.com/fuxi-ailabs/dsh-plugin-market/blob/main/docs/plugin-page-template.md',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
