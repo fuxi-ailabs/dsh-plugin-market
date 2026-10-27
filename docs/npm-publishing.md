@@ -5,7 +5,7 @@
 | 组件 | 组织包名 | 当前迁移版本 | 预发布标签 | 原包维护者 |
 |---|---|---|---|---|
 | ECAT | `@fuxi-ailabs/dsh-ecat` | `0.1.0-alpha.1` | `alpha` | `thomsonhuawei` |
-| DT Verify | `@fuxi-ailabs/dsh-dt-verify` | `0.1.0-dev.20` | `next` | `tao_12232` |
+| DT Verify | `@fuxi-ailabs/dsh-dt-verify` | `0.1.0-dev.21` | `next` | `tao_12232` |
 
 ## 组件侧
 
@@ -18,7 +18,7 @@
 ```sh
 npm whoami --registry=https://registry.npmjs.org/
 npm publish ./fuxi-ailabs-dsh-ecat-0.1.0-alpha.1.tgz --registry=https://registry.npmjs.org/ --access public --tag alpha
-npm publish ./fuxi-ailabs-dsh-dt-verify-0.1.0-dev.20.tgz --registry=https://registry.npmjs.org/ --access public --tag next
+npm publish ./fuxi-ailabs-dsh-dt-verify-0.1.0-dev.21.tgz --registry=https://registry.npmjs.org/ --access public --tag next
 ```
 
 ## 市场侧

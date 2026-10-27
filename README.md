@@ -19,14 +19,26 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
-| DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.20` | `^0.2.1-rc.2` |
+| DT 验证组件（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.21` | `^0.2.1-rc.2` |
+| Insight · 会话导入与评分 | `1.0.1` | `^0.2.1-rc.2` |
+| Session Audit · 会话审计 | `1.0.1` | `^0.2.1-rc.2` |
+| Static Check · Skill 静态检查 | `1.0.0` | `^0.2.1-rc.2` |
+| Skill Eval · Skill 评测 | `1.0.0` | `^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
-Crowd Memory 是 DSH 记忆插件：工具失败、会话开始或进入工作流阶段时，把以前同类问题的解决记录推送给 Agent，附出处和命中理由。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)。
+Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验，按任务结果判断可信后，提供给其他会话、同一 workflow 里的其他 Agent 和团队复用，模型不需要重新训练。适合长期在同一批项目上工作、workflow 反复运行或多人同时用 Agent 做同类任务的场景；开关记忆配对评测中，同样的模型和预算下完成率从 39% 提高到 78%。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)。
 workflow-rsi 让 Workflow 根据自己的运行结果持续改进：Run 停下后，它按停止证据定位原因，对能修的问题生成改动、验证通过后以 PR 提交到 Workflow 所在的仓，合入后用同一份输入重跑；人负责审 PR 和处理需要人决定的停止。适合同一个 Workflow 反复处理同类任务、经常停在中间某一步的场景；在鸿蒙 PC 真机上的 memray 1.20.0 闭环中，它提出的修复合入后，重跑越过了原来的停止点。市场收录的是 DSH 操作台，使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
-DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。
+Insight 把当前 DSH 会话导入 Insight，读回评分卡，并在插件配置页检查 Provider Auth、Insight CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。
+
+Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，并在右侧只读报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
+
+Static Check 在 DSH 工作台中检查 Skill 和 Agent 声明，组合 SIFT 的 11 项规范检查、安全扫描与可选 AI 内容评审，并在插件配置页检查 SIFT、扫描器、Provider Auth 和服务状态。参见 [Static Check 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/static-check/)。
+
+Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基线，运行 Eval/Trigger 和真实任务，并生成 Gate 与 HTML 报告。参见 [Skill Eval 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/)。
+
+DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程并汇总证据，只用于鸿蒙 Stage 工程；当前为开发候选（预览版）。参见 [插件介绍与使用步骤](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.20 在 DSH 运行中从市场安装后，“子智能体委派工具 · dt-verify.subagent”会显示异常（重启 DSH 后恢复），0.1.0-dev.21 已修复。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装 dev.20 的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.21；或先退出 DSH，执行 `dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.21` 再启动。
 
 ## 版本与兼容性
 

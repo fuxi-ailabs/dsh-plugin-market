@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Insight DSH 插件：导入当前会话、读取评分卡，并在插件配置页检查运行环境。">
+  <meta name="color-scheme" content="light dark">
+  <title>Insight · DSH 插件文档</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><img class="brand-icon" src="assets/icon.svg" alt=""><span>Insight</span></a>
+    <nav aria-label="文档导航">
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#limits">限制</a>
+    </nav>
+    <a class="npm-link" href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle">npm ↗</a>
+  </header>
+
+  <main id="top" class="layout">
+    <article class="doc">
+      <header class="hero">
+        <div class="hero-title"><img src="assets/icon.svg" alt="" width="58" height="58"><div><p class="eyebrow">DSH PLUGIN · v1.0.1</p><h1>Insight</h1></div></div>
+        <p class="lede">把当前 DSH 会话导入 Insight，在 DSH 内读回评分卡，并从插件配置页检查 Provider Auth、Insight CLI 和服务状态。</p>
+        <dl class="meta">
+          <div><dt>DSH</dt><dd><code>0.2.1-rc.2</code></dd></div>
+          <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
+          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-insight-bundle</code></dd></div>
+        </dl>
+      </header>
+
+      <section id="features">
+        <h2>功能</h2>
+        <ul>
+          <li><code>/insight</code>：导出当前会话（含子会话）、导入 Insight，并打开会话页。</li>
+          <li><code>/score</code>：读取、重算或语义评审评分卡，并核对导入覆盖度。</li>
+          <li><strong>会话页 Insight 按钮</strong>：一键刷新当前会话并打开 Insight 页面。</li>
+          <li><strong>打分 tag</strong>：导入后直接读取评分卡，查看总分和维度分数。</li>
+          <li><strong>环境检查</strong>：在 Insight Bundle 配置页检查 Provider Auth 和 Insight 服务状态。</li>
+        </ul>
+      </section>
+
+      <section id="install">
+        <h2>安装</h2>
+        <div class="npm-callout">
+          <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-insight-bundle</code></div>
+          <a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle">查看 npm 页面 ↗</a>
+        </div>
+        <h3>1. 准备运行环境</h3>
+        <ul>
+          <li>DSH <code>0.2.1-rc.2</code> 或同一兼容范围。</li>
+          <li>Node.js 24 或更高版本。</li>
+          <li>Insight CLI 已安装，并且 Insight 服务可访问。</li>
+          <li>需要使用 <code>/score --semantic</code> 时，准备好可用的 provider 凭据。</li>
+        </ul>
+
+        <h3>2. 从市场安装</h3>
+        <p>在 DSH 的插件市场中添加索引，找到 <strong>Insight · 会话导入与评分</strong> 并安装。</p>
+        <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+        <p>也可以在命令行安装当前版本：</p>
+        <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-insight-bundle@1.0.1</code></pre>
+        <p>安装完成后重启 DSH，让新的 Host 和 Client 模块重新加载。</p>
+      </section>
+
+      <section id="health">
+        <h2>环境检查</h2>
+        <p>打开「插件」→ Insight Bundle，在配置区检查当前依赖。检查结果会区分正常、提醒和异常，并提供安装指引或 Insight 启动/关闭操作。</p>
+        <figure class="shot">
+          <img src="assets/plugin-config.jpg" alt="Insight Bundle 配置页显示 Provider Auth 正常，Insight CLI 可用且服务运行中。" loading="lazy">
+          <figcaption>Insight 配置页会检查 Provider Auth、Insight CLI 和 Insight 服务。</figcaption>
+        </figure>
+        <table>
+          <thead><tr><th>检查项</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>Provider Auth</td><td>检查凭据来源是否已配置；用于语义评审和共享认证。</td></tr>
+            <tr><td>Insight</td><td>检查 CLI 是否可执行、服务是否在运行，并提供启动/关闭操作。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="usage">
+        <h2>使用</h2>
+        <h3>导入当前会话</h3>
+        <p>在 DSH 会话页点击右上角的 <strong>Insight</strong> 按钮，或执行命令：</p>
+        <pre><code>/insight</code></pre>
+        <figure class="shot">
+          <img src="assets/session-button.jpg" alt="DSH 会话页右上角的 Insight 按钮和导入后出现的打分 tag，对话正文已模糊。" loading="lazy">
+          <figcaption>点击 <strong>Insight</strong> 导入当前会话；导入完成后出现 <strong>打分</strong> tag。用户会话正文已模糊处理。</figcaption>
+        </figure>
+        <p>命令会导出当前会话、调用 Insight 导入接口，并打开对应会话页。常用选项：</p>
+        <pre><code>/insight --status
+/insight --force
+/insight --no-subagents
+/insight &lt;sid&gt;</code></pre>
+        <p>点击 Insight 按钮并完成导入后，可以在 Insight 的 Score 页面查看完整评分卡。</p>
+        <figure class="shot">
+          <img src="assets/insight-score.jpg" alt="Insight 的 Score 页面，展示总分、否决项、六维能力图和维度明细。" loading="lazy">
+          <figcaption>Insight <strong>Score</strong> 页面：总分、否决项、覆盖度、六维能力图和维度明细。</figcaption>
+        </figure>
+
+        <h3>查看 DSH 内的评分</h3>
+        <p>导入后点击会话页右上角的 <strong>打分</strong> tag，可以在 DSH 内直接读取评分卡。</p>
+        <pre><code>/score</code></pre>
+        <figure class="shot">
+          <img src="assets/score-card.jpg" alt="DSH 会话页右侧的 Insight 评分卡，显示总分、覆盖度与六个维度分数，对话正文已模糊。" loading="lazy">
+          <figcaption>点击 <strong>打分</strong> 后显示评分卡；用户会话正文已模糊处理。</figcaption>
+        </figure>
+        <p>常用选项：</p>
+        <pre><code>/score --recalc
+/score --semantic
+/score --status
+/score --no-cover</code></pre>
+        <p><code>--semantic</code> 会调用大模型并消耗 token，其他读卡和重算路径不会自动调用 LLM。</p>
+      </section>
+
+      <section id="limits">
+        <h2>使用条件与限制</h2>
+        <ul>
+          <li>Insight 是外部运行环境，Bundle 不会自动安装 CLI 或启动服务。</li>
+          <li>评分结果受会话导入覆盖度、Insight 服务版本和评分配置影响。</li>
+          <li>语义评审需要 provider 凭据，并会产生模型调用费用。</li>
+          <li>导入和评分接口以已经验证的 Insight 版本为准；升级服务后应重新检查兼容性。</li>
+        </ul>
+      </section>
+
+      <section id="links">
+        <h2>相关链接</h2>
+        <ul class="links">
+          <li><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle">npm 包与 README ↗</a></li>
+          <li><a href="https://github.com/guixu-labs/dsh-plugin">插件源码仓库 ↗</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <aside class="toc" aria-label="本页目录">
+      <strong>本页目录</strong>
+      <a href="#features">功能</a>
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#limits">使用条件与限制</a>
+      <a href="#links">相关链接</a>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>Fuxi AI Labs · Insight DSH Plugin</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+</body>
+</html>

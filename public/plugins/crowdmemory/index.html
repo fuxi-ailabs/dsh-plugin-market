@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>首次使用 | Crowd Memory 文档</title>
+<meta name="description" content="Crowd Memory 是 DSH 的群体记忆：每个 Agent 的经验经过结果核验后，提供给其他会话、workflow 中的其他 Agent 和团队复用。">
+<title>Crowd Memory：DSH 的群体记忆</title>
 <script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <link rel="stylesheet" href="docs.css">
 <script src="docs.js" defer></script>
@@ -19,17 +20,47 @@
   <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
 </header>
 <div class="layout">
-  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html" class="on" aria-current="page">首次使用</a><a href="versions.html">组件与版本</a><a href="configuration.html">配置</a><a href="errors.html">错误码</a></div></aside>
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html" class="on" aria-current="page">介绍与安装</a><a href="versions.html">组件与版本</a><a href="configuration.html">配置</a><a href="errors.html">错误码</a></div></aside>
   <main class="main">
     <article class="doc">
-      <h1>首次使用</h1>
-<p>Crowd Memory 是 DeepSeek Harness（DSH）的记忆插件。Agent 在会话中遇到失败并修好后，Crowd Memory 记下这次的现象和做法；之后再遇到同样的失败，它在下一步之前把这条记录推送给 Agent，并附上出处和命中理由。</p>
-<p>Crowd Memory 由两个 npm 包组成：</p>
+      <h1>Crowd Memory</h1>
+<p>Crowd Memory 是 DeepSeek Harness（DSH）的群体记忆。每个 Agent 在工作中得到的经验，包括任务是怎么完成的、在哪一步失败、后来怎样通过，都会被记录下来，按任务结果判断是否可信，再提供给其他会话、同一 workflow 里的其他 Agent，以及团队里其他人的 Agent。</p>
+<p>模型本身不需要重新训练。经验积累在记忆里，使用的 Agent 和任务越多，可以复用的经验就越多。</p>
+
+<h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>经验在 Agent 之间流动</td><td>一个 Agent 得到的经验，后续的会话、workflow 的下一次运行、其他阶段的子 Agent 都可以直接使用</td></tr><tr><td>不需要人整理</td><td>Agent 自己记录、自己检索；系统按任务结果判断经验是否可信，失败、被反驳或被替代的经验自动降权</td></tr><tr><td>在需要的时候出现</td><td>会话开始、工具失败后、workflow 进入某个阶段时，在 Agent 的下一步之前给出相关经验，并附上出处和命中理由</td></tr><tr><td>效果可以度量</td><td>按任务统计 Agent 是否用上了经验，以及用上之后原来失败的步骤是否通过</td></tr><tr><td>不影响现有工作</td><td>记忆服务不可用或超时时，DSH 会话照常执行，只是这一步不带记忆</td></tr></tbody></table></div>
+
+<h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>场景</th><th>会积累下来的经验</th></tr></thead><tbody><tr><td>长期在同一批项目上工作，例如移植、构建、测试</td><td>项目的构建方式、环境差异、常见失败及其解决方法</td></tr><tr><td>同一个 workflow 反复运行，由多个子 Agent 分阶段完成</td><td>每个阶段怎样才算完成，前几次运行在哪里卡住、怎样通过</td></tr><tr><td>多人、多台机器同时用 Agent 做同类任务</td><td>一个人的 Agent 解决过的问题，其他人的 Agent 不必再解决一次（团队共享为内部预览）</td></tr></tbody></table></div>
+<p>一次性任务、以后不会再遇到同类情况的工作，用处不大。</p>
+
+<h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
+<p>同样的模型、同样的预算，带上之前积累的经验后，完成率提高了一倍。我们把每个任务各运行两次，一次开记忆、一次关记忆，每次最多 10 次工具调用、300 秒：</p>
+<div class="table"><table><thead><tr><th>条件</th><th>完成</th><th>完成率</th></tr></thead><tbody><tr><td>关记忆</td><td>47 / 120</td><td>39.2%</td></tr><tr><td>开记忆</td><td>94 / 120</td><td>78.3%</td></tr></tbody></table></div>
+<p>10 类任务中 9 类提升，1 类持平。这组任务是合成任务；预算放宽到 30 次工具调用后，关记忆也能完成；真实业务任务还没有测。完整条件见<a href="evaluation.html">评测</a>。</p>
+<p>在您自己的环境里，记忆服务按任务记录经验是否被用上、用上后失败的步骤是否通过。数据只保存在本机，查看方法见<a href="stats.html">使用统计</a>。</p>
+
+<h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
+<p><strong>workflow 的下一次运行。</strong>一个“构建 → 验证”的 workflow，第一次运行时构建阶段失败，负责构建的子 Agent 找到原因后记录下来。第二次运行进入构建阶段时，新的子 Agent 先收到这条经验，照做后构建通过，验证阶段也通过。这是在 DSH 桌面版上实测的结果。</p>
+<p><strong>另一个会话遇到同样的情况。</strong>一个会话在链接时遇到 <code>ld: undefined symbol deflate</code>，查明原因后记录下来。之后另一个会话遇到同样的报错，命令失败后、下一步之前，Agent 收到：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>[1] Link zlib with -lz
+出处：本机自动确认 · zlib-port
+命中：错误签名命中、代码符号 deflate、工具名 bash
+现象：ld: undefined symbol deflate
+做法：add -lz after the object files</code></pre></div>
+<p>Agent 根据出处和命中理由判断这条经验适用于当前项目，然后采用。</p>
+<p><strong>评测中的一对运行。</strong>一个测试工具默认按 latin-1 读取 UTF-8 测试数据，测试报 <code>E112 value mismatch</code>。之前的一次会话已经查明原因并记录。两次运行的对比：</p>
+<div class="table"><table><thead><tr><th>关记忆</th><th>开记忆</th></tr></thead><tbody><tr><td>读了 7 次源码、执行了 3 次命令，仍未找到原因；10 次工具调用用完，任务未完成</td><td>会话开始时和第一次失败后各收到一次这条经验，按经验修改配置；4 次工具调用完成</td></tr></tbody></table></div>
+
+<h2 id="scope">共享范围<a class="hash" href="#scope" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>范围</th><th>谁能用到</th><th>0.1.0 状态</th></tr></thead><tbody><tr><td>本机</td><td>同一台机器上的所有 DSH 会话</td><td>可用</td></tr><tr><td>workflow</td><td>同一个 workflow 的后续运行和各阶段的子 Agent</td><td>可用，需选用 <code>workflow-default</code> 模板，见<a href="workflow.html">工作流记忆</a></td></tr><tr><td>团队</td><td>不同机器、不同成员；经验先经过自动回放核验再共享，不需要人工审核</td><td>内部预览，见<a href="team.html">团队记忆</a></td></tr></tbody></table></div>
+
+<h2 id="install">安装记忆服务<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
+<p>Crowd Memory 由 DSH 插件和本机记忆服务两个 npm 包组成：</p>
 <div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/crowdmemory-dsh-adapter</code> 0.1.0</td></tr><tr><td>本机记忆服务</td><td><code>@fuxi-ailabs/crowdmemory-runtime</code> 0.1.0</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.0-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.18，Python ≥ 3.10</td></tr></tbody></table></div>
 <p class="small">(1) 已测试 0.1.6-alpha.2、0.2.0-rc.2（含桌面版）和 0.2.1-rc.2。详见<a href="versions.html">组件与版本</a>。</p>
 <div class="note"><strong>注意</strong><p>插件和记忆服务需要以同一个系统用户运行。记忆服务的令牌文件权限为 0600，其他用户读不到。</p></div>
 <p>暂不支持原生 Windows。使用 WSL 时，请将 DSH 和记忆服务都安装、运行在同一个 WSL 发行版中，并使用同一个 Linux 用户。</p>
-<h2 id="install">安装记忆服务<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
 <div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/crowdmemory-runtime
 crowdmemory-runtime install</code></pre></div>
 <p><code>install</code> 会校验包内每个文件的 SHA-256，然后在 <code>~/.crowdmemory</code> 下建一个独立的 Python 虚拟环境并离线安装，不访问网络。首次安装时生成配置文件 <code>~/.crowdmemory/host-config.json</code>。</p>
@@ -59,7 +90,7 @@ crowdmemory-runtime install</code></pre></div>
 <p>推送的格式和规则见<a href="push.html">推送</a>。记忆服务没有运行时，插件不影响会话：不推送，记忆工具返回「记忆暂不可用」。</p>
       <nav class="pager" aria-label="翻页"><a class="pg next" href="versions.html"><span>下一页</span>组件与版本</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#what">有什么用</a><a href="#when">什么时候用</a><a href="#benefit">收益</a><a href="#examples">例子</a><a href="#scope">共享范围</a><a href="#install">安装记忆服务</a><a href="#start">启动</a><a href="#plugin">安装插件</a><a href="#verify">验证</a></nav>
   </main>
 </div>
 <footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Session Audit DSH 插件：用 SIFT 审计会话执行轨迹，在 DSH 内查看审计报告和证据引用。">
+  <meta name="color-scheme" content="light dark">
+  <title>Session Audit · DSH 插件文档</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><img class="brand-icon" src="assets/icon.svg" alt=""><span>Session Audit</span></a>
+    <nav aria-label="文档导航">
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#report">报告面板</a>
+      <a href="#limits">限制</a>
+    </nav>
+    <a class="npm-link" href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle">npm ↗</a>
+  </header>
+
+  <main id="top" class="layout">
+    <article class="doc">
+      <header class="hero">
+        <div class="hero-title"><img src="assets/icon.svg" alt="" width="58" height="58"><div><p class="eyebrow">DSH PLUGIN · v1.0.1</p><h1>Session Audit</h1></div></div>
+        <p class="lede">选择一条 DSH 会话，把真实执行轨迹转换为 SIFT 审计输入，查看 finding、证据和 turn 引用，并在右侧面板浏览完整报告。</p>
+        <dl class="meta">
+          <div><dt>DSH</dt><dd><code>0.2.1-rc.2</code></dd></div>
+          <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
+          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-audit-bundle</code></dd></div>
+        </dl>
+      </header>
+
+      <section id="features">
+        <h2>功能</h2>
+        <ul>
+          <li><strong>会话审计工作台</strong>：从 Session 轨迹识别 Skill、Workflow 和子 Agent。</li>
+          <li><strong>三类审计</strong>：Skill、Root Workflow 和 Agent 声明审计。</li>
+          <li><strong>真实报告</strong>：复用 SIFT 生成的 HTML 报告和结构化 JSON。</li>
+          <li><strong>右侧报告面板</strong>：展示 summary、finding、证据和 turn 引用。</li>
+          <li><strong>环境检查</strong>：检查 SIFT、Provider Auth 和审计服务。</li>
+        </ul>
+      </section>
+
+      <section id="install">
+        <h2>安装</h2>
+        <div class="npm-callout">
+          <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-audit-bundle</code></div>
+          <a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle">查看 npm 页面 ↗</a>
+        </div>
+        <h3>1. 准备运行环境</h3>
+        <ul>
+          <li>DSH <code>0.2.1-rc.2</code> 或同一兼容范围。</li>
+          <li>Node.js 24 或更高版本。</li>
+          <li><code>sift</code> 命令已安装并在 <code>PATH</code> 中。</li>
+          <li>需要指令精炼、headline 或 AI critique 时，准备 provider 凭据。</li>
+        </ul>
+        <h3>2. 从市场安装</h3>
+        <p>在 DSH 的插件市场中添加索引，找到 <strong>Session Audit</strong> 并安装。</p>
+        <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+        <p>也可以直接安装当前版本：</p>
+        <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-audit-bundle@1.0.1</code></pre>
+        <p>安装后重启 DSH。</p>
+      </section>
+
+      <section id="health">
+        <h2>环境检查</h2>
+        <p>在「插件」→ Session Audit 的配置页检查审计依赖。检查会覆盖 SIFT、Provider Auth 和 <code>siftAudit</code> 服务。</p>
+        <table>
+          <thead><tr><th>检查项</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>SIFT</td><td>检查 <code>sift</code> 是否可执行及版本；缺失时显示安装指引。</td></tr>
+            <tr><td>Provider Auth</td><td>检查可用的 provider 凭据；审计的确定性部分不依赖 LLM。</td></tr>
+            <tr><td>Audit Service</td><td>检查 <code>siftAudit</code> 是否已由 Host 挂载。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="usage">
+        <h2>使用</h2>
+        <h3>从工作台开始</h3>
+        <ol>
+          <li>打开左侧「会话审计」。</li>
+          <li>把 Session 拖入工作台，或在 Session 行的「...」菜单中选择「审计会话」。</li>
+          <li>选择 Skill、Workflow 或 Agent，确认参数后开始审计。</li>
+          <li>审计完成后查看报告与历史记录。</li>
+        </ol>
+        <figure class="shot">
+          <img src="assets/audit-workbench.jpg" alt="Session Audit 工作台的历史审计列表和审计报告区域，报告正文已模糊。" loading="lazy">
+          <figcaption>审计工作台：同一 Session 的历次报告、摘要、运行时间与报告入口。报告正文已模糊处理。</figcaption>
+        </figure>
+        <h3>命令行</h3>
+        <pre><code>/sift audit --kind skill --skill &lt;name&gt;
+/sift audit --kind root
+/sift audit --kind agent --agent &lt;label&gt;</code></pre>
+        <p>常用选项：</p>
+        <pre><code>/sift audit &lt;path&gt; --kind skill|root|agent
+--sid &lt;sid&gt;
+--no-subagents
+--no-refine
+--no-headline</code></pre>
+      </section>
+
+      <section id="report">
+        <h2>右侧报告面板</h2>
+        <p>在审计报告卡点击「查看审计详情」，会打开目标 Session 并显示右侧审计报告面板。</p>
+        <figure class="shot">
+          <img src="assets/audit-flyout.jpg" alt="DSH 右侧审计报告面板，显示 PASS、FAIL 等摘要和 finding 列表，会话与报告正文已模糊。" loading="lazy">
+          <figcaption>报告面板支持“有引用 / 全部”切换，展示 finding 和 turn 引用。会话与报告正文已模糊处理。</figcaption>
+        </figure>
+        <p>当前报告面板是只读展示：</p>
+        <ul>
+          <li>不切换原生 Trajectory View。</li>
+          <li>不执行 finding 记录聚焦。</li>
+          <li>不修改 Conversation View。</li>
+          <li>T tag 只显示引用，不支持点击跳转。</li>
+        </ul>
+      </section>
+
+      <section id="limits">
+        <h2>使用条件与限制</h2>
+        <ul>
+          <li>SIFT 是外部运行环境，Bundle 不会自动安装 <code>sift</code>。</li>
+          <li>审计质量依赖 Session 证据完整性、子会话可读性和 Skill 声明位置。</li>
+          <li>历史记录保存在 <code>~/.dsh-insight/dsh-audit/&lt;sid&gt;/</code>。</li>
+          <li>报告面板当前不做 Trajectory 定位；后续需要 DSH 上游提供公开桥接 API。</li>
+        </ul>
+      </section>
+
+      <section id="links">
+        <h2>相关链接</h2>
+        <ul class="links">
+          <li><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle">npm 包与 README ↗</a></li>
+          <li><a href="https://github.com/guixu-labs/dsh-plugin">插件源码仓库 ↗</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <aside class="toc" aria-label="本页目录">
+      <strong>本页目录</strong>
+      <a href="#features">功能</a>
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#report">右侧报告面板</a>
+      <a href="#limits">使用条件与限制</a>
+      <a href="#links">相关链接</a>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>Fuxi AI Labs · Session Audit DSH Plugin</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+</body>
+</html>

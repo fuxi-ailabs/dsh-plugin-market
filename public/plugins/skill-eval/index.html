@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Skill Eval DSH 插件：在 DSH 中构建评测题集、检查覆盖率、运行 Eval/Trigger，并生成 Gate 与报告。">
+  <meta name="color-scheme" content="light dark">
+  <title>Skill Eval · DSH 插件文档</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top"><img class="brand-icon" src="assets/icon.svg" alt=""><span>Skill Eval</span></a>
+    <nav aria-label="文档导航">
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#workflow">评测流程</a>
+      <a href="#limits">限制</a>
+    </nav>
+    <a class="npm-link" href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle">npm ↗</a>
+  </header>
+
+  <main id="top" class="layout">
+    <article class="doc">
+      <header class="hero">
+        <div class="hero-title"><img src="assets/icon.svg" alt="" width="58" height="58"><div><p class="eyebrow">DSH PLUGIN · v1.0.0</p><h1>Skill 评测</h1></div></div>
+        <p class="lede">从 Skill 列表开始，构建评测题集、检查覆盖率与基线，运行 Eval / Trigger，并汇总 Gate 和 HTML 报告。</p>
+        <dl class="meta">
+          <div><dt>DSH</dt><dd><code>0.2.1-rc.2</code></dd></div>
+          <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
+          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-eval-bundle</code></dd></div>
+        </dl>
+      </header>
+
+      <section id="features">
+        <h2>功能</h2>
+        <ul>
+          <li><strong>Skill 工作台</strong>：浏览 System、Global、工作区和手动路径中的 Skill。</li>
+          <li><strong>题集构建</strong>：初始化、追加题目、生成配置，并查看 <code>evals.json</code> 预览。</li>
+          <li><strong>质量与基线</strong>：检查覆盖率、静态审阅题集并冻结基线。</li>
+          <li><strong>执行验证</strong>：支持 Skill A/B Eval、Trigger 测试和真实任务 Run。</li>
+          <li><strong>判决与报告</strong>：执行 Gate 并生成可浏览的静态 HTML 报告。</li>
+          <li><strong>环境检查</strong>：在插件配置页检查 SIFT、Provider Auth 和评测服务。</li>
+        </ul>
+      </section>
+
+      <section id="install">
+        <h2>安装</h2>
+        <div class="npm-callout">
+          <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-eval-bundle</code></div>
+          <a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle">查看 npm 页面 ↗</a>
+        </div>
+        <h3>1. 准备运行环境</h3>
+        <ul>
+          <li>DSH <code>0.2.1-rc.2</code> 或同一兼容范围。</li>
+          <li>Node.js 24 或更高版本。</li>
+          <li><code>sift</code> 命令已安装并在 <code>PATH</code> 中。</li>
+          <li>生成题目、执行评测或 AI 语义评审时，准备可用的 Provider 凭据。</li>
+        </ul>
+        <h3>2. 从市场安装</h3>
+        <p>在 DSH 的插件市场中添加索引，找到 <strong>Skill Eval · Skill 评测</strong> 并安装。</p>
+        <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+        <p>也可以直接安装当前版本：</p>
+        <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-eval-bundle@1.0.0</code></pre>
+        <p>安装后重启 DSH。</p>
+      </section>
+
+      <section id="health">
+        <h2>环境检查</h2>
+        <p>在「插件」→ Skill Eval 的配置页检查运行依赖。检查只读取环境，不修改插件配置。</p>
+        <table>
+          <thead><tr><th>检查项</th><th>说明</th></tr></thead>
+          <tbody>
+            <tr><td>SIFT</td><td>必需。检查 <code>sift</code> 是否可执行，并提供缺失时的安装指引。</td></tr>
+            <tr><td>Provider Auth</td><td>可选。生成题目、调用模型和 AI 语义评审需要可用凭据。</td></tr>
+            <tr><td>Eval Suite Service</td><td>检查 Host 是否已挂载 <code>evalSuite</code> 服务。</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="usage">
+        <h2>使用</h2>
+        <ol>
+          <li>打开左侧「Skill评测」。</li>
+          <li>选择已有 Skill，或通过「添加路径」加入 Skill 目录。</li>
+          <li>在右侧从「题集构建」开始，逐步完成题集、基线、执行和报告。</li>
+          <li>也可以使用「试跑」快速验证 Skill，或在命令行执行完整的 <code>/eval-suite</code> 工作流。</li>
+        </ol>
+        <figure class="shot">
+          <img src="assets/skill-eval-workbench.jpg" alt="Skill Eval 工作台，左侧展示 Skill 列表，右侧展示题集构建、质量与基线、执行验证、判决与报告四个阶段。" loading="lazy">
+          <figcaption><strong>Skill Eval 工作台</strong>：左侧选择 Skill，右侧按题集构建、质量与基线、执行验证、判决与报告四步推进。截图使用演示 Skill。</figcaption>
+        </figure>
+      </section>
+
+      <section id="workflow">
+        <h2>评测流程</h2>
+        <table>
+          <thead><tr><th>阶段</th><th>能力</th></tr></thead>
+          <tbody>
+            <tr><td>1. 题集构建</td><td>初始化 <code>evals.json</code>、追加题目、生成配置并预览题目。</td></tr>
+            <tr><td>2. 质量与基线</td><td>检查覆盖率、静态审阅题集，并冻结后续比较使用的基线。</td></tr>
+            <tr><td>3. 执行验证</td><td>执行 Skill A/B Eval、Trigger 测试或真实任务 Run。</td></tr>
+            <tr><td>4. 判决与报告</td><td>运行 Gate，查看通过情况并生成 HTML 报告。</td></tr>
+          </tbody>
+        </table>
+        <h3>常用命令</h3>
+        <pre><code>/eval-suite init &lt;skill-path&gt;
+/eval-suite coverage &lt;skill-path&gt;
+/eval-suite inspect &lt;evals-path&gt;
+/eval-suite eval &lt;skill-path&gt; --evals &lt;evals-path&gt;
+/eval-suite trigger &lt;skill-path&gt; --evals &lt;evals-path&gt;
+/eval-suite run &lt;skill-path&gt; --task "&lt;task&gt;"
+/eval-suite gate &lt;benchmark-path&gt;
+/eval-suite report &lt;workspace&gt;</code></pre>
+        <p>Agent 声明可使用 <code>--kind agent</code> 进行绝对质量评测。</p>
+      </section>
+
+      <section id="limits">
+        <h2>使用条件与限制</h2>
+        <ul>
+          <li>实际试题生成、模型调用和执行验证会消耗时间与模型额度。</li>
+          <li>评测质量取决于 Skill 声明、题集覆盖、任务输入和执行环境。</li>
+          <li><code>inspect</code> 只静态审阅 <code>evals.json</code>，不会产生通过或失败判决。</li>
+          <li>Gate 与报告需要已有执行产物；不要用未完成的运行结果判断 Skill 质量。</li>
+        </ul>
+      </section>
+
+      <section id="links">
+        <h2>相关链接</h2>
+        <ul class="links">
+          <li><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle">npm 包与 README ↗</a></li>
+          <li><a href="https://github.com/guixu-labs/dsh-plugin">插件源码仓库 ↗</a></li>
+        </ul>
+      </section>
+    </article>
+
+    <aside class="toc" aria-label="本页目录">
+      <strong>本页目录</strong>
+      <a href="#features">功能</a>
+      <a href="#install">安装</a>
+      <a href="#health">环境检查</a>
+      <a href="#usage">使用</a>
+      <a href="#workflow">评测流程</a>
+      <a href="#limits">限制</a>
+      <a href="#links">相关链接</a>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <span>Fuxi AI Labs · Skill Eval DSH Plugin</span>
+    <a href="#top">回到顶部 ↑</a>
+  </footer>
+</body>
+</html>
