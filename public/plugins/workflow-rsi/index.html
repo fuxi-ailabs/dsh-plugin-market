@@ -27,6 +27,18 @@
 <p>找问题、写改动、验证、重跑都由 workflow-rsi 完成，人负责审 PR，以及处理它判断需要人决定的停止。每一轮为什么停、改了什么、验证结果如何，都有记录可以回查。</p>
 
 <h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
+<p>一轮闭环的流程：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>任务输入
+  ↓ 运行 Workflow
+Run 停下：记录停在哪个阶段、哪个节点、什么错误
+  ↓ 分诊（需要人决定、环境故障 → 等人）
+诊断：根因、所属层、置信度（把握不足 → 等人）
+  ↓
+修复候选：独立分支上的改动和测试
+  ↓ 验证：改动范围检查、L1～L3 测试（不通过 → 等人）
+PR：人审、合入
+  ↓
+同一份输入重跑：越过原停止点，或在新位置停下，进入下一轮</code></pre></div>
 <div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody><tr><td>从停止证据定位问题</td><td>记录 Run 停在哪个阶段、哪个节点、什么错误，按停止类型决定继续、诊断或交给人；诊断给出根因、所属层和置信度</td></tr><tr><td>改动先验证再提交</td><td>修复候选在独立分支上生成，先检查改动范围，再跑测试，通过后才提出 PR；验证不过就不提交</td></tr><tr><td>用同一份输入检验效果</td><td>PR 合入后，用同一份输入重跑，看问题是否真正解决</td></tr><tr><td>人只在需要的时候介入</td><td>诊断把握不足、候选验证不过、环境故障时停下等人；它不会自己合入 PR</td></tr><tr><td>全程可以回查</td><td>停止记录、诊断结论、改动、验证结果、PR 与模型用量都保存下来，可在 DSH 操作台或 <code>wie</code> 中查看</td></tr></tbody></table></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
@@ -35,17 +47,60 @@
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
 <p>Workflow 的改进从“人看日志、想办法、改代码、再跑一遍”，变成审一个带证据和测试的 PR。下面是一个已接入的多阶段 Workflow 在同一份输入上的两轮闭环：</p>
-<div class="table"><table><thead><tr><th>轮次</th><th>停在哪里</th><th>workflow-rsi 做了什么，结果如何</th></tr></thead><tbody><tr><td>第 1 轮</td><td>中间阶段的一个节点，在处理输入之前</td><td>定位到节点的输入检查过严，把一种合法输入判为无法处理；生成 45 行改动并附测试，测试通过后提出 PR，PR 合入</td></tr><tr><td>第 2 轮</td><td>同一份输入重跑，越过第 1 轮的停止点，停在同一阶段的后一个节点</td><td>定位到这个节点只支持一种处理方式，不覆盖这份输入；两次修复候选都没有通过验证，不提 PR，停下交给人</td></tr></tbody></table></div>
-<p>这是一个 Workflow、一份输入上的实测，还没有做多 Workflow 统计。诊断也会出错：在另一次运行中，诊断把原因归到了错误的节点，由人纠正后修复。</p>
+<div class="table"><table><thead><tr><th>轮次</th><th>停在哪里</th><th>workflow-rsi 做了什么，结果如何</th></tr></thead><tbody><tr><td>第 1 轮</td><td>第 5 个阶段的一个节点，在处理输入之前</td><td>定位到节点的输入检查过严，把一种合法输入判为无法处理；生成 45 行改动并附测试，测试通过后提出 PR，PR 合入。从 Run 停下到提出 PR 用时 4 小时 8 分钟，其中等人 14 分钟</td></tr><tr><td>第 2 轮</td><td>同一份输入重跑，越过第 1 轮的停止点，停在同一阶段的后一个节点</td><td>定位到这个节点只支持一种处理方式，不覆盖这份输入；第一次修复超时没有改动，第二次改动没有通过改动范围检查，不提 PR，停下交给人</td></tr></tbody></table></div>
+<p>这是一个 Workflow、一份输入上的实测，还没有做多 Workflow 统计。第 1 轮的模型用量约 3113 万 token，其中 2908 万为缓存命中。诊断也会出错：在另一次运行中，诊断把原因归到了错误的节点，由人纠正后修复。</p>
 
 <h2 id="examples">例子<a class="hash" href="#examples" aria-label="本节链接">#</a></h2>
-<p><strong>一次完整的闭环。</strong>第一轮 Run 停在中间阶段的一个节点，报“输入无法准备”。workflow-rsi 读取停止证据后确认，这份输入本身合法，问题出在节点的输入检查规则。它在独立分支上改了检查逻辑并补上测试，检查改动范围、跑完测试后提出 PR。这一轮中，诊断曾三次因为把握不足停下等人，人处理后恢复，最后一次诊断的置信度为 0.9。PR 合入后，同一份输入再跑，Run 越过了原来的停止点。</p>
-<p><strong>验证不过就不提交。</strong>第二轮停在后一个节点。节点内的修复 Agent 两轮都在改输入本身，无效，因为节点的处理方式不覆盖这类输入。workflow-rsi 的诊断指出了这一点（置信度 0.82），但两次修复候选都没有通过验证，它没有提出 PR，停下来把诊断结论留给人决定。</p>
-<p><strong>定位阶段之间的交接缺口。</strong>另一次运行停在最后一个阶段：负责修复的角色选择“不处理”之后，流程没有出口，以修复预算耗尽结束。诊断定位到这个角色的任务说明没有写清“不处理即终止、要求重新设计才进入重新设计角色”，这是阶段之间的交接问题，角色本身的能力没有问题。按诊断修复后再跑，修复角色要求重新设计时，流程正确交给了重新设计角色。</p>
+<p><strong>一次完整的闭环。</strong>第一轮 Run 前四个阶段通过，在第五个阶段停下，报“输入无法准备”。workflow-rsi 读取停止证据后确认，这份输入本身合法，问题出在节点的输入检查规则。中间诊断三次停下等人：两次把握不足，一次诊断 Agent 自身失败，人确认后继续。第四次诊断的置信度为 0.9，随后在独立分支上生成改动和测试，验证通过后提出 PR。这一轮的事件记录（时间为 UTC，诊断一行依次为处理方式、所属层、置信度）：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>17:23  loop.created
+17:24  run.started
+17:26  stage generate    passed
+17:32  stage analysis    passed
+17:42  stage design      passed
+17:55  stage plan        passed
+17:59  stage execution   failed
+17:59  triage.decided    diagnose
+18:45  loop.escalated    diagnosis_low_confidence
+18:47  loop.resumed      fix
+21:07  loop.escalated    agent_failed
+21:10  loop.resumed      fix
+21:18  loop.escalated    diagnosis_low_confidence
+21:27  loop.resumed      fix
+21:50  diagnosis         engine_fix / contract / 0.9
+22:06  candidate         2 files, 45 lines
+22:07  validation        L1 passed, L2 passed, L3 inconclusive
+22:07  pr.opened         #469</code></pre></div>
+<p><strong>验证不过就不提交。</strong>PR 合入后，同一份输入再跑，Run 越过了原来的停止点，停在同一阶段的后一个节点。诊断指出这个节点只支持一种处理方式（置信度 0.82）。第一次修复 Agent 用完 90 分钟没有产出改动；第二次改了 4 个文件、133 行，但没有给出测试命令和改动说明，没有通过改动范围检查。workflow-rsi 没有提出 PR，停下来把诊断结论留给人决定。第 2 轮的事件记录（节选）：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>09:01  run.started
+09:32  stage plan        passed
+10:03  stage execution   failed
+10:03  triage.decided    diagnose
+15:50  diagnosis         engine_fix / contract / 0.82
+17:20  candidate 1       timed_out, 0 files
+18:50  candidate 2       4 files, 133 lines
+                         scope: the fix agent named no test_command
+                         scope: spec: no change spec was delivered
+18:50  loop.gave_up      validation_exhausted</code></pre></div>
+<p><strong>定位阶段之间的交接缺口。</strong>另一次运行停在最后一个阶段：修复角色（Repair）选择“不处理”之后，流程没有出口，以修复预算耗尽结束。诊断定位到这个角色的任务说明没有写清三种决定各自的去向，这是阶段之间的交接问题，角色本身的能力没有问题。修复只改了任务说明的一句话，并加了一条测试；再跑时，修复角色要求重新设计，流程正确交给了重新设计角色（Redesign）：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>改动前
+Apply one bounded safe fix, request Redesign, or report that
+no safe action exists from frozen verification evidence.
+
+改动后
+From frozen verification evidence, apply one bounded safe fix
+(safe_fix), or choose request_redesign, the only route to
+Redesign: use it when no bounded safe fix exists but a redesign
+could address the failure. no_action ends Verification with
+no_safe_repair; choose it only when neither a safe fix nor a
+redesign can address the failure.</code></pre></div>
 
 <h2 id="roles">人和 workflow-rsi 各做什么<a class="hash" href="#roles" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>事项</th><th>由谁来做</th></tr></thead><tbody><tr><td>运行、记录停止、诊断、生成并验证改动、提出 PR、合入后重跑</td><td>workflow-rsi</td></tr><tr><td>是否合入 PR</td><td>Workflow 仓的维护者</td></tr><tr><td>诊断把握不足、候选验证不过、环境故障等停止</td><td>人在 DSH 操作台或 <code>wie</code> 里决定继续、重试或结束</td></tr><tr><td>判定规则：什么算通过、什么时候停、预算怎么分</td><td>只由人修改，workflow-rsi 和 Agent 都改不了</td></tr></tbody></table></div>
-<p>市场收录的是 workflow-rsi 的 DSH 操作台：在 DSH 里查看会话、Run、停止记录、闭环和工作计划，需要人决定的操作由人用 <code>/wrsi … --confirm</code> 执行。运行、诊断、验证和提出 PR 由 workflow-rsi 本体完成。</p>
+<p>市场收录的是 workflow-rsi 的 DSH 操作台：在 DSH 里查看会话、Run、停止记录、闭环和工作计划，需要人决定的操作由人执行。例如查看一个闭环，再让停下的闭环继续修复：</p>
+<div class="code"><div class="code-bar"><span>text</span><button type="button" class="copy">复制</button></div><pre><code>/wrsi loop &lt;loop id&gt;
+/wrsi loop-resume &lt;loop id&gt; fix --confirm</code></pre></div>
+<div class="table"><table><thead><tr><th>决定</th><th>含义</th></tr></thead><tbody><tr><td><code>fix</code></td><td>重新诊断，再生成修复候选</td></tr><tr><td><code>rerun</code></td><td>不改动，重跑 Workflow，例如环境恢复之后</td></tr><tr><td><code>give-up</code></td><td>结束这个闭环</td></tr><tr><td><code>merge-done</code></td><td>PR 已在 Workflow 仓合入，开始重跑</td></tr></tbody></table></div>
+<p>写命令不带 <code>--confirm</code> 时只显示将要执行的操作，不执行。运行、诊断、验证和提出 PR 由 workflow-rsi 本体完成。</p>
 
 <h2 id="install">安装 workflow-rsi 本体<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
 <p>workflow-rsi 由本体和 DSH 操作台两个 npm 包组成：</p><div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>插件</td><td><code>@fuxi-ailabs/workflow-rsi-dsh-console</code> 0.1.0-alpha.1</td></tr><tr><td>workflow-rsi 本体</td><td><code>@fuxi-ailabs/workflow-rsi</code> 0.1.0-alpha.1（命令 <code>wie</code>、<code>wrsi-server</code>）</td></tr><tr><td>DSH</td><td><code>0.1.6-alpha.2 || ^0.2.1-rc.2</code> (1)</td></tr><tr><td>系统</td><td>macOS 或 Linux，Node.js ≥ 22.19</td></tr></tbody></table></div><p class="small">(1) 已在 0.1.6-alpha.2 与 0.2.1-rc.2 上实跑验收，详见<a href="versions.html">组件与版本</a>。</p><div class="note"><strong>注意</strong><p>workflow-rsi 的判定、状态与注册表都不进 DSH 进程。插件只经 wrsi-server 的本机 HTTP API 和 <code>wie</code> 子进程访问它，不启动、不重启服务。运行闭环还需要被改进 Workflow 的适配器、仓库与闭环配置。</p></div><div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npm install -g @fuxi-ailabs/workflow-rsi
