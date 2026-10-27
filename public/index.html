@@ -13,6 +13,13 @@
   #plugins article{display:flow-root;box-sizing:border-box;break-inside:avoid;margin:0 0 20px;overflow-wrap:anywhere}
   .url{overflow-wrap:anywhere}article img{width:48px;height:48px;float:right}h2{margin:0}
   .note{color:#526674;font-size:14px}code{overflow-wrap:anywhere}footer{margin-top:32px}
+  .install-command{margin:16px 0;background:#050608;color:#edf7f2;border:1px solid #20282d;border-radius:9px;padding:12px;min-width:0}
+  .install-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;color:#aebdb6;font-size:12px}
+  .install-heading span{white-space:nowrap}
+  .copy-command{flex-shrink:0;background:#18221c;color:#e0f9e8;border:1px solid #42544a;border-radius:5px;padding:3px 9px;font:inherit;cursor:pointer}
+  .copy-command:hover{background:#27392e}.copy-command:focus-visible,.install-command pre:focus-visible{outline:2px solid #5bcf91;outline-offset:3px}
+  .install-command pre{margin:10px 0 0;max-width:100%;overflow-x:auto;white-space:pre;line-height:1.6;font-size:12px;scrollbar-width:thin;scrollbar-color:#52645b #050608}
+  .install-command code{color:#d0f9df;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:normal;word-break:normal}
   @media(max-width:640px){#plugins{columns:1}}
 </style>
 <main>
@@ -22,12 +29,23 @@
   <p>把下面的索引地址添加到 DSH 的「发现」页，即可浏览团队插件。以后新增插件仍使用同一个地址。</p>
   <div class="url"><a href="index.json">https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</a></div>
   <p>在 DSH 中打开「插件」→「实验性插件 / 更多」→ 启用「自定义插件市场」→「发现」→「添加索引源」。</p>
+  <p class="note">也可以使用卡片中的单行命令安装到 DSH Web 端：点击「复制」，在终端执行。</p>
   <section id="plugins" aria-label="插件目录"><p>正在读取目录…</p></section>
   <footer><a href="templates/plugin-page/">通用模板预览</a> · <a href="https://github.com/fuxi-ailabs/dsh-plugin-market">维护目录</a> · <a href="https://github.com/deepseek-ai/deepseek-harness/blob/dsh-v0.2.1-rc.2/docs/user/guide/plugin-market.zh.md">DSH 市场规范</a></footer>
 </main>
 <script type="module">
   const section = document.querySelector('#plugins');
   const text = value => typeof value === 'string' ? value : value?.zh ?? value?.en ?? '';
+  const installCommand = (plugin, version) => {
+    const source = version.source;
+    if (source.type === 'git') {
+      const repository = source.url.endsWith('.git') ? source.url : `${source.url}.git`;
+      const path = source.path ? `&path:/${source.path}` : '';
+      return `dsh plugin --profile web add "git+${repository}#${source.commit}${path}"`;
+    }
+    const registry = source.registry ? ` --registry="${source.registry}"` : '';
+    return `dsh plugin --profile web add ${plugin.name}@${version.version}${registry}`;
+  };
   try {
     const response = await fetch('./index.json');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -43,6 +61,34 @@
       const versions = document.createElement('p'); versions.className = 'note';
       versions.textContent = plugin.versions.map(v => `${v.version} · DSH ${v.engines?.dsh ?? '未声明范围'}`).join(' / ');
       card.append(icon, title, name, description, versions);
+      const latest = plugin.versions.reduce((current, version) =>
+        !current || version.publishTimestamp > current.publishTimestamp ? version : current, null);
+      if (latest) {
+        const install = document.createElement('div'); install.className = 'install-command';
+        const heading = document.createElement('div'); heading.className = 'install-heading';
+        const label = document.createElement('span'); label.textContent = 'Web 端安装';
+        const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'copy-command';
+        copy.textContent = '复制'; copy.setAttribute('aria-label', `复制 ${title.textContent} 安装命令`);
+        copy.setAttribute('aria-live', 'polite');
+        const line = document.createElement('pre'); line.tabIndex = 0;
+        line.setAttribute('aria-label', `${title.textContent} 安装命令，可左右滚动`);
+        const command = document.createElement('code'); command.textContent = installCommand(plugin, latest);
+        line.append(command);
+        copy.addEventListener('click', async () => {
+          copy.disabled = true;
+          try {
+            await navigator.clipboard.writeText(command.textContent);
+            copy.textContent = '已复制';
+          } catch {
+            const range = document.createRange(); range.selectNodeContents(command);
+            const selection = window.getSelection(); selection.removeAllRanges(); selection.addRange(range);
+            copy.textContent = '按 Ctrl+C 复制';
+          } finally {
+            copy.disabled = false;
+          }
+        });
+        heading.append(label, copy); install.append(heading, line); card.append(install);
+      }
       if (plugin.homepage) {
         const url = new URL(plugin.homepage, location.href);
         if (url.protocol === 'https:') {
