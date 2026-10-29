@@ -36,6 +36,11 @@
     });
   });
 
+  // The demo loops muted; respect the reduced-motion setting by leaving it paused.
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("video[autoplay]").forEach(function (video) { video.removeAttribute("autoplay"); video.pause(); });
+  }
+
   var links = Array.prototype.slice.call(document.querySelectorAll(".toc a"));
   if (links.length && "IntersectionObserver" in window) {
     var byId = {};

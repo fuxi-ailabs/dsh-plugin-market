@@ -40,6 +40,7 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'assets/case-cart-steps.jpg', 'assets/case-login-steps.jpg',
   'assets/f14-before.jpg', 'assets/f14-after.jpg', 'assets/f8-before.jpg', 'assets/f8-after.jpg',
   'assets/tree-project.jpg', 'assets/tree-run.jpg',
+  'assets/dsh-install-demo.mp4', 'assets/dsh-install-demo-poster.jpg', 'assets/dsh-install-demo-zh.vtt',
 ])], ['plugins/insight', new Set([
   'index.html', 'styles.css', 'assets/icon.svg',
   'assets/plugin-config.jpg', 'assets/session-button.jpg', 'assets/score-card.jpg', 'assets/insight-score.jpg',

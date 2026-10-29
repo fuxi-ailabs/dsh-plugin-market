@@ -209,6 +209,11 @@ expect(unregistered.phone).assertEqual('');</code></pre></div>
 </tbody></table></div>
 
 <h2 id="install">安装<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
+<p>下面的录屏是在 DSH 网页版里从安装到发起验证的完整操作，验证的是上面例子里的“传奇今生”。</p>
+<figure id="recording" class="video">
+<video controls autoplay muted loop playsinline preload="auto" poster="assets/dsh-install-demo-poster.jpg" aria-label="录屏：在 DSH 中安装鸿蒙白盒验证器并发起一次验证"><source src="assets/dsh-install-demo.mp4" type="video/mp4"><track kind="captions" src="assets/dsh-install-demo-zh.vtt" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video>
+<figcaption class="small">2 分 18 秒，循环播放，附中文字幕。录自 DSH 0.2.1-rc.2 网页版，安装的是市场上的 0.1.0-dev.21，录屏时市场中的名称还是“DT 验证组件”。录屏到验证开始为止，完整运行约 90 分钟，结果见上面的例子。</figcaption>
+</figure>
 <p>桌面版：打开「插件」→「发现」，在 Fuxi DSH 插件市场中找到“鸿蒙白盒验证器”，点击安装。还没有「发现」时，先在「实验性插件」旁的「更多」中启用「自定义插件市场」，再添加索引源：</p>
 <div class="code"><div class="code-bar"><span>插件市场索引</span><button type="button" class="copy">复制</button></div><pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre></div>
 <p>命令行：先退出 DSH，再执行</p>
@@ -218,9 +223,9 @@ expect(unregistered.phone).assertEqual('');</code></pre></div>
 <h2 id="usage">使用<a class="hash" href="#usage" aria-label="本节链接">#</a></h2>
 <ol>
 <li>在 DSH 中把鸿蒙工程根目录作为工作区打开，确认设备在线。</li>
-<li>发送下面的提问。路径和设备换成你自己的；只想验证、不改代码时，把“并修复发现的问题”改成“只验证，不修改生产代码”。</li>
+<li>在输入框输入 <code>/dt-verify</code> 选中 Skill，再写上要验证的工程和需求文档，发送。路径和设备换成你自己的；只想验证、不改代码时，把“并修复发现的问题”改成“只验证，不修改生产代码”。</li>
 </ol>
-<div class="code"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy">复制</button></div><pre><code>用 dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。</code></pre></div>
+<div class="code"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy">复制</button></div><pre><code>/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。</code></pre></div>
 <ol start="3">
 <li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里全量复测。整个过程不需要确认。上面的电商应用用时约 90 分钟。</li>
 <li>结束后，回复里给出运行目录、链式汇总的路径、每条需求的结论和修复的改动。按下一节读结果。</li>
