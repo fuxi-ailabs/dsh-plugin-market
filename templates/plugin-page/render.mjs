@@ -40,7 +40,7 @@ export function renderPage(p, {preview = false} = {}) {
   </div></aside>` : ''}
   <header class="site-header"><div class="wrap header-inner">
     <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">f<span>_</span></span> FUXI <span class="brand-sub">/ DSH 插件</span></a>
-    <nav aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-docs" href="${e(p.links[0].url)}">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
+    <nav aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-faq" href="#faq">常见问题</a><a class="nav-docs" href="${e(p.links[0].url)}">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
   </div></header>
   <main>
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
@@ -91,8 +91,13 @@ export function renderPage(p, {preview = false} = {}) {
       <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol>${p.quickstart.steps.map(s=>`<li><strong>${e(s.title)}</strong><p>${e(s.expected)}</p></li>`).join('')}</ol></details>
       <p class="help-link"><a href="${e(p.links[0].url)}">${preview ? '模板文档' : '安装与使用文档'} ↗</a></p>
     </section>
+
+    <section id="faq" class="wrap section" aria-labelledby="faq-title">
+      ${sectionHead('常见问题').replace('<h2>', '<h2 id="faq-title">')}
+      <div class="faq-list">${p.faq.map(item=>`<details><summary>${e(item.question)}<span aria-hidden="true">＋</span></summary><p>${e(item.answer)}</p></details>`).join('')}</div>
+    </section>
   </main>
-  <footer class="wrap footer"><span>Fuxi AI Labs</span><div>${p.links.map(l=>`<a href="${e(l.url)}">${e(l.label)}</a>`).join('')}<a href="#overview">回到顶部 ↑</a></div></footer>
+  <footer class="wrap footer"><span>Fuxi AI Labs</span><div>${p.links.map(l=>`<a href="${e(l.url)}">${e(l.label)}</a>`).join('')}<a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
   <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
   <dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="screenshot-title"><div class="dialog-bar"><h2 id="screenshot-title">运行截图</h2><button id="close-screenshot" type="button">关闭 ×</button></div><img id="screenshot-full" alt=""></dialog>
 </body>

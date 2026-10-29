@@ -211,6 +211,11 @@ summary::-webkit-details-marker { display: none; }
 .install-checks ol { padding-left: 26px; margin: 4px 0 16px; }
 .install-checks li + li { margin-top: 10px; }
 .install-checks p { color: var(--muted); margin: 4px 0 0; }
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list summary { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 16px 0; min-height: 44px; font-size: 1.0625rem; }
+.faq-list summary > span { flex: none; color: var(--accent); }
+.faq-list details[open] summary > span { transform: rotate(45deg); }
+.faq-list p { color: var(--muted); margin: 0 28px 20px 0; max-width: 85ch; }
 .code-block { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: #f8fafc; margin-top: 16px; }
 .code-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; padding: 10px 16px; background: var(--raised); border-bottom: 1px solid var(--line); }
 .code-bar > span { font-size: .875rem; color: var(--subtle); }
@@ -260,7 +265,7 @@ summary::-webkit-details-marker { display: none; }
   .brand-mark { display: none; }
   .site-header nav { gap: 14px; font-size: .9375rem; }
   .site-header .nav-cta { border: 0; padding: 0; color: var(--accent); }
-  .site-header nav .nav-docs { display: none; }
+  .site-header nav .nav-docs, .site-header nav .nav-faq { display: none; }
   h1 { font-size: 2.5rem; }
   h2 { font-size: 1.625rem; }
   .lede { font-size: 1.0625rem; }

@@ -223,5 +223,27 @@
       "label": "查看插件源码 ↗",
       "url": "https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh"
     }
+  ],
+  "faq": [
+    {
+      "question": "安装后还需要手动安装 Python 或 Core 吗？",
+      "answer": "Windows x64 版随插件提供隔离的 Python、匹配版本的 Core、依赖库和 Viewer，无需另外安装 Python 或 Core。需要已有的 DSH、Node.js 24+，以及 Git 来源所需的 Git 和仓库访问权限。其他系统按文档配置外部服务。"
+    },
+    {
+      "question": "为什么看不到刚刚的文件改动？",
+      "answer": "插件按需生成快照。文件继续修改后，发送“刷新当前会话的分析材料”，再查询这个文件。"
+    },
+    {
+      "question": "所有文件操作都会有记录吗？",
+      "answer": "未导入的会话、缺少成功回执的调用，以及 shell 脚本内部的文件操作，都可能没有完整记录。查到来源后，代码和结论是否正确仍需要通过测试和实际结果验证。"
+    },
+    {
+      "question": "运行环境损坏或安装失败了，怎么恢复？",
+      "answer": "运行缓存损坏时，插件会用随包材料重建。安装材料不完整时，在插件详情中选择重新安装此版本。修复会保留分析记录，不需要另外配置 Python；其他启动错误按页面提示重试。"
+    },
+    {
+      "question": "打开 Viewer 时需要填写 Core 凭据吗？",
+      "answer": "不需要。从插件详情点击“打开溯源视图”，或使用 lineage_open 返回的同源地址。Viewer 复用 DSH 登录，无需读取或粘贴 Core 凭据。"
+    }
   ]
 }

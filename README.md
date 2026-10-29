@@ -4,7 +4,7 @@ Fuxi 团队插件目录
 
 索引地址：**https://fuxi-ailabs.github.io/dsh-plugin-market/index.json**
 
-介绍页模板：[独立网页预览与评审](https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/) · [填写与复用说明](docs/plugin-page-template.md)。预览展示五段通用结构，提供截图占位和内容骨架下载。
+介绍页模板：[独立网页预览与评审](https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/) · [填写与复用说明](docs/plugin-page-template.md)。预览展示六段通用结构，提供截图占位和内容骨架下载。
 
 `public/` 是 Pages 站点根目录，目录名不出现在公开 URL 中。例如 `public/index.json` 对应上面的索引地址，`public/plugins/agentlineage/` 对应 `/dsh-plugin-market/plugins/agentlineage/`。
 
@@ -59,7 +59,7 @@ DT 验证组件按 Spec 整理验收输入、统一审查计划，用 Harmony UT
 
 1. 在插件自己的仓库准备可安装 Bundle，核实 `package.json` 中的包名、版本、`dsh.bundle` 和 DSH 兼容范围；`engines.dsh` 写范围并与索引一致，验证 npm/Git 安装及构建产物。
 2. 在 `public/index.json` 的 `plugins` 数组追加条目；已有插件则向 `versions` 追加版本。Git 来源必须固定完整 40 位 commit SHA，并填写真实的子目录。`publishTimestamp` 使用来源提交的 Unix 秒时间。
-3. 图标放进 `public/icons/`。每个插件都需要按[统一浅色介绍页模板](docs/plugin-page-template.md)准备五段内容：作用与安装命令、使用场景与适合人群、功能演示、使用前后效果对比、安装与验证（含使用条件）。内容写入 `content/plugins/<slug>.json`，运行 `npm run build:pages` 输出介绍页；经审核的图片放进 `public/plugins/<slug>/assets/`，在校验脚本 `publicPages` / `publicLinks` 登记逐文件清单与文档链接，并通过 `homepage` 关联。标题和描述可提供 `en`、`zh`，其中英文必须存在。
+3. 图标放进 `public/icons/`。每个插件都需要按[统一浅色介绍页模板](docs/plugin-page-template.md)准备六段内容：作用与安装命令、使用场景与适合人群、功能演示、使用前后效果对比、安装与验证（含使用条件）、常见问题。内容写入 `content/plugins/<slug>.json`，运行 `npm run build:pages` 输出介绍页；经审核的图片放进 `public/plugins/<slug>/assets/`，在校验脚本 `publicPages` / `publicLinks` 登记逐文件清单与文档链接，并通过 `homepage` 关联。标题和描述可提供 `en`、`zh`，其中英文必须存在。
 4. 运行 `npm ci --ignore-scripts` 和 `npm run ci`（生成结果一致性、格式与发布目录校验、兼容性/来源策略检查）。`npm run preview` 启动本地页面预览。AgentLineage 材料与录屏分镜见[页面材料](docs/agentlineage-page-materials.md)。
 5. 提交 PR。合入 `main` 后，GitHub Actions 校验并部署 `public/`。核对工作流成功、索引匿名访问返回 HTTP 200，再在 DSH 的「发现」页重新读取目录。
 

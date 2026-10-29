@@ -143,5 +143,19 @@
       "label": "安装与使用文档 ↗",
       "url": "https://github.com/fuxi-ailabs/dsh-plugin-market"
     }
+  ],
+  "faq": [
+    {
+      "question": "安装前需要准备什么？",
+      "answer": "<系统、DSH 版本和本机依赖>"
+    },
+    {
+      "question": "无法使用时，先检查哪里？",
+      "answer": "<检查方法和正常状态>"
+    },
+    {
+      "question": "有哪些使用限制？",
+      "answer": "<支持范围和已知限制>"
+    }
   ]
 }

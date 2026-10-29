@@ -15,7 +15,7 @@
   <a class="skip-link" href="#overview">跳到主要内容</a>
   <header class="site-header"><div class="wrap header-inner">
     <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">f<span>_</span></span> FUXI <span class="brand-sub">/ DSH 插件</span></a>
-    <nav aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-docs" href="https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
+    <nav aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-faq" href="#faq">常见问题</a><a class="nav-docs" href="https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
   </div></header>
   <main>
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
@@ -77,8 +77,13 @@
       <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>在 DSH 安装插件</strong><p>AgentLineage 0.1.0-alpha.4 出现在已安装插件中，并开始准备本地分析服务。</p></li><li><strong>检查服务是否就绪</strong><p>页面显示“AgentLineage 已就绪”；lineage_status 的 runtime.state 为 ready，能力包含 dsh-native-v4。</p></li><li><strong>运行发布说明例子</strong><p>release-note.md 有三次确认写入；最后一次将“草稿”改为“待评审”，并有对应的调用和回执引用。</p></li><li><strong>打开 Viewer 查看记录</strong><p>选中 release-note.md 后，能查看三次写入及对应的 diff。</p></li></ol></details>
       <p class="help-link"><a href="https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md">安装与使用文档 ↗</a></p>
     </section>
+
+    <section id="faq" class="wrap section" aria-labelledby="faq-title">
+      <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
+      <div class="faq-list"><details><summary>安装后还需要手动安装 Python 或 Core 吗？<span aria-hidden="true">＋</span></summary><p>Windows x64 版随插件提供隔离的 Python、匹配版本的 Core、依赖库和 Viewer，无需另外安装 Python 或 Core。需要已有的 DSH、Node.js 24+，以及 Git 来源所需的 Git 和仓库访问权限。其他系统按文档配置外部服务。</p></details><details><summary>为什么看不到刚刚的文件改动？<span aria-hidden="true">＋</span></summary><p>插件按需生成快照。文件继续修改后，发送“刷新当前会话的分析材料”，再查询这个文件。</p></details><details><summary>所有文件操作都会有记录吗？<span aria-hidden="true">＋</span></summary><p>未导入的会话、缺少成功回执的调用，以及 shell 脚本内部的文件操作，都可能没有完整记录。查到来源后，代码和结论是否正确仍需要通过测试和实际结果验证。</p></details><details><summary>运行环境损坏或安装失败了，怎么恢复？<span aria-hidden="true">＋</span></summary><p>运行缓存损坏时，插件会用随包材料重建。安装材料不完整时，在插件详情中选择重新安装此版本。修复会保留分析记录，不需要另外配置 Python；其他启动错误按页面提示重试。</p></details><details><summary>打开 Viewer 时需要填写 Core 凭据吗？<span aria-hidden="true">＋</span></summary><p>不需要。从插件详情点击“打开溯源视图”，或使用 lineage_open 返回的同源地址。Viewer 复用 DSH 登录，无需读取或粘贴 Core 凭据。</p></details></div>
+    </section>
   </main>
-  <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md">安装与使用文档 ↗</a><a href="https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh">查看插件源码 ↗</a><a href="#overview">回到顶部 ↑</a></div></footer>
+  <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md">安装与使用文档 ↗</a><a href="https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh">查看插件源码 ↗</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
   <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
   <dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="screenshot-title"><div class="dialog-bar"><h2 id="screenshot-title">运行截图</h2><button id="close-screenshot" type="button">关闭 ×</button></div><img id="screenshot-full" alt=""></dialog>
 </body>
