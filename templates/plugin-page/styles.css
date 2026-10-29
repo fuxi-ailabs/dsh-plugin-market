@@ -42,12 +42,13 @@ pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 .skip-link:focus { transform: none; }
 
 /* Navigation and overview */
+.market-banner { background: #edf7f2; border-bottom: 1px solid #b6d4c7; padding-block: 16px; }
+.market-brand { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: #1c2b35; font-size: 1.125rem; font-weight: 600; line-height: 1.5; }
+.market-brand:hover { color: #17634d; }
+.market-brand-mark { display: grid; place-items: center; flex: 0 0 36px; height: 36px; border: 1px solid #b6d4c7; border-radius: 6px; background: #fff; color: #17634d; font: 600 24px Consolas, monospace; }
 .site-header { position: sticky; top: 0; z-index: 10; background: #ffffffed; border-bottom: 1px solid var(--line); backdrop-filter: blur(18px); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
 .brand { display: flex; align-items: center; gap: 12px; font-size: 1rem; font-weight: 600; white-space: nowrap; }
-.brand-mark { display: inline-flex; justify-content: center; align-items: center; width: 34px; height: 34px; border: 1px solid #b6d4c7; border-radius: 6px; font: 600 26px var(--mono); letter-spacing: -.15em; padding-right: 4px; color: var(--accent); }
-.brand-mark span { font-size: 20px; }
-.brand-sub { color: var(--muted); font-weight: 400; }
 .site-header nav { display: flex; align-items: center; gap: 28px; font-size: 1rem; color: var(--muted); }
 .site-header nav a { display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; }
 .site-header nav a:hover, .text-link:hover, .footer a:hover { color: var(--accent); }
@@ -240,7 +241,6 @@ summary::-webkit-details-marker { display: none; }
 @media (max-width: 1100px) {
   .wrap { width: calc(100% - 64px); }
   .hero { gap: 32px; }
-  .brand-sub { display: none; }
   .case-grid { grid-template-columns: 1fr; }
   .case-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 32px; }
   .case-card h3, .case-card blockquote, .case-card > p { grid-column: 1; }
@@ -260,9 +260,9 @@ summary::-webkit-details-marker { display: none; }
   :root { scroll-padding-top: 88px; }
   body { font-size: 1rem; }
   .wrap { width: calc(100% - 36px); }
-  .header-inner { min-height: 72px; gap: 12px; }
+  .market-brand { font-size: 1rem; }
+  .header-inner { min-height: 72px; flex-wrap: wrap; gap: 0 12px; }
   .brand { font-size: .9375rem; gap: 6px; }
-  .brand-mark { display: none; }
   .site-header nav { gap: 14px; font-size: .9375rem; }
   .site-header .nav-cta { border: 0; padding: 0; color: var(--accent); }
   .site-header nav .nav-docs, .site-header nav .nav-faq { display: none; }

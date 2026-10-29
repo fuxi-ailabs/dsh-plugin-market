@@ -28,18 +28,19 @@ export function renderPage(p, {preview = false} = {}) {
   <meta name="description" content="${e(p.description)}">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f7f9fb">
-  <title>${preview ? '插件介绍页模板 · 预览与评审' : e(p.name) + ' · Fuxi DSH 插件市场'}</title>
+  <title>${preview ? '插件介绍页模板 · 预览与评审' : e(p.name) + ' · Fuxi 通用DSH组件市场'}</title>
   <link rel="stylesheet" href="styles.css">${preview ? '\n  <link rel="stylesheet" href="review.css">' : ''}
   <script src="demo-data.js" defer></script>
   <script src="page.js" defer></script>
 </head>
 <body>
-  <a class="skip-link" href="#overview">跳到主要内容</a>${preview ? `
+  <a class="skip-link" href="#overview">跳到主要内容</a>
+  <header class="market-banner" aria-label="组件市场"><div class="wrap"><a class="market-brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/"><span class="market-brand-mark" aria-hidden="true">f_</span><span>Fuxi 通用DSH组件市场</span></a></div></header>${preview ? `
   <aside class="template-banner" aria-label="模板预览与评审"><div class="wrap">
     <div class="review-topline"><h2>插件介绍页模板</h2><div class="review-actions"><a href="content.example.json" download="plugin-page-content.example.json">下载内容模板 ↓</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/">AgentLineage ↗</a></div></div>
   </div></aside>` : ''}
-  <header class="site-header"><div class="wrap header-inner">
-    <a class="brand" href="#overview"><span class="brand-mark" aria-hidden="true">f<span>_</span></span> FUXI <span class="brand-sub">/ DSH 插件</span></a>
+  <header class="site-header" aria-label="插件导航"><div class="wrap header-inner">
+    <a class="brand" href="#overview">${e(p.name)}</a>
     <nav aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-faq" href="#faq">常见问题</a><a class="nav-docs" href="${e(p.links[0].url)}">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
   </div></header>
   <main>
