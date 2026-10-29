@@ -26,7 +26,7 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'assets/dsh-release-note-demo.mp4', 'assets/dsh-release-note-poster.jpg', 'assets/dsh-release-note-zh.vtt',
 ])], ['templates/plugin-page', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'content.example.json',
-  'review.css', 'review.js', 'assets/before.svg', 'assets/after.svg',
+  'review.css', 'assets/overview.svg', 'assets/demo.svg', 'assets/before.svg', 'assets/after.svg',
 ])], ['plugins/crowdmemory', new Set([
   'changelog.html', 'configuration.html', 'docs.css', 'docs.js',
   'errors.html', 'evaluation.html', 'faq.html', 'index.html',
