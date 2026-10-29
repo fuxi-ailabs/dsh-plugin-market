@@ -1,0 +1,210 @@
+{
+  "slug": "dt-verify",
+  "name": "鸿蒙代码验证器",
+  "version": "0.1.0-dev.28",
+  "compatibility": "DSH ^0.2.1-rc.2 · 鸿蒙 Stage 工程 · 模拟器或测试真机",
+  "description": "按需求文档为鸿蒙应用编写单元测试和界面测试，在设备上逐条验证需求，并修复发现的问题。",
+  "install": {
+    "code": "npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.28",
+    "codeLabel": "终端 · 安装鸿蒙代码验证器",
+    "note": "先退出 DSH，把 web 换成你使用的 Profile；需要 PATH 上能找到 pnpm。"
+  },
+  "headline": [
+    "按需求验证鸿蒙应用，",
+    "测出问题直接修复。"
+  ],
+  "heroMedia": {
+    "image": "assets/verify-flow.jpg",
+    "alt": "流程图：输入需求文档、鸿蒙工程源码和可选的 Android 工程，依次整理验收项、编写测试、独立审查、设备执行、逐条结论；有违反时只改生产代码修复，在新运行里全量复测，最多 5 轮；否则交付测试、每条需求的结论和证据，以及代码改动。",
+    "title": "验证与修复流程",
+    "description": "测试写进工程，在设备上执行；有违反时只改生产代码，并用同一套测试全量复测。"
+  },
+  "useCases": [
+    {
+      "audience": "按需求生成鸿蒙应用的开发者",
+      "title": "0-1 生成后逐条验收",
+      "question": "“生成的应用，需求都做到了吗？”",
+      "description": "为每条需求编写单元测试和界面测试，在设备上执行，给出满足、违反或未验证；违反的功能直接修复，测试留在工程里可以重跑。",
+      "prompt": "/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。"
+    },
+    {
+      "audience": "负责 Android 迁移鸿蒙的开发者",
+      "title": "迁移后的功能验收",
+      "question": "“迁过来的功能还能用吗？”",
+      "description": "按需求文档逐条核对迁移结果，可以另给 Android 工程作为行为参照；修复迁移中做错或漏掉的功能。",
+      "prompt": "/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，Android 原工程在 ../android-app，作为行为参照。设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我每条需求的结论、修复了什么和证据位置。"
+    },
+    {
+      "audience": "开发者和评审者",
+      "title": "改动后回归，交付前核对",
+      "question": "“这次改动有没有把已有功能改坏？”",
+      "description": "只验证、不改代码，得到一份按需求逐条列出结论和证据的结果，可以直接交给评审。",
+      "prompt": "/dt-verify 只验证当前鸿蒙工程，不修改生产代码。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后列出每条需求的结论和证据位置。"
+    }
+  ],
+  "example": {
+    "title": "在 DSH 中安装并发起验证",
+    "description": "",
+    "note": "首屏流程图是示意图；录屏和下方的对比截图来自真实运行。",
+    "prompt": "/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。",
+    "video": {
+      "title": "2 分 18 秒：安装插件，发起一次验证",
+      "description": "录自 DSH 0.2.1-rc.2 网页版，依次启用自定义插件市场、添加索引源、安装插件、选择鸿蒙工程并发送提问。录制时市场上的版本是 0.1.0-dev.21，界面上显示的还是旧名称“DT 验证组件”。录屏到验证开始为止，完整运行约 90 分钟；本机路径已打码，附中文字幕。",
+      "src": "assets/dsh-install-demo.mp4",
+      "poster": "assets/dsh-install-demo-poster.jpg",
+      "captions": "assets/dsh-install-demo-zh.vtt"
+    }
+  },
+  "comparison": {
+    "title": "使用前后效果对比",
+    "description": "例子来自一个按需求生成的电商应用：购物车页开着时再加入一次同一商品，条目数量没有刷新。验证器把状态刷新单独列为一类用例，测出这个问题后只改生产代码，再用同一套测试全量复测。下面的数据中，0-1 生成场景目前跑完 9 个应用，3 个修复后通过率提升，其余 6 个不变；实验准备、设置和图表见使用文档。",
+    "before": {
+      "title": "使用前：数量没有累加",
+      "description": "购物车页开着时再加入一次同一商品，条目数量仍是 1，底部已经是“共2件商品 ¥336.00”，用例失败。",
+      "image": "assets/fix-before.jpg",
+      "alt": "修复前的设备截图：购物车条目的数量是 1，底部显示共 2 件商品、合计 336 元；右侧放大了条目和底部合计，下方标注用例失败。"
+    },
+    "after": {
+      "title": "使用后：数量与合计一致",
+      "description": "验证器修复后在新运行里全量复测，条目数量变成 2，和底部合计一致，用例通过。",
+      "image": "assets/fix-after.jpg",
+      "alt": "修复后的设备截图：购物车条目的数量是 2，与底部共 2 件商品、合计 336 元一致；右侧放大了条目和底部合计，下方标注用例通过。"
+    },
+    "takeaways": [
+      "0-1 生成：3 个应用的验收功能点通过率从 78.1% 提高到 90.6%",
+      "迁移：Cofi 修复后 10.1% 的功能点变为可用",
+      "迁移：AntennaPod 修复后 6.0%（界面测试）和 6.2%（单元测试）的功能点变为可用"
+    ]
+  },
+  "requirements": {
+    "summary": "需要 DSH ^0.2.1-rc.2、鸿蒙工具链、一台模拟器或测试真机，以及能导入 hypium 的 Python 3.11+。",
+    "description": "",
+    "items": [
+      {
+        "label": "DSH 与插件",
+        "value": "DSH ^0.2.1-rc.2，插件 0.1.0-dev.28；Node.js 22.22 或更高。"
+      },
+      {
+        "label": "工程与需求",
+        "value": "鸿蒙 Stage 工程根目录：有 build-profile.json5，至少一个模块有 src/main/module.json5；文本格式的需求文档，例如 spec/spec.md。"
+      },
+      {
+        "label": "工具链与设备",
+        "value": "DevEco Studio 自带的 SDK、hvigor、ohpm 和 hdc；一台模拟器或测试真机，hdc list targets 能看到。"
+      },
+      {
+        "label": "界面测试用的 Python",
+        "value": "Python 3.11 或更高，能导入 hypium 6.1.0.210 和 xdevice；启动 DSH 前把 DT_VERIFY_PYTHON 设为它的绝对路径。"
+      }
+    ]
+  },
+  "boundaries": [
+    {
+      "title": "需要需求文档和 Stage 工程",
+      "description": "结论按需求文档逐条给出。没有需求文档、不是鸿蒙 Stage 工程时用处不大。"
+    },
+    {
+      "title": "模拟器缺少的能力",
+      "description": "相机拍照、振动、端侧 AI 能力、碰一碰在模拟器上测不了，记为未验证；换真机可以补上一部分。验证器在真机上的完整运行还没有验收。"
+    },
+    {
+      "title": "真机上也测不了的情况",
+      "description": "Canvas 绘制的内容、没有文字和 id 的控件、通知等系统状态、系统分享目标完成的发送、华为账号登录成功的路径，以及字形、颜色等显示问题。"
+    },
+    {
+      "title": "运行时间与代码改动",
+      "description": "一个应用通常要 20–120 分钟，期间独占一台设备。修复会改生产代码，建议在单独的分支上运行，结束后检查改动再合入。"
+    }
+  ],
+  "quickstart": {
+    "title": "安装与验证",
+    "description": "",
+    "steps": [
+      {
+        "title": "确认设备在线",
+        "description": "连接模拟器或测试真机，确认 hdc 能看到。",
+        "code": "hdc list targets",
+        "codeLabel": "终端",
+        "expected": "列出至少一台设备，例如 127.0.0.1:5557。"
+      },
+      {
+        "title": "安装插件",
+        "description": "先退出 DSH，把鸿蒙代码验证器 0.1.0-dev.28 安装到你使用的 Profile；需要时替换命令中的 web。",
+        "code": "npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.28",
+        "codeLabel": "终端",
+        "note": "需要 PATH 上能找到 pnpm。也可以在 DSH 的「插件」→「发现」中找到“鸿蒙代码验证器”安装。",
+        "expected": "命令成功结束；启动 DSH 后，「插件」→「已安装」中有鸿蒙代码验证器 0.1.0-dev.28。"
+      },
+      {
+        "title": "启动 DSH",
+        "description": "把第一行换成界面测试用的 Python 解释器的绝对路径，再启动网页版。",
+        "code": "export DT_VERIFY_PYTHON=/absolute/path/to/python3\nnpx @deepseek-ai/dsh web",
+        "codeLabel": "终端",
+        "note": "第一次使用时，在「设置」→「模型」填入 DeepSeek API 密钥并保存。",
+        "expected": "浏览器打开 http://127.0.0.1:3080 的 DSH 页面；端口被占用时加 --port <端口>。"
+      },
+      {
+        "title": "发起验证",
+        "description": "新建会话，选择鸿蒙工程根目录作为工作区，输入 /dt-verify 选中 Skill，再发送下面的提问。路径和设备换成你自己的；只想验证时，把“并修复发现的问题”改成“只验证，不修改生产代码”。",
+        "code": "/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。",
+        "codeLabel": "发送给 DSH",
+        "expected": "验证器开始读取需求文档和工程结构，之后依次整理验收项、编写和审查测试、上设备执行，中途不需要确认。"
+      },
+      {
+        "title": "查看结果",
+        "description": "一个应用通常要 20–120 分钟。结束后，回复里给出运行目录、每条需求的结论、修复的改动和证据位置；在工程根目录可以看到写进工程的测试。",
+        "code": "ls entry/src/ohosTest/ets/test entry/src/ohosTest/ui-scripts",
+        "codeLabel": "终端 · 工程根目录",
+        "expected": "两个目录下分别有单元测试和界面测试脚本；每条需求有满足、违反或未验证的结论，最后一轮运行里的 chain-summary-*.json 是最终汇总。"
+      }
+    ]
+  },
+  "links": [
+    {
+      "label": "使用文档与实验数据 ↗",
+      "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html"
+    },
+    {
+      "label": "npm 包 ↗",
+      "url": "https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify"
+    }
+  ],
+  "faq": [
+    {
+      "question": "安装前需要准备什么？",
+      "answer": "DSH ^0.2.1-rc.2 和 Node.js 22.22+；DevEco Studio 自带的 SDK、hvigor、ohpm 和 hdc；一台模拟器或测试真机；Python 3.11+，能导入 hypium 6.1.0.210 和 xdevice，启动 DSH 前把 DT_VERIFY_PYTHON 设为它的绝对路径。命令行安装还需要 PATH 上能找到 pnpm。"
+    },
+    {
+      "question": "什么样的工程可以用？",
+      "answer": "鸿蒙 Stage 工程：根目录有 build-profile.json5，至少一个模块有 src/main/module.json5。还需要一份文本格式的需求文档，结论按它逐条给出。按需求从零生成的应用和从 Android 迁移来的应用都可以用；迁移的应用可以另给 Android 工程作为行为参照。"
+    },
+    {
+      "question": "一次要跑多久？会改我的代码吗？",
+      "answer": "一个应用通常要 20–120 分钟，期间独占一台设备，同一个应用不要在同一台设备上同时跑两次。允许修复时只改生产代码、不改测试，建议在单独的分支上运行，结束后检查改动再合入。只想验证时，在提问里写明“只验证，不修改生产代码”。"
+    },
+    {
+      "question": "PASS、FAIL、BLOCKED 和 SATISFIED、VIOLATED、UNVERIFIED 有什么区别？",
+      "answer": "前三个是单条用例的执行状态：PASS 结果符合预期，FAIL 结果与预期不符，BLOCKED 缺少环境、设备或前置条件，或证据复核没有通过。后三个是每条需求的结论：SATISFIED 表示有充分证据表明满足，VIOLATED 表示有效证据表明违反，UNVERIFIED 表示证据不足、执行受阻或没有可观察的界面，不会被其他要求的通过补齐。"
+    },
+    {
+      "question": "测试和结果保存在哪里？",
+      "answer": "单元测试在 entry/src/ohosTest/ets/test，界面测试在 entry/src/ohosTest/ui-scripts，可以随代码提交以后再跑。运行目录里，acceptance.json 是验收要求，accepted-plan.json 是审查后冻结的正式计划，attempts/ 下是每次执行的用例状态、截图和控件树，最后一轮运行里的 chain-summary-*.json 是最终汇总。"
+    },
+    {
+      "question": "用模拟器还是真机？",
+      "answer": "都可以。相机拍照、振动、端侧 AI 能力在模拟器上测不了，记为未验证；真机上相机可用但需要人工拍照，振动状态仍需人工确认，碰一碰需要两台真机人工测试。真机要开启开发者模式，工程要配好签名，可以用 DevEco Studio 的自动签名。验证器在真机上的完整运行还没有验收，页面上的效果数据都在模拟器上跑出。"
+    },
+    {
+      "question": "哪些问题测不出来？",
+      "answer": "Canvas 绘制的内容，以及没有文字和 id 的图片、开关定位不到；通知、提醒、后台任务等系统状态读不到；由系统分享目标完成的发送只能确认分享面板被拉起；华为账号登录成功的路径需要真实账号和应用的 AGC 配置；字形显示错误、颜色细节等显示问题看不到，可能判为通过。"
+    },
+    {
+      "question": "安装后出现的子 Agent 角色是做什么的？",
+      "answer": "插件注册 dt-verify Skill 和 5 个名称以“鸿蒙代码验证器子任务”开头的子 Agent 角色，分别用于按功能组编写单元测试、按页面编写界面测试、修复工作项和独立审查测试计划。它们只用于委派，不要用它们新建会话。"
+    },
+    {
+      "question": "页面上的效果数据是怎么得到的？",
+      "answer": "0-1 生成场景：一批按需求生成的应用先做人工验收，有失败或无法验证功能点的 18 个中目前跑完 9 个，3 个修复后通过率提升，修好的功能点都在设备上逐项确认。迁移场景：Cofi 和 AntennaPod 按人工整理的功能清单，对照修复前后的产品代码判定可用性。实验准备、设置和图表见使用文档的“收益”一节。"
+    }
+  ]
+}

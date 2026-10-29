@@ -36,7 +36,8 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
 ])], ['plugins/workflow-rsi', new Set([
   'index.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
 ])], ['plugins/ecat', new Set(['index.html'])], ['plugins/dt-verify', new Set([
-  'index.html', 'docs.css', 'docs.js',
+  'index.html', 'styles.css', 'page.js', 'demo-data.js', 'guide.html', 'docs.css', 'docs.js',
+  'assets/verify-flow.jpg', 'assets/fix-before.jpg', 'assets/fix-after.jpg',
   'assets/dsh-install-demo.mp4', 'assets/dsh-install-demo-poster.jpg', 'assets/dsh-install-demo-zh.vtt',
 ])], ['plugins/insight', new Set([
   'index.html', 'styles.css', 'assets/icon.svg',
@@ -67,6 +68,9 @@ const publicLinks = new Map([['plugins/agentlineage', new Set([
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle',
   'https://github.com/guixu-labs/dsh-plugin',
 ])], ['plugins/dt-verify', new Set([
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify',
 ])], ['templates/plugin-page', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',

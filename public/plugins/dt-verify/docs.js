@@ -1,16 +1,5 @@
-// dt-verify docs: theme switch, mobile menu, copy buttons, "on this page" highlight.
+// dt-verify docs: mobile menu, copy buttons, "on this page" highlight.
 (function () {
-  var root = document.documentElement;
-
-  var theme = document.querySelector(".theme");
-  if (theme) {
-    theme.addEventListener("click", function () {
-      var dark = root.dataset.theme ? root.dataset.theme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.dataset.theme = dark ? "light" : "dark";
-      try { localStorage.setItem("dtv-theme", root.dataset.theme); } catch (e) { /* storage unavailable */ }
-    });
-  }
-
   var menu = document.querySelector(".menu");
   if (menu) {
     menu.addEventListener("click", function () {

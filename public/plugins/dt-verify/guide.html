@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用：为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据，允许修复时修改生产代码并全量复测。">
+<meta name="color-scheme" content="light">
+<title>鸿蒙代码验证器 · 使用文档 · Fuxi通用DSH组件市场</title>
+<link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
+    <nav class="crumb" aria-label="当前位置"><a class="crumb-market" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a><span aria-hidden="true">/</span><a href="index.html">鸿蒙代码验证器</a><span aria-hidden="true">/</span><a href="guide.html" aria-current="page">使用文档</a></nav>
+    <span class="ver">v0.1.0-dev.28</span>
+  </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">介绍</a><a href="guide.html" class="on">使用文档</a><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify">npm 包 ↗</a></nav>
+</header>
+<div class="layout">
+  <aside class="side" aria-label="文档目录">
+    <div class="side-group"><div class="side-title">文档</div><a href="index.html">介绍</a><a href="guide.html" class="on" aria-current="page">使用文档</a></div>
+    <div class="side-group"><div class="side-title">本页内容</div><a href="#prepare">使用前准备</a><a href="#install">安装</a><a href="#usage">使用</a><a href="#results">读懂结果</a><a href="#what">有什么用</a><a href="#how">验证原理</a><a href="#when">什么时候用</a><a href="#limits">限制</a><a href="#benefit">收益</a></div>
+  </aside>
+  <main class="main">
+    <article class="doc">
+      <h1>鸿蒙代码验证器使用文档</h1>
+<p>鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用的代码。它读取需求和工程源码，为每条需求编写 Harmony 单元测试和界面测试，写进工程的测试目录，在真机或模拟器上执行，然后逐条给出“满足、违反、未验证”的结论和证据。你允许修复时，它按失败修改生产代码，再用同一套测试全量复测，直到没有可以修复的失败为止。</p>
+<p>它看得到代码：从源码找到页面、控件和状态，单元测试直接调用 ViewModel 核对内部结果，界面测试按源码里的文字和结构定位控件。只在界面上点一遍、看不到内部状态时容易漏掉的问题，也能测出来。</p>
+<p>适用于按需求从零生成的鸿蒙应用（0-1 生成），以及从 Android 迁移来的鸿蒙应用。只用于鸿蒙 Stage 工程。</p>
+
+<h2 id="prepare">使用前准备<a class="hash" href="#prepare" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody>
+<tr><td>DSH</td><td><code>^0.2.1-rc.2</code></td></tr>
+<tr><td>工程</td><td>鸿蒙 Stage 工程根目录：有 <code>build-profile.json5</code>，至少一个模块有 <code>src/main/module.json5</code></td></tr>
+<tr><td>需求文档</td><td>文本格式的需求说明，例如 <code>spec/spec.md</code>；可以另给 Android 工程作为行为参照</td></tr>
+<tr><td>鸿蒙工具链</td><td>DevEco Studio 自带的 SDK、hvigor、ohpm 和 hdc</td></tr>
+<tr><td>设备</td><td>一台真机或模拟器，<code>hdc list targets</code> 能看到</td></tr>
+<tr><td>Node.js</td><td>22.22 或更高</td></tr>
+<tr><td>Python</td><td>3.11 或更高，界面测试使用，需要能导入 hypium 6.1.0.210 和 xdevice；启动 DSH 前把 <code>DT_VERIFY_PYTHON</code> 设为这个解释器的绝对路径</td></tr>
+</tbody></table></div>
+
+<p><strong>安装并启动 DSH。</strong>DSH 通过 npm 运行，装好 Node.js 后不需要单独安装。在终端里先把界面测试用的 Python 告诉 DSH，再启动 DSH 网页版：</p>
+<div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>export DT_VERIFY_PYTHON=/absolute/path/to/python3
+npx @deepseek-ai/dsh web</code></pre></div>
+<p>第一行换成你的 Python 解释器的绝对路径。DSH 默认在 <code>http://127.0.0.1:3080</code> 启动，并用默认浏览器打开页面；加 <code>--no-open</code> 只启动服务、不打开浏览器，端口被占用时加 <code>--port &lt;端口&gt;</code>。第一次使用时，打开「设置」→「模型」，填入 DeepSeek API 密钥并保存。</p>
+
+<h2 id="install">安装<a class="hash" href="#install" aria-label="本节链接">#</a></h2>
+<p>下面的录屏演示验证一个 demo 工程。</p>
+<figure id="recording" class="video">
+<video controls autoplay muted loop playsinline preload="auto" poster="assets/dsh-install-demo-poster.jpg" aria-label="录屏：在 DSH 中安装鸿蒙代码验证器并发起一次验证"><source src="assets/dsh-install-demo.mp4" type="video/mp4"><track kind="captions" src="assets/dsh-install-demo-zh.vtt" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video>
+<figcaption class="small">2 分 18 秒，循环播放，附中文字幕。录自 DSH 0.2.1-rc.2 网页版，安装的是当时市场上的 0.1.0-dev.21，界面上显示的还是旧名称“DT 验证组件”。录屏到验证开始为止，完整运行约 90 分钟。</figcaption>
+</figure>
+<p>桌面版：打开「插件」→「发现」，在 Fuxi DSH 插件市场中找到“鸿蒙代码验证器”，点击安装。还没有「发现」时，先在「实验性插件」旁的「更多」中启用「自定义插件市场」，再添加索引源：</p>
+<div class="code"><div class="code-bar"><span>插件市场索引</span><button type="button" class="copy">复制</button></div><pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre></div>
+<p>命令行：先退出 DSH，再执行下面的命令（需要 PATH 上能找到 pnpm）：</p>
+<div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>npx @deepseek-ai/dsh plugin --profile web add @fuxi-ailabs/dsh-dt-verify</code></pre></div>
+<p><code>web</code> 换成你使用的 profile。安装后插件注册 <code>dt-verify</code> Skill 和 5 个名称以“鸿蒙代码验证器子任务”开头的子 Agent 角色。这些角色只用于委派，不要用它们新建会话。</p>
+
+<h2 id="usage">使用<a class="hash" href="#usage" aria-label="本节链接">#</a></h2>
+<ol>
+<li>在 DSH 中把鸿蒙工程根目录作为工作区打开，确认设备（模拟器或测试真机）在线，<code>hdc list targets</code> 能看到。</li>
+<li>在输入框输入 <code>/dt-verify</code> 选中 Skill，再写上要验证的工程和需求文档，发送。路径和设备换成你自己的；只想验证、不改代码时，把“并修复发现的问题”改成“只验证，不修改生产代码”。</li>
+</ol>
+<div class="code"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy">复制</button></div><pre><code>/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。</code></pre></div>
+<ol start="3">
+<li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里全量复测。整个过程不需要确认。“收益”一节的 3 个应用，每个用时 71–90 分钟。</li>
+<li>结束后，回复里给出运行目录、链式汇总的路径、每条需求的结论和修复的改动。按下一节读结果。</li>
+</ol>
+
+<h2 id="results">读懂结果<a class="hash" href="#results" aria-label="本节链接">#</a></h2>
+<p>测试跑没跑成，和需求有没有被满足，是两个问题。汇总按验收要求分别给出：</p>
+<div class="table"><table><thead><tr><th>用例状态</th><th>含义</th></tr></thead><tbody>
+<tr><td><code>PASS</code></td><td>按计划执行，结果符合预期</td></tr>
+<tr><td><code>FAIL</code></td><td>执行了，结果与预期不符</td></tr>
+<tr><td><code>BLOCKED</code></td><td>缺少环境、设备或前置条件，或证据复核没有通过，没有得到有效结果</td></tr>
+</tbody></table></div>
+<div class="table"><table><thead><tr><th>要求结论</th><th>含义</th></tr></thead><tbody>
+<tr><td><code>SATISFIED</code>（满足）</td><td>有充分证据表明要求被满足</td></tr>
+<tr><td><code>VIOLATED</code>（违反）</td><td>有效证据表明要求被违反</td></tr>
+<tr><td><code>UNVERIFIED</code>（未验证）</td><td>证据不足、执行受阻，或没有可观察的界面；不会被其他要求的通过补齐</td></tr>
+</tbody></table></div>
+<p>测试写在工程里：单元测试在 <code>entry/src/ohosTest/ets/test</code>，界面测试在 <code>entry/src/ohosTest/ui-scripts</code>。运行目录里，<code>acceptance.json</code> 是验收要求，<code>accepted-plan.json</code> 是审查后冻结的正式计划，<code>attempts/</code> 下是每次执行的用例状态、每一步的截图和控件树，最后一轮运行里的 <code>chain-summary-*.json</code> 是整次运行的最终交付。</p>
+
+<h2 id="what">有什么用<a class="hash" href="#what" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>能力</th><th>说明</th></tr></thead><tbody>
+<tr><td>每条需求都有结论</td><td>需求拆成带原文行号的验收要求，每条给出满足、违反或未验证，并附上截图、控件树和日志的位置</td></tr>
+<tr><td>测试写进工程</td><td>单元测试和界面测试都写在工程的 <code>ohosTest</code> 目录里，可以随代码提交，以后再跑</td></tr>
+<tr><td>先审计划，再执行</td><td>写好的测试由没有参与编写的审查者逐条接受或拒绝，接受的用例冻结以后才上设备执行</td></tr>
+<tr><td>发现问题后修复</td><td>只改生产代码，不改测试；修复后用同一套测试全量复测，最多 5 轮</td></tr>
+<tr><td>结论可以回查</td><td>每次执行单独留档，汇总时再按原始证据复核；执行受阻或证据不够的要求记为未验证，不算通过</td></tr>
+</tbody></table></div>
+
+<h2 id="how">验证原理<a class="hash" href="#how" aria-label="本节链接">#</a></h2>
+<p>一次完整的“验证并修复”按下面的流程进行。第 5 到第 8 步是修复循环，每一轮都在新的运行目录里复测，前一轮的证据保留不动。</p>
+<div class="flow">
+<svg viewBox="0 0 760 740" role="img" aria-labelledby="flow-title flow-desc">
+<title id="flow-title">鸿蒙代码验证器的验证与修复流程</title>
+<desc id="flow-desc">输入需求文档、工程源码和可选的 Android 工程；依次冻结来源、整理验收项、编写测试、独立审查、设备执行、汇总结论。有违反且允许修复时，修复生产代码，派生新运行全量复测，回到设备执行，最多 5 轮；否则交付链式汇总。</desc>
+<defs>
+<marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fl-m"/></marker>
+<marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fl-m loop"/></marker>
+</defs>
+<rect class="fl-in" x="20" y="8" width="140" height="40" rx="20"/><text class="fl-d" x="90" y="33" text-anchor="middle">需求文档（Spec）</text>
+<rect class="fl-in" x="175" y="8" width="140" height="40" rx="20"/><text class="fl-d" x="245" y="33" text-anchor="middle">鸿蒙工程源码</text>
+<rect class="fl-in" x="330" y="8" width="140" height="40" rx="20"/><text class="fl-d" x="400" y="33" text-anchor="middle">Android（可选）</text>
+<path class="fl-a" d="M90 48V62M245 48V62M400 48V62M90 62H400"/>
+<path class="fl-a" d="M245 62V78" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="80" width="450" height="60" rx="8"/><text class="fl-n" x="38" y="106">1</text><text class="fl-t" x="60" y="106">冻结来源</text><text class="fl-d" x="60" y="127">工程和需求文档拍成快照，之后只从快照回查原文</text>
+<path class="fl-a" d="M245 140V158" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="160" width="450" height="60" rx="8"/><text class="fl-n" x="38" y="186">2</text><text class="fl-t" x="60" y="186">整理验收项</text><text class="fl-d" x="60" y="207">需求拆成带原文行号的要求，标出单元、界面、状态刷新等类型</text>
+<path class="fl-a" d="M245 220V238" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="240" width="450" height="80" rx="8"/><text class="fl-n" x="38" y="266">3</text><text class="fl-t" x="60" y="266">编写测试</text><text class="fl-d" x="60" y="287">单元测试（Hypium）和界面测试（Python 脚本）写进工程</text><text class="fl-d" x="60" y="307">子 Agent 按功能组、按页面并行编写</text>
+<path class="fl-a" d="M245 320V338" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="340" width="450" height="60" rx="8"/><text class="fl-n" x="38" y="366">4</text><text class="fl-t" x="60" y="366">独立审查</text><text class="fl-d" x="60" y="387">审查者逐条接受或拒绝，接受的用例冻结为正式计划</text>
+<path class="fl-a" d="M245 400V418" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="420" width="450" height="60" rx="8"/><text class="fl-n" x="38" y="446">5</text><text class="fl-t" x="60" y="446">设备执行</text><text class="fl-d" x="60" y="467">编译测试 HAP 装到设备，每条用例留下截图、控件树和命令记录</text>
+<path class="fl-a" d="M245 480V498" marker-end="url(#ah)"/>
+<rect class="fl-box" x="20" y="500" width="450" height="60" rx="8"/><text class="fl-n" x="38" y="526">6</text><text class="fl-t" x="60" y="526">汇总结论</text><text class="fl-d" x="60" y="547">每条要求给出满足、违反或未验证，汇总时再复核原始证据</text>
+<path class="fl-a" d="M245 560V580" marker-end="url(#ah)"/>
+<polygon class="fl-ask" points="245,582 375,614 245,646 115,614"/><text class="fl-t" x="245" y="619" text-anchor="middle">有违反，且允许修复？</text>
+<path class="fl-a" d="M245 646V670" marker-end="url(#ah)"/><text class="fl-d" x="255" y="663">否</text>
+<rect class="fl-box" x="20" y="672" width="450" height="60" rx="8"/><text class="fl-t" x="60" y="698">交付链式汇总</text><text class="fl-d" x="60" y="719">每条需求的最终结论取最后一轮运行</text>
+<path class="fl-a loop" d="M375 614H518" marker-end="url(#ahl)"/><text class="fl-l" x="440" y="606" text-anchor="middle">是</text>
+<rect class="fl-loop" x="520" y="578" width="220" height="72" rx="8"/><text class="fl-n" x="538" y="602">7</text><text class="fl-t" x="560" y="602">修复</text><text class="fl-d" x="560" y="622">按失败包只改生产代码，</text><text class="fl-d" x="560" y="640">测试有问题走申诉</text>
+<path class="fl-a loop" d="M630 578V486" marker-end="url(#ahl)"/><text class="fl-l" x="642" y="536">最多 5 轮</text>
+<rect class="fl-loop" x="520" y="412" width="220" height="72" rx="8"/><text class="fl-n" x="538" y="436">8</text><text class="fl-t" x="560" y="436">派生运行</text><text class="fl-d" x="560" y="456">修复后的代码重新构建，</text><text class="fl-d" x="560" y="474">用同一套测试全量复测</text>
+<path class="fl-a loop" d="M520 450H472" marker-end="url(#ahl)"/>
+</svg>
+</div>
+<p>它能测出问题，靠的是下面几种做法。例子来自一个按需求生成的电商应用。</p>
+<div class="table"><table><thead><tr><th>做法</th><th>能测出什么</th><th>例子</th></tr></thead><tbody>
+<tr><td>每条用例绑定到需求原文</td><td>漏做或做错的功能</td><td>需求要求“登录时核对注册的凭据”，用例用未注册的手机号登录，应用却登录成功</td></tr>
+<tr><td>状态刷新单独成类</td><td>页面已经打开时数据变化，页面还显示旧值；重新进入页面才正确的问题</td><td>购物车页开着时再加一次同一商品，条目数量仍是 1，底部合计已经是 2 件</td></tr>
+<tr><td>单元测试直接调用业务代码</td><td>界面上不容易触发的逻辑分支</td><td>直接调用 <code>UserViewModel.login</code>，未注册账号应返回 <code>false</code></td></tr>
+<tr><td>修复时不能改测试</td><td>为了通过而放宽断言、改测试</td><td>测试本身有问题时提出申诉，重新审查通过后才换用修订的用例</td></tr>
+<tr><td>每轮全量复测</td><td>修好一处、改坏另一处</td><td>修好登录后，一条“不注册直接登录成功”的旧单元测试失败，被识别为测试问题并修订</td></tr>
+</tbody></table></div>
+
+<h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
+<div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody>
+<tr><td>按需求从零生成鸿蒙应用（0-1 生成）以后</td><td>按需求文档逐条核对生成结果，不通过的功能直接修复，并留下可以重跑的测试</td></tr>
+<tr><td>Android 应用迁移到鸿蒙以后的验收</td><td>按需求文档逐条核对迁移结果，修复迁移中做错或漏掉的功能</td></tr>
+<tr><td>功能开发完成后的自测和回归</td><td>改动以后按需求回归，确认没有把已有功能改坏</td></tr>
+<tr><td>交付前核对</td><td>一份按需求逐条列出结论和证据的验收结果，可以直接交给评审</td></tr>
+</tbody></table></div>
+<p>没有需求文档、不是鸿蒙 Stage 工程，或者主要功能依赖相机、华为账号这类模拟器不具备的能力时，用处不大。</p>
+
+<h2 id="limits">限制<a class="hash" href="#limits" aria-label="本节链接">#</a></h2>
+<p>分三类：模拟器上测不了、换真机可以补上的；真机上也测不了的；以及和设备无关的使用限制。“收益”一节的数据都是在模拟器上跑出来的。</p>
+<p><strong>模拟器不支持，真机支持</strong></p>
+<div class="table"><table><thead><tr><th>能力</th><th>模拟器上</th><th>真机上</th></tr></thead><tbody>
+<tr><td>相机拍照</td><td>调起系统相机后一直等待，不返回拍摄结果，记为未验证</td><td>相机可用；拍照界面属于系统相机，需要人工拍照后再验证后续功能</td></tr>
+<tr><td>振动</td><td>没有马达，调用直接报错，记为未验证</td><td>能振动，但验证器目前读不到振动状态，仍需人工确认</td></tr>
+<tr><td>端侧 AI 能力，例如 AI 字幕</td><td>接口不可用，没有回调，记为未验证</td><td>设备支持时可用，需要在真机上运行验证</td></tr>
+<tr><td>碰一碰、发送到其他设备</td><td>不支持</td><td>需要两台真机，人工测试</td></tr>
+</tbody></table></div>
+<p>在真机上运行时，设备要开启开发者模式，并能用 <code>hdc list targets</code> 看到；工程要配好签名，可以用 DevEco Studio 的自动签名。验证器在真机上的完整运行还没有验收。</p>
+<p><strong>真机上也测不了</strong></p>
+<div class="table"><table><thead><tr><th>情况</th><th>结果</th></tr></thead><tbody>
+<tr><td>Canvas 绘制的内容，以及没有文字和 id 的图片、开关</td><td>定位不到，记为未验证</td></tr>
+<tr><td>通知、提醒、后台任务等系统状态</td><td>读不到系统侧的状态，只能确认应用调用过接口，记为未验证</td></tr>
+<tr><td>由系统分享目标完成的发送</td><td>在应用之外，只能确认分享面板被拉起</td></tr>
+<tr><td>华为账号登录成功的路径</td><td>需要真实华为账号和应用的 AGC 配置，只验证登录入口和失败提示</td></tr>
+<tr><td>显示问题，例如字形显示错误、颜色细节</td><td>用例按控件文字判断，看不到这类问题，可能判为通过</td></tr>
+</tbody></table></div>
+<p><strong>使用限制</strong></p>
+<div class="table"><table><thead><tr><th>情况</th><th>说明</th></tr></thead><tbody>
+<tr><td>运行时间</td><td>一个应用通常要 20–120 分钟，期间独占一台设备；同一个应用不要在同一台设备上同时跑两次</td></tr>
+<tr><td>修复会改生产代码</td><td>建议在单独的分支上运行，结束后检查改动再合入</td></tr>
+</tbody></table></div>
+
+<h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
+<p>下面分两个场景给出初步数据：按需求从零生成的鸿蒙应用（0-1 生成场景），以及从 Android 迁移来的鸿蒙应用（迁移场景）。两个场景的运行方式和判定方式不同，每个场景先说明实验准备和实验设置，再给结果。</p>
+
+<h3>0-1 生成场景：测试检测与修复</h3>
+<p><strong>实验准备</strong></p>
+<div class="table"><table><thead><tr><th>项</th><th>说明</th></tr></thead><tbody>
+<tr><td>应用</td><td>一批按需求文档用 ArkTS 从零生成的鸿蒙应用，每个应用都有需求文档（<code>spec.md</code>）和一份人工验收清单</td></tr>
+<tr><td>修复前的结果</td><td>人工验收：按验收清单逐个功能点验收，记通过、失败或无法验证。验证器拿到的是人工验收时的同一版代码</td></tr>
+<tr><td>选取范围</td><td>人工验收中有失败或无法验证功能点的应用共 18 个，目前跑完 9 个。其中 3 个修复后通过率提升，本节列出这 3 个；其余 6 个修复前后通过率不变</td></tr>
+<tr><td>修复后的结果</td><td>修复后的代码装到设备上，按同一份验收清单逐项人工确认，确认修好的功能点才计入</td></tr>
+</tbody></table></div>
+<p><strong>实验设置</strong></p>
+<div class="table"><table><thead><tr><th>项</th><th>设置</th></tr></thead><tbody>
+<tr><td>插件</td><td>0.1.0-dev.28，与本页安装的 DSH 版本是同一套 Skill，在 DevEco Code 命令行中无人值守运行</td></tr>
+<tr><td>模型</td><td>deepseek-flash，推理强度 high</td></tr>
+<tr><td>输入</td><td>只给工程目录和需求文档，不给人工验收清单；提问要求验证并修复，中途不提问</td></tr>
+<tr><td>设备</td><td>运行时用 nova 16 模拟器；修复后的确认在真机或模拟器上进行</td></tr>
+<tr><td>运行方式</td><td>每个应用单独运行，跑到修复循环结束，最多 5 轮</td></tr>
+</tbody></table></div>
+<p><strong>结果</strong></p>
+<p>3 个应用的验收功能点通过率从 50 / 64（78.1%）提高到 58 / 64（90.6%），共修好 8 个功能点：</p>
+<figure class="chart">
+<svg viewBox="0 0 740 252" role="img" aria-labelledby="c1-title c1-desc">
+<title id="c1-title">0-1 生成场景：修复前后的验收功能点通过率</title>
+<desc id="c1-desc">文档扫描工具 74.3% 提高到 85.7%；番茄钟 85.7% 提高到 92.9%；传奇今生 80.0% 提高到 100%；3 个应用合计 78.1% 提高到 90.6%。</desc>
+<circle class="vz-2 vz-dot" cx="10" cy="14" r="6"/><text class="vz-legend" x="22" y="19">修复前（人工验收）</text>
+<circle class="vz-1 vz-dot" cx="170" cy="14" r="6"/><text class="vz-legend" x="182" y="19">修复后（验证器修复，设备上逐项确认）</text>
+<line class="vz-grid" x1="170.0" y1="40" x2="170.0" y2="220"/><text class="vz-tick" x="170.0" y="240" text-anchor="middle">50%</text>
+<line class="vz-grid" x1="272.0" y1="40" x2="272.0" y2="220"/><text class="vz-tick" x="272.0" y="240" text-anchor="middle">60%</text>
+<line class="vz-grid" x1="374.0" y1="40" x2="374.0" y2="220"/><text class="vz-tick" x="374.0" y="240" text-anchor="middle">70%</text>
+<line class="vz-grid" x1="476.0" y1="40" x2="476.0" y2="220"/><text class="vz-tick" x="476.0" y="240" text-anchor="middle">80%</text>
+<line class="vz-grid" x1="578.0" y1="40" x2="578.0" y2="220"/><text class="vz-tick" x="578.0" y="240" text-anchor="middle">90%</text>
+<line class="vz-grid" x1="680.0" y1="40" x2="680.0" y2="220"/><text class="vz-tick" x="680.0" y="240" text-anchor="middle">100%</text>
+<line class="vz-grid" x1="0" y1="174" x2="740" y2="174"/>
+<g class="vz-row" tabindex="0"><title>文档扫描工具：修复前 26/35（74.3%），修复后 30/35（85.7%）</title><rect class="vz-hit" x="0" y="46" width="740" height="40" rx="6"/><text class="vz-label" x="0" y="71">文档扫描工具</text><line class="vz-link" x1="417.7" y1="66" x2="534.3" y2="66"/><circle class="vz-2 vz-dot" cx="417.7" cy="66" r="6"/><circle class="vz-1 vz-dot" cx="534.3" cy="66" r="6"/><text class="vz-val muted" x="405.7" y="71" text-anchor="end">74.3%</text><text class="vz-val" x="546.3" y="71">85.7%</text></g>
+<g class="vz-row" tabindex="0"><title>番茄钟：修复前 12/14（85.7%），修复后 13/14（92.9%）</title><rect class="vz-hit" x="0" y="88" width="740" height="40" rx="6"/><text class="vz-label" x="0" y="113">番茄钟</text><line class="vz-link" x1="534.3" y1="108" x2="607.1" y2="108"/><circle class="vz-2 vz-dot" cx="534.3" cy="108" r="6"/><circle class="vz-1 vz-dot" cx="607.1" cy="108" r="6"/><text class="vz-val muted" x="522.3" y="113" text-anchor="end">85.7%</text><text class="vz-val" x="619.1" y="113">92.9%</text></g>
+<g class="vz-row" tabindex="0"><title>传奇今生（电商）：修复前 12/15（80.0%），修复后 15/15（100%）</title><rect class="vz-hit" x="0" y="130" width="740" height="40" rx="6"/><text class="vz-label" x="0" y="155">传奇今生（电商）</text><line class="vz-link" x1="476.0" y1="150" x2="680.0" y2="150"/><circle class="vz-2 vz-dot" cx="476.0" cy="150" r="6"/><circle class="vz-1 vz-dot" cx="680.0" cy="150" r="6"/><text class="vz-val muted" x="464.0" y="155" text-anchor="end">80.0%</text><text class="vz-val" x="692.0" y="155">100%</text></g>
+<g class="vz-row" tabindex="0"><title>合计（3 个应用）：修复前 50/64（78.1%），修复后 58/64（90.6%）</title><rect class="vz-hit" x="0" y="178" width="740" height="40" rx="6"/><text class="vz-label total" x="0" y="203">合计（3 个应用）</text><line class="vz-link" x1="456.9" y1="198" x2="584.4" y2="198"/><circle class="vz-2 vz-dot" cx="456.9" cy="198" r="6"/><circle class="vz-1 vz-dot" cx="584.4" cy="198" r="6"/><text class="vz-val muted" x="444.9" y="203" text-anchor="end">78.1%</text><text class="vz-val" x="596.4" y="203">90.6%</text></g>
+</svg>
+<figcaption class="small">横轴从 50% 开始。悬停在每一行上可以看到功能点数。</figcaption>
+</figure>
+<p class="small">修好的 8 个功能点中，3 个由验证器自己测出并修好：文档扫描工具的“批量选择扫描记录”，传奇今生的“登录核对账号”和“重复加购时数量累加”。另外 5 个没有被单独测出失败，是验证器修复其他失败时一起修好的。修好的功能点都在设备上确认过：文档扫描工具在真机上，另外两个在模拟器上。每个应用用时 71–90 分钟，生产代码改动都很小（2–3 个文件，最多 +38 行）。没有测出的点主要是模拟器缺少的能力（相机、振动、账号）、没有可观察的界面（Canvas 绘制、系统分享）和显示问题。</p>
+
+<h3>迁移场景</h3>
+<p><strong>实验准备</strong></p>
+<div class="table"><table><thead><tr><th>项</th><th>说明</th></tr></thead><tbody>
+<tr><td>应用</td><td>Cofi、AntennaPod 两个从 Android 迁移到鸿蒙的应用</td></tr>
+<tr><td>功能清单</td><td>人工整理的功能清单：Cofi 335 个功能点，AntennaPod 599 个（去重合并），每个功能点标为可用、部分可用或不可用</td></tr>
+<tr><td>修复前的结果</td><td>迁移完成、还没有做验证修复的版本</td></tr>
+<tr><td>判定方式</td><td>按功能清单逐条对照修复前后的产品代码判定可用性；界面测试修复的两组没有逐项装机复核</td></tr>
+</tbody></table></div>
+<p><strong>实验设置</strong></p>
+<div class="table"><table><thead><tr><th>项</th><th>设置</th></tr></thead><tbody>
+<tr><td>验证方式</td><td>分两种分别运行：只用界面测试验证并修复，或只用单元测试验证并修复；都只改生产代码</td></tr>
+<tr><td>运行</td><td>界面测试修复在 Codex 上运行（gpt-6.1-sol，high）；单元测试修复在 DevEco Code 上运行（deepseek-v4.1-flash）</td></tr>
+<tr><td>设备</td><td>鸿蒙模拟器</td></tr>
+<tr><td>用时</td><td>界面测试修复：Cofi 6.4 小时，AntennaPod 8.8 小时；单元测试修复：AntennaPod 约 5.6 小时</td></tr>
+</tbody></table></div>
+<p><strong>结果</strong></p>
+<figure class="chart">
+<svg viewBox="0 0 740 190" role="img" aria-labelledby="c2-title c2-desc">
+<title id="c2-title">迁移场景：修复后变为可用的功能点占比</title>
+<desc id="c2-desc">Cofi 界面测试修复 10.1%；AntennaPod 界面测试修复直接修复 6.0%，加上入口恢复共 27.9%；AntennaPod 单元测试修复 6.2%。</desc>
+<rect class="vz-1" x="4" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="22" y="19">直接修复后变为可用</text>
+<rect class="vz-2" x="180" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="198" y="19">入口恢复后能进入（功能本身未逐项验证）</text>
+<line class="vz-grid" x1="200.0" y1="38" x2="200.0" y2="156"/><text class="vz-tick" x="200.0" y="176" text-anchor="middle">0%</text>
+<line class="vz-grid" x1="346.7" y1="38" x2="346.7" y2="156"/><text class="vz-tick" x="346.7" y="176" text-anchor="middle">10%</text>
+<line class="vz-grid" x1="493.3" y1="38" x2="493.3" y2="156"/><text class="vz-tick" x="493.3" y="176" text-anchor="middle">20%</text>
+<line class="vz-grid" x1="640.0" y1="38" x2="640.0" y2="156"/><text class="vz-tick" x="640.0" y="176" text-anchor="middle">30%</text>
+<g class="vz-row" tabindex="0"><title>Cofi · 界面测试修复：335 个功能点中 34 个变为可用（10.1%）</title><rect class="vz-hit" x="0" y="45" width="740" height="34" rx="6"/><text class="vz-label" x="0" y="67">Cofi · 界面测试修复</text><path class="vz-1" d="M200 52.0H344.1A4 4 0 0 1 348.1 56.0V68.0A4 4 0 0 1 344.1 72.0H200Z"/><text class="vz-val" x="356.1" y="67">10.1%（34 个）</text></g>
+<g class="vz-row" tabindex="0"><title>AntennaPod · 界面测试修复：599 个功能点中直接修复 36 个（6.0%），入口恢复后能进入 131 个（21.9%），共 167 个（27.9%）</title><rect class="vz-hit" x="0" y="83" width="740" height="34" rx="6"/><text class="vz-label" x="0" y="105">AntennaPod · 界面测试修复</text><path class="vz-1" d="M200 90.0H288.0V110.0H200Z"/><path class="vz-2" d="M290.0 90.0H605.2A4 4 0 0 1 609.2 94.0V106.0A4 4 0 0 1 605.2 110.0H290.0Z"/><text class="vz-val" x="617.2" y="105">共 27.9%（167 个）</text></g>
+<g class="vz-row" tabindex="0"><title>AntennaPod · 单元测试修复：599 个功能点中 37 个变为可用（6.2%）</title><rect class="vz-hit" x="0" y="121" width="740" height="34" rx="6"/><text class="vz-label" x="0" y="143">AntennaPod · 单元测试修复</text><path class="vz-1" d="M200 128.0H286.9A4 4 0 0 1 290.9 132.0V144.0A4 4 0 0 1 286.9 148.0H200Z"/><text class="vz-val" x="298.9" y="143">6.2%（37 个）</text></g>
+</svg>
+<figcaption class="small">悬停在每一行上可以看到功能点数。</figcaption>
+</figure>
+<p class="small">入口恢复的 131 个功能点，是入口或所在页面修好后能够进入，功能本身没有逐项验证。Cofi 的 34 个提升点里，有 29 个来自同一个问题：两个弹出面板的写法错误，导致面板弹不出来。</p>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#prepare">使用前准备</a><a href="#install">安装</a><a href="#usage">使用</a><a href="#results">读懂结果</a><a href="#what">有什么用</a><a href="#how">验证原理</a><a href="#when">什么时候用</a><a href="#limits">限制</a><a href="#benefit">收益</a></nav>
+  </main>
+</div>
+<footer class="foot"><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a> · 鸿蒙代码验证器（harmony-verify）· Fuxi AI Labs</footer>
+</body>
+</html>
