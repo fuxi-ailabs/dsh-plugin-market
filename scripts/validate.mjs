@@ -37,7 +37,7 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'index.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
 ])], ['plugins/ecat', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
-  'assets/before-without-plugin.jpg', 'assets/after-with-plugin.jpg',
+  'assets/before-without-plugin.jpg', 'assets/after-with-plugin.jpg', 'assets/hero-loop.jpg',
 ])], ['plugins/dt-verify', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'guide.html', 'docs.css', 'docs.js',
   'assets/verify-flow.jpg', 'assets/fix-before.jpg', 'assets/fix-after.jpg',
@@ -60,6 +60,8 @@ const publicLinks = new Map([['plugins/agentlineage', new Set([
   'https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh',
 ])], ['plugins/ecat', new Set([
   'https://github.com/fuxi-ailabs/ECAT',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/ecat/',
 ])], ['plugins/insight', new Set([
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle',
   'https://github.com/guixu-labs/dsh-plugin',

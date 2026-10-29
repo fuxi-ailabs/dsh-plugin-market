@@ -22,18 +22,21 @@
   },
   "useCases": [
     {
+      "audience": "长程任务的开发者",
       "title": "模型改了几处就说“已完成”",
       "question": "“它说改完了，可到底还差多少？”",
       "description": "把验收标准写成维度，判别器逐项检查并给出分数，生成器只按未通过清单继续改。",
       "prompt": "用 ECAT 处理 ./target：把编译通过、接口契约、权限声明分别定成维度并给权重，先跑一轮报告每个维度的得分和总分，再按未通过的项继续迭代。"
     },
     {
+      "audience": "需要跨轮一致性的人",
       "title": "长程任务中途标准走样",
       "question": "“跑到第 20 轮，判据和一开始不一样了？”",
       "description": "判据写在配置和插件里，每一轮都读同一份，不随对话漂移；跨端迁移这类需要逐项对账的任务尤其明显。",
       "prompt": "检查当前 ECAT 工作区里各维度的判据定义，确认它们与 ecat.config.yaml 一致；列出最近一轮的评分依据。"
     },
     {
+      "audience": "判据能写清的团队",
       "title": "验收标准能写成检查、但一轮轮改很费人",
       "question": "“编译、接口契约、页面结构这些都能验，就是得反复改十几轮。”",
       "description": "判据明确但打磨轮次长的活：重构、接口对齐、测试修复、跨端迁移。把判据写进去，让它自己循环。",
@@ -43,87 +46,90 @@
   "example": {
     "title": "怎么用：把一个安卓仓迁移到鸿蒙仓",
     "description": "每步发一条命令。",
-    "label": "操作演示 · 固定示意",
-    "file": "DSH 输入框",
-    "question": "把安卓工程迁移到鸿蒙工程，按什么顺序发？",
-    "answer": "setup 写判据 → preflight 核对 → start 跑起来 → status 看分数 → stop 收手。",
-    "session": "demo-usage",
-    "ui": {
-      "events": "步骤",
-      "context": "发送位置",
-      "changeTab": "发送内容",
-      "evidenceTab": "会发生什么",
-      "action": "命令",
-      "contextField": "位置",
-      "request": "发送",
-      "result": "返回",
-      "resultText": "结果",
-      "status": "已完成"
-    },
-    "operations": [
-      {
-        "tool": "setup",
-        "title": "写判据",
-        "description": "描述任务与验收标准。",
-        "removed": [],
-        "added": [
-          "/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过"
-        ],
-        "result": "访谈后生成 ecat.config.yaml 和维度插件",
-        "requestRef": "DSH 输入框",
-        "resultRef": "ecat.config.yaml + 维度插件"
-      },
-      {
-        "tool": "preflight",
-        "title": "核对配置",
-        "description": "只检查，不改动。",
-        "removed": [],
-        "added": [
-          "/ecat-refine preflight"
-        ],
-        "result": "列出配置项与 FAIL/WARN 计数",
-        "requestRef": "DSH 输入框",
-        "resultRef": "终端输出"
-      },
-      {
-        "tool": "start",
-        "title": "启动",
-        "description": "后台跑。",
-        "removed": [],
-        "added": [
-          "/ecat-refine start"
-        ],
-        "result": "返回 pid 与日志路径，循环开始迭代",
-        "requestRef": "DSH 输入框",
-        "resultRef": ".ecat/runs_*/run.log"
-      },
-      {
-        "tool": "status",
-        "title": "看分数",
-        "description": "查进度。",
-        "removed": [],
-        "added": [
-          "/ecat-refine status"
-        ],
-        "result": "最新 H、各维度得分、最近 8 轮曲线",
-        "requestRef": "DSH 输入框",
-        "resultRef": "终端输出"
-      },
-      {
-        "tool": "stop",
-        "title": "停止",
-        "description": "收手。",
-        "removed": [],
-        "added": [
-          "/ecat-refine stop"
-        ],
-        "result": "停止循环，记录留在 .ecat/runs_*/",
-        "requestRef": "DSH 输入框",
-        "resultRef": ".ecat/runs_*/ 保留"
-      }
-    ],
+    "note": "交互使用固定示意数据，不读取你的工程；下方对比图是两种做法的差别示意。",
     "prompt": "/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过",
-    "note": "交互使用固定示意数据，不读取你的工程；下方对比图是两种做法的差别示意。"
+    "interactive": {
+      "type": "file-history",
+      "label": "操作演示 · 固定示意",
+      "file": "DSH 输入框",
+      "question": "把安卓工程迁移到鸿蒙工程，按什么顺序发？",
+      "answer": "setup 写判据 → preflight 核对 → start 跑起来 → status 看分数 → stop 收手。",
+      "session": "demo-usage",
+      "ui": {
+        "events": "步骤",
+        "context": "发送位置",
+        "changeTab": "发送内容",
+        "evidenceTab": "会发生什么",
+        "action": "命令",
+        "contextField": "位置",
+        "request": "发送",
+        "result": "返回",
+        "resultText": "结果",
+        "status": "已完成"
+      },
+      "operations": [
+        {
+          "tool": "setup",
+          "title": "写判据",
+          "description": "描述任务与验收标准。",
+          "removed": [],
+          "added": [
+            "/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过"
+          ],
+          "result": "访谈后生成 ecat.config.yaml 和维度插件",
+          "requestRef": "DSH 输入框",
+          "resultRef": "ecat.config.yaml + 维度插件"
+        },
+        {
+          "tool": "preflight",
+          "title": "核对配置",
+          "description": "只检查，不改动。",
+          "removed": [],
+          "added": [
+            "/ecat-refine preflight"
+          ],
+          "result": "列出配置项与 FAIL/WARN 计数",
+          "requestRef": "DSH 输入框",
+          "resultRef": "终端输出"
+        },
+        {
+          "tool": "start",
+          "title": "启动",
+          "description": "后台跑。",
+          "removed": [],
+          "added": [
+            "/ecat-refine start"
+          ],
+          "result": "返回 pid 与日志路径，循环开始迭代",
+          "requestRef": "DSH 输入框",
+          "resultRef": ".ecat/runs_*/run.log"
+        },
+        {
+          "tool": "status",
+          "title": "看分数",
+          "description": "查进度。",
+          "removed": [],
+          "added": [
+            "/ecat-refine status"
+          ],
+          "result": "最新 H、各维度得分、最近 8 轮曲线",
+          "requestRef": "DSH 输入框",
+          "resultRef": "终端输出"
+        },
+        {
+          "tool": "stop",
+          "title": "停止",
+          "description": "收手。",
+          "removed": [],
+          "added": [
+            "/ecat-refine stop"
+          ],
+          "result": "停止循环，记录留在 .ecat/runs_*/",
+          "requestRef": "DSH 输入框",
+          "resultRef": ".ecat/runs_*/ 保留"
+        }
+      ]
+    }
   },
   "comparison": {
     "title": "用与不用，过程中的差别",
@@ -172,19 +178,19 @@
   "boundaries": [
     {
       "title": "不判断业务正确性",
-      "description": "熵下降只说明在这组判据上更整齐。判据设计错了，循环会高效地朝错误方向优化。"
+      "description": "熵下降只说明在这组判据上更整齐。判据本身设计错了，循环会高效地朝错误方向优化，所以判据要你自己定、自己复核。"
     },
     {
-      "title": "循环不会自己停",
-      "description": "达到阈值或你收手时用 /ecat-refine stop 停止，否则会持续消耗模型调用。"
+      "title": "会自动停，但上限由你定",
+      "description": "总分连续 stable_iters_to_stop 轮（默认 2）低于 entropy_threshold 时提前结束；否则跑到 max_iterations（默认 100 轮）为止。想中途收手用 /ecat-refine stop，已跑完的产物都保留。"
     },
     {
       "title": "只覆盖你配置的目录",
-      "description": "目标目录之外的改动不会被处理；跨仓库的约束要写成一条显式检查命令才可见。"
+      "description": "paths.target 之外的改动不会被处理；跨仓库的约束要写成一条显式检查命令，否则循环感知不到。"
     },
     {
       "title": "已有环境不会自动升级",
-      "description": "~/.dsh/ecat-venv 存在即复用，不校验版本。插件升级后需手动删掉该目录再跑一次 /ecat-setup。"
+      "description": "~/.dsh/ecat-venv 存在即复用，不校验版本。插件升级后需手动删掉该目录，再跑一次 /ecat-setup。"
     }
   ],
   "quickstart": {
@@ -235,6 +241,39 @@
     {
       "label": "ECAT 仓库与文档 ↗",
       "url": "https://github.com/fuxi-ailabs/ECAT"
+    }
+  ],
+  "install": {
+    "code": "npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-ecat@0.1.0-alpha.1",
+    "codeLabel": "终端 · 安装熵减对抗优化器",
+    "note": "先退出 DSH，把 web 换成你使用的 Profile；需要 PATH 上能找到 pnpm。"
+  },
+  "heroMedia": {
+    "image": "assets/hero-loop.jpg",
+    "alt": "流程图：一条任务描述进入后，判别器按判据找问题，问题清单交给生成器改代码，改完重新打分，如此循环直到分数不再下降。",
+    "title": "判别器找问题，生成器改代码",
+    "description": "两个独立会话交替，每轮结束重新打分；少数维度达标不算收敛，要连续几轮低于阈值才停。"
+  },
+  "faq": [
+    {
+      "question": "什么样的任务适合用？",
+      "answer": "验收标准能写成可执行检查、且需要反复改很多轮的任务：大规模重构、接口契约对齐、测试修复、跨端迁移。判据只靠主观感觉的不适合——那种情况循环没有方向。"
+    },
+    {
+      "question": "它和我直接让模型改有什么区别？",
+      "answer": "生成器和判别器是两个独立会话，判别器看不到生成器的解释，只按你定的判据打分。这样不会出现“改了几处就说已完成”，而且每一轮的分数可以互相比较。"
+    },
+    {
+      "question": "一轮要跑多久？跑完我会看到什么？",
+      "answer": "一轮从几分钟到几十分钟，取决于目标规模、维度数量和模型速度，所以循环在后台跑。/ecat-refine status 随时给出最新总分、各维度得分和最近几轮曲线；每轮的改动、分数和日志都留在 .ecat/runs_*/ 下。"
+    },
+    {
+      "question": "46.4% → 74.7% 是怎么来的？",
+      "answer": "这是鸿蒙代码仓迁移场景下的一次运行结果，指标是迁移质量评分。本页只作为该场景的实例引用；具体的维度构成与样本口径以 ECAT 仓库的运行记录为准。"
+    },
+    {
+      "question": "会不会改坏我的代码？",
+      "answer": "它只改 paths.target 指向的目录。发生回归时按 revert_on_regression 自动撤销那一轮；建议在单独分支上跑，结束时检查 diff 再合入。"
     }
   ]
 }
