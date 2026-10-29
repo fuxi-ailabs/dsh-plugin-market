@@ -35,7 +35,12 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'workflow.html',
 ])], ['plugins/workflow-rsi', new Set([
   'index.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
-])], ['plugins/ecat', new Set(['index.html'])], ['plugins/dt-verify', new Set(['index.html', 'styles.css'])], ['plugins/insight', new Set([
+])], ['plugins/ecat', new Set(['index.html'])], ['plugins/dt-verify', new Set([
+  'index.html', 'docs.css', 'docs.js',
+  'assets/case-cart-steps.jpg', 'assets/case-login-steps.jpg',
+  'assets/f14-before.jpg', 'assets/f14-after.jpg', 'assets/f8-before.jpg', 'assets/f8-after.jpg',
+  'assets/tree-project.jpg', 'assets/tree-run.jpg',
+])], ['plugins/insight', new Set([
   'index.html', 'styles.css', 'assets/icon.svg',
   'assets/plugin-config.jpg', 'assets/session-button.jpg', 'assets/score-card.jpg', 'assets/insight-score.jpg',
 ])], ['plugins/audit', new Set([
@@ -61,6 +66,8 @@ const publicLinks = new Map([['plugins/agentlineage', new Set([
 ])], ['plugins/skill-eval', new Set([
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle',
   'https://github.com/guixu-labs/dsh-plugin',
+])], ['plugins/dt-verify', new Set([
+  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify',
 ])], ['templates/plugin-page', new Set([
   'https://github.com/fuxi-ailabs/dsh-plugin-market/blob/main/docs/plugin-page-template.md',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',

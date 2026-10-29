@@ -227,12 +227,12 @@
     {
       "name": "@fuxi-ailabs/dsh-dt-verify",
       "title": {
-        "en": "DT Verification",
-        "zh": "DT 验证组件 · dt-verify"
+        "en": "HarmonyOS White-box Verifier",
+        "zh": "鸿蒙白盒验证器 · dt-verify"
       },
       "description": {
-        "en": "Turn a Spec into accepted verification plans, review them, verify HarmonyOS Stage projects with Harmony UT/UI tests, and summarize results with evidence. HarmonyOS projects only.",
-        "zh": "按 Spec 整理验收输入、统一审查计划，用 Harmony UT/UI 测试验证鸿蒙工程，并汇总结果与证据。只用于鸿蒙 Stage 工程。"
+        "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-runs all tests. HarmonyOS Stage projects only.",
+        "zh": "读取需求文档和源码，为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。只用于鸿蒙 Stage 工程。"
       },
       "icon": "icons/dt-verify.svg",
       "author": "Fuxi AI Labs",
@@ -250,7 +250,9 @@
           "验证",
           "验收",
           "鸿蒙",
-          "迁移"
+          "迁移",
+          "白盒",
+          "white-box"
         ]
       },
       "versions": [
