@@ -1,40 +1,31 @@
-# 组件介绍页自动审查
+# 使用 Codex 订阅审查组件介绍页
 
-审查要求在根目录 [AGENTS.md](../AGENTS.md)，PR 模板要求作者逐项说明元素位置或缺项原因。
-只写 Bash 命令可以；不要求同一套 UI，也不要求演示必须是视频。使用文档可选，Top banner 不能省略。
+使用 Codex 原生的 GitHub Code Review，不需要在 GitHub 配置 OpenAI API key。
+GitHub 自动审查使用订阅中的 Code Review 额度，具体额度以当前计划和账号用量页面为准。
 
-## 触发和结果
+审查要求保存在根目录 [AGENTS.md](../AGENTS.md) 的 `Code Review Rules`。
+PR 模板要求负责人逐项填写 a–i 元素的位置或缺项原因；使用文档可选，双链接 Top banner 不能省略。
+允许不同 UI、图片或流程图替代视频，也允许只写 Bash 命令。
 
-`Review component pages` 在 PR 新建、推送新提交、重新打开、修改正文或转为待审查时触发。
-它检查页面、内容源、模板、市场索引或审查规则的变动；不相关 PR 不调用 AI。
-修改 PR 正文也会重审，避免缺项原因补充后仍保留旧判断。
+## 账号设置
 
-每个 PR 保留一条由 `github-actions[bot]` 发布的审查评论，重审时更新它，显示对应的完整 head SHA。
-发布前再次读取 PR；如果 head、正文或打开状态变化，就丢弃旧报告。它不批准、合并或修改组件 PR。
-AI 评论不能代替已有的 `validate` 检查和维护者 approval，也不能证明真实安装、页面显示或设备验收通过。
+1. 打开 [Codex 代码审查设置](https://chatgpt.com/settings/code-review)，确认 GitHub 仓库已连接。
+2. 选择 `fuxi-ailabs/dsh-plugin-market`，在 `Review code` 下开启 `Automatic review`。
+3. 仓库策略选择 `All PRs`，覆盖各组件负责人的 PR。仅开启个人偏好可能只覆盖自己的 PR。
+4. 在 `Review trigger` 配置触发时机，并确认它覆盖 PR 的后续提交。
+5. 在一个组件 PR 推送新提交，检查新 head 是否收到 Codex review；也可在 PR 评论中手动发送 `@codex review`。
 
-## 启用
+仓库规则和 PR 清单不能代替账号中的开关。必须实际检查设置，并用新提交验证触发，才能确认自动审查已开启。
+不要把“PR 刚创建时会审查”当成“每次更新都会重审”；如果账号没有所需的触发选项，记录限制并手动请求重审。
+修改 PR 正文是否触发重审也需实际验证，不能沿用自建工作流的触发承诺。
 
-此工作流默认不调用 AI。合并到 main 后，在仓库 Settings → Secrets and variables → Actions 配置：
+## 结果和验收范围
 
-1. Repository secret `OPENAI_API_KEY`：有 API 使用权限的 OpenAI key，只在 GitHub 的 Secret 输入框填写，不放进代码、Issue 或聊天。
-2. Repository variable `PLUGIN_PAGE_AI_REVIEW_ENABLED`：设为 `true`。
-3. 在一个组件 PR 推送新提交或修改正文，检查 `Review component pages` 和该 PR 的机器人评论。
+审查结果由 Codex 发布到 GitHub PR，具体格式由原生服务决定；不承诺每次都更新同一条评论或输出完整的元素对照表。
+官方文档说明 GitHub Code Review 侧重 P0/P1 问题，因此没有评论不代表 a–i 和横幅全部合格。
+`AGENTS.md` 提供判断依据，PR 清单、已有的 `validate` 检查和维护者审查继续保留。
+不为绕过优先级筛选而抬高问题级别，也不把代码审查当成真实安装、浏览器或设备验收。
 
-工作流调用 OpenAI API，会产生对应 API 用量；ChatGPT/Codex 订阅不能当成这个 Secret。
-未配 key 却启用变量时，工作流会明确失败，不会发布“审查通过”。暂停时把变量改为 `false`。
-本地测试不调用 AI；真实事件、API 调用和机器人评论需在上述配置完成后验收。
-
-若不使用 API key，也可以在 [Codex 的代码审查设置](https://chatgpt.com/settings/code-review) 连接仓库并开启自动审查。
-这是独立的产品设置，本仓库的工作流不会代为开启；其默认高优先级问题筛选不等同于本工作流逐项检查页面元素。
-
-## 执行边界
-
-只自动处理同仓库分支的非草稿 PR；Codex Action 默认要求触发者有仓库 write 权限。
-fork 和草稿不调用 AI。工作流从 base 读取可信提示词和辅助脚本，把 head 单独检出为审查材料，
-不执行候选代码、构建或安装命令。AI 在只读权限下运行，调用步骤不持有发评论的写权限。
-发评论使用独立 job，只检出 base 的辅助脚本。
-
-参考：[GitHub PR 事件](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#pull_request)、
-[Codex GitHub Action](https://learn.chatgpt.com/docs/github-action)、
-[Codex 自定义审查规则](https://developers.openai.com/blog/custom-code-review-rules-for-codex)。
+参考：[GitHub Code Review 设置与自定义规则](https://learn.chatgpt.com/docs/third-party/github)、
+[订阅与 Code Review 用量](https://learn.chatgpt.com/docs/pricing)、
+[自定义审查规则说明](https://developers.openai.com/blog/custom-code-review-rules-for-codex)。
