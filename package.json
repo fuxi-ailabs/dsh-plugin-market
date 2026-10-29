@@ -9,7 +9,7 @@
     "validate": "node scripts/validate.mjs",
     "check:policy": "node scripts/check-market-policy.mjs",
     "ci": "npm test && npm run check:pages && npm run validate && npm run check:policy",
-    "test": "node --test scripts/plugin-pages.test.mjs"
+    "test": "node --test scripts/plugin-pages.test.mjs scripts/plugin-page-review.test.mjs"
   },
   "devDependencies": {
     "@deepseek-ai/dsh-plugin-market-index": "0.2.1-rc.2",
