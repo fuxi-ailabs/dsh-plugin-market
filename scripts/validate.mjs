@@ -37,9 +37,6 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'index.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
 ])], ['plugins/ecat', new Set(['index.html'])], ['plugins/dt-verify', new Set([
   'index.html', 'docs.css', 'docs.js',
-  'assets/case-cart-steps.jpg', 'assets/case-login-steps.jpg',
-  'assets/f14-before.jpg', 'assets/f14-after.jpg', 'assets/f8-before.jpg', 'assets/f8-after.jpg',
-  'assets/tree-project.jpg', 'assets/tree-run.jpg',
   'assets/dsh-install-demo.mp4', 'assets/dsh-install-demo-poster.jpg', 'assets/dsh-install-demo-zh.vtt',
 ])], ['plugins/insight', new Set([
   'index.html', 'styles.css', 'assets/icon.svg',

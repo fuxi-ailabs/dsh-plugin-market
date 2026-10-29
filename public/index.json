@@ -227,8 +227,8 @@
     {
       "name": "@fuxi-ailabs/dsh-dt-verify",
       "title": {
-        "en": "HarmonyOS White-box Verifier",
-        "zh": "鸿蒙白盒验证器 · dt-verify"
+        "en": "HarmonyOS Code Verifier",
+        "zh": "鸿蒙代码验证器"
       },
       "description": {
         "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-runs all tests. HarmonyOS Stage projects only.",
@@ -252,7 +252,8 @@
           "鸿蒙",
           "迁移",
           "白盒",
-          "white-box"
+          "white-box",
+          "代码验证"
         ]
       },
       "versions": [
@@ -270,6 +271,17 @@
         {
           "version": "0.1.0-dev.21",
           "publishTimestamp": 1793092704,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
+          "version": "0.1.0-dev.28",
+          "publishTimestamp": 1793264022,
           "source": {
             "type": "npm",
             "registry": "https://registry.npmjs.org/"

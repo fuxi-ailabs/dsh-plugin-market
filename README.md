@@ -19,7 +19,7 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
-| 鸿蒙白盒验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.21` | `^0.2.1-rc.2` |
+| 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.28` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.0.1` | `^0.2.1-rc.2` |
 | Session Audit · 会话审计 | `1.0.1` | `^0.2.1-rc.2` |
 | Static Check · Skill 静态检查 | `1.0.0` | `^0.2.1-rc.2` |
@@ -38,7 +38,7 @@ Static Check 在 DSH 工作台中检查 Skill 和 Agent 声明，组合 SIFT 的
 
 Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基线，运行 Eval/Trigger 和真实任务，并生成 Gate 与 HTML 报告。参见 [Skill Eval 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/)。
 
-鸿蒙白盒验证器（dt-verify）读取需求文档和源码，为每条需求编写 Harmony 单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。只用于鸿蒙 Stage 工程，当前为预览版。在 9 个迁移到鸿蒙的应用上，人工验收功能点的通过率从 81.8% 提高到 86.1%。参见 [介绍、例子与使用说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.20 在 DSH 运行中从市场安装后，“子智能体委派工具 · dt-verify.subagent”会显示异常（重启 DSH 后恢复），0.1.0-dev.21 已修复。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装 dev.20 的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.21；或先退出 DSH，执行 `dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.21` 再启动。
+鸿蒙代码验证器（harmony-verify）读取需求文档和源码，为每条需求编写 Harmony 单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。适用于按需求从零生成（0-1）和从 Android 迁移来的鸿蒙应用，只用于鸿蒙 Stage 工程。参见 [安装、使用说明与两个场景的初步数据](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.28 起，插件、委派工具和子 Agent 角色在 DSH 中显示为“鸿蒙代码验证器”，并新增计划审查角色。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装旧版本的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.28；或先退出 DSH，执行 `npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.28` 再启动。
 
 ## 版本与兼容性
 
