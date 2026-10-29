@@ -104,6 +104,11 @@
     });
   });
 
+  // A looping demo starts muted; with reduced motion it waits for the play button.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('video[autoplay]').forEach(video => { video.removeAttribute('autoplay'); video.pause(); });
+  }
+
   const dialog = byId('screenshot-dialog');
   document.querySelectorAll('[data-screenshot]').forEach(button => {
     button.addEventListener('click', () => {

@@ -30,6 +30,7 @@ export function validateContent(p) {
   }
   if (x.video) {
     requireText(x.video.title, 'video.title');
+    if (x.video.loop !== undefined && typeof x.video.loop !== 'boolean') throw new Error('video.loop must be true or false');
     if (!/^assets\/[a-z0-9-]+\.(mp4|webm)$/.test(x.video.src) || !/^assets\/[a-z0-9-]+\.jpg$/.test(x.video.poster) || !/^assets\/[a-z0-9-]+\.vtt$/.test(x.video.captions)) throw new Error('Video, poster and captions must be reviewed local assets');
   }
   if (x.interactive) {

@@ -42,6 +42,17 @@ test('a video can be the only demo content', () => {
   assert(!html.includes('id="play-demo"'));
 });
 
+test('a video loops muted only when the page opts in', () => {
+  const page = structuredClone(starter);
+  page.example = { title: '视频演示', video: agent.example.video };
+  assert(renderPage(page).includes('<video controls playsinline preload="none"'));
+  page.example.video = { ...agent.example.video, loop: true };
+  validateContent(page);
+  assert(renderPage(page).includes('<video controls autoplay muted loop playsinline preload="auto"'));
+  page.example.video.loop = 'yes';
+  assert.throws(() => validateContent(page), /video.loop/);
+});
+
 test('empty demos and unsupported content are rejected', () => {
   const page = structuredClone(starter);
   page.example = { title: '演示' };
