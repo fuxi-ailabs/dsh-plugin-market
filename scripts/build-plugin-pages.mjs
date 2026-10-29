@@ -1,59 +1,10 @@
 import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { renderPage } from '../templates/plugin-page/render.mjs';
-import { comparisonPlaceholder, previewContent } from '../templates/plugin-page/preview.mjs';
+import { validateContent } from '../templates/plugin-page/validate.mjs';
+import { heroPlaceholder, comparisonPlaceholder, previewContent } from '../templates/plugin-page/preview.mjs';
 
 const check = process.argv.includes('--check');
-const requireText = (value, name) => {
-  if (typeof value !== 'string' || !value.trim()) throw new Error(`Missing page content: ${name}`);
-};
-const requireList = (value, name, min) => {
-  if (!Array.isArray(value) || value.length < min) throw new Error(`Expected ${min}+ items: ${name}`);
-};
-export function validateContent(p) {
-  if (!/^[a-z0-9-]+$/.test(p.slug)) throw new Error('Invalid plugin slug');
-  for (const key of ['name','version','compatibility','description','promise','heroQuestion','heroAnswer','heroFile']) requireText(p[key], key);
-  for (const key of ['headline','heroNodes']) {
-    requireList(p[key], key, 2); p[key].forEach(v => requireText(v, key));
-  }
-  for (const key of ['contextLabel']) requireText(p.preview?.[key], `preview.${key}`);
-  const x = p.example;
-  for (const key of ['title','description','label','file','question','answer','session','prompt','note']) requireText(x?.[key], `example.${key}`);
-  for (const key of ['events','context','changeTab','evidenceTab','action','contextField','request','result','resultText','status']) requireText(x.ui?.[key], `example.ui.${key}`);
-  if (x.video) {
-    requireText(x.video.title, 'video.title');
-    if (!/^assets\/[a-z0-9-]+\.(mp4|webm)$/.test(x.video.src) || !/^assets\/[a-z0-9-]+\.jpg$/.test(x.video.poster) || !/^assets\/[a-z0-9-]+\.vtt$/.test(x.video.captions)) throw new Error('Video, poster and captions must be reviewed local assets');
-  }
-  requireList(x.operations, 'example.operations', 2);
-  for (const op of x.operations) {
-    for (const key of ['tool','title','description','result','requestRef','resultRef']) requireText(op[key], `operation.${key}`);
-    for (const key of ['removed','added']) { requireList(op[key], key, 0); op[key].forEach(v=>requireText(v,key)); }
-  }
-  for (const key of ['title','description']) requireText(p.comparison?.[key], `comparison.${key}`);
-  for (const kind of ['before','after']) {
-    for (const key of ['title','description','image','alt']) requireText(p.comparison[kind]?.[key], `comparison.${kind}.${key}`);
-    if (!/^assets\/[a-z0-9-]+\.jpg$/.test(p.comparison[kind].image)) throw new Error('Screenshot must be a local reviewed JPEG');
-  }
-  requireList(p.comparison.takeaways, 'comparison.takeaways', 1);
-  p.comparison.takeaways.forEach(v=>requireText(v,'takeaway'));
-  requireList(p.useCases, 'useCases', 2);
-  for (const c of p.useCases) for (const key of ['title','question','description','prompt']) requireText(c[key], `useCase.${key}`);
-  for (const key of ['title','description']) requireText(p.quickstart?.[key], `quickstart.${key}`);
-  requireList(p.quickstart.steps, 'quickstart.steps', 1);
-  if (p.quickstart.steps.length > 5) throw new Error('Quickstart must have at most five steps');
-  for (const s of p.quickstart.steps) for (const key of ['title','description','code','codeLabel','expected']) requireText(s[key], `step.${key}`);
-  requireList(p.boundaries, 'boundaries', 1);
-  for (const b of p.boundaries) for (const key of ['title','description']) requireText(b[key], `boundary.${key}`);
-  for (const key of ['summary','description']) requireText(p.requirements?.[key], `requirements.${key}`);
-  requireList(p.requirements.items, 'requirements.items', 1);
-  for (const item of p.requirements.items) for (const key of ['label','value']) requireText(item[key], `requirement.${key}`);
-  requireList(p.links, 'links', 1);
-  for (const l of p.links) {
-    requireText(l.label, 'link.label');
-    const url = new URL(l.url);
-    if (url.protocol !== 'https:' || url.username || url.password) throw new Error('Documentation links must be HTTPS');
-  }
-}
 
 const [styles, runtime] = await Promise.all([
   readFile('templates/plugin-page/styles.css','utf8'),
@@ -88,14 +39,15 @@ for (const filename of (await readdir('content/plugins')).filter(f=>f.endsWith('
 }
 
 // A review surface rendered from the same starter and renderer, outside the installable catalog.
-const [starter, reviewStyles, reviewRuntime] = await Promise.all([
+const [starter, reviewStyles] = await Promise.all([
   readFile('templates/plugin-page/content.example.json','utf8'),
   readFile('templates/plugin-page/review.css','utf8'),
-  readFile('templates/plugin-page/review.js','utf8'),
 ]);
 const skeleton = JSON.parse(starter);
 validateContent(skeleton);
 await emitPage(previewContent(skeleton), 'public/templates/plugin-page', {preview:true, extraFiles:[
-  ['content.example.json',starter], ['review.css',reviewStyles], ['review.js',reviewRuntime],
+  ['content.example.json',starter], ['review.css',reviewStyles],
+  ['assets/overview.svg',heroPlaceholder()],
+  ['assets/demo.svg',heroPlaceholder().replace('插件截图 / 概览图 / 代表图', '功能演示图')],
   ['assets/before.svg',comparisonPlaceholder(false)], ['assets/after.svg',comparisonPlaceholder(true)],
 ]});

@@ -2,177 +2,139 @@
   "slug": "your-plugin",
   "name": "YourPlugin",
   "version": "0.1.0",
-  "compatibility": "填写已验证的 DSH 版本与发布状态",
-  "description": "写清楚插件能帮用户完成什么任务，以及会返回什么结果。",
+  "compatibility": "DSH 版本 · 插件版本",
+  "description": "插件功能简介",
+  "install": {
+    "code": "dsh plugin --profile web add <插件安装地址>",
+    "codeLabel": "终端",
+    "note": "安装到 web Profile"
+  },
   "headline": [
     "插件名称",
-    "一句话说明用途"
+    "主要用途"
   ],
-  "promise": "输入 → 处理过程 → 看得见的结果",
-  "heroQuestion": "举一个用户会问的具体问题。",
-  "heroAnswer": "写出这个例子的结果，让用户能和操作过程对照。",
-  "heroFile": "example.txt",
-  "heroNodes": [
-    "输入",
-    "处理",
-    "结果"
-  ],
-  "preview": {
-    "contextLabel": "运行上下文"
+  "heroMedia": {
+    "image": "assets/overview.jpg",
+    "alt": "插件概览图占位",
+    "title": "插件概览",
+    "description": ""
   },
   "useCases": [
     {
-      "title": "谁在什么情况下用",
-      "question": "“一个真实的用户问题？”",
-      "description": "用户提供什么，插件返回什么，下一步能做什么。",
-      "prompt": "填写此场景可复制的提问。"
+      "audience": "开发者",
+      "title": "使用场景一",
+      "question": "“示例问题一？”",
+      "description": "",
+      "prompt": "示例提问一"
     },
     {
-      "title": "另一个独立的使用场景",
-      "question": "“另一个具体问题？”",
-      "description": "不要把功能名称当作场景，写清触发条件与预期结果。",
-      "prompt": "填写第二个场景可复制的提问。"
+      "audience": "项目负责人",
+      "title": "使用场景二",
+      "question": "“示例问题二？”",
+      "description": "",
+      "prompt": "示例提问二"
     },
     {
-      "title": "需要核对结果的时候",
-      "question": "“这个输出能作为下一步的依据吗？”",
-      "description": "说明用户如何核对输出，以及哪些地方仍需要判断。",
-      "prompt": "填写第三个场景可复制的提问。"
+      "audience": "评审者",
+      "title": "使用场景三",
+      "question": "“示例问题三？”",
+      "description": "",
+      "prompt": "示例提问三"
     }
   ],
   "example": {
-    "title": "用一个小例子说明操作",
-    "description": "说明先点哪一步、在哪里看结果，以及结果应是什么。",
-    "label": "交互演示 · 固定示意数据",
-    "file": "example.txt",
-    "question": "输入为什么会得到这个结果？",
-    "answer": "填写该例子的具体答案，能够与下面的操作和输出对照。",
-    "session": "demo-context-01",
-    "ui": {
-      "events": "演示步骤",
-      "context": "演示上下文",
-      "changeTab": "输入与输出",
-      "evidenceTab": "运行细节",
-      "action": "操作",
-      "contextField": "上下文",
-      "request": "输入位置",
-      "result": "输出位置",
-      "resultText": "执行结果",
-      "status": "已完成"
-    },
-    "operations": [
+    "title": "功能演示",
+    "description": "",
+    "blocks": [
       {
-        "tool": "input",
-        "title": "准备输入",
-        "description": "说明最小输入。",
-        "removed": [],
-        "added": [
-          "一段最小输入"
-        ],
-        "result": "输入已准备",
-        "requestRef": "demo:input-01",
-        "resultRef": "demo:output-01"
-      },
-      {
-        "tool": "run",
-        "title": "得到结果",
-        "description": "说明插件做了什么。",
-        "removed": [
-          "一段最小输入"
-        ],
-        "added": [
-          "一个具体结果"
-        ],
-        "result": "填写可核对的输出",
-        "requestRef": "demo:input-02",
-        "resultRef": "demo:output-02"
+        "type": "image",
+        "src": "assets/demo.jpg",
+        "alt": "功能演示图占位"
       }
-    ],
-    "prompt": "填写可以在 DSH 中复现此例的真实提示词；不要虚构命令或工具。",
-    "note": "这是固定示意数据，不连接用户会话。请在提交前补充截图来源与复现说明。"
+    ]
   },
   "comparison": {
-    "title": "使用前后，操作有什么变化",
-    "description": "固定同一个输入与任务，对照操作方式和输出；没有实测数据时不写提速百分比。",
+    "title": "使用前后效果对比",
+    "description": "",
     "before": {
-      "title": "使用前怎么做",
-      "description": "写清楚用户原本需要的操作。",
+      "title": "使用前",
+      "description": "原来的操作",
       "image": "assets/before.jpg",
-      "alt": "填写使用前截图中可核对的具体内容。"
+      "alt": "使用前截图占位"
     },
     "after": {
-      "title": "使用后怎么做",
-      "description": "写清楚插件带来的具体改变。",
+      "title": "使用后",
+      "description": "使用插件后的操作",
       "image": "assets/after.jpg",
-      "alt": "填写使用后截图中可核对的具体内容。"
+      "alt": "使用后截图占位"
     },
     "takeaways": [
-      "一个能从截图验证的改变",
-      "另一个明确的结果"
+      "主要变化",
+      "输出结果"
     ]
   },
   "requirements": {
-    "summary": "填写使用前需要准备的系统、版本和依赖。",
-    "description": "说明安装前必须满足的条件。额外配置和排错方法放在完整文档中。",
+    "summary": "DSH · 本机依赖",
+    "description": "",
     "items": [
       {
         "label": "DSH 版本",
-        "value": "填写已验证的版本和插件版本。"
+        "value": "<DSH 版本>"
       },
       {
-        "label": "系统与依赖",
-        "value": "填写支持的系统、额外运行时及权限要求。"
+        "label": "系统和本机依赖",
+        "value": "<系统与本机依赖>"
       }
     ]
   },
   "boundaries": [
     {
       "title": "适用条件",
-      "description": "写明输入、环境或权限上的真实条件。"
+      "description": "<支持的输入与环境>"
     },
     {
       "title": "结果的范围",
-      "description": "写明插件能覆盖什么，以及哪些结论仍需用户判断。"
+      "description": "<功能覆盖范围>"
     }
   ],
   "quickstart": {
-    "title": "安装并完成第一次使用",
-    "description": "按实际情况填写一至五步。首次验证使用上面同一个例子。",
+    "title": "安装与验证",
+    "description": "",
     "steps": [
       {
-        "title": "确认运行条件",
-        "description": "写明系统、DSH 与额外运行时的已验证版本。",
-        "code": "填写真实的环境检查命令或提问",
+        "title": "检查运行环境",
+        "description": "DSH 版本和本机依赖",
+        "code": "<环境检查命令>",
         "codeLabel": "运行环境",
-        "expected": "环境检查通过，说明应出现的版本或状态。"
+        "expected": "运行环境就绪"
       },
       {
         "title": "安装插件",
-        "description": "写明市场路径、索引地址及插件名称。",
-        "code": "https://fuxi-ailabs.github.io/dsh-plugin-market/index.json",
-        "codeLabel": "插件市场索引",
-        "expected": "插件出现在已安装列表中。"
+        "description": "安装到 web Profile。",
+        "code": "dsh plugin --profile web add <插件安装地址>",
+        "codeLabel": "终端",
+        "expected": "插件出现在已安装列表中"
       },
       {
-        "title": "检查是否就绪",
-        "description": "给出一个检查及预期输出。",
-        "code": "填写真实的就绪检查提问",
+        "title": "检查插件是否就绪",
+        "description": "插件和所需服务的运行状态",
+        "code": "<就绪检查提问>",
         "codeLabel": "发送给 DSH",
-        "expected": "填写检查成功时的具体输出。"
+        "expected": "服务已就绪"
       },
       {
         "title": "运行最小例子",
-        "description": "使用与页面上方相同的最小例子。",
-        "code": "填写可复现的完整提问",
+        "description": "最小输入与输出",
+        "code": "<示例提问>",
         "codeLabel": "发送给 DSH",
-        "expected": "填写与上方例子一致的结果。"
+        "expected": "示例结果"
       },
       {
-        "title": "核对结果并继续",
-        "description": "写明成功时看到什么，以及下一次如何使用。",
-        "code": "填写查看结果或继续使用的提问",
+        "title": "查看结果并继续使用",
+        "description": "查看插件返回的结果。",
+        "code": "<结果查询提问>",
         "codeLabel": "发送给 DSH",
-        "expected": "说明如何找到结果，以及下一次如何使用。"
+        "expected": "查询结果"
       }
     ]
   },
@@ -180,6 +142,20 @@
     {
       "label": "安装与使用文档 ↗",
       "url": "https://github.com/fuxi-ailabs/dsh-plugin-market"
+    }
+  ],
+  "faq": [
+    {
+      "question": "安装前需要准备什么？",
+      "answer": "<系统、DSH 版本和本机依赖>"
+    },
+    {
+      "question": "无法使用时，先检查哪里？",
+      "answer": "<检查方法和正常状态>"
+    },
+    {
+      "question": "有哪些使用限制？",
+      "answer": "<支持范围和已知限制>"
     }
   ]
 }
