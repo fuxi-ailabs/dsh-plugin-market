@@ -1,0 +1,240 @@
+{
+  "slug": "ecat",
+  "name": "ECAT 熵减对抗优化器",
+  "version": "0.1.0-alpha.1",
+  "compatibility": "DSH 0.2.1-rc.2 · 预览版",
+  "description": "长程任务里，模型经常不按你的要求做，或者改了几处就自我感觉良好。这个插件把生成器和判别器拆成两个独立会话：判别器按你定的判据找问题，把问题清单交给生成器继续改，一轮轮对抗重复直到达标。适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移。在鸿蒙代码仓迁移场景里，迁移质量从 46.4% 提升到 74.7%。",
+  "headline": [
+    "模型自己说「做完了」就行？",
+    "这个优化器让它改到判别器认为达标为止。"
+  ],
+  "promise": "一句任务 → 判据 → 生成器改 → 判别器查 → 分数",
+  "heroQuestion": "熵减对抗优化器是怎么做的？",
+  "heroAnswer": "判别器按维度打分，把没过的项交给生成器；每轮都有分数，达标才停。",
+  "heroFile": "target/",
+  "heroNodes": [
+    "判别器 · 找问题",
+    "生成器 · 改代码",
+    "复评 · 重新打分"
+  ],
+  "preview": {
+    "contextLabel": "运行记录 .ecat/runs/"
+  },
+  "useCases": [
+    {
+      "title": "模型改了几处就说“已完成”",
+      "question": "“它说改完了，可到底还差多少？”",
+      "description": "把验收标准写成维度，判别器逐项检查并给出分数，生成器只按未通过清单继续改。",
+      "prompt": "用 ECAT 处理 ./target：把编译通过、接口契约、权限声明分别定成维度并给权重，先跑一轮报告每个维度的得分和总分，再按未通过的项继续迭代。"
+    },
+    {
+      "title": "长程任务中途标准走样",
+      "question": "“跑到第 20 轮，判据和一开始不一样了？”",
+      "description": "判据写在配置和插件里，每一轮都读同一份，不随对话漂移；跨端迁移这类需要逐项对账的任务尤其明显。",
+      "prompt": "检查当前 ECAT 工作区里各维度的判据定义，确认它们与 ecat.config.yaml 一致；列出最近一轮的评分依据。"
+    },
+    {
+      "title": "验收标准能写成检查、但一轮轮改很费人",
+      "question": "“编译、接口契约、页面结构这些都能验，就是得反复改十几轮。”",
+      "description": "判据明确但打磨轮次长的活：重构、接口对齐、测试修复、跨端迁移。把判据写进去，让它自己循环。",
+      "prompt": "这个任务验收标准是明确的（编译通过、接口契约对齐、测试全绿），但我估计要改十几轮。用 ECAT 把这些定成维度，先跑一轮看当前得分，再继续迭代。"
+    }
+  ],
+  "example": {
+    "title": "怎么用：把一个安卓仓迁移到鸿蒙仓",
+    "description": "每步发一条命令。",
+    "label": "操作演示 · 固定示意",
+    "file": "DSH 输入框",
+    "question": "把安卓工程迁移到鸿蒙工程，按什么顺序发？",
+    "answer": "setup 写判据 → preflight 核对 → start 跑起来 → status 看分数 → stop 收手。",
+    "session": "demo-usage",
+    "ui": {
+      "events": "步骤",
+      "context": "发送位置",
+      "changeTab": "发送内容",
+      "evidenceTab": "会发生什么",
+      "action": "命令",
+      "contextField": "位置",
+      "request": "发送",
+      "result": "返回",
+      "resultText": "结果",
+      "status": "已完成"
+    },
+    "operations": [
+      {
+        "tool": "setup",
+        "title": "写判据",
+        "description": "描述任务与验收标准。",
+        "removed": [],
+        "added": [
+          "/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过"
+        ],
+        "result": "访谈后生成 ecat.config.yaml 和维度插件",
+        "requestRef": "DSH 输入框",
+        "resultRef": "ecat.config.yaml + 维度插件"
+      },
+      {
+        "tool": "preflight",
+        "title": "核对配置",
+        "description": "只检查，不改动。",
+        "removed": [],
+        "added": [
+          "/ecat-refine preflight"
+        ],
+        "result": "列出配置项与 FAIL/WARN 计数",
+        "requestRef": "DSH 输入框",
+        "resultRef": "终端输出"
+      },
+      {
+        "tool": "start",
+        "title": "启动",
+        "description": "后台跑。",
+        "removed": [],
+        "added": [
+          "/ecat-refine start"
+        ],
+        "result": "返回 pid 与日志路径，循环开始迭代",
+        "requestRef": "DSH 输入框",
+        "resultRef": ".ecat/runs_*/run.log"
+      },
+      {
+        "tool": "status",
+        "title": "看分数",
+        "description": "查进度。",
+        "removed": [],
+        "added": [
+          "/ecat-refine status"
+        ],
+        "result": "最新 H、各维度得分、最近 8 轮曲线",
+        "requestRef": "DSH 输入框",
+        "resultRef": "终端输出"
+      },
+      {
+        "tool": "stop",
+        "title": "停止",
+        "description": "收手。",
+        "removed": [],
+        "added": [
+          "/ecat-refine stop"
+        ],
+        "result": "停止循环，记录留在 .ecat/runs_*/",
+        "requestRef": "DSH 输入框",
+        "resultRef": ".ecat/runs_*/ 保留"
+      }
+    ],
+    "prompt": "/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过",
+    "note": "交互使用固定示意数据，不读取你的工程；下方对比图是两种做法的差别示意。"
+  },
+  "comparison": {
+    "title": "用与不用，过程中的差别",
+    "description": "同一件事，左边是只靠一个会话自己改自己判，右边是拆成生成器与判别器两个会话。",
+    "screenshotLabel": "示意 · 点击放大",
+    "before": {
+      "title": "不使用：一个会话自己改、自己判",
+      "description": "判据留在对话里，越往后越模糊；没有可比分数，停在“感觉良好”。",
+      "image": "assets/before-without-plugin.jpg",
+      "alt": "示意图：单个会话连续修改并自我判断，没有分数，同类问题反复出现。"
+    },
+    "after": {
+      "title": "使用：生成器与判别器分开，每轮打分",
+      "description": "判别器按固定判据找问题，生成器只改未通过项；每轮都有分数与剩余差异。",
+      "image": "assets/after-with-plugin.jpg",
+      "alt": "示意图：生成器会话与判别器会话分离，中间每轮重新打分，H 由 0.42 降到 0.18。"
+    },
+    "takeaways": [
+      "判据固定，跨轮次不变",
+      "每轮有可比分数，不再靠感觉",
+      "鸿蒙迁移一个实例：46.4% → 74.7%"
+    ]
+  },
+  "requirements": {
+    "summary": "需要 Python 3.11+；建议装 uv（没有则回退到 pip）。",
+    "description": "插件自带 ECAT 的 wheel 与两个技能，不需要预先安装 ECAT。首次运行会建一个隔离环境并从网络拉取 13 个依赖。",
+    "items": [
+      {
+        "label": "DSH 版本",
+        "value": "0.2.1-rc.2；插件版本 0.1.0-alpha.1。"
+      },
+      {
+        "label": "本机依赖",
+        "value": "Python 3.11+（python3 / python / py 启动器任一可用）；uv 可选，装了会快很多。"
+      },
+      {
+        "label": "网络",
+        "value": "首次运行需要联网从 PyPI 解析依赖；之后可离线跑循环。"
+      },
+      {
+        "label": "工作范围",
+        "value": "只改 ecat.config.yaml 里 paths.target 指向的目录；目录之外不动。"
+      }
+    ]
+  },
+  "boundaries": [
+    {
+      "title": "不判断业务正确性",
+      "description": "熵下降只说明在这组判据上更整齐。判据设计错了，循环会高效地朝错误方向优化。"
+    },
+    {
+      "title": "循环不会自己停",
+      "description": "达到阈值或你收手时用 /ecat-refine stop 停止，否则会持续消耗模型调用。"
+    },
+    {
+      "title": "只覆盖你配置的目录",
+      "description": "目标目录之外的改动不会被处理；跨仓库的约束要写成一条显式检查命令才可见。"
+    },
+    {
+      "title": "已有环境不会自动升级",
+      "description": "~/.dsh/ecat-venv 存在即复用，不校验版本。插件升级后需手动删掉该目录再跑一次 /ecat-setup。"
+    }
+  ],
+  "quickstart": {
+    "title": "装好插件，跑出第一轮",
+    "description": "前两步装插件，后三步跑完第一轮迭代。",
+    "steps": [
+      {
+        "title": "在 DSH 安装插件",
+        "description": "打开「插件」→「实验性插件」旁的「更多」，启用「自定义插件市场」。在「发现」→「添加索引源」填入下方地址，然后安装 ECAT 0.1.0-alpha.1。",
+        "code": "https://fuxi-ailabs.github.io/dsh-plugin-market/index.json",
+        "codeLabel": "插件市场索引",
+        "expected": "ECAT 0.1.0-alpha.1 出现在已安装插件中。"
+      },
+      {
+        "title": "确认 Python 可用",
+        "description": "插件需要一个 3.11+ 的解释器。装了 uv 的话下面这步会快很多；没有也能跑，会回退到 python -m venv + pip。",
+        "code": "python --version\nuv --version",
+        "codeLabel": "终端",
+        "note": "Windows 上也可以用 py -3.11 --version 确认。",
+        "expected": "Python 版本号 ≥ 3.11；uv 有输出版本号，或明确没有安装。"
+      },
+      {
+        "title": "创建托管环境",
+        "description": "发送不带参数的 /ecat-setup。它会先建 ~/.dsh/ecat-venv 并安装自带 wheel 与 13 个依赖，装好之后才开始访谈。",
+        "code": "/ecat-setup",
+        "codeLabel": "发送给 DSH",
+        "note": "环境装不起来时这一步直接失败并报出 uv / pip 的错误，不会进入访谈。",
+        "expected": "命令回执显示 Created ~/.dsh/ecat-venv（或 Using，表示已有环境）。"
+      },
+      {
+        "title": "核对环境",
+        "description": "再发一次 help，逐项确认依赖可用。注意 help 本身不创建环境，环境没装好时它只会报 NOT ready。",
+        "code": "/ecat-setup help",
+        "codeLabel": "发送给 DSH",
+        "expected": "输出 environment: ready，后面逐行列出 13 个包名与版本。"
+      },
+      {
+        "title": "跑第一轮",
+        "description": "在目标工程目录下完成访谈，然后启动循环，再用 status 看熵值和最差维度。",
+        "code": "/ecat-refine start\n/ecat-refine status",
+        "codeLabel": "发送给 DSH",
+        "note": "一轮从几分钟到几十分钟不等，循环在后台跑；随时用 /ecat-refine stop 停止。",
+        "expected": "start 返回运行目录；status 给出当前 H、迭代次数和最差维度。"
+      }
+    ]
+  },
+  "links": [
+    {
+      "label": "ECAT 仓库与文档 ↗",
+      "url": "https://github.com/fuxi-ailabs/ECAT"
+    }
+  ]
+}

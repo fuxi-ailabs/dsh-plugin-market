@@ -78,7 +78,7 @@ export function renderPage(p, {preview = false} = {}) {
 
     <section id="comparison" class="wrap section" aria-labelledby="comparison-title">
       ${sectionHead(p.comparison.title, p.comparison.description).replace('<h2>', '<h2 id="comparison-title">')}
-      <div class="comparison-grid">${['before','after'].map(key=>{const c=p.comparison[key];return `<article class="comparison-card ${key}"><div class="comparison-copy"><h3>${e(c.title)}</h3><p>${e(c.description)}</p></div><button type="button" class="screenshot-button" data-screenshot="${e(c.image)}" data-title="${e(c.title)}" aria-label="放大查看：${e(c.title)}"><img src="${e(c.image)}" width="1280" height="720" alt="${e(c.alt)}" loading="lazy"><span>${preview ? '截图占位' : '运行截图 · 点击放大'} <span aria-hidden="true">⤢</span></span></button></article>`;}).join('')}</div>
+      <div class="comparison-grid">${['before','after'].map(key=>{const c=p.comparison[key];return `<article class="comparison-card ${key}"><div class="comparison-copy"><h3>${e(c.title)}</h3><p>${e(c.description)}</p></div><button type="button" class="screenshot-button" data-screenshot="${e(c.image)}" data-title="${e(c.title)}" aria-label="放大查看：${e(c.title)}"><img src="${e(c.image)}" width="1280" height="720" alt="${e(c.alt)}" loading="lazy"><span>${preview ? '截图占位' : e(p.comparison.screenshotLabel || '运行截图 · 点击放大')} <span aria-hidden="true">⤢</span></span></button></article>`;}).join('')}</div>
       <div class="takeaways">${p.comparison.takeaways.map(t=>`<p><span aria-hidden="true">↳</span> ${e(t)}</p>`).join('')}</div>
     </section>
 
