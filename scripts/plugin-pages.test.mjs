@@ -111,6 +111,13 @@ test('HarmonyOS Code Verifier installs the catalog version under the market bann
   assert(html.includes('id="faq"'));
 });
 
+test('HarmonyOS Code Verifier guide keeps the market link in its banner at every width', async () => {
+  const html = await readFile(new URL('../public/plugins/dt-verify/guide.html', import.meta.url), 'utf8');
+  const css = await readFile(new URL('../public/plugins/dt-verify/docs.css', import.meta.url), 'utf8');
+  assert(html.includes('<a class="crumb-market" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a>'));
+  assert(!/\.crumb-market[^{]*\{[^}]*display:\s*none/.test(css), 'the market link must stay visible on narrow screens');
+});
+
 test('requirements share the compact installation section and results start collapsed', () => {
   const html = renderPage(agent);
   assert(!html.includes('<section id="details"'));
