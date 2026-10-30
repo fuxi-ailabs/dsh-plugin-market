@@ -8,4 +8,4 @@
 - 不使用 OpenAI API key，不读取或复制 Codex/GitHub 登录凭据。
 - 工作流不检出、运行 PR 代码，只通过 GitHub API 发起审查请求。
 
-当前阶段：3。已删除本分支的临时推送钩子；此提交只验证已完成过一次原生审查的 PR 能否通过原生设置自动重审。
+当前阶段：4。正式事件钩子已安装到 main；此提交验证 pull_request_target 的 synchronize 事件是否处理新 head 并等待原生审查完成。
