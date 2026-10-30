@@ -28,7 +28,7 @@
       <h1>鸿蒙代码验证器使用文档</h1>
 <p>鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用的代码。它读取需求和工程源码，为每条需求编写 Harmony 单元测试和界面测试，写进工程的测试目录，在真机或模拟器上执行，然后逐条给出“满足、违反、未验证”的结论和证据。你允许修复时，它按失败修改生产代码，再用同一套测试全量复测，直到没有可以修复的失败为止。</p>
 <p>它看得到代码：从源码找到页面、控件和状态，单元测试直接调用 ViewModel 核对内部结果，界面测试按源码里的文字和结构定位控件。只在界面上点一遍、看不到内部状态时容易漏掉的问题，也能测出来。</p>
-<p>适用于按需求从零生成的鸿蒙应用（0-1 生成），以及从 Android 迁移来的鸿蒙应用。只用于鸿蒙 Stage 工程。</p>
+<p>适用于按需求生成的鸿蒙应用（应用生成场景），以及从 Android 迁移来的鸿蒙应用（迁移场景）。只用于鸿蒙 Stage 工程。</p>
 
 <h2 id="prepare">使用前准备<a class="hash" href="#prepare" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody>
@@ -140,7 +140,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody>
-<tr><td>按需求从零生成鸿蒙应用（0-1 生成）以后</td><td>按需求文档逐条核对生成结果，不通过的功能直接修复，并留下可以重跑的测试</td></tr>
+<tr><td>按需求生成鸿蒙应用以后</td><td>按需求文档逐条核对生成结果，不通过的功能直接修复，并留下可以重跑的测试</td></tr>
 <tr><td>Android 应用迁移到鸿蒙以后的验收</td><td>按需求文档逐条核对迁移结果，修复迁移中做错或漏掉的功能</td></tr>
 <tr><td>功能开发完成后的自测和回归</td><td>改动以后按需求回归，确认没有把已有功能改坏</td></tr>
 <tr><td>交付前核对</td><td>一份按需求逐条列出结论和证据的验收结果，可以直接交给评审</td></tr>
@@ -172,9 +172,9 @@ npx @deepseek-ai/dsh web</code></pre></div>
 </tbody></table></div>
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
-<p>下面分两个场景给出初步数据：按需求从零生成的鸿蒙应用（0-1 生成场景），以及从 Android 迁移来的鸿蒙应用（迁移场景）。两个场景的运行方式和判定方式不同，每个场景先说明实验准备和实验设置，再给结果。</p>
+<p>下面分两个场景给出初步数据：按需求生成的鸿蒙应用（应用生成场景），以及从 Android 迁移来的鸿蒙应用（迁移场景）。两个场景的运行方式和判定方式不同，每个场景先说明实验准备和实验设置，再给结果。</p>
 
-<h3>0-1 生成场景：测试检测与修复</h3>
+<h3>应用生成场景：测试检测与修复</h3>
 <p><strong>实验准备</strong></p>
 <div class="table"><table><thead><tr><th>项</th><th>说明</th></tr></thead><tbody>
 <tr><td>应用</td><td>一批按需求文档用 ArkTS 从零生成的鸿蒙应用，每个应用都有需求文档（<code>spec.md</code>）和一份人工验收清单</td></tr>
@@ -194,7 +194,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <p>3 个应用的验收功能点通过率从 50 / 64（78.1%）提高到 58 / 64（90.6%），共修好 8 个功能点：</p>
 <figure class="chart">
 <svg viewBox="0 0 740 252" role="img" aria-labelledby="c1-title c1-desc">
-<title id="c1-title">0-1 生成场景：修复前后的验收功能点通过率</title>
+<title id="c1-title">应用生成场景：修复前后的验收功能点通过率</title>
 <desc id="c1-desc">文档扫描工具 74.3% 提高到 85.7%；番茄钟 85.7% 提高到 92.9%；传奇今生 80.0% 提高到 100%；3 个应用合计 78.1% 提高到 90.6%。</desc>
 <circle class="vz-2 vz-dot" cx="10" cy="14" r="6"/><text class="vz-legend" x="22" y="19">修复前（人工验收）</text>
 <circle class="vz-1 vz-dot" cx="170" cy="14" r="6"/><text class="vz-legend" x="182" y="19">修复后（验证器修复，设备上逐项确认）</text>
