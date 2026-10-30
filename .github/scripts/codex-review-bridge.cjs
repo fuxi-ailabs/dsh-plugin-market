@@ -12,7 +12,7 @@ function reviewState(comments, sha) {
     if (!match) continue;
     try {
       const state = JSON.parse(match[1]).code_review;
-      if (state?.commit_sha === sha) return {status: state.status, signature: `${comment.id}:${comment.body}`};
+      if (state?.commit_sha === sha) return {status: state.status, updatedAt: Date.parse(comment.updated_at || comment.created_at), signature: `${comment.id}:${comment.updated_at}:${comment.body}`};
     } catch {}
   }
   return null;
@@ -34,18 +34,23 @@ async function run({github, context, core, sleep = ms => new Promise(resolve => 
   if (pr.state !== 'open') return 'closed';
   const sha = pr.head.sha;
   if (!/^[a-f0-9]{40}$/.test(sha)) throw new Error('Invalid pull request head.');
-  const eventHead = context.payload.pull_request?.head?.sha;
-  if (eventHead && eventHead !== sha) {
-    core.notice('A newer push superseded this event.');
-    return 'superseded';
-  }
   let comments = await listComments();
   let state = reviewState(comments, sha);
+  if (!state) {
+    await sleep(pollMs);
+    const current = await getPull();
+    if (current.state !== 'open') return 'closed';
+    if (current.head.sha !== sha) return 'superseded';
+    comments = await listComments();
+    state = reviewState(comments, sha);
+  }
   const marker = new RegExp(`<!-- fuxi-codex-review head=${sha} attempt=(\\d+) -->`);
   const requests = comments.filter(comment => comment.user?.login === ACTIONS && comment.body?.startsWith('@codex review\n') && marker.test(comment.body));
   let attempts = Math.max(0, ...requests.map(comment => Number(comment.body.match(marker)[1])));
-  let waiting = ['running', 'queued'].includes(state?.status) || (requests.length > 0 && !state);
-  let previousSignature = null;
+  const latestRequestAt = Math.max(-Infinity, ...requests.map(comment => Date.parse(comment.created_at)).filter(Number.isFinite));
+  const unansweredRequest = requests.length > 0 && (!state || latestRequestAt >= state.updatedAt);
+  let waiting = ['running', 'queued'].includes(state?.status) || unansweredRequest;
+  let previousSignature = unansweredRequest ? state?.signature ?? null : null;
   const runUrl = `${context.serverUrl || 'https://github.com'}/${repository}/actions/runs/${context.runId}`;
   const finish = async () => {
     core.notice(`Codex completed ${repository}#${number} at ${sha}.`);
