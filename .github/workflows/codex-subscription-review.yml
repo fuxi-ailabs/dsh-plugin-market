@@ -1,0 +1,48 @@
+name: Codex subscription review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, ready_for_review]
+  pull_request_target:
+    types: [opened, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: Pull request to review
+        required: true
+        type: number
+
+permissions:
+  contents: read
+
+jobs:
+  bridge-tests:
+    if: github.event_name == 'pull_request' && (github.repository == 'fuxi-ailabs/dsh-plugin-market' || github.repository == 'fuxi-ailabs/HMBot')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - run: node --test .github/scripts/codex-review-bridge.test.cjs
+
+  request-review:
+    if: github.event_name != 'pull_request' && (github.repository == 'fuxi-ailabs/dsh-plugin-market' || github.repository == 'fuxi-ailabs/HMBot')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: codex-review-${{ github.repository }}-${{ github.event.pull_request.number || inputs.pull_request_number }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
+        with:
+          script: |
+            const {run} = require('./.github/scripts/codex-review-bridge.cjs');
+            await run({github, context, core});
