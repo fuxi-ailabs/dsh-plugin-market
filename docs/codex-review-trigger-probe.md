@@ -8,4 +8,4 @@
 - 不使用 OpenAI API key，不读取或复制 Codex/GitHub 登录凭据。
 - 工作流不检出、运行 PR 代码，只通过 GitHub API 发起审查请求。
 
-当前阶段：1。
+当前阶段：2。此提交用于验证 PR 已创建之后的新推送能否自动进入 Codex 审查。
