@@ -12,7 +12,7 @@
 - 原生失败或长时间没有结果时，最多自动请求两次。仍未完成则工作流失败，不能把「请求已发送」当成「审查已通过」。
 - 多次快速推送时按 GitHub API 的当前 head 处理，不依赖事件入队顺序；运行中出现新 head 时退出，由排队任务重新读取当前 head。
 - Codex Summary 中的 Review trigger 会显示 Manual request，因为它识别的是评论入口；自动触发证据是请求评论中的 Actions 链接、工作流事件和对应 head。
-- 只做审查，不修改、批准或合并 PR。
+- 本工作流只做审查，不修改、批准或合并 PR。市场另有[自动合并试点](CODEX_AUTO_MERGE.md)，仅在最新审查无未解决问题且 CI 全通过时执行；HMBot 不启用自动合并。
 
 可在 Actions 中手动运行此工作流，并填写 PR 编号，补审当前 head。原生服务的失败详情仍以 PR 上的 Codex Summary 为准。
 

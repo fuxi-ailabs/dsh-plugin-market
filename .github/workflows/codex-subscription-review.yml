@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
         with:
           persist-credentials: false
-      - run: node --test .github/scripts/codex-review-bridge.test.cjs
+      - run: node --test .github/scripts/*.test.cjs
 
   request-review:
     if: github.event_name != 'pull_request' && (github.repository == 'fuxi-ailabs/dsh-plugin-market' || github.repository == 'fuxi-ailabs/HMBot')
