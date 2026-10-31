@@ -183,11 +183,11 @@
       "name": "@fuxi-ailabs/dsh-ecat",
       "title": {
         "en": "ECAT",
-        "zh": "ECAT · 熵驱动代码改进循环"
+        "zh": "ECAT熵减对抗优化器"
       },
       "description": {
-        "en": "Configure and run ECAT's adversarial entropy-reduction loop from DSH: interview-driven dimension design, then a background refine loop you can inspect and stop.",
-        "zh": "在 DSH 中配置并运行 ECAT 的对抗式降熵循环：访谈式设计评分维度，后台迭代并可随时查看与停止。"
+        "en": "Adversarial entropy reduction loop optimization configured and running in DSH: Interview based design scoring dimension, generator and discriminator adversarial verification implementation, backend iteration and can be viewed and stopped at any time, suitable for long-range tasks with clear acceptance goals, such as large-scale code repository cross end migration, etc.",
+        "zh": "在 DSH 中配置并运行的对抗式降熵循环优化：访谈式设计评分维度，生成器和判别器对抗验证实现，后台迭代并可随时查看与停止，适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移等。"
       },
       "icon": "icons/ecat.svg",
       "author": "Fuxi AI Labs",
