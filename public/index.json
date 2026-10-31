@@ -344,8 +344,8 @@
         "zh": "Session Audit · 会话审计"
       },
       "description": {
-        "en": "Audit real DSH Session trajectories with SIFT, review findings and evidence, and open the report in a native right-side panel.",
-        "zh": "用 SIFT 审计真实的 DSH 会话执行轨迹，查看 finding、证据和 turn 引用，并在右侧面板浏览完整报告。"
+        "en": "Audit real DSH Session trajectories with SIFT, review findings and evidence, navigate from a turn reference back to its Trajectory record, and open the full report in a native right-side panel.",
+        "zh": "用 SIFT 审计真实的 DSH 会话执行轨迹，查看 finding、证据和 turn 引用，并可从 turn 引用反向定位到 Trajectory 中的对应记录，或在右侧面板浏览完整报告。"
       },
       "icon": "icons/audit.svg",
       "author": "Fuxi AI Labs",
@@ -370,6 +370,16 @@
         ]
       },
       "versions": [
+        {
+          "version": "1.1.1",
+          "publishTimestamp": 1793351485,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
         {
           "version": "1.0.1",
           "publishTimestamp": 1793089816,
@@ -415,6 +425,16 @@
       },
       "versions": [
         {
+          "version": "1.1.2",
+          "publishTimestamp": 1793417314,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
           "version": "1.1.1",
           "publishTimestamp": 1793342256,
           "source": {
@@ -458,6 +478,26 @@
         ]
       },
       "versions": [
+        {
+          "version": "1.1.3",
+          "publishTimestamp": 1793417348,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
+          "version": "1.1.2",
+          "publishTimestamp": 1793416832,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
         {
           "version": "1.0.0",
           "publishTimestamp": 1793098705,

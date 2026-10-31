@@ -35,7 +35,7 @@
         <div class="hero-title">
           <img src="assets/icon.svg" alt="" width="64" height="64">
           <div>
-            <p class="eyebrow">DSH PLUGIN · dsh-insight · v1.1.1</p>
+            <p class="eyebrow">DSH BUNDLE · dsh-insight-bundle · v1.1.1</p>
             <h1>Insight</h1>
           </div>
         </div>
@@ -43,11 +43,38 @@
         <dl class="meta">
           <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
           <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
-          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-insight-bundle@1.1.1</code></dd></div>
+          <div><dt>Insight Bundle</dt><dd><code>@fuxi-ailabs/dsh-insight-bundle@1.1.1</code></dd></div>
+          <div><dt>Runtime Bundle</dt><dd><code>@fuxi-ailabs/dsh-runtime-bundle@1.1.3</code></dd></div>
         </dl>
       </div>
-      <figure class="hero-visual" aria-label="Context-Insight Score 页面示意">
-        <img src="assets/insight-score-page.jpg" width="1280" height="800" alt="Context-Insight Score 页面，展示测试会话的总分、覆盖度和六维能力图。">
+      <figure class="hero-visual hero-carousel" data-carousel aria-label="Insight 功能截图轮播">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="insight-carousel-track" data-carousel-track>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/insight-dsh-score.jpg" width="1280" height="800" alt="DSH 会话页中的 Insight 评分卡，显示总分、覆盖度和各维度分数。">
+              <figcaption>回到 DSH 点击打分 tag，可以查看同一份评分卡摘要和维度分数。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/insight-score-page.jpg" width="1280" height="800" alt="Context-Insight Score 页面，展示测试会话的总分、覆盖度和六维能力图。">
+              <figcaption>Context-Insight 的 <strong>Score</strong> 页面展示总分、覆盖度、否决项和六维评分。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/insight-imported-session.jpg" width="1280" height="800" alt="Context-Insight 中已导入的 Python 测试会话总览。">
+              <figcaption>会话导入后自动打开 Context-Insight，可查看轮次、工具调用、Skills 和执行概览。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/insight-runtime-preparing.jpg" width="1280" height="800" alt="DSH 会话页显示正在准备 Insight，按钮显示启动中。">
+              <figcaption>首次点击时，DSH 浮窗会显示运行时准备或 Context-Insight 启动进度。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/insight-environment-check.jpg" width="1280" height="800" alt="Insight Bundle 环境检查页，Provider Auth、Context-Insight CLI 和服务均正常。">
+              <figcaption>环境检查确认 Provider Auth、Context-Insight Runtime 和 Service 状态。</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-pressed="false" aria-controls="insight-carousel-track">暂停轮播</button>
+        </div>
       </figure>
     </header>
 
@@ -69,11 +96,11 @@
               <tbody>
                 <tr><td><strong>Insight Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.1.1</code></td><td>安装 dsh-insight，并依赖共享的 Runtime Bundle。</td></tr>
                 <tr><td><strong>dsh-insight</strong><small>DSH 集成插件</small></td><td><code class="version-short">1.1.0</code></td><td>准备运行时，在首次使用时启动 Context-Insight 服务、导入当前会话，并在 DSH 内提供 Insight 按钮、<code>/insight</code>、<code>/score</code> 和评分摘要等功能。</td></tr>
-                <tr><td><strong>Shared Runtime Bundle</strong><small>共享运行时</small></td><td><code class="version-short">1.1.1</code></td><td>包含 <code>dsh-runtime-bundle@1.1.1</code>、<code>dsh-provider-auth@1.1.0</code> 和 <code>dsh-env-health@1.1.0</code>，供 Insight 与 Static Check 共用。</td></tr>
+                <tr><td><strong>Shared Runtime Bundle</strong><small>共享运行时</small></td><td><code class="version-short">1.1.3</code></td><td>包含 <code>dsh-runtime-bundle@1.1.3</code>、<code>dsh-provider-auth@1.1.0</code> 和 <code>dsh-env-health@1.1.2</code>，供 Insight 与 Static Check 共用。</td></tr>
                 <tr><td><strong>Context-Insight</strong><small>外部分析运行时</small></td><td><code class="version-short">0.2.41</code></td><td>开源、本地部署的 Agent 会话分析工具，提供本地数据库、API 和 Web 分析页面。</td></tr>
               </tbody>
             </table>
-            <p class="component-note"><strong>Insight 1.1.1 默认开启运行时准备与服务启动。</strong> 安装后会在后台准备 <code>context-insight@0.2.41</code>，默认安装目录为 <code>~/.dsh-insight/runtime/0.2.41/</code>。</p>
+            <p class="component-note"><strong>Insight Bundle 1.1.1 默认开启运行时准备与服务启动。</strong> 安装后会在后台准备 <code>context-insight@0.2.41</code>，默认安装目录为 <code>~/.dsh-insight/runtime/0.2.41/</code>。</p>
           </section>
 
           <section id="scenarios">
@@ -115,11 +142,14 @@
               <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-insight-bundle</code></div>
               <a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle">查看 npm 页面 ↗</a>
             </div>
-            <p>在 DSH 插件市场中添加索引，找到 <strong>Insight · 会话导入与评分</strong> 并安装。</p>
+            <p>Insight 依赖共享 Runtime Bundle，请在同一个 DSH profile 中一起安装：</p>
+            <div class="install-command" aria-label="终端安装命令">
+              <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-insight-bundle@1.1.1</code></pre>
+              <button type="button" class="copy-button" data-copy="dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-insight-bundle@1.1.1" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+            </div>
+            <p>安装完成后重启 DSH，并确认 Runtime Bundle 与 Insight Bundle 均已启用。</p>
+            <p>也可以先在 DSH 插件市场中添加索引，再从市场安装；安装后同样需要确认 Runtime Bundle 已安装并启用。</p>
             <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
-            <p>也可以直接安装当前版本：</p>
-            <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.1 @fuxi-ailabs/dsh-insight-bundle@1.1.1</code></pre>
-            <p>安装完成后重启 DSH。</p>
           </section>
 
           <section id="first-session">
@@ -199,17 +229,19 @@ dsh --profile &lt;profile&gt;</code></pre>
             <h2><code>/insight</code>：导入会话</h2>
             <p>导出当前 DSH 会话（默认包含子代理），导入 Context-Insight，并打开对应的会话分析页面。</p>
             <pre><code>/insight
-/insight &lt;sid&gt;
+/insight &lt;sid&gt;[,&lt;sid&gt;...]
+/insight --out &lt;dir&gt;
 /insight --no-subagents
 /insight --no-open</code></pre>
             <table class="command-table">
               <thead><tr><th>参数</th><th>用途</th></tr></thead>
               <tbody>
-                <tr><td><code>&lt;sid&gt;</code></td><td>导入指定会话；不填时使用当前会话。</td></tr>
+                <tr><td><code>&lt;sid&gt;[,&lt;sid&gt;...]</code></td><td>导入一个或多个指定会话，可用逗号或空格分隔；不填时使用当前会话。</td></tr>
+                <tr><td><code>--out &lt;dir&gt;</code></td><td>覆盖本次会话导出目录。</td></tr>
                 <tr><td><code>--no-subagents</code></td><td>本次只导入根会话，不包含子代理。</td></tr>
                 <tr><td><code>--no-open</code></td><td>完成导入但不打开浏览器标签页。</td></tr>
                 <tr><td><code>--base &lt;url&gt;</code></td><td>本次指定 Context-Insight 地址。</td></tr>
-                <tr><td><code>--force</code></td><td>服务不可用时仍导出会话文件；只导出，不导入。</td></tr>
+                <tr><td><code>--force</code></td><td>服务不可用时仍导出会话文件；此时只导出、不导入。服务可用时仍正常导入。</td></tr>
                 <tr><td><code>--status</code></td><td>只检查 Context-Insight 是否可访问。</td></tr>
               </tbody>
             </table>
@@ -236,7 +268,7 @@ dsh --profile &lt;profile&gt;</code></pre>
             <table class="command-table">
               <thead><tr><th>参数</th><th>用途</th></tr></thead>
               <tbody>
-                <tr><td><code>--json</code></td><td>把完整评分卡保存为 JSON，便于归档或后续自动化处理。</td></tr>
+                <tr><td><code>--json</code></td><td>把完整评分卡保存到 <code>~/.dsh-insight/dsh-score/&lt;sid&gt;.json</code>，便于归档或后续自动化处理。</td></tr>
                 <tr><td><code>--bench &lt;0-100&gt;</code></td><td>把外部 CANN-Bench 总分写入评分卡，用于基准或人工对照。</td></tr>
                 <tr><td><code>--confirm &lt;item&gt;=fine|problem</code></td><td>人工确认某个疑似项：<code>fine</code> 表示确认正常，<code>problem</code> 表示确认有问题。</td></tr>
                 <tr><td><code>--base &lt;url&gt;</code></td><td>本次指定 Context-Insight 服务地址。</td></tr>
@@ -356,6 +388,7 @@ dsh --profile &lt;profile&gt;</code></pre>
     <span>Fuxi AI Labs · dsh-insight · Context-Insight</span>
     <a href="#top">回到顶部 ↑</a>
   </footer>
+  <span id="copy-status" class="sr-only" aria-live="polite"></span>
   <script src="page.js" defer></script>
 </body>
 </html>

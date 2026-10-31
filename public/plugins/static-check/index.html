@@ -35,7 +35,7 @@
         <div class="hero-title">
           <img src="assets/icon.svg" alt="" width="64" height="64">
           <div>
-            <p class="eyebrow">DSH PLUGIN · dsh-static-check · v1.1.1</p>
+            <p class="eyebrow">DSH BUNDLE · dsh-static-check-bundle · v1.1.2</p>
             <h1>Skill 静态检查</h1>
           </div>
         </div>
@@ -43,7 +43,7 @@
         <dl class="meta">
           <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
           <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
-          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-static-check-bundle@1.1.1</code></dd></div>
+          <div><dt>Bundle</dt><dd><code>@fuxi-ailabs/dsh-static-check-bundle@1.1.2</code></dd></div>
         </dl>
       </div>
       <figure class="hero-visual" aria-label="Static Check 工作台示意">
@@ -67,9 +67,9 @@
             <table class="relationship-table">
               <thead><tr><th>组成</th><th>版本</th><th>作用</th></tr></thead>
               <tbody>
-                <tr><td><strong>Static Check Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.1.1</code></td><td>安装 dsh-static-check，并依赖共享的 Runtime Bundle。</td></tr>
-                <tr><td><strong>dsh-static-check</strong><small>DSH 集成与工作台</small></td><td><code class="version-short">1.1.0</code></td><td>启动时检查运行环境并默认安装 SIFT；提供 Skill / Agent 工作台、手动路径管理、<code>/skill-check</code> 命令和 <code>skill_static_check</code> Agent 工具。</td></tr>
-                <tr><td><strong>Shared Runtime Bundle</strong><small>共享运行时</small></td><td><code class="version-short">1.1.1</code></td><td>包含 <code>dsh-runtime-bundle@1.1.1</code>、<code>dsh-provider-auth@1.1.0</code> 和 <code>dsh-env-health@1.1.0</code>；与 Insight 同时安装时只挂载一次。</td></tr>
+                <tr><td><strong>Static Check Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.1.2</code></td><td>安装 dsh-static-check，并依赖共享的 Runtime Bundle。</td></tr>
+                <tr><td><strong>dsh-static-check</strong><small>DSH 集成与工作台</small></td><td><code class="version-short">1.1.1</code></td><td>启动时检查运行环境并默认安装 SIFT；提供 Skill / Agent 工作台、手动路径管理、<code>/skill-check</code> 命令和 <code>skill_static_check</code> Agent 工具。</td></tr>
+                <tr><td><strong>Shared Runtime Bundle</strong><small>共享运行时</small></td><td><code class="version-short">1.1.3</code></td><td>包含 <code>dsh-runtime-bundle@1.1.3</code>、<code>dsh-provider-auth@1.1.0</code> 和 <code>dsh-env-health@1.1.2</code>；与 Insight 同时安装时只挂载一次。</td></tr>
                 <tr><td><strong>SIFT</strong><small>底层静态检查引擎</small></td><td><code class="version-long">2.6.0-dev.1193fa7</code></td><td>提供 <code>analyze</code>、<code>vet</code> 和 <code>critique</code> 三类检查能力。CLI 显示版本为 <code>2.6.0</code>，默认安装到 <code>~/.dsh-sift/runtime/2.6.0-dev.1193fa7/</code>。</td></tr>
               </tbody>
             </table>
@@ -149,7 +149,10 @@
             <p>在 DSH 插件市场中添加索引，找到 <strong>Static Check · Skill 静态检查</strong> 并安装。</p>
             <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
             <p>也可以直接安装当前 Bundle 与共享 Runtime Bundle：</p>
-            <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.1 @fuxi-ailabs/dsh-static-check-bundle@1.1.1</code></pre>
+            <div class="install-command" aria-label="终端安装命令">
+              <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-static-check-bundle@1.1.2</code></pre>
+              <button type="button" class="copy-button" data-copy="dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-static-check-bundle@1.1.2" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+            </div>
             <p>安装完成后重启 DSH。首次检查时会自动准备 SIFT，也可以使用环境中已有的 <code>sift</code> 命令。</p>
           </section>
 
@@ -308,6 +311,7 @@
     <span>Fuxi AI Labs · dsh-static-check</span>
     <a href="#top">回到顶部 ↑</a>
   </footer>
+  <span id="copy-status" class="sr-only" aria-live="polite"></span>
   <script src="page.js" defer></script>
 </body>
 </html>

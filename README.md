@@ -21,9 +21,9 @@ Fuxi 团队插件目录
 | Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
 | 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.28` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.1.1` | `^0.2.1-rc.2` |
-| Session Audit · 会话审计 | `1.0.1` | `^0.2.1-rc.2` |
-| Static Check · Skill 静态检查 | `1.1.1` | `^0.2.1-rc.2` |
-| Skill Eval · Skill 评测 | `1.0.0` | `^0.2.1-rc.2` |
+| Session Audit · 会话审计 | `1.1.1` | `^0.2.1-rc.2` |
+| Static Check · Skill 静态检查 | `1.1.2` | `^0.2.1-rc.2` |
+| Skill Eval · Skill 评测 | `1.1.3` | `^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
@@ -32,7 +32,7 @@ workflow-rsi 让 Workflow 递归自我改进：不改模型权重，用真实运
 
 Insight 把当前 DSH 会话导入 Context-Insight，查看 Workflow、Subagent 与工具调用，并在 DSH 中读取评分卡。插件会自动准备运行时，并在配置页检查 Provider Auth、CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。
 
-Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，并在右侧只读报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
+Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，可从 turn 引用反向定位到 Trajectory 中的对应记录，并在右侧报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
 
 Static Check 在 DSH 工作台中检查 Skill 和 Agent 声明，组合 SIFT 的 11 项规范检查、安全扫描与可选 AI 内容评审，并在插件配置页检查 SIFT、扫描器、Provider Auth 和服务状态。参见 [Static Check 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/static-check/)。
 
