@@ -29,6 +29,10 @@ GitHub 仓库的原生“Allow auto-merge”开关不控制这套脚本；自动
 
 手动运行时可填 PR 编号并勾选 `dry_run`，只报告是否满足条件。留空 PR 编号会检查全部打开的 main PR。
 
+## 检查已通过，为什么还没合并？
+
+查看 `Codex market auto-merge` 最新运行的 Summary，它会列出每个 PR 保持打开的原因。常见情况是仍为草稿、Codex 审查对应旧提交、存在未解决讨论或人工请求修改，以及分支落后于 main。处理原因后，事件触发或下一次补查会重新判断，无需反复发送审查请求。
+
 ```bash
 node --test .github/scripts/*.test.cjs
 ```
