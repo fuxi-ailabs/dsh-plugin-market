@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Collective memory for DSH. What each agent learns at work is checked against task outcomes and then shared with other sessions, other agents in the same workflow, and the team, with no model retraining. In a paired on/off test with the same model and budget, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验，按任务结果判断可信后，提供给其他会话、同一 workflow 里的其他 Agent 和团队复用，模型不需要重新训练。开关记忆配对评测中，同样的模型和预算下完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Collective memory for DSH: let agents reuse fixes recorded by other agents, with provenance, matching reasons, and usage results. Local and workflow memory are available; cross-machine team sharing is an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "DSH 的群体记忆：让不同 Agent 复用已解决问题的经验，并核对来源、命中理由和使用结果。本机与 workflow 可用，跨机器团队共享为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
