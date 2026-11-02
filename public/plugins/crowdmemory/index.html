@@ -20,12 +20,12 @@
   <main>
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
       <div class="hero-copy">
-        <div class="plugin-name">Crowd Memory <span class="version">v0.1.0</span></div>
+        <div class="plugin-name">Crowd Memory <span class="version">v0.1.1</span></div>
         <h1 id="page-title"><span>Coding Agent</span><span class="accent">群体记忆</span></h1>
         <p class="lede">把一个 coding Agent 在开发任务中验证过的经验，提供给处理相关问题的其他 Agent，并保留来源、适用条件和测试结果。</p>
-        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装 Crowd Memory</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0</code></pre></div><p>先启动本机 Runtime；web 换成实际使用的 DSH Profile。 <a href="#quickstart">安装步骤 ↓</a></p></div>
+        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装 Crowd Memory</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1</code></pre></div><p>先启动本机 Runtime；web 换成实际使用的 DSH Profile。 <a href="#quickstart">安装步骤 ↓</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
-        <p class="compatibility">DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.0</p>
+        <p class="compatibility">DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.1</p>
         <p class="requirements-link">本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10 <a href="#details">使用条件 ↓</a></p>
       </div>
       <figure class="hero-visual">
@@ -67,13 +67,13 @@ python3 --version
 dsh --version</code></pre><button type="button" class="copy-button" data-copy="node --version
 python3 --version
 dsh --version" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-2"><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>本地安装 Runtime</strong> 在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。 <span class="command-context">终端 A</span></p><div class="install-command" aria-label="终端 A"><pre><code>mkdir -p CMLocal &amp;&amp; cd CMLocal
-npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.0
+npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1
 npx --no-install crowdmemory-runtime install --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="mkdir -p CMLocal &amp;&amp; cd CMLocal
-npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.0
+npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1
 npx --no-install crowdmemory-runtime install --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-3"><span class="step-index" aria-hidden="true">3</span><div><p class="step-description"><strong>启动记忆服务</strong> 保持前台终端运行；Ctrl-C 会停止服务。 <span class="command-context">终端 A · CMLocal</span></p><div class="install-command" aria-label="终端 A · CMLocal"><pre><code>npx --no-install crowdmemory-runtime start --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="npx --no-install crowdmemory-runtime start --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-4"><span class="step-index" aria-hidden="true">4</span><div><p class="step-description"><strong>安装并连接 DSH</strong> 另开终端进入同一 CMLocal 目录，将端点传给 DSH。web 换成自己的 Profile。 <span class="command-context">终端 B · CMLocal</span></p><div class="install-command" aria-label="终端 B · CMLocal"><pre><code>export CROWDMEMORY_ENDPOINT_FILE=&quot;$PWD/.runtime/crowdmemory/state/endpoint.json&quot;
-dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0
+dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1
 dsh --profile web</code></pre><button type="button" class="copy-button" data-copy="export CROWDMEMORY_ENDPOINT_FILE=&quot;$PWD/.runtime/crowdmemory/state/endpoint.json&quot;
-dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0
+dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1
 dsh --profile web" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-5"><span class="step-index" aria-hidden="true">5</span><div><p class="step-description"><strong>检查状态并运行 coding 例子</strong> 另开终端检查状态。在 DSH 中运行上面的修复任务，写下经验后再启动独立 Agent，读取记录、修改代码并运行测试。 <span class="command-context">终端 C · CMLocal</span></p><div class="install-command" aria-label="终端 C · CMLocal"><pre><code>npx --no-install crowdmemory-runtime status --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="npx --no-install crowdmemory-runtime status --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li></ol>
       <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>检查环境</strong><p>Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。</p></li><li><strong>本地安装 Runtime</strong><p>安装输出包含 Runtime 目录、Python 环境及 host-config.json。</p></li><li><strong>启动记忆服务</strong><p>Runtime 启动，并生成 state/endpoint.json。</p></li><li><strong>安装并连接 DSH</strong><p>插件出现在该 Profile 中，Agent 可调用 memory_note、memory_search、memory_read。</p></li><li><strong>检查状态并运行 coding 例子</strong><p>状态显示 Runtime 运行中；第二个 Agent 能读取来源记录，并用测试验证修改。</p></li></ol></details>
       <p class="help-link"><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html">安装与使用文档 ↗</a></p>

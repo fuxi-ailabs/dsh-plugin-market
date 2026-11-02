@@ -135,6 +135,16 @@
           "engines": {
             "dsh": "0.1.6-alpha.2 || ^0.2.0-rc.2"
           }
+        },
+        {
+          "version": "0.1.1",
+          "publishTimestamp": 1793595445,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "0.1.6-alpha.2 || ^0.2.0-rc.2"
+          }
         }
       ]
     },

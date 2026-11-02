@@ -18,7 +18,7 @@ Fuxi 团队插件目录
 |---|---|---|
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
-| Crowd Memory · 群体记忆 | `0.1.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
+| Crowd Memory · 群体记忆 | `0.1.1` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
 | 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.28` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.1.1` | `^0.2.1-rc.2` |
 | Session Audit · 会话审计 | `1.1.1` | `^0.2.1-rc.2` |
