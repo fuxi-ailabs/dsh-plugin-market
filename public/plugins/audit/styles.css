@@ -247,6 +247,7 @@ tr:last-child td { border-bottom: 0; }
 .video-demo { margin: 22px 0 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
 .video-demo figcaption { padding: 20px 22px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .9375rem; }
 .video-demo figcaption strong { display: block; margin-bottom: 5px; color: var(--text); font-size: 1.0625rem; }
+.video-demo video { display: block; width: 100%; height: auto; background: #000; }
 .video-placeholder { display: grid; min-height: 340px; place-content: center; gap: 8px; background: var(--accent-soft); color: var(--muted); text-align: center; }
 .video-placeholder strong { color: var(--text); font-size: 1.0625rem; }
 .screenshot-button { display: block; width: 100%; padding: 0; border: 0; background: var(--bg); text-align: left; cursor: zoom-in; }
@@ -289,6 +290,7 @@ tr:last-child td { border-bottom: 0; }
 }
 
 /* Copyable install command */
+.profile-note { margin: -8px 0 20px; color: var(--muted); font-size: .9375rem; }
 .install-command { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; margin: 0 0 20px; padding: 0 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--code-bg); }
 .install-command pre { margin: 0; padding: 10px 6px; overflow: hidden; border: 0; background: transparent; }
 .install-command pre code { white-space: pre-wrap; overflow-wrap: anywhere; }

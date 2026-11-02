@@ -120,36 +120,41 @@
 
             <section id="install">
               <h2>2. 安装 Bundle</h2>
+              <p>直接安装共享 Runtime Bundle 与 Session Audit Bundle：</p>
+              <div class="install-command" aria-label="终端安装命令">
+                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-audit-bundle@1.1.1</code></pre>
+                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-audit-bundle@1.1.1" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+              </div>
+              <p class="profile-note">如果需要安装到别的 profile，请把命令中的 <code>web</code> 替换为目标 profile。</p>
+              <p>也可以在 DSH 插件市场中添加索引，找到 <strong>Session Audit</strong> 并安装；安装后同样需要确认 Runtime Bundle 已安装并启用。</p>
+              <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+              <p>安装完成后重启 DSH。首次审计时会自动准备 SIFT。</p>
               <div class="npm-callout">
                 <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-audit-bundle</code></div>
-                <a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle">查看 npm 页面 ↗</a>
+                <div><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle">查看 Bundle npm 页面 ↗</a><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle">查看 Runtime Bundle npm 页面 ↗</a></div>
               </div>
-              <p>在 DSH 的插件市场中添加索引，找到 <strong>Session Audit</strong> 并安装。</p>
-              <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
-              <p>也可以直接安装当前版本：</p>
-              <div class="install-command" aria-label="终端安装命令">
-                <pre><code>dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-audit-bundle@1.1.1</code></pre>
-                <button type="button" class="copy-button" data-copy="dsh plugin --profile &lt;profile&gt; add @fuxi-ailabs/dsh-runtime-bundle@1.1.3 @fuxi-ailabs/dsh-audit-bundle@1.1.1" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
-              </div>
-              <p>安装完成后重启 DSH。首次审计时会自动准备 SIFT。</p>
+            </section>
+
+            <section id="recording">
+              <h2>3. Demo</h2>
+              <figure class="video-demo">
+                <figcaption><p>下面视频展示会话选择、审计范围确认、finding 证据、turn 引用定位和历史报告。</p></figcaption>
+                <video controls muted playsinline preload="metadata" poster="assets/audit-workbench.jpg" aria-label="Session Audit 操作 Demo">
+                  <source src="assets/audit-demo.mp4" type="video/mp4">
+                  <track kind="captions" src="assets/audit-demo-zh.vtt" srclang="zh" label="中文字幕" default>
+                  浏览器不支持视频播放。
+                </video>
+              </figure>
             </section>
 
             <section id="usage-steps">
-              <h2>3. 从工作台开始</h2>
+              <h2>4. 从工作台开始</h2>
               <ol class="steps">
                 <li><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>打开左侧「会话审计」</strong>进入审计工作台。</p></div></li>
                 <li><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>选择会话</strong>把 Session 拖入工作台，或在 Session 行的「...」菜单中选择「审计会话」。</p></div></li>
                 <li><span class="step-index" aria-hidden="true">3</span><div><p class="step-description"><strong>确定审计范围</strong>选择 Skill、Workflow 或 Agent，确认参数后开始审计。</p></div></li>
                 <li><span class="step-index" aria-hidden="true">4</span><div><p class="step-description"><strong>查看报告与历史</strong>审计完成后查看报告、finding 和历史记录。</p></div></li>
               </ol>
-            </section>
-
-            <section id="recording">
-              <h2>4. 操作录像</h2>
-              <figure class="video-demo">
-                <figcaption><strong>操作录像预留</strong><p>这里保留完整审计流程的录屏位置。当前不启动新的测试 Session，后续可直接替换为真实操作视频。</p></figcaption>
-                <div class="video-placeholder" aria-label="操作录像待补充"><strong>操作录像待补充</strong><span>视频会展示会话选择、审计参数确认和报告查看。</span></div>
-              </figure>
             </section>
 
             <section id="health">
@@ -221,8 +226,8 @@
           <strong>快速开始</strong>
           <a href="#requirements">准备环境</a>
           <a href="#install">安装 Bundle</a>
+          <a href="#recording">Demo</a>
           <a href="#usage-steps">从工作台开始</a>
-          <a href="#recording">操作录像</a>
           <a href="#health">检查环境</a>
         </div>
         <div data-toc="usage" hidden>
