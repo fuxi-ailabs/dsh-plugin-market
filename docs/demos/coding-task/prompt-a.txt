@@ -1,3 +1,4 @@
-这是一个日常前端 bug 修复任务。仓库是 dsh-plugin-market 的真实快照。请检查 public/plugins/crowdmemory/docs.js：移动端打开目录后点击 .side a，菜单视觉上关闭，但屏幕阅读器看到的 aria-expanded 可能仍是 true。
-请阅读现有代码，先写一个可用 node --test 单独运行的回归测试并运行，真实复现该问题；再作最小代码修复，确认打开、按钮关闭、目录链接关闭、再次打开这些状态一致。测试可用 Node 自带模块，无需安装新依赖。只修改目标 JavaScript 和新回归测试，不调整页面、样式或其他组件。
-完成后运行回归测试和 git diff --check。测试通过后，调用 memory_note，scope 为 global、type 为 bugfix，用中文保存问题、原因、实际修改、检查命令及结果。fix.kind 为 diff，使用实际 git diff 的仓库相对路径内容；说明其他组件复用时必须核对目标路径和对应 DOM 结构。不要把测试命令当作修法，不要提交 git commit。
+请修复一个真实后端 HTTP API bug，全程中文：CrowdMemory 的 GET /v1/status 在带 X-CrowdMemory-Protocol-Major: 1、Content-Length: abc 时直接断连，调用方拿不到结构化错误。
+阅读 distributions/memory-runtime/src/crowdmemory_runtime/server.py 和 tests/test_crowdmemory_ingress_uds.py。先写新增 pytest 测试，通过真实 HTTP/Unix socket 复现；再作最小服务端修复，使非法长度返回结构化 JSON 400，而不是异常断连。覆盖合法请求继续 200、缺失/零长度、超出 MAX_MESSAGE_BYTES 仍 413；修复后服务仍可处理后续请求。不要用 mock Handler 或绕过真实 HTTP 层。
+python 命令已准备好 pytest 和项目依赖，请在仓库根目录运行；先打印 crowdmemory_runtime.server.__file__，确认实际导入本工作区源码。只改该 server.py 和一个新增的 tests/test_http_length_get.py，不改其他产品代码，不安装依赖、不启动子 Agent、不 commit，不打印任何 token。
+记录实际请求、响应、失败测试及通过测试。最后运行新增测试、既有 tests/test_crowdmemory_ingress_uds.py 和 git diff --check。验证完成后用 memory_note（global / bugfix）留下实际现象、原因、HTTP 校验规则、检查结果和适用条件；fix.kind=diff，附实际相对路径 git diff。仅记录实际验证的结论。

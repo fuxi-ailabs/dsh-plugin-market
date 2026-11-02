@@ -1,6 +1,7 @@
 {
-  "repository": "https://github.com/fuxi-ailabs/dsh-plugin-market",
-  "commit": "b069e04a755aaaae4c89cb382a578621d84d4a80",
-  "agent_a_target": "public/plugins/crowdmemory/docs.js",
-  "agent_b_target": "public/plugins/workflow-rsi/docs.js"
+  "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
+  "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
+  "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+  "task_a": "GET malformed Content-Length",
+  "task_b": "POST malformed Content-Length"
 }

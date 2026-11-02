@@ -1,173 +1,231 @@
-diff --git a/public/plugins/crowdmemory/docs.js b/public/plugins/crowdmemory/docs.js
-index 336d6e7..703e4c3 100644
---- a/public/plugins/crowdmemory/docs.js
-+++ b/public/plugins/crowdmemory/docs.js
-@@ -16,2 +16,5 @@
--    menu.addEventListener("click", function () {
--      var open = document.body.classList.toggle("nav-open");
-+    // 视觉状态由 body.nav-open 决定，aria-expanded 必须始终跟随它，
-+    // 否则屏幕阅读器会与实际菜单状态不一致。
-+    var setOpen = function (open) {
-+      if (open) { document.body.classList.add("nav-open"); }
-+      else { document.body.classList.remove("nav-open"); }
-@@ -18,0 +22,3 @@
-+    };
-+    menu.addEventListener("click", function () {
-+      setOpen(!document.body.classList.contains("nav-open"));
-@@ -21 +27 @@
--      a.addEventListener("click", function () { document.body.classList.remove("nav-open"); });
-+      a.addEventListener("click", function () { setOpen(false); });
-diff --git a/scripts/crowdmemory-docs-menu.test.mjs b/scripts/crowdmemory-docs-menu.test.mjs
+diff --git a/distributions/memory-runtime/src/crowdmemory_runtime/server.py b/distributions/memory-runtime/src/crowdmemory_runtime/server.py
+index 593e667..8bfa0b0 100644
+--- a/distributions/memory-runtime/src/crowdmemory_runtime/server.py
++++ b/distributions/memory-runtime/src/crowdmemory_runtime/server.py
+@@ -605 +605,7 @@ class MemoryServer:
+-                length = int(self.headers.get("Content-Length") or 0)
++                # 非数字 Content-Length（"abc"、"1.5"、空值等）必须回结构化 400：直接 int() 会抛 ValueError，
++                # 异常逃出 handler 后连接被静默关闭，调用方只看到空响应而不是 wire error。
++                try:
++                    length = int(self.headers.get("Content-Length") or 0)
++                except (TypeError, ValueError):
++                    self._respond(400, _wire_error("invalid_content_length", "Content-Length 不是合法非负整数"))
++                    return
+diff --git a/tests/test_http_length_get.py b/tests/test_http_length_get.py
 new file mode 100644
-index 0000000..f287537
+index 0000000..1317ca4
 --- /dev/null
-+++ b/scripts/crowdmemory-docs-menu.test.mjs
-@@ -0,0 +1,148 @@
-+// 回归测试：移动端目录菜单的视觉状态（body.nav-open）与 aria-expanded 必须同步。
-+// 用 node --test 单独运行：node --test scripts/crowdmemory-docs-menu.test.mjs
-+// 不引入新依赖，只用一个最小 DOM 桩让 docs.js 在 Node 里跑起来。
-+import assert from 'node:assert/strict';
-+import { readFile } from 'node:fs/promises';
-+import test from 'node:test';
-+import vm from 'node:vm';
++++ b/tests/test_http_length_get.py
+@@ -0,0 +1,212 @@
++"""GET /v1/status over a real Unix-socket HTTP connection: malformed Content-Length must yield a structured 400.
 +
-+const docsJs = new URL('../public/plugins/crowdmemory/docs.js', import.meta.url);
++Regression: ``int(self.headers.get("Content-Length"))`` raised ``ValueError`` inside the request handler, so the
++socket was closed without any response and callers saw an empty reply instead of a wire error.
++"""
++from __future__ import annotations
 +
-+function createElement(tag, attrs = {}) {
-+  const el = {
-+    tagName: tag,
-+    attrs: { ...attrs },
-+    listeners: {},
-+    classList: null,
-+    setAttribute(name, value) {
-+      el.attrs[name] = String(value);
-+    },
-+    getAttribute(name) {
-+      return name in el.attrs ? el.attrs[name] : null;
-+    },
-+    addEventListener(type, handler) {
-+      (el.listeners[type] ||= []).push(handler);
-+    },
-+  };
-+  return el;
-+}
++import http.client
++import json
++import os
++import shutil
++import signal
++import socket
++import subprocess
++import sys
++import tempfile
++import time
++from pathlib import Path
 +
-+function createClassList() {
-+  const set = new Set();
-+  return {
-+    add: (c) => set.add(c),
-+    remove: (c) => set.delete(c),
-+    contains: (c) => set.has(c),
-+    toggle(c) {
-+      if (set.has(c)) {
-+        set.delete(c);
-+        return false;
-+      }
-+      set.add(c);
-+      return true;
-+    },
-+  };
-+}
++import pytest
 +
-+// 复刻 public/plugins/crowdmemory/*.html 里与菜单相关的结构：
-+//   <button class="menu" aria-expanded="false">
-+//   <aside class="side" aria-label="文档目录"><a href="...">…</a>…</aside>
-+function createDom() {
-+  const menu = createElement('button', { class: 'menu', 'aria-expanded': 'false' });
-+  const sideLinks = [
-+    createElement('a', { href: 'index.html' }),
-+    createElement('a', { href: 'versions.html' }),
-+  ];
-+  const body = createElement('body');
-+  body.classList = createClassList();
-+  const documentElement = createElement('html');
++ROOT = Path(__file__).resolve().parents[1]
++TOO_LARGE = 4 * 1024 * 1024 + 1  # crowdmemory_runtime.protocol.MAX_MESSAGE_BYTES + 1
 +
-+  const document = {
-+    documentElement,
-+    body,
-+    querySelector(selector) {
-+      return selector === '.menu' ? menu : null;
-+    },
-+    querySelectorAll(selector) {
-+      if (selector === '.side a') return sideLinks;
-+      return [];
-+    },
-+  };
 +
-+  const window = {}; // 故意不提供 IntersectionObserver / matchMedia：本用例只关心菜单
-+  return { document, window, menu, body, sideLinks };
-+}
++def _spawn(state_root: Path) -> tuple[subprocess.Popen, dict]:
++    (state_root / "endpoint.json").unlink(missing_ok=True)
++    process = subprocess.Popen(
++        [sys.executable, "-m", "crowdmemory_runtime", "serve-dev", "--state-root", str(state_root),
++         "--socket", str(state_root / "runtime.sock"), "--profile", "session-default"],
++        stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={**os.environ, "HOME": str(state_root)},
++    )
++    deadline = time.monotonic() + 20
++    while time.monotonic() < deadline:
++        if (state_root / "endpoint.json").is_file() and (state_root / "runtime.sock").exists():
++            return process, json.loads((state_root / "endpoint.json").read_text())
++        if process.poll() is not None:
++            raise AssertionError(process.stderr.read().decode())
++        time.sleep(0.05)
++    process.kill()
++    raise AssertionError("serve-dev did not publish endpoint.json")
 +
-+function fire(el, type) {
-+  for (const handler of el.listeners[type] || []) {
-+    handler.call(el, { type, target: el, preventDefault() {} });
-+  }
-+}
 +
-+async function loadMenu() {
-+  const dom = createDom();
-+  const source = await readFile(docsJs, 'utf8');
-+  vm.runInNewContext(source, {
-+    document: dom.document,
-+    window: dom.window,
-+    navigator: {},
-+    localStorage: { getItem: () => null, setItem() {} },
-+    setTimeout: () => 0,
-+    console,
-+  });
-+  return dom;
-+}
++def _stop(process: subprocess.Popen) -> None:
++    if process.poll() is None:
++        process.send_signal(signal.SIGTERM)
++        try:
++            process.wait(timeout=10)
++        except subprocess.TimeoutExpired:
++            process.kill()
++            process.wait()
 +
-+// 无障碍语义要求：视觉开关状态与 aria-expanded 必须一致。
-+function assertMenuState(dom, open, label) {
-+  assert.equal(
-+    dom.body.classList.contains('nav-open'),
-+    open,
-+    `${label}: body.nav-open 应为 ${open}`,
-+  );
-+  assert.equal(
-+    dom.menu.getAttribute('aria-expanded'),
-+    open ? 'true' : 'false',
-+    `${label}: aria-expanded 应与视觉状态一致（期望 ${open}）`,
-+  );
-+}
 +
-+test('菜单初始为关闭状态', async () => {
-+  const dom = await loadMenu();
-+  assertMenuState(dom, false, '初始');
-+});
++@pytest.fixture
++def service():
++    root = Path(tempfile.mkdtemp(prefix="exi-http-len-", dir="/tmp"))
++    process, endpoint = _spawn(root)
++    try:
++        yield process, endpoint
++    finally:
++        _stop(process)
++        shutil.rmtree(root, ignore_errors=True)
 +
-+test('点击菜单按钮可打开并再次关闭', async () => {
-+  const dom = await loadMenu();
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, true, '点击按钮打开');
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, false, '再次点击按钮关闭');
-+});
 +
-+test('点击目录链接关闭后 aria-expanded 必须同步为 false', async () => {
-+  const dom = await loadMenu();
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, true, '打开后准备点击链接');
++def _raw_exchange(socket_path: str, header_lines: list[str], *, path: str = "/v1/status",
++                  method: str = "GET") -> tuple[int, dict[str, str], bytes]:
++    """Send literal header bytes (http.client refuses to emit a non-numeric Content-Length) and parse the reply."""
++    request = "\r\n".join([f"{method} {path} HTTP/1.1", "Host: localhost", "Connection: close",
++                           *header_lines, "", ""]).encode("ascii")
++    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++    sock.settimeout(5.0)
++    try:
++        sock.connect(socket_path)
++        sock.sendall(request)
++        chunks: list[bytes] = []
++        while True:
++            try:
++                chunk = sock.recv(65536)
++            except socket.timeout:
++                break
++            if not chunk:
++                break
++            chunks.append(chunk)
++    finally:
++        sock.close()
++    response = b"".join(chunks)
++    assert response, "服务端没有返回任何字节（连接被直接断开）"
++    head, _, body = response.partition(b"\r\n\r\n")
++    lines = head.decode("iso-8859-1").split("\r\n")
++    status = int(lines[0].split()[1])
++    headers = {}
++    for line in lines[1:]:
++        key, _, value = line.partition(":")
++        headers[key.strip().lower()] = value.strip()
++    declared = headers.get("content-length")
++    if declared is not None:
++        body = body[:int(declared)]
++    return status, headers, body
 +
-+  fire(dom.sideLinks[0], 'click');
-+  assertMenuState(dom, false, '点击 .side a 关闭');
 +
-+  // 第二个链接同样要生效，避免只修了第一个分支。
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, true, '重新打开');
-+  fire(dom.sideLinks[1], 'click');
-+  assertMenuState(dom, false, '点击第二个 .side a 关闭');
-+});
++def _json_body(headers: dict[str, str], body: bytes) -> dict:
++    assert headers.get("content-type", "").startswith("application/json"), headers
++    return json.loads(body.decode("utf-8"))
 +
-+test('链接关闭后可再次打开，且状态仍一致', async () => {
-+  const dom = await loadMenu();
-+  fire(dom.menu, 'click');
-+  fire(dom.sideLinks[0], 'click');
-+  assertMenuState(dom, false, '链接关闭');
 +
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, true, '链接关闭后再次打开');
-+  fire(dom.menu, 'click');
-+  assertMenuState(dom, false, '按钮关闭');
-+});
++def _assert_wire_error(headers: dict[str, str], body: bytes, code: str | None = None) -> dict:
++    value = _json_body(headers, body)
++    assert value["ok"] is False, value
++    error = value["error"]
++    assert isinstance(error["message"], str) and error["message"]
++    assert isinstance(error["retryable"], bool)
++    if code is not None:
++        assert error["code"] == code, value
++    return value
++
++
++def _status_ok(socket_path: str) -> None:
++    """A plain http.client GET with a well-formed request still succeeds (server alive, route unchanged)."""
++    class _UnixConnection(http.client.HTTPConnection):
++        def connect(inner) -> None:
++            sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++            sock.settimeout(5.0)
++            sock.connect(socket_path)
++            inner.sock = sock
++
++    connection = _UnixConnection("localhost", timeout=5.0)
++    try:
++        connection.request("GET", "/v1/status", headers={"X-CrowdMemory-Protocol-Major": "1"})
++        response = connection.getresponse()
++        value = json.loads(response.read())
++    finally:
++        connection.close()
++    assert response.status == 200, value
++    # /v1/status returns the runtime status object itself (no envelope)
++    assert value["lifecycle_protocol"]["protocol_major"] == 1, value
++
++
++def _assert_alive(service) -> None:
++    process, endpoint = service
++    assert process.poll() is None, "服务进程在非法长度请求后已退出"
++    _status_ok(endpoint["socket_path"])
++
++
++@pytest.mark.parametrize("bad_length", ["abc", "12abc", "1.5", "0x20", "+", "1 2"])
++def test_non_numeric_content_length_returns_structured_400(service, bad_length) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", f"Content-Length: {bad_length}"],
++    )
++    assert status == 400, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "invalid_content_length")
++    _assert_alive(service)
++
++
++def test_negative_content_length_returns_structured_json_error(service) -> None:
++    """A negative length cannot describe a body; it stays on the existing 413 path but must answer, not disconnect."""
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: -1"],
++    )
++    assert status == 413, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "request_too_large")
++    _assert_alive(service)
++
++
++def test_valid_get_without_content_length_returns_200(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(endpoint["socket_path"], ["X-CrowdMemory-Protocol-Major: 1"])
++    assert status == 200, (status, headers, body[:200])
++    assert _json_body(headers, body)["lifecycle_protocol"]["protocol_major"] == 1
++    _assert_alive(service)
++
++
++def test_zero_length_content_length_returns_200(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: 0"],
++    )
++    assert status == 200, (status, headers, body[:200])
++    assert _json_body(headers, body)["lifecycle_protocol"]["protocol_major"] == 1
++    _assert_alive(service)
++
++
++def test_oversized_content_length_still_returns_413(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", f"Content-Length: {TOO_LARGE}"],
++    )
++    assert status == 413, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "request_too_large")
++    _assert_alive(service)
++
++
++def test_server_keeps_serving_after_malformed_length(service) -> None:
++    """The same process answers a well-formed GET immediately after a rejected one, and its stderr has no traceback."""
++    process, endpoint = service
++    for _ in range(3):
++        status, headers, body = _raw_exchange(
++            endpoint["socket_path"],
++            ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: abc"],
++        )
++        assert status == 400, (status, headers, body[:200])
++        _assert_wire_error(headers, body, "invalid_content_length")
++        _status_ok(endpoint["socket_path"])
++    _stop(process)
++    stderr = process.stderr.read().decode("utf-8", "replace")
++    assert "Traceback" not in stderr, stderr[-2000:]
++    assert "ValueError" not in stderr, stderr[-2000:]
