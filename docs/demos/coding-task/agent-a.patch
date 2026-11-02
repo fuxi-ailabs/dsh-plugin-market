@@ -1,0 +1,173 @@
+diff --git a/public/plugins/crowdmemory/docs.js b/public/plugins/crowdmemory/docs.js
+index 336d6e7..703e4c3 100644
+--- a/public/plugins/crowdmemory/docs.js
++++ b/public/plugins/crowdmemory/docs.js
+@@ -16,2 +16,5 @@
+-    menu.addEventListener("click", function () {
+-      var open = document.body.classList.toggle("nav-open");
++    // 视觉状态由 body.nav-open 决定，aria-expanded 必须始终跟随它，
++    // 否则屏幕阅读器会与实际菜单状态不一致。
++    var setOpen = function (open) {
++      if (open) { document.body.classList.add("nav-open"); }
++      else { document.body.classList.remove("nav-open"); }
+@@ -18,0 +22,3 @@
++    };
++    menu.addEventListener("click", function () {
++      setOpen(!document.body.classList.contains("nav-open"));
+@@ -21 +27 @@
+-      a.addEventListener("click", function () { document.body.classList.remove("nav-open"); });
++      a.addEventListener("click", function () { setOpen(false); });
+diff --git a/scripts/crowdmemory-docs-menu.test.mjs b/scripts/crowdmemory-docs-menu.test.mjs
+new file mode 100644
+index 0000000..f287537
+--- /dev/null
++++ b/scripts/crowdmemory-docs-menu.test.mjs
+@@ -0,0 +1,148 @@
++// 回归测试：移动端目录菜单的视觉状态（body.nav-open）与 aria-expanded 必须同步。
++// 用 node --test 单独运行：node --test scripts/crowdmemory-docs-menu.test.mjs
++// 不引入新依赖，只用一个最小 DOM 桩让 docs.js 在 Node 里跑起来。
++import assert from 'node:assert/strict';
++import { readFile } from 'node:fs/promises';
++import test from 'node:test';
++import vm from 'node:vm';
++
++const docsJs = new URL('../public/plugins/crowdmemory/docs.js', import.meta.url);
++
++function createElement(tag, attrs = {}) {
++  const el = {
++    tagName: tag,
++    attrs: { ...attrs },
++    listeners: {},
++    classList: null,
++    setAttribute(name, value) {
++      el.attrs[name] = String(value);
++    },
++    getAttribute(name) {
++      return name in el.attrs ? el.attrs[name] : null;
++    },
++    addEventListener(type, handler) {
++      (el.listeners[type] ||= []).push(handler);
++    },
++  };
++  return el;
++}
++
++function createClassList() {
++  const set = new Set();
++  return {
++    add: (c) => set.add(c),
++    remove: (c) => set.delete(c),
++    contains: (c) => set.has(c),
++    toggle(c) {
++      if (set.has(c)) {
++        set.delete(c);
++        return false;
++      }
++      set.add(c);
++      return true;
++    },
++  };
++}
++
++// 复刻 public/plugins/crowdmemory/*.html 里与菜单相关的结构：
++//   <button class="menu" aria-expanded="false">
++//   <aside class="side" aria-label="文档目录"><a href="...">…</a>…</aside>
++function createDom() {
++  const menu = createElement('button', { class: 'menu', 'aria-expanded': 'false' });
++  const sideLinks = [
++    createElement('a', { href: 'index.html' }),
++    createElement('a', { href: 'versions.html' }),
++  ];
++  const body = createElement('body');
++  body.classList = createClassList();
++  const documentElement = createElement('html');
++
++  const document = {
++    documentElement,
++    body,
++    querySelector(selector) {
++      return selector === '.menu' ? menu : null;
++    },
++    querySelectorAll(selector) {
++      if (selector === '.side a') return sideLinks;
++      return [];
++    },
++  };
++
++  const window = {}; // 故意不提供 IntersectionObserver / matchMedia：本用例只关心菜单
++  return { document, window, menu, body, sideLinks };
++}
++
++function fire(el, type) {
++  for (const handler of el.listeners[type] || []) {
++    handler.call(el, { type, target: el, preventDefault() {} });
++  }
++}
++
++async function loadMenu() {
++  const dom = createDom();
++  const source = await readFile(docsJs, 'utf8');
++  vm.runInNewContext(source, {
++    document: dom.document,
++    window: dom.window,
++    navigator: {},
++    localStorage: { getItem: () => null, setItem() {} },
++    setTimeout: () => 0,
++    console,
++  });
++  return dom;
++}
++
++// 无障碍语义要求：视觉开关状态与 aria-expanded 必须一致。
++function assertMenuState(dom, open, label) {
++  assert.equal(
++    dom.body.classList.contains('nav-open'),
++    open,
++    `${label}: body.nav-open 应为 ${open}`,
++  );
++  assert.equal(
++    dom.menu.getAttribute('aria-expanded'),
++    open ? 'true' : 'false',
++    `${label}: aria-expanded 应与视觉状态一致（期望 ${open}）`,
++  );
++}
++
++test('菜单初始为关闭状态', async () => {
++  const dom = await loadMenu();
++  assertMenuState(dom, false, '初始');
++});
++
++test('点击菜单按钮可打开并再次关闭', async () => {
++  const dom = await loadMenu();
++  fire(dom.menu, 'click');
++  assertMenuState(dom, true, '点击按钮打开');
++  fire(dom.menu, 'click');
++  assertMenuState(dom, false, '再次点击按钮关闭');
++});
++
++test('点击目录链接关闭后 aria-expanded 必须同步为 false', async () => {
++  const dom = await loadMenu();
++  fire(dom.menu, 'click');
++  assertMenuState(dom, true, '打开后准备点击链接');
++
++  fire(dom.sideLinks[0], 'click');
++  assertMenuState(dom, false, '点击 .side a 关闭');
++
++  // 第二个链接同样要生效，避免只修了第一个分支。
++  fire(dom.menu, 'click');
++  assertMenuState(dom, true, '重新打开');
++  fire(dom.sideLinks[1], 'click');
++  assertMenuState(dom, false, '点击第二个 .side a 关闭');
++});
++
++test('链接关闭后可再次打开，且状态仍一致', async () => {
++  const dom = await loadMenu();
++  fire(dom.menu, 'click');
++  fire(dom.sideLinks[0], 'click');
++  assertMenuState(dom, false, '链接关闭');
++
++  fire(dom.menu, 'click');
++  assertMenuState(dom, true, '链接关闭后再次打开');
++  fire(dom.menu, 'click');
++  assertMenuState(dom, false, '按钮关闭');
++});

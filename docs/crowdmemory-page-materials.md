@@ -1,33 +1,32 @@
 # Crowd Memory 介绍页材料核对
 
-沿用 Crowd Memory 原有蓝色文档页、侧边栏、明暗主题与文档入口，补齐市场模板要求。未改为通用落地页布局。范围仅为 CrowdMemory 内容及资源白名单；其他组件目录、版本和清单保留。
+介绍页改用与 AgentLineage 相同的市场模板、生成器及浅色绿色样式。内容源为 `content/plugins/crowdmemory.json`，生成 `index.html`、`styles.css`、`page.js` 和 `demo-data.js`；不再用文档目录式首页。已有详细文档保留。范围仅为 CrowdMemory 内容及资源白名单；其他组件目录、版本和清单保留。
 
 | 模板元素 | 页面位置或资源 | 性质 |
 | --- | --- | --- |
-| a 名称 | h1 Crowd Memory | 组件名 |
+| a 名称 | 首屏 plugin-name | Crowd Memory 及版本 |
 | b 一句话用途 | 标题后 lede | 不同 Agent 间的经验复用 |
-| c 代表图 | memory-overview SVG | 明确标注机制示意，手机显示等价步骤 |
+| c 代表图 | heroMedia / coding-memory.jpg | 实际 coding 会话中的记忆记录，可放大 |
 | d 安装命令 | 标题后代码块、安装第 4 步 | 可复制，adapter 固定 0.1.0 |
-| e 使用场景 | #when | 构建配置问题、workflow、本机及团队适用范围 |
-| f 功能演示 | #demo | 真实 DSH 录像、中文字幕、运行依据 JSON |
+| e 使用场景 | #use-cases | 适用人群、具体问题、说明及可复制提问 |
+| f 功能演示 | #example / #recording | 日常前端 bug 修复、回归测试和另一个 Agent 复用；真实 DSH 录像 |
 | g 前后对比 | #comparison | 实际失败/通过局部截图，另列公开受控评测口径 |
-| h 安装与验证 | #install | 独立本地 npm、Runtime 前台启动、端点、profile、status |
+| h 安装与验证 | #quickstart | 独立本地 npm、Runtime 前台启动、端点、profile、status；五步与折叠检查结果 |
 | i FAQ | #faq | 原生 details，含版本/profile/范围/失效处理 |
-| j 使用文档 | #docs、既有侧栏 | 配置、工具、workflow、评测等原文档 |
+| j 使用文档 | 导航及页脚 | 配置、工具、评测、运行依据 |
 
 a–i 无缺项，不申请例外。顶部固定市场横幅的两个名称分别链接市场主页和组件页，手机保留两个链接。
 
-演示复现、版本、剪辑说明与限制见 [录像说明](demos/crowdmemory-recording.md)。机制图是示意图；视频及 JPEG 是实际会话画面。安装支持范围包含市场基准 0.2.1-rc.2，但本次实际录像是 DSH 0.1.6-alpha.2，不声称已用新基准版本实测。
+coding 视频展示真实仓库快照中的 JavaScript 修复与测试，不再用 zlib 配置错误充当日常 coding 任务。实际 prompt、patch、验证范围及剪辑说明见 [coding 录像说明](demos/crowdmemory-coding-recording.md)。旧 zlib 对比图仍作为受控示例；其复现、版本、剪辑说明与限制见 [zlib 录像说明](demos/crowdmemory-recording.md)。安装支持范围包含市场基准 0.2.1-rc.2，但实际录像是 DSH 0.1.6-alpha.2，不声称已用新基准版本实测。
 
 评测页链接公开数据与 PR #7：120 对 E1 控制任务 45/120 → 104/120 不能解读为 PR #4 的收益。固定 Episode 的 PR #4 前后实验受中继错误和执行噪声影响；恢复轮默认模式与旧版重复对照的内容和提示摘要 10/10 相同，不能证明提炼改进。可选切分丢失修复内容的机械回放也独立标注，不当作 Agent 成功率。
 
-## 本地验证（2026-11-02）
+## 新模板与 coding 视频验证（2026-11-02）
 
-- 基线 `4a0ac52b22c5e32a35de8bef3a914e493a42d827`，仅审阅本分支 CrowdMemory 内容与白名单变更。
-- Node 22 下运行 `npm ci --ignore-scripts`、`npm run build:pages`、`npm run ci`；15 个测试、生成一致性、发布目录及版本策略检查通过。
-- Chromium 实际查看 1440×900、390×844、320×844。两种手机宽度无页面横向溢出，两个市场链接均在视口内；滚动后横幅仍在 y=0，移动目录从 y=148 开始，没有盖住横幅。
-- 实际播放 H.264 视频，时长 56 秒、播放进度前进、readyState 4；默认中文字幕 showing，共 7 条。MP4 Range 请求返回 206；JPEG、海报和字幕可读取。
-- 检查明暗主题、移动目录与 FAQ 展开；读取实际剪贴板确认安装命令完整复制。
-- 重新复制公开 fixture：修改前 make 退出 2，采用实际修复后退出 0。读取 Runtime 回执确认跨项目读、采用和步骤通过。
-- 视频逐场景抽帧和对比图人工检查；通过结果截图包含完整 PASS 和 exit 0，未用被输入框遮挡的旧截图。
-- 发布内容与文档的本次模型凭据匹配扫描为 0；原始调试目录、鉴权日志和浏览器捕获目录不提交。
+- 基线 `b069e04a755aaaae4c89cb382a578621d84d4a80` 及本次 CrowdMemory 内容源、生成结果、演示材料与白名单差异；其他组件文件未改动。
+- `npm run build:pages` 与 `npm run ci` 通过。新增 CrowdMemory 生成一致性检查；共享 CSS / page.js 与模板源逐字节一致。
+- Chromium 1440×1000、390×844、320×844：文档宽度等于视口宽度，市场两条链接都在视口内；首屏、分节、手机换行已截图查看。
+- 实际播放 coding H.264 视频：72 秒、readyState 4、播放进度前进；默认中文字幕 showing，共 8 条。Range 请求返回 206。逐场景抽帧检查实际代码 diff、测试与记忆来源，没有重画结果。
+- 实际剪贴板内容与固定 adapter@0.1.0 安装命令一致；代表图可以放大、Escape 关闭，FAQ 可以展开。
+- 两个 coding 任务在独立临时目录中复核：A 的同一份新增测试在原始代码上退出 1（2/4），最终代码退出 0（4/4）；B 对应为 3/5 与 5/5。实际 patch、prompt、来源与回执公开，完整仓库依赖缺失的限制单独说明。
+- public/content/docs 中的本次模型凭据匹配扫描为 0，媒体哈希与运行依据一致；完整原始日志、浏览器鉴权和数据库快照保留本机，不提交。

@@ -1,0 +1,101 @@
+{
+  "slug": "crowdmemory",
+  "name": "Crowd Memory",
+  "version": "0.1.0",
+  "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.0",
+  "description": "把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。",
+  "headline": ["Agent 群体记忆", "复用已有经验"],
+  "install": {
+    "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0",
+    "codeLabel": "终端 · 安装 Crowd Memory",
+    "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。"
+  },
+  "heroMedia": {
+    "image": "assets/coding-memory.jpg",
+    "alt": "真实 DSH coding 任务中，Agent B 读取另一个 Agent 留下的导航问题修复记录。",
+    "title": "从别的 Agent 的修复记录开始",
+    "description": "记录提供问题现象、处理方法和出处。当前代码是否适用，仍由接手的 Agent 核对和测试。"
+  },
+  "useCases": [
+    {
+      "audience": "维护多个模块的开发者",
+      "title": "修复重复出现的代码问题",
+      "question": "“另一个模块是不是修过类似问题？”",
+      "description": "先查其他 Agent 留下的定位过程和修法，再对照当前模块补修改和回归测试。",
+      "prompt": "检查这个模块的问题；先查找并读取相关记忆，核对来源和适用条件，再修改代码并运行回归测试。不要直接照搬不适用的方案。"
+    },
+    {
+      "audience": "运行多 Agent workflow 的团队",
+      "title": "把处理经验交给后续 Agent",
+      "question": "“上一次在这个阶段踩过什么坑？”",
+      "description": "构建、测试或发布阶段留下的经验，可供同机后续 workflow 运行参考；需要按阶段采集时使用 workflow-default。",
+      "prompt": "开始当前 workflow 阶段前，读取相关历史经验，列出本次需要核对的条件；完成后用实际测试结果验证采用的方法。"
+    },
+    {
+      "audience": "反复处理构建与配置的开发者",
+      "title": "保留已经验证的排查方法",
+      "question": "“这个报错以前是怎么解决的？”",
+      "description": "修好后记录现象、原因、做法和检查结果。遇到同类失败的 Agent 可以取得记录和命中理由。",
+      "prompt": "修复当前问题，运行相关检查；通过后调用 memory_note，记录实际现象、原因、修改和验证结果，不要把未经验证的猜测写成结论。"
+    }
+  ],
+  "example": {
+    "title": "真实 coding 任务：修复移动导航并补回归测试",
+    "description": "使用 dsh-plugin-market 仓库中现存的导航问题。Agent A 检查代码、复现并修复；Agent B 在另一个组件中核对并复用这条经验。两个任务都需要实际修改 JavaScript 和运行测试。",
+    "blocks": [
+      {"type":"list","items":["Agent A：复现菜单关闭后 aria-expanded 仍为 true 的问题，修复代码并补回归测试，再记录实际经验。","Agent B：在独立工作区处理另一个组件，读取记录和来源，按当前代码调整修法并验证。","本机两个 Agent 的经验复用；不是跨机器团队发布，也不是速度基准。"]}
+    ],
+    "note": "真实 DSH 操作录像，包含运行后展开原始工具卡片；已剪去等待和设置，没有替换工具结果。请求模型名及完整版本见运行依据。",
+    "video": {
+      "title": "从读代码、修复、测试，到另一个 Agent 复用",
+      "description": "npm adapter/runtime 0.1.0，DSH 0.1.6-alpha.2。中文字幕说明任务进展，原始工具结果保留原貌。",
+      "src": "assets/coding-agent-demo.mp4",
+      "poster": "assets/coding-agent-poster.jpg",
+      "captions": "assets/coding-agent-zh.vtt"
+    },
+    "prompt": "在一个干净的 dsh-plugin-market 工作区中，检查 public/plugins/crowdmemory/docs.js 的移动导航：打开菜单后点击目录链接，视觉上菜单关闭，但 aria-expanded 状态是否一致？先补测试复现，再修复并验证，最后记录实际经验。另开独立工作区的 Agent，检查 workflow-rsi 的同类导航问题，查阅相关记忆、核对代码后修复并测试。"
+  },
+  "comparison": {
+    "title": "使用前后：同一构建问题的受控示例",
+    "description": "下面保留 zlib 构建例子作为效果核对材料，与上面的日常 coding 任务录像分开。两个 Agent 的初始 C 程序和 Makefile 相同；图片为真实工具结果的局部截图。",
+    "before": {"title":"首次处理：还没有修复记录","description":"make 因 _compress2 链接失败退出 2，Agent 需要自行查明原因并修复。","image":"assets/before-memory.jpg","alt":"zlib 受控示例中，Agent A 首次 make 的实际链接失败输出，exit 2。"},
+    "after": {"title":"后续 Agent：读取记录后验证修法","description":"核对记录中的条件并补上链接参数后，make 退出 0，程序输出 PASS。","image":"assets/after-memory.jpg","alt":"zlib 受控示例中，Agent B 采用修法后 make 输出 PASS 和 exit code 0。"},
+    "takeaways": ["记录有来源，Agent 可以核对当时的问题和实际修法。","采用后仍需测试；截图不代表时间或工具调用减少。","公开 E1 的 120 对受控合成任务：关记忆 45/120，开记忆 104/120。数据和限制见评测页；不能据此推断 PR4 收益或真实业务效果。"]
+  },
+  "requirements": {
+    "summary": "本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10",
+    "items": [
+      {"label":"运行平台","value":"macOS 或 Linux；Python 需包含 venv。"},
+      {"label":"宿主与插件","value":"DSH 支持范围包含市场基准 0.2.1-rc.2；本次录像实际使用 0.1.6-alpha.2。adapter/runtime 均为 npm 0.1.0。"},
+      {"label":"独立安装","value":"Runtime 本地 npm 安装，在指定目录建立独立 Python 环境；不需要全局安装 Runtime。"}
+    ]
+  },
+  "boundaries": [
+    {"title":"共享范围","description":"本机多个 Agent 和 workflow 可用；跨机器团队共享仍为内部预览。跨项目复用需要合适的 project/global 范围。"},
+    {"title":"记忆不等于正确答案","description":"记录可能过时或不适用于当前代码。Agent 仍需检查条件并运行测试。服务不可用时，会话继续执行，但这一步不带记忆。"},
+    {"title":"配置与验证","description":"DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。"}
+  ],
+  "quickstart": {
+    "title":"安装与验证",
+    "steps":[
+      {"title":"检查环境","description":"确认 Node.js、Python 和 DSH 满足上面的条件。","code":"node --version\npython3 --version\ndsh --version","codeLabel":"终端","expected":"Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。"},
+      {"title":"本地安装 Runtime","description":"在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。","code":"mkdir -p CMLocal && cd CMLocal\nnpm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.0\nnpx --no-install crowdmemory-runtime install --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A","expected":"安装输出包含 Runtime 目录、Python 环境及 host-config.json。"},
+      {"title":"启动记忆服务","description":"保持前台终端运行；Ctrl-C 会停止服务。","code":"npx --no-install crowdmemory-runtime start --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A · CMLocal","expected":"Runtime 启动，并生成 state/endpoint.json。"},
+      {"title":"安装并连接 DSH","description":"另开终端进入同一 CMLocal 目录，将端点传给 DSH。web 换成自己的 Profile。","code":"export CROWDMEMORY_ENDPOINT_FILE=\"$PWD/.runtime/crowdmemory/state/endpoint.json\"\ndsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0\ndsh --profile web","codeLabel":"终端 B · CMLocal","expected":"插件出现在该 Profile 中，Agent 可调用 memory_note、memory_search、memory_read。"},
+      {"title":"检查状态并运行 coding 例子","description":"另开终端检查状态。在 DSH 中运行上面的修复任务，写下经验后再启动独立 Agent，读取记录、修改代码并运行测试。","code":"npx --no-install crowdmemory-runtime status --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 C · CMLocal","expected":"状态显示 Runtime 运行中；第二个 Agent 能读取来源记录，并用测试验证修改。"}
+    ]
+  },
+  "faq":[
+    {"question":"群体记忆只是保存聊天吗？","answer":"这里复用的是 Agent 留下的问题现象、原因、做法及验证记录。其他 Agent 可按相关任务或失败取得记录和出处，再核对当前条件。本机与 workflow 已可用，跨机器团队共享仍为内部预览。"},
+    {"question":"已经有 session-default，为什么还要 DSH Profile？","answer":"DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。"},
+    {"question":"必须全局安装吗？Node.js 18 可以吗？","answer":"不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。"},
+    {"question":"为什么另一个 Agent 没有收到记录？","answer":"检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。"},
+    {"question":"评测能证明 PR4 提炼改进有效吗？","answer":"目前不能。固定 Episode 的前后实验受到中继服务错误和执行噪声影响；旧版重复组与新版默认投递内容 10/10 相同。评测页分别披露记忆开关实验、提炼实验与未公开的业务数据边界。"}
+  ],
+  "links":[
+    {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
+    {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
+    {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
+    {"label":"coding 录像运行依据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json"}
+  ]
+}

@@ -1,97 +1,91 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Crowd Memory 是 DSH 的群体记忆：把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent，并保留来源与使用结果。">
-<title>Crowd Memory：DSH 的群体记忆</title>
-<script>try{var t=localStorage.getItem("cm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
-<link rel="stylesheet" href="docs.css">
-<link rel="stylesheet" href="intro.css">
-<script src="docs.js" defer></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f9fb">
+  <title>Crowd Memory · Fuxi通用DSH组件市场</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="demo-data.js" defer></script>
+  <script src="page.js" defer></script>
 </head>
-<body class="intro-page">
-<header class="top">
-  <nav class="market-banner" aria-label="组件市场导航"><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi 通用DSH组件市场</a><span aria-hidden="true">/</span><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/" aria-current="page">Crowd Memory</a></nav>
-  <div class="top-row">
-    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
-    <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
-    <span class="ver">v0.1.0</span><button type="button" class="theme" aria-label="切换明暗">◐</button>
-  </div>
-  <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
-</header>
-<div class="layout">
-  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html" class="on" aria-current="page">介绍与安装</a><a href="versions.html">组件与版本</a><a href="configuration.html">配置</a><a href="errors.html">错误码</a></div></aside>
-  <main class="main">
-    <article class="doc">
-      <h1>Crowd Memory</h1>
-      <p class="lede">把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent。</p>
-      <p>这是 DSH 的群体记忆插件。Agent 修好问题后留下记录；后续 Agent 在相关任务或失败出现时收到修法、出处和命中理由，再根据当前任务核对、使用。</p>
-      <div class="code"><div class="code-bar"><span>DSH 插件 · 0.1.0</span><button type="button" class="copy">复制</button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0</code></pre></div>
-      <p class="small">先启动本机记忆服务；<code>web</code> 换成实际使用的 DSH profile。完整步骤见<a href="#install">安装与验证</a>。</p>
-      <figure class="memory-overview">
-        <svg viewBox="0 0 760 172" role="img" aria-labelledby="overview-title overview-desc">
-          <title id="overview-title">Agent 之间的经验复用</title><desc id="overview-desc">Agent A 修复问题并写下记录；群体记忆保留修法与来源；Agent B 遇到同类问题时取得记录并验证结果。</desc>
-          <rect x="1" y="1" width="758" height="170" rx="8" class="overview-bg"/>
-          <rect x="25" y="35" width="190" height="102" rx="6" class="overview-box"/><rect x="285" y="35" width="190" height="102" rx="6" class="overview-box"/><rect x="545" y="35" width="190" height="102" rx="6" class="overview-box"/>
-          <path d="M225 86h48m-9-7 9 7-9 7M485 86h48m-9-7 9 7-9 7" class="overview-arrow"/>
-          <text x="120" y="64" text-anchor="middle" class="overview-title">Agent A</text><text x="120" y="91" text-anchor="middle">修复问题</text><text x="120" y="115" text-anchor="middle" class="overview-sub">memory_note 留下经验</text>
-          <text x="380" y="64" text-anchor="middle" class="overview-title">群体记忆</text><text x="380" y="91" text-anchor="middle">修法 · 来源 · 结果</text><text x="380" y="115" text-anchor="middle" class="overview-sub">在相关任务中提供记录</text>
-          <text x="640" y="64" text-anchor="middle" class="overview-title">Agent B / C</text><text x="640" y="91" text-anchor="middle">遇到同类问题</text><text x="640" y="115" text-anchor="middle" class="overview-sub">核对后复用，验证结果</text>
-        </svg>
-        <ol class="memory-flow"><li><strong>Agent A</strong>修复问题，用 memory_note 留下经验</li><li><strong>群体记忆</strong>保留修法、来源和结果，按当前任务提供记录</li><li><strong>Agent B / C</strong>遇到同类问题，核对后复用并验证结果</li></ol>
-        <figcaption>机制示意。本机多个 Agent 和 workflow 可用；跨机器团队共享仍为内部预览。</figcaption>
+<body>
+  <a class="skip-link" href="#overview">跳到主要内容</a>
+  <header class="site-header"><div class="market-banner"><div class="wrap header-inner">
+    <nav class="market-breadcrumb" aria-label="当前位置"><a class="market-brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a><span class="market-location"><span class="market-separator" aria-hidden="true">/</span><a class="market-current" href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/" aria-current="page">Crowd Memory</a></span></nav>
+    <nav class="section-nav" aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-faq" href="#faq">常见问题</a><a class="nav-docs" href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
+  </div></div></header>
+  <main>
+    <section id="overview" class="wrap hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <div class="plugin-name">Crowd Memory <span class="version">v0.1.0</span></div>
+        <h1 id="page-title"><span>Agent 群体记忆</span><span class="accent">复用已有经验</span></h1>
+        <p class="lede">把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。</p>
+        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装 Crowd Memory</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0</code></pre></div><p>先启动本机 Runtime；web 换成实际使用的 DSH Profile。 <a href="#quickstart">安装步骤 ↓</a></p></div>
+        <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
+        <p class="compatibility">DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.0</p>
+        <p class="requirements-link">本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10 <a href="#details">使用条件 ↓</a></p>
+      </div>
+      <figure class="hero-visual">
+        <button type="button" class="screenshot-button hero-image-button" data-screenshot="assets/coding-memory.jpg" data-title="从别的 Agent 的修复记录开始" aria-label="放大查看：从别的 Agent 的修复记录开始"><img src="assets/coding-memory.jpg" width="1280" height="720" alt="真实 DSH coding 任务中，Agent B 读取另一个 Agent 留下的导航问题修复记录。"><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
+        <figcaption><strong>从别的 Agent 的修复记录开始</strong><p>记录提供问题现象、处理方法和出处。当前代码是否适用，仍由接手的 Agent 核对和测试。</p></figcaption>
       </figure>
-      <h2 id="when">使用场景</h2>
-      <p><strong>反复处理同类构建、配置或测试问题。</strong>前一个 Agent 已经查明原因，后来的 Agent 可以先看已有修法和出处，减少重复排查；项目路径或环境不同时，仍需调整并重新验证。</p>
-      <p><strong>由多个 Agent 接力的 workflow。</strong>某个阶段留下的经验，可供后续运行或其他阶段的 Agent 参考。需要按阶段采集时，选用 <code>workflow-default</code> 模板，见<a href="workflow.html">工作流记忆</a>。</p>
-      <p><strong>团队里的 Agent 处理相近任务。</strong>跨机器共享还在内部预览，见<a href="team.html">团队记忆</a>。当前可以先在本机验证经验如何在不同 Agent 之间流动。</p>
-      <h2 id="demo">操作录像</h2>
-      <p>两个独立 Agent 处理同一份 zlib 小程序。Agent A 修好链接错误并记录实际做法；Agent B 在新的工作区取得这条记录，再运行构建检查。这里演示本机共享，不是跨机器团队发布。</p>
-      <figure class="operation-video" id="recording">
-        <video controls playsinline preload="none" width="1440" height="900" poster="assets/crowdmemory-demo-poster.jpg" aria-label="Crowd Memory 两个 Agent 复用修法的真实操作录像">
-          <source src="assets/crowdmemory-demo.mp4" type="video/mp4">
-          <track kind="captions" src="assets/crowdmemory-demo-zh.vtt" srclang="zh" label="中文" default>
-          您的浏览器不支持视频，可<a href="assets/crowdmemory-demo.mp4">下载录像</a>。
-        </video>
-        <figcaption>真实 DSH 0.1.6-alpha.2 录屏；adapter/runtime 均为 npm 0.1.0。含运行后展开记录，已剪去等待，工具结果保留原貌。<a href="assets/demo-evidence.json">查看版本与运行依据</a>。</figcaption>
-      </figure>
-      <h2 id="comparison">使用前后</h2>
-      <figure class="comparison-shot"><h3>第一次处理：定位失败并留下修法</h3><a href="assets/before-memory.jpg" target="_blank" rel="noopener"><img src="assets/before-memory.jpg" loading="lazy" alt="Agent A 真实 DSH 会话中的首次 make 失败：zlib 链接错误，当时还没有可复用的修复记录。"></a><figcaption>实际工具结果的局部截图。点击查看原图。</figcaption></figure>
-      <figure class="comparison-shot"><h3>后续 Agent：核对已有记录再修复</h3><a href="assets/after-memory.jpg" target="_blank" rel="noopener"><img src="assets/after-memory.jpg" loading="lazy" alt="Agent B 采用记录中的修法后，make 返回 exit 0，输出 PASS: zlib compression succeeded。"></a><figcaption>实际构建通过的局部截图；读取记录及核对过程见上方录像。两份程序的初始代码相同。这是操作示例，不是速度测量。</figcaption></figure>
-      <p>公开的 120 对受控合成任务中，固定模型和预算下，关记忆完成 45/120，开记忆完成 104/120。真实业务效果尚未验证；条件、原始数据及提炼流程的独立对照见<a href="evaluation.html">评测</a>。</p>
-      <h2 id="install">安装与验证</h2>
-      <p>需要 macOS 或 Linux、Node.js ≥ 22.18、Python ≥ 3.10（含 venv），以及支持范围内的 DSH（包括市场基准 0.2.1-rc.2）。本次录像使用 0.1.6-alpha.2，完整支持列表见<a href="versions.html">组件与版本</a>。下面将 Runtime 安装在独立项目目录，不使用全局 npm 安装。</p>
-      <h3>1. 检查环境</h3>
-      <div class="code"><div class="code-bar"><span>终端</span><button type="button" class="copy">复制</button></div><pre><code>node --version
+    </section>
+
+    <section id="use-cases" class="wrap section" aria-labelledby="cases-title">
+      <div class="section-heading"><h2 id="cases-title">使用场景与适合人群</h2></div>
+      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>维护多个模块的开发者</p><h3>修复重复出现的代码问题</h3><blockquote>“另一个模块是不是修过类似问题？”</blockquote><p>先查其他 Agent 留下的定位过程和修法，再对照当前模块补修改和回归测试。</p><button type="button" class="copy-button" data-copy="检查这个模块的问题；先查找并读取相关记忆，核对来源和适用条件，再修改代码并运行回归测试。不要直接照搬不适用的方案。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>运行多 Agent workflow 的团队</p><h3>把处理经验交给后续 Agent</h3><blockquote>“上一次在这个阶段踩过什么坑？”</blockquote><p>构建、测试或发布阶段留下的经验，可供同机后续 workflow 运行参考；需要按阶段采集时使用 workflow-default。</p><button type="button" class="copy-button" data-copy="开始当前 workflow 阶段前，读取相关历史经验，列出本次需要核对的条件；完成后用实际测试结果验证采用的方法。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>反复处理构建与配置的开发者</p><h3>保留已经验证的排查方法</h3><blockquote>“这个报错以前是怎么解决的？”</blockquote><p>修好后记录现象、原因、做法和检查结果。遇到同类失败的 Agent 可以取得记录和命中理由。</p><button type="button" class="copy-button" data-copy="修复当前问题，运行相关检查；通过后调用 memory_note，记录实际现象、原因、修改和验证结果，不要把未经验证的猜测写成结论。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
+    </section>
+
+    <section id="example" class="wrap section" aria-labelledby="example-title">
+      <div class="section-heading"><h2 id="example-title">真实 coding 任务：修复移动导航并补回归测试</h2><p class="section-description">使用 dsh-plugin-market 仓库中现存的导航问题。Agent A 检查代码、复现并修复；Agent B 在另一个组件中核对并复用这条经验。两个任务都需要实际修改 JavaScript 和运行测试。</p></div>
+
+      <div class="demo-content"><div class="demo-content-block"><ul><li>Agent A：复现菜单关闭后 aria-expanded 仍为 true 的问题，修复代码并补回归测试，再记录实际经验。</li><li>Agent B：在独立工作区处理另一个组件，读取记录和来源，按当前代码调整修法并验证。</li><li>本机两个 Agent 的经验复用；不是跨机器团队发布，也不是速度基准。</li></ul></div></div>
+      <p class="media-note">真实 DSH 操作录像，包含运行后展开原始工具卡片；已剪去等待和设置，没有替换工具结果。请求模型名及完整版本见运行依据。</p>
+      <figure id="recording" class="video-demo"><figcaption><strong>从读代码、修复、测试，到另一个 Agent 复用</strong><p>npm adapter/runtime 0.1.0，DSH 0.1.6-alpha.2。中文字幕说明任务进展，原始工具结果保留原貌。</p></figcaption><video controls playsinline preload="none" poster="assets/coding-agent-poster.jpg" aria-label="从读代码、修复、测试，到另一个 Agent 复用"><source src="assets/coding-agent-demo.mp4" type="video/mp4"><track kind="captions" src="assets/coding-agent-zh.vtt" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video></figure>
+      <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在 DSH 中复现</span><span aria-hidden="true">＋</span></summary><div><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="在一个干净的 dsh-plugin-market 工作区中，检查 public/plugins/crowdmemory/docs.js 的移动导航：打开菜单后点击目录链接，视觉上菜单关闭，但 aria-expanded 状态是否一致？先补测试复现，再修复并验证，最后记录实际经验。另开独立工作区的 Agent，检查 workflow-rsi 的同类导航问题，查阅相关记忆、核对代码后修复并测试。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>在一个干净的 dsh-plugin-market 工作区中，检查 public/plugins/crowdmemory/docs.js 的移动导航：打开菜单后点击目录链接，视觉上菜单关闭，但 aria-expanded 状态是否一致？先补测试复现，再修复并验证，最后记录实际经验。另开独立工作区的 Agent，检查 workflow-rsi 的同类导航问题，查阅相关记忆、核对代码后修复并测试。</code></pre></div></div></details>
+
+    </section>
+
+    <section id="comparison" class="wrap section" aria-labelledby="comparison-title">
+      <div class="section-heading"><h2 id="comparison-title">使用前后：同一构建问题的受控示例</h2><p class="section-description">下面保留 zlib 构建例子作为效果核对材料，与上面的日常 coding 任务录像分开。两个 Agent 的初始 C 程序和 Makefile 相同；图片为真实工具结果的局部截图。</p></div>
+      <div class="comparison-grid"><article class="comparison-card before"><div class="comparison-copy"><h3>首次处理：还没有修复记录</h3><p>make 因 _compress2 链接失败退出 2，Agent 需要自行查明原因并修复。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/before-memory.jpg" data-title="首次处理：还没有修复记录" aria-label="放大查看：首次处理：还没有修复记录"><img src="assets/before-memory.jpg" width="1280" height="720" alt="zlib 受控示例中，Agent A 首次 make 的实际链接失败输出，exit 2。" loading="lazy"><span>运行截图 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article><article class="comparison-card after"><div class="comparison-copy"><h3>后续 Agent：读取记录后验证修法</h3><p>核对记录中的条件并补上链接参数后，make 退出 0，程序输出 PASS。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/after-memory.jpg" data-title="后续 Agent：读取记录后验证修法" aria-label="放大查看：后续 Agent：读取记录后验证修法"><img src="assets/after-memory.jpg" width="1280" height="720" alt="zlib 受控示例中，Agent B 采用修法后 make 输出 PASS 和 exit code 0。" loading="lazy"><span>运行截图 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article></div>
+      <div class="takeaways"><p><span aria-hidden="true">↳</span> 记录有来源，Agent 可以核对当时的问题和实际修法。</p><p><span aria-hidden="true">↳</span> 采用后仍需测试；截图不代表时间或工具调用减少。</p><p><span aria-hidden="true">↳</span> 公开 E1 的 120 对受控合成任务：关记忆 45/120，开记忆 104/120。数据和限制见评测页；不能据此推断 PR4 收益或真实业务效果。</p></div>
+    </section>
+
+    <section id="quickstart" class="wrap section" aria-labelledby="start-title">
+      <div class="section-heading"><h2 id="start-title">安装与验证</h2></div>
+      <div id="details" class="install-requirements">
+        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>运行平台</dt><dd>macOS 或 Linux；Python 需包含 venv。</dd></div><div><dt>宿主与插件</dt><dd>DSH 支持范围包含市场基准 0.2.1-rc.2；本次录像实际使用 0.1.6-alpha.2。adapter/runtime 均为 npm 0.1.0。</dd></div><div><dt>独立安装</dt><dd>Runtime 本地 npm 安装，在指定目录建立独立 Python 环境；不需要全局安装 Runtime。</dd></div></dl></div>
+
+        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>共享范围</strong><p>本机多个 Agent 和 workflow 可用；跨机器团队共享仍为内部预览。跨项目复用需要合适的 project/global 范围。</p></div><div><strong>记忆不等于正确答案</strong><p>记录可能过时或不适用于当前代码。Agent 仍需检查条件并运行测试。服务不可用时，会话继续执行，但这一步不带记忆。</p></div><div><strong>配置与验证</strong><p>DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。</p></div></div></details>
+      </div>
+      <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>检查环境</strong> 确认 Node.js、Python 和 DSH 满足上面的条件。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>node --version
 python3 --version
-dsh --version</code></pre></div>
-      <h3>2. 在独立目录安装记忆服务</h3><p>Runtime 会校验包内组件，并在指定目录建立独立 Python 环境。</p>
-      <div class="code"><div class="code-bar"><span>终端 A</span><button type="button" class="copy">复制</button></div><pre><code>mkdir -p CMLocal &amp;&amp; cd CMLocal
+dsh --version</code></pre><button type="button" class="copy-button" data-copy="node --version
+python3 --version
+dsh --version" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-2"><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>本地安装 Runtime</strong> 在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。 <span class="command-context">终端 A</span></p><div class="install-command" aria-label="终端 A"><pre><code>mkdir -p CMLocal &amp;&amp; cd CMLocal
 npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.0
-npx --no-install crowdmemory-runtime install --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
-      <h3>3. 启动记忆服务</h3><p>保持这个终端运行；按 Ctrl-C 会停止服务。</p>
-      <div class="code"><div class="code-bar"><span>终端 A · CMLocal 目录</span><button type="button" class="copy">复制</button></div><pre><code>npx --no-install crowdmemory-runtime start --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
-      <h3>4. 安装插件，让 DSH 连接这份 Runtime</h3><p>另开终端并进入同一个 CMLocal 目录。<code>web</code> 可换成自己的 DSH profile；这个环境变量需要传给启动 DSH 的进程。</p>
-      <div class="code"><div class="code-bar"><span>终端 B · CMLocal 目录</span><button type="button" class="copy">复制</button></div><pre><code>export CROWDMEMORY_ENDPOINT_FILE="$PWD/.runtime/crowdmemory/state/endpoint.json"
+npx --no-install crowdmemory-runtime install --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="mkdir -p CMLocal &amp;&amp; cd CMLocal
+npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.0
+npx --no-install crowdmemory-runtime install --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-3"><span class="step-index" aria-hidden="true">3</span><div><p class="step-description"><strong>启动记忆服务</strong> 保持前台终端运行；Ctrl-C 会停止服务。 <span class="command-context">终端 A · CMLocal</span></p><div class="install-command" aria-label="终端 A · CMLocal"><pre><code>npx --no-install crowdmemory-runtime start --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="npx --no-install crowdmemory-runtime start --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-4"><span class="step-index" aria-hidden="true">4</span><div><p class="step-description"><strong>安装并连接 DSH</strong> 另开终端进入同一 CMLocal 目录，将端点传给 DSH。web 换成自己的 Profile。 <span class="command-context">终端 B · CMLocal</span></p><div class="install-command" aria-label="终端 B · CMLocal"><pre><code>export CROWDMEMORY_ENDPOINT_FILE=&quot;$PWD/.runtime/crowdmemory/state/endpoint.json&quot;
 dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0
-dsh --profile web</code></pre></div>
-      <h3>5. 检查状态并尝试复用</h3><p>另开终端，在 CMLocal 目录检查状态。然后让一个 Agent 修好问题并调用 <code>memory_note</code>；再开独立会话，让另一个 Agent 用 <code>memory_search</code>、<code>memory_read</code> 核对已有记录。</p>
-      <div class="code"><div class="code-bar"><span>终端 C · CMLocal 目录</span><button type="button" class="copy">复制</button></div><pre><code>npx --no-install crowdmemory-runtime status --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
-      <details class="checks"><summary>检查结果</summary><ul><li>Node.js ≥ 22.18，Python ≥ 3.10，DSH 版本在支持范围内。</li><li>安装输出包含独立 Runtime 目录、Python 环境和 host-config.json。</li><li>状态显示“Runtime 运行中”，端点位于安装目录的 state/endpoint.json。</li><li>DSH 中可以调用三个记忆工具；空库返回没有记录，已有记录带有出处。</li><li>第二个 Agent 能读取第一个 Agent 留下的记录，并以实际测试验证修法。</li></ul></details>
-      <h2 id="faq">常见问题</h2>
-      <details class="faq-item"><summary>群体记忆只是跨会话保存聊天吗？</summary><p>保存聊天只是保留原文。这里复用的是 Agent 留下的问题现象、原因和做法，记录附带出处与命中理由，并能统计是否被读取、采用，以及原失败步骤后来是否通过。本机共享和 workflow 已可用，跨机器团队共享仍为内部预览。</p></details>
-      <details class="faq-item"><summary>Runtime 已有 session-default，为什么还要选择 DSH profile？</summary><p>两者不是同一个配置。DSH profile 决定把插件装在哪个 DSH 环境里，例如 web 或 desktop；Runtime 的 session-default / workflow-default 是记忆采集模板。详见<a href="configuration.html">配置</a>。</p></details>
-      <details class="faq-item"><summary>Node.js 18 能用吗？必须全局安装吗？</summary><p>发布包需要 Node.js ≥ 22.18。可以在独立目录用版本管理器选择合适的 Node，再按上面的本地 npm 安装步骤操作；不需要全局安装 Runtime。</p></details>
-      <details class="faq-item"><summary>为什么新的 Agent 没有收到刚写的记录？</summary><p>笔记从下一个会话开始可见，同一会话不会推给自己。检查记录的 project/global 范围、两边是否连接同一份 Runtime，以及端点文件是否正确。桌面版从 Dock 启动时不会自动继承终端环境变量，配置方法见<a href="configuration.html">配置</a>。</p></details>
-      <details class="faq-item"><summary>收到记忆就一定能修好吗？服务不可用怎么办？</summary><p>不能保证。记录可能不适用或已经过时，Agent 仍需核对并运行测试。记忆服务离线或超时时，会话继续执行；这一步不带记忆，工具返回“记忆暂不可用”。更多排查见<a href="errors.html">错误码</a>和<a href="faq.html">完整 FAQ</a>。</p></details>
-      <h2 id="docs">使用文档</h2>
-      <p><a href="configuration.html">连接与配置</a> · <a href="push.html">推送规则</a> · <a href="tools.html">记忆工具</a> · <a href="workflow.html">工作流记忆</a> · <a href="stats.html">使用统计</a> · <a href="evaluation.html">评测与数据</a> · <a href="security.html">隐私与安全</a></p>
-      <nav class="pager" aria-label="翻页"><a class="pg next" href="versions.html"><span>下一页</span>组件与版本</a></nav>
-    </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#when">使用场景</a><a href="#demo">操作录像</a><a href="#comparison">使用前后</a><a href="#install">安装与验证</a><a href="#faq">常见问题</a><a href="#docs">使用文档</a></nav>
+dsh --profile web</code></pre><button type="button" class="copy-button" data-copy="export CROWDMEMORY_ENDPOINT_FILE=&quot;$PWD/.runtime/crowdmemory/state/endpoint.json&quot;
+dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0
+dsh --profile web" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-5"><span class="step-index" aria-hidden="true">5</span><div><p class="step-description"><strong>检查状态并运行 coding 例子</strong> 另开终端检查状态。在 DSH 中运行上面的修复任务，写下经验后再启动独立 Agent，读取记录、修改代码并运行测试。 <span class="command-context">终端 C · CMLocal</span></p><div class="install-command" aria-label="终端 C · CMLocal"><pre><code>npx --no-install crowdmemory-runtime status --prefix &quot;$PWD/.runtime/crowdmemory&quot;</code></pre><button type="button" class="copy-button" data-copy="npx --no-install crowdmemory-runtime status --prefix &quot;$PWD/.runtime/crowdmemory&quot;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li></ol>
+      <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>检查环境</strong><p>Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。</p></li><li><strong>本地安装 Runtime</strong><p>安装输出包含 Runtime 目录、Python 环境及 host-config.json。</p></li><li><strong>启动记忆服务</strong><p>Runtime 启动，并生成 state/endpoint.json。</p></li><li><strong>安装并连接 DSH</strong><p>插件出现在该 Profile 中，Agent 可调用 memory_note、memory_search、memory_read。</p></li><li><strong>检查状态并运行 coding 例子</strong><p>状态显示 Runtime 运行中；第二个 Agent 能读取来源记录，并用测试验证修改。</p></li></ol></details>
+      <p class="help-link"><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html">安装与使用文档 ↗</a></p>
+    </section>
+
+    <section id="faq" class="wrap section" aria-labelledby="faq-title">
+      <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
+      <div class="faq-list"><details><summary>群体记忆只是保存聊天吗？<span aria-hidden="true">＋</span></summary><p>这里复用的是 Agent 留下的问题现象、原因、做法及验证记录。其他 Agent 可按相关任务或失败取得记录和出处，再核对当前条件。本机与 workflow 已可用，跨机器团队共享仍为内部预览。</p></details><details><summary>已经有 session-default，为什么还要 DSH Profile？<span aria-hidden="true">＋</span></summary><p>DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。</p></details><details><summary>必须全局安装吗？Node.js 18 可以吗？<span aria-hidden="true">＋</span></summary><p>不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。</p></details><details><summary>为什么另一个 Agent 没有收到记录？<span aria-hidden="true">＋</span></summary><p>检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。</p></details><details><summary>评测能证明 PR4 提炼改进有效吗？<span aria-hidden="true">＋</span></summary><p>目前不能。固定 Episode 的前后实验受到中继服务错误和执行噪声影响；旧版重复组与新版默认投递内容 10/10 相同。评测页分别披露记忆开关实验、提炼实验与未公开的业务数据边界。</p></details></div>
+    </section>
   </main>
-</div>
-<footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
+  <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html">连接与配置 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html">评测与公开数据 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html">记忆工具参考 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json">coding 录像运行依据 ↗</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
+  <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
+  <dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="screenshot-title"><div class="dialog-bar"><h2 id="screenshot-title">运行截图</h2><button id="close-screenshot" type="button">关闭 ×</button></div><img id="screenshot-full" alt=""></dialog>
 </body>
 </html>

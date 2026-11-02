@@ -1,0 +1,6 @@
+{
+  "repository": "https://github.com/fuxi-ailabs/dsh-plugin-market",
+  "commit": "b069e04a755aaaae4c89cb382a578621d84d4a80",
+  "agent_a_target": "public/plugins/crowdmemory/docs.js",
+  "agent_b_target": "public/plugins/workflow-rsi/docs.js"
+}

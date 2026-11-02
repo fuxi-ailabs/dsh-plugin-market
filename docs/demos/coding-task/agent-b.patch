@@ -1,0 +1,161 @@
+diff --git a/public/plugins/workflow-rsi/docs.js b/public/plugins/workflow-rsi/docs.js
+index 4acc42a..bd6dcc0 100644
+--- a/public/plugins/workflow-rsi/docs.js
++++ b/public/plugins/workflow-rsi/docs.js
+@@ -16,2 +16,5 @@
+-    menu.addEventListener("click", function () {
+-      var open = document.body.classList.toggle("nav-open");
++    // 视觉状态只看 body.nav-open，aria-expanded 必须由同一个入口写，
++    // 否则从侧栏链接关闭菜单时 aria 会停在 "true"，屏幕阅读器读到的与实际不符。
++    var setOpen = function (open) {
++      if (open) { document.body.classList.add("nav-open"); }
++      else { document.body.classList.remove("nav-open"); }
+@@ -18,0 +22,3 @@
++    };
++    menu.addEventListener("click", function () {
++      setOpen(!document.body.classList.contains("nav-open"));
+@@ -21 +27 @@
+-      a.addEventListener("click", function () { document.body.classList.remove("nav-open"); });
++      a.addEventListener("click", function () { setOpen(false); });
+diff --git a/scripts/workflow-rsi-docs-menu.test.mjs b/scripts/workflow-rsi-docs-menu.test.mjs
+new file mode 100644
+index 0000000..08f5c77
+--- /dev/null
++++ b/scripts/workflow-rsi-docs-menu.test.mjs
+@@ -0,0 +1,136 @@
++// workflow-rsi docs.js 移动端目录菜单回归测试。
++// 用 node:test + node:vm + 手写最小 DOM 桩，不引入任何依赖：
++// 只实现 docs.js 实际用到的 querySelector/querySelectorAll/classList/setAttribute/addEventListener。
++import test from "node:test";
++import assert from "node:assert/strict";
++import { readFileSync } from "node:fs";
++import { fileURLToPath } from "node:url";
++import vm from "node:vm";
++
++const DOCS_JS = fileURLToPath(new URL("../public/plugins/workflow-rsi/docs.js", import.meta.url));
++const source = readFileSync(DOCS_JS, "utf8");
++
++function makeElement(tagName, attrs = {}) {
++  const attributes = new Map(Object.entries(attrs));
++  const classes = new Set();
++  const listeners = new Map();
++  return {
++    tagName: tagName.toUpperCase(),
++    classList: {
++      add(name) { classes.add(name); },
++      remove(name) { classes.delete(name); },
++      contains(name) { return classes.has(name); },
++      toggle(name) {
++        if (classes.has(name)) { classes.delete(name); return false; }
++        classes.add(name); return true;
++      },
++    },
++    setAttribute(name, value) { attributes.set(name, String(value)); },
++    getAttribute(name) { return attributes.has(name) ? attributes.get(name) : null; },
++    addEventListener(type, fn) {
++      if (!listeners.has(type)) listeners.set(type, []);
++      listeners.get(type).push(fn);
++    },
++    dispatch(type) {
++      const event = { type, target: this, preventDefault() {}, stopPropagation() {} };
++      for (const fn of listeners.get(type) || []) fn(event);
++    },
++  };
++}
++
++// 与 public/plugins/workflow-rsi/*.html 第 14、22 行一致的 DOM 结构。
++function boot() {
++  const body = makeElement("body");
++  const menu = makeElement("button", { class: "menu", "aria-label": "打开目录", "aria-expanded": "false" });
++  const sides = ["index.html", "tools.html", "errors.html", "versions.html"].map((href) => {
++    const a = makeElement("a", { href });
++    a.classList.add("side-link");
++    return a;
++  });
++  const document = {
++    documentElement: makeElement("html"),
++    body,
++    querySelector(selector) {
++      if (selector === ".menu") return menu;
++      if (selector === ".theme") return null;
++      return null;
++    },
++    querySelectorAll(selector) {
++      if (selector === ".side a") return sides;
++      return [];
++    },
++  };
++  const window = { matchMedia: () => ({ matches: false }) };
++  const context = vm.createContext({
++    document,
++    window,
++    navigator: {},
++    localStorage: { getItem: () => null, setItem: () => {} },
++    setTimeout: () => 0,
++    console,
++  });
++  vm.runInContext(source, context, { filename: DOCS_JS });
++  return { body, menu, sides, context };
++}
++
++const isOpen = (page) => page.body.classList.contains("nav-open");
++const ariaOpen = (page) => page.menu.getAttribute("aria-expanded");
++
++// 视觉状态（body.nav-open）与无障碍状态（aria-expanded）必须始终一致。
++function assertInSync(page) {
++  assert.equal(ariaOpen(page), isOpen(page) ? "true" : "false",
++    "aria-expanded 必须与 body.nav-open 保持一致");
++}
++
++test("初始状态：菜单关闭，aria-expanded 为 false", () => {
++  const page = boot();
++  assert.equal(isOpen(page), false);
++  assert.equal(ariaOpen(page), "false");
++  assertInSync(page);
++});
++
++test("点击按钮打开：nav-open 加上，aria-expanded 变成 true", () => {
++  const page = boot();
++  page.menu.dispatch("click");
++  assert.equal(isOpen(page), true);
++  assert.equal(ariaOpen(page), "true");
++  assertInSync(page);
++});
++
++test("打开后再点按钮：视觉关闭，aria-expanded 回到 false", () => {
++  const page = boot();
++  page.menu.dispatch("click");
++  page.menu.dispatch("click");
++  assert.equal(isOpen(page), false);
++  assert.equal(ariaOpen(page), "false");
++  assertInSync(page);
++});
++
++test("打开后点目录链接：视觉关闭，aria-expanded 同步回到 false", () => {
++  const page = boot();
++  page.menu.dispatch("click");
++  assert.equal(ariaOpen(page), "true");
++  page.sides[1].dispatch("click");
++  assert.equal(isOpen(page), false);
++  assert.equal(ariaOpen(page), "false");
++  assertInSync(page);
++});
++
++test("目录链接关闭后可再次打开，两种状态仍一致", () => {
++  const page = boot();
++  page.menu.dispatch("click");
++  page.sides[0].dispatch("click");
++  assert.equal(isOpen(page), false);
++  assertInSync(page);
++
++  page.menu.dispatch("click");
++  assert.equal(isOpen(page), true);
++  assert.equal(ariaOpen(page), "true");
++  assertInSync(page);
++
++  // 关闭路径再次经过目录链接，仍要同步
++  page.sides[3].dispatch("click");
++  assert.equal(isOpen(page), false);
++  assert.equal(ariaOpen(page), "false");
++  assertInSync(page);
++});

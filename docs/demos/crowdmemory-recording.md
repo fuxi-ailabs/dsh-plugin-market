@@ -1,4 +1,6 @@
-# Crowd Memory 实际操作录像
+# Crowd Memory：zlib 受控构建示例
+
+这份旧材料保留用于受控构建效果核对。首页现在展示[日常 coding 任务录像](crowdmemory-coding-recording.md)，不再把 zlib 配置修复作为通用 coding 场景。
 
 2026-11-02，两个独立 DSH Agent 在本机不同工作区处理相同的受控 zlib 程序。录像与局部截图位于 `public/plugins/crowdmemory/assets/`；机器可读依据为同目录的 `demo-evidence.json`。这不是生产故障数据或性能基准。
 

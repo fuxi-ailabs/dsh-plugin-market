@@ -1,0 +1,187 @@
+{
+  "schema": "crowdmemory-coding-demo/v1",
+  "recorded_at_utc": "2026-11-02T02:20:24.378347+00:00",
+  "source": {
+    "repository": "https://github.com/fuxi-ailabs/dsh-plugin-market",
+    "commit": "b069e04a755aaaae4c89cb382a578621d84d4a80",
+    "agent_a_target": "public/plugins/crowdmemory/docs.js",
+    "agent_b_target": "public/plugins/workflow-rsi/docs.js"
+  },
+  "qualification": "real-model coding tasks on clean snapshots of an existing repository; not a benchmark or production incident",
+  "versions": {
+    "dsh": "0.1.6-alpha.2",
+    "adapter": "0.1.0",
+    "runtime": "0.1.0",
+    "model": "claude-sonnet-4-6"
+  },
+  "requested_model_note": "relay request name; backend identity not independently verified",
+  "actors": {
+    "agent-a": {
+      "session_id": "session-562aa72f-750c-4d0f-9435-585d5b7da3ae",
+      "target": "public/plugins/crowdmemory/docs.js",
+      "files": [
+        "public/plugins/crowdmemory/docs.js",
+        "scripts/crowdmemory-docs-menu.test.mjs"
+      ],
+      "regression_tests": [
+        "scripts/crowdmemory-docs-menu.test.mjs"
+      ],
+      "original_source_sha256": "sha256:9612a28c55e0d66a2e6e541f4c9013890741bbe458e54ff10e8cebc48816b20c",
+      "fixed_source_sha256": "sha256:a5acc89edcbdef7b948a30dd5c27e3a861e4277104acf0ea17a54481e667735a",
+      "patch_sha256": "sha256:c409183344a05e9f56e8baf33f4cf9430acc7c5607dc0f6b63707b63f7d12afc",
+      "independent_regression": {
+        "original": {
+          "exit_code": 1,
+          "summary": "# tests 4\n# pass 2\n# fail 2\n# cancelled 0\n# skipped 0"
+        },
+        "fixed": {
+          "exit_code": 0,
+          "summary": "# tests 4\n# pass 4\n# fail 0\n# cancelled 0\n# skipped 0"
+        }
+      },
+      "session_log_sha256": "sha256:c2ef237470f23f4c0ed7300463ffedff4387173c3bff50cbba39babe7bc6244a",
+      "tool_results": 21
+    },
+    "agent-b": {
+      "session_id": "session-e13bdb6b-7c4f-4b5b-aa37-e6288acfcdce",
+      "target": "public/plugins/workflow-rsi/docs.js",
+      "files": [
+        "public/plugins/workflow-rsi/docs.js",
+        "scripts/workflow-rsi-docs-menu.test.mjs"
+      ],
+      "regression_tests": [
+        "scripts/workflow-rsi-docs-menu.test.mjs"
+      ],
+      "original_source_sha256": "sha256:0fb9176ab26dbd4deae2aaba94f09aec9d58510a771fe060d3a7dc25e1282a96",
+      "fixed_source_sha256": "sha256:a5d6ae15cd5e13ece47fc5a5fa7ffd437a28a5cb9f74a92bdfe00e8c401befa0",
+      "patch_sha256": "sha256:210e1784fd9fbeac58eedeccd5b7848ec6f00e9ba8395b3b9b528c20d667e4b1",
+      "independent_regression": {
+        "original": {
+          "exit_code": 1,
+          "summary": "# tests 5\n# pass 3\n# fail 2\n# cancelled 0\n# skipped 0"
+        },
+        "fixed": {
+          "exit_code": 0,
+          "summary": "# tests 5\n# pass 5\n# fail 0\n# cancelled 0\n# skipped 0"
+        }
+      },
+      "session_log_sha256": "sha256:5f327de895586134dd2c84b652e493494c78e80280a41f73a82ef7c2eaf82bbc",
+      "tool_results": 16
+    }
+  },
+  "record": {
+    "record_ref": "lr_01a199fc40c07d5897bd758af71bacc1",
+    "revision": 1,
+    "title": "Crowd Memory 文档页移动菜单：点击 .side a 关闭后 aria-expanded 未同步",
+    "scope": "global",
+    "origin_project": "agent-a",
+    "writer_terminal_outcome": null,
+    "content": {
+      "evidence_refs": [
+        "public/plugins/crowdmemory/docs.js",
+        "scripts/crowdmemory-docs-menu.test.mjs",
+        "public/plugins/crowdmemory/index.html"
+      ],
+      "files": [],
+      "fix": {
+        "diff": "diff --git a/public/plugins/crowdmemory/docs.js b/public/plugins/crowdmemory/docs.js\nindex 336d6e7..703e4c3 100644\n--- a/public/plugins/crowdmemory/docs.js\n+++ b/public/plugins/crowdmemory/docs.js\n@@ -13,12 +13,18 @@\n \n   var menu = document.querySelector(\".menu\");\n   if (menu) {\n-    menu.addEventListener(\"click\", function () {\n-      var open = document.body.classList.toggle(\"nav-open\");\n+    // 视觉状态由 body.nav-open 决定，aria-expanded 必须始终跟随它，\n+    // 否则屏幕阅读器会与实际菜单状态不一致。\n+    var setOpen = function (open) {\n+      if (open) { document.body.classList.add(\"nav-open\"); }\n+      else { document.body.classList.remove(\"nav-open\"); }\n       menu.setAttribute(\"aria-expanded\", open ? \"true\" : \"false\");\n+    };\n+    menu.addEventListener(\"click\", function () {\n+      setOpen(!document.body.classList.contains(\"nav-open\"));\n     });\n     document.querySelectorAll(\".side a\").forEach(function (a) {\n-      a.addEventListener(\"click\", function () { document.body.classList.remove(\"nav-open\"); });\n+      a.addEventListener(\"click\", function () { setOpen(false); });\n     });\n   }\n",
+        "kind": "diff"
+      },
+      "learned": "把开关状态收敛到一个 setOpen(open) 函数：内部同时做 classList.add/remove(\"nav-open\") 与 menu.setAttribute(\"aria-expanded\", ...)，按钮点击改为 setOpen(!body.classList.contains(\"nav-open\"))，.side a 点击改为 setOpen(false)。保持原有 ES5 var/function 风格，不用 classList.toggle 的 force 第二参数，避免兼容性变化。回归测试 scripts/crowdmemory-docs-menu.test.mjs 用 node:test + node:vm + 手写最小 DOM 桩（仅实现 querySelector/querySelectorAll/classList/setAttribute/addEventListener），不装任何新依赖即可复现：修复前 4 例中 2 例失败（aria-expanded 期望 false 实际 true），修复后 4/4 通过。检查命令与结果：node --test scripts/crowdmemory-docs-menu.test.mjs → 4 pass / 0 fail；git diff --check 无输出。注意仓库根 npm test 当前因缺少 node_modules、无法解析 @deepseek-ai/dsh-plugin-market-index 而失败（ERR_MODULE_NOT_FOUND），已用 git stash 还原原始 docs.js 复测确认是既有环境问题，与本次改动无关。",
+      "relates_to": [],
+      "what": "public/plugins/crowdmemory/docs.js 移动端目录菜单：打开后点击侧栏目录链接 .side a，body.nav-open 被移除、菜单视觉关闭，但按钮 .menu 的 aria-expanded 仍为 \"true\"，屏幕阅读器读到的仍是「已展开」。",
+      "where": "public/plugins/crowdmemory/docs.js 中 var menu = document.querySelector(\".menu\") 分支（原第 14-23 行）。对应 DOM 见 public/plugins/crowdmemory/*.html：<button type=\"button\" class=\"menu\" aria-label=\"打开目录\" aria-expanded=\"false\"> 与 <aside class=\"side\" aria-label=\"文档目录\"><a href=\"...\">；17 个页面重复同一结构。",
+      "why": "菜单状态被写在了两个地方：按钮点击时用 classList.toggle 同步更新 aria-expanded，而 .side a 的点击处理器只做 document.body.classList.remove(\"nav-open\")，没有回写 aria-expanded。视觉状态（body.nav-open）与无障碍状态（aria-expanded）因此分叉。本质是缺少单一状态入口，任何新增加的关闭路径都会再次漏掉 aria 同步。"
+    }
+  },
+  "reader_receipts": [
+    {
+      "kind": "view_exposure",
+      "exposure_kind": "pushed",
+      "record_ref": "lr_01a199fc40c07d5897bd758af71bacc1",
+      "reasons": [
+        {
+          "contribution": 0.15,
+          "signal": "lexical",
+          "value": "aria-expanded,docs.js,plugins,public,一,与,个,任"
+        },
+        {
+          "contribution": 0.05,
+          "signal": "environment",
+          "value": "os=darwin"
+        },
+        {
+          "contribution": 0.05,
+          "signal": "recency",
+          "value": "0d"
+        },
+        {
+          "contribution": 0.025,
+          "signal": "trust",
+          "value": "local_auto"
+        },
+        {
+          "contribution": 0.0125,
+          "signal": "evidence",
+          "value": "sources=1,used_success=0"
+        },
+        {
+          "contribution": 0.0,
+          "signal": "same_project",
+          "value": "跨项目:agent-a"
+        }
+      ],
+      "payload": {
+        "dedupe_key": "pushed:session_start",
+        "overrides": {},
+        "policy": {
+          "enabled": true,
+          "max_chars": 4000,
+          "max_items": 3,
+          "min_score": 0.0,
+          "require": []
+        },
+        "profile": {
+          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+          "id": "session-default",
+          "revision": "3"
+        },
+        "repeat": false,
+        "trigger": "session_start"
+      }
+    },
+    {
+      "kind": "record_usage",
+      "exposure_kind": "read",
+      "record_ref": "lr_01a199fc40c07d5897bd758af71bacc1",
+      "reasons": [],
+      "payload": {
+        "chars": 4824,
+        "profile": {
+          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+          "id": "session-default",
+          "revision": "3"
+        }
+      }
+    }
+  ],
+  "editing": {
+    "actual_browser_pixels": true,
+    "post_run_inspection": true,
+    "waiting_removed": true,
+    "redrawn_results": false
+  },
+  "limits": [
+    "local cross-project reuse, not cross-machine publication",
+    "no time or tool-count improvement claim",
+    "independent regression checks verify these edits, not general memory effectiveness",
+    "successful tests are not a terminal-session trust verdict"
+  ],
+  "assets": {
+    "coding-agent-demo.mp4": "sha256:1757a905aca195d1590b6a585055f55aab5ed9b7a6110843b8ca7f9a29d0dc0c",
+    "coding-agent-poster.jpg": "sha256:e750ea233e6a00372640e700051479c16034aaaf45c74fb39fb4062a58f80e6f",
+    "coding-agent-zh.vtt": "sha256:5c1fa30a547e2bb686029f264549e12a8a0be6b42fe29cf431b2afed448a92c6",
+    "coding-memory.jpg": "sha256:718a7bcc0844bf281e804c2b8693b22ff39aa5ae98f734505a343f747e78025e"
+  },
+  "raw_recording_sha256": "sha256:1e852efa125945eb59ac3726a576af92cfa1a232e21fdfe81f6fe7ec4413280c"
+}
