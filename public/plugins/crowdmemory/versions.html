@@ -26,11 +26,10 @@
 <h2 id="packages">npm 包<a class="hash" href="#packages" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>包</th><th>版本</th><th>说明</th></tr></thead><tbody><tr><td><code>@fuxi-ailabs/crowdmemory-dsh-adapter</code></td><td>0.1.1</td><td>DSH 插件。在 DSH 进程内运行，把会话事件交给记忆服务，把推送放进模型请求，并提供三个记忆工具</td></tr><tr><td><code>@fuxi-ailabs/crowdmemory-runtime</code></td><td>0.1.1</td><td>本机记忆服务的安装包。包含记忆服务、协议定义和两个默认模板，并提供命令 <code>crowdmemory-runtime</code></td></tr></tbody></table></div>
 <p><code>@fuxi-ailabs/crowdmemory-runtime</code> 0.1.1 包含的组件：</p>
-<div class="table"><table><thead><tr><th>组件</th><th>版本</th></tr></thead><tbody><tr><td>记忆服务（Python）</td><td>0.1.1</td></tr><tr><td>协议定义 <code>crowdmemory-contracts</code></td><td>0.1.0</td></tr><tr><td>模板 <code>session-default</code></td><td>revision 3（包 0.3.0）</td></tr><tr><td>模板 <code>workflow-default</code></td><td>revision 3（包 0.3.0）</td></tr></tbody></table></div>
-<p>0.1.1 补齐公开开发评测数据和复算入口，统一 npm 作用域包名与 DSH bundle 注册名。契约保留 0.1.0，两个默认模板保留 0.3.0（r3）。本次在 macOS 验证了 npm Runtime 安装、启动、status、升级与回滚；适配器 162 项测试通过。下面的 DSH 端到端记录来自 0.1.0，不表示已在每个宿主上重跑 0.1.1。</p>
+<div class="table"><table><thead><tr><th>组件</th><th>版本</th></tr></thead><tbody><tr><td>记忆服务（Python）</td><td>0.1.1</td></tr><tr><td>接入协议</td><td><code>memory-agent-ingress/v1</code></td></tr><tr><td>模板 <code>session-default</code></td><td>revision 3（包 0.3.0）</td></tr><tr><td>模板 <code>workflow-default</code></td><td>revision 3（包 0.3.0）</td></tr></tbody></table></div>
+<p>0.1.1 补齐公开开发评测数据和复算入口，统一 npm 作用域包名与 DSH bundle 注册名。两个默认模板为 0.3.0（r3）。本次在 macOS 验证了 npm Runtime 安装、启动、status、升级与回滚；适配器 162 项测试通过。</p>
 <h2 id="dsh">DSH 版本<a class="hash" href="#dsh" aria-label="本节链接">#</a></h2>
 <p>插件的 <code>engines.dsh</code> 和 <code>peerDependencies</code> 都是 <code>0.1.6-alpha.2 || ^0.2.0-rc.2</code>：0.1 系列只支持 0.1.6-alpha.2；0.2 系列支持 0.2.0-rc.2 及之后的 0.2.x。</p>
-<p>此前 0.1.0 迁移到组织作用域时，沿用了同版本的适配器运行代码、Python 组件和模板。当时在 Linux 与 DSH 0.2.1-rc.2 上复验了安装、服务启动、跨会话笔记搜索与读取，以及三个记忆工具注册；下表保留原 0.1.0 的兼容验证记录。</p>
 <div class="table"><table><thead><tr><th>DSH</th><th>测试情况</th><th>差异</th></tr></thead><tbody><tr><td>0.1.6-alpha.2（命令行）</td><td>L0、L1、L2 端到端，组件升级与回滚</td><td>推送消息来源为 <code>{kind:&#x27;plugin&#x27;, plugin:&#x27;crowdmemory-dsh-adapter&#x27;, form:&#x27;recall&#x27;}</code></td></tr><tr><td>0.2.0-rc.2（含桌面版）</td><td>同上，另在桌面版界面上测试</td><td>推送消息来源为 <code>{kind:&#x27;plugin:crowdmemory-dsh-adapter&#x27;, form:&#x27;recall&#x27;}</code></td></tr><tr><td>0.2.1-rc.2（命令行）</td><td>L0、L1、L2 端到端，组件升级与回滚</td><td>同 0.2.0-rc.2</td></tr></tbody></table></div>
 <p>插件在运行时读取 DSH 的版本来选择推送消息的写法，读不到时用 0.2 的写法。</p>
 <h2 id="requirements">系统要求<a class="hash" href="#requirements" aria-label="本节链接">#</a></h2>

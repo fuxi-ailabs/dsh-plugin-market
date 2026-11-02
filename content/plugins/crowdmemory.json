@@ -48,7 +48,7 @@
     "note": "真实 DSH 操作录像，包含运行后展开原始工具卡片；已剪去等待和设置，没有替换工具结果。示例源码测试需要 Python 3.11、pytest 及项目依赖；版本和运行依据见页脚链接。",
     "video": {
       "title": "从接口断连，到结构化错误响应与回归测试",
-      "description": "DSH 0.1.6-alpha.2，记忆服务为 npm adapter/runtime 0.1.0；接口修复运行在独立源码快照上。中文字幕说明任务进展，原始工具结果保留原貌。",
+      "description": "后端 API 修复与测试示例；当前安装版本为 adapter/runtime 0.1.1，接口修复运行在独立源码快照上。中文字幕说明任务进展，原始工具结果保留原貌。",
       "src": "assets/coding-agent-demo.mp4",
       "poster": "assets/coding-agent-poster.jpg",
       "captions": "assets/coding-agent-zh.vtt"
@@ -66,7 +66,7 @@
     "summary": "本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10",
     "items": [
       {"label":"运行平台","value":"macOS 或 Linux；Python 需包含 venv。"},
-      {"label":"宿主与插件","value":"DSH 支持范围包含市场基准 0.2.1-rc.2；本次录像实际使用 0.1.6-alpha.2。adapter/runtime 均为 npm 0.1.0。"},
+      {"label":"宿主与插件","value":"adapter/runtime 0.1.1；DSH 支持 0.1.6-alpha.2 或 ^0.2.0-rc.2，包含市场基准 0.2.1-rc.2。"},
       {"label":"独立安装","value":"Runtime 本地 npm 安装，在指定目录建立独立 Python 环境；不需要全局安装 Runtime。"}
     ]
   },

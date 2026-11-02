@@ -24,13 +24,11 @@
     <article class="doc">
       <h1>更新日志</h1>
 <h2 id="v0-1-1">0.1.1（2026-11-02）<a class="hash" href="#v0-1-1" aria-label="本节链接">#</a></h2>
-<ul><li>Runtime 和适配器发布到 <code>@fuxi-ailabs</code> scope，安装命令固定 0.1.1，DSH bundle 注册名与 npm 包名一致。</li><li>公开开发评测数据、真实运行观测和离线复算入口，见 <a href="evaluation.html">评测与适用范围</a>。固定 Episode 对照尚不能证明 PR #4 的下游任务收益。</li><li>Runtime Python 组件为 0.1.1；协议定义保留 0.1.0，两个默认模板仍为 0.3.0（r3）。</li><li>安装说明使用项目本地 npm 依赖与独立 Runtime prefix；跨机器开发协作仍为内部预览。</li></ul>
-<h2 id="v0-1-0">0.1.0（2026-10-22）<a class="hash" href="#v0-1-0" aria-label="本节链接">#</a></h2>
-<p>第一个版本。</p>
+<ul><li>Runtime 和适配器发布到 <code>@fuxi-ailabs</code> scope，安装命令固定 0.1.1，DSH bundle 注册名与 npm 包名一致。</li><li>公开开发评测数据、真实运行观测和离线复算入口，见 <a href="evaluation.html">评测与适用范围</a>。固定 Episode 对照尚不能证明 PR #4 的下游任务收益。</li><li>Runtime Python 组件为 0.1.1，接入协议为 memory-agent-ingress/v1，两个默认模板为 0.3.0（r3）。</li><li>安装说明使用项目本地 npm 依赖与独立 Runtime prefix；跨机器开发协作仍为内部预览。</li></ul>
 <ul><li>DSH 插件 <code>@fuxi-ailabs/crowdmemory-dsh-adapter</code>：会话开始、工具失败后、workflow 阶段开始时推送；<code>memory_search</code>、<code>memory_read</code>、<code>memory_note</code> 三个工具。</li><li>本机记忆服务 <code>@fuxi-ailabs/crowdmemory-runtime</code>：离线安装，支持升级、回滚和用户服务。</li><li>两个模板：<code>session-default</code>、<code>workflow-default</code>。</li><li>支持 DSH <code>0.1.6-alpha.2 || ^0.2.0-rc.2</code>。</li><li>插件默认读取 <code>~/.crowdmemory/state/endpoint.json</code>，桌面版不需要额外配置。</li><li>按任务统计是否用了记忆及成功率。</li><li>团队记忆与自动核验（内部预览）。</li><li>Apache-2.0。</li></ul>
       <nav class="pager" aria-label="翻页"><a class="pg prev" href="faq.html"><span>上一页</span>常见问题</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#v0-1-1">0.1.1（2026-11-02）</a><a href="#v0-1-0">0.1.0（2026-10-22）</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#v0-1-1">0.1.1（2026-11-02）</a></nav>
   </main>
 </div>
 <footer class="foot">Crowd Memory（归藏）· Apache-2.0 · 维护：cacheline · 问题反馈：<span class="mail">cacheline999@gmail.com</span></footer>
