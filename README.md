@@ -57,6 +57,8 @@ Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基
 
 ## 添加后续插件或版本
 
+CrowdMemory 当前按非正式预览版本维护：市场索引仅提供当前版本，介绍页、文档和安装命令随当前版本覆盖更新。因此本次使用 0.1.1 替换目录中的 0.1.0，不按下列默认流程追加旧预览版本。此规则仅适用于 CrowdMemory，不表示旧包失去 DSH 兼容性，也不删除 npm 已发布包或原始运行证据；如需旧包，可通过 npm 包名和版本直接安装。
+
 1. 在插件自己的仓库准备可安装 Bundle，核实 `package.json` 中的包名、版本、`dsh.bundle` 和 DSH 兼容范围；`engines.dsh` 写范围并与索引一致，验证 npm/Git 安装及构建产物。
 2. 在 `public/index.json` 的 `plugins` 数组追加条目；已有插件则向 `versions` 追加版本。Git 来源必须固定完整 40 位 commit SHA，并填写真实的子目录。`publishTimestamp` 使用来源提交的 Unix 秒时间。
 3. 图标放进 `public/icons/`。每个插件都需要按[统一浅色介绍页模板](docs/plugin-page-template.md)准备六段内容：作用与安装命令、使用场景与适合人群、功能演示、使用前后效果对比、安装与验证（含使用条件）、常见问题。内容写入 `content/plugins/<slug>.json`，运行 `npm run build:pages` 输出介绍页；经审核的图片放进 `public/plugins/<slug>/assets/`，在校验脚本 `publicPages` / `publicLinks` 登记逐文件清单与文档链接，并通过 `homepage` 关联。标题和描述可提供 `en`、`zh`，其中英文必须存在。
