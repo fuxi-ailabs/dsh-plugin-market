@@ -245,6 +245,7 @@ tr:last-child td { border-bottom: 0; }
 }
 
 /* Copyable install command */
+.profile-note { margin: -8px 0 20px; color: var(--muted); font-size: .9375rem; }
 .install-command { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px; margin: 0 0 20px; padding: 0 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--code-bg); }
 .install-command pre { margin: 0; padding: 10px 6px; overflow: hidden; border: 0; background: transparent; }
 .install-command pre code { white-space: pre-wrap; overflow-wrap: anywhere; }
