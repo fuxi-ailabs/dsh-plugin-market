@@ -7,7 +7,7 @@
 ## 环境与过程
 
 - DSH `0.1.6-alpha.2`，Node `22.23.3`，Python `3.11.14`，macOS arm64。
-- 当前安装版本为 npm runtime / adapter `0.1.1`，使用项目本地安装和独立 Runtime prefix；运行素材及包完整性值见 evidence。
+- 录像在当前版本发布前录制；录制使用的包版本与完整性值见 [demo-evidence.json](../../public/plugins/crowdmemory/assets/demo-evidence.json)，录像中的结果不代表当前版本的重新实测。
 - Runtime 使用 `session-default r3`。请求模型名 `claude-sonnet-4-6`，经兼容中继调用，后端模型身份未独立核验。
 - Agent A 会话：`session-41d8bd9a-930f-468b-adb9-e8bacaf9dc63`。
 - Agent B 会话：`session-562aaafe-524e-40b9-9876-5d56d0512815`。

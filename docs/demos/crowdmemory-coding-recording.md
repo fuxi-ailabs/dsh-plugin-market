@@ -21,7 +21,9 @@ patch 为无上下文的 unified diff，避免作为文档入库时空白上下�
 
 ## 环境与范围
 
-当前安装版本为 npm runtime / adapter `0.1.1`。示例环境为 DSH `0.1.6-alpha.2`、Node `22.23.3`、macOS arm64。模型请求名为 `claude-sonnet-4-6`，经既有兼容中继调用，后端身份未独立核验。
+录像在当前版本发布前录制；录制使用的包版本由 [coding-evidence.json 的 versions 字段](../../public/plugins/crowdmemory/assets/coding-evidence.json) 记录，不能将录像中的测试结果当作当前版本的重新实测。示例环境为 DSH `0.1.6-alpha.2`、Node `22.23.3`、macOS arm64。模型请求名为 `claude-sonnet-4-6`，经既有兼容中继调用，后端身份未独立核验。
+
+当前推荐安装 npm runtime / adapter `0.1.1`，命令见[介绍页安装步骤](../../public/plugins/crowdmemory/index.html#quickstart)。
 
 Python 3.11、pytest 和项目依赖预先准备。测试进程的 PYTHONPATH 显式优先当前快照的 src 和 distributions 源目录；实际打印并核对导入的 server.py 路径，防止误测已安装包。源码按其 Makefile 的 bootstrap 步骤准备依赖后，可运行新增测试及 `tests/test_crowdmemory_ingress_uds.py` 复现。
 
