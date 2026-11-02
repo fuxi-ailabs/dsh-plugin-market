@@ -15,7 +15,7 @@ window.PLUGIN_DEMO = {
   "note": "真实 DSH 操作录像，包含运行后展开原始工具卡片；已剪去等待和设置，没有替换工具结果。示例源码测试需要 Python 3.11、pytest 及项目依赖；版本和运行依据见页脚链接。",
   "video": {
     "title": "从接口断连，到结构化错误响应与回归测试",
-    "description": "发布前录制的后端 API 修复与测试示例，接口修复运行在独立源码快照上。录像中的包版本与测试结果见页脚“coding 录像运行依据”；当前版本的安装步骤见下方。中文字幕说明任务进展，原始工具结果保留原貌。",
+    "description": "1080p 后端 API 修复与测试示例，可全屏查看代码。画面重新采集自发布前的真实会话，接口修复运行在独立源码快照上。包版本与测试结果见页脚“coding 录像运行依据”；当前版本的安装步骤见下方。",
     "src": "assets/coding-agent-demo.mp4",
     "poster": "assets/coding-agent-poster.jpg",
     "captions": "assets/coding-agent-zh.vtt"

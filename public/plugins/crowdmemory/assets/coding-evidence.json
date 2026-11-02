@@ -267,10 +267,34 @@
     "passing interface tests are not a terminal-session trust verdict"
   ],
   "assets": {
-    "coding-agent-demo.mp4": "sha256:626fabcfdfec9a66921d7aa5b345e8c0a452995ba8e318a2d82674edad78ed35",
-    "coding-agent-poster.jpg": "sha256:85f1ff70ce1d417a3f250037745faf27effb397a08d09e2a331a68c4e57127c5",
+    "coding-agent-demo.mp4": "sha256:cfa527cf9c0e9b7085daacaeca2b01209fd2e24de6c2c6edfa4768cff095076f",
+    "coding-agent-poster.jpg": "sha256:b29936fb3fd01f4b685b8eb3cbe96b2024ed7bb6d233d8e7b3f0f2e4d58751fb",
     "coding-agent-zh.vtt": "sha256:690d8dce9acdd0a1ded717f9d26c1a63a32405e91b99cccc7653834fac5d0cf3",
     "coding-memory.jpg": "sha256:7aea4407b1cfb9db4e36f31e43a67782c0f030f40da84d87f8148600e6f2870d"
   },
-  "raw_recording_sha256": "sha256:90ef8f0e54d49335ae984263b8d3bfe70417866dc47ec7fe38d700365b23c7ea"
+  "raw_recording_sha256": "sha256:90ef8f0e54d49335ae984263b8d3bfe70417866dc47ec7fe38d700365b23c7ea",
+  "presentation_capture": {
+    "captured_at_utc": "2026-11-02T14:51:07.113511+00:00",
+    "method": "native browser recapture of original saved DSH sessions; tool cards opened and outputs scrolled",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "browser_text_zoom": 1.5,
+    "sidebar": "collapsed",
+    "codec": "h264",
+    "crf": 18,
+    "duration_seconds": 72,
+    "original_execution_rerun": false,
+    "old_video_upscaled": false,
+    "raw_clips": {
+      "01-request.webm": "sha256:dc104cc27e1d72ec5cad470fa7336abca30b38c6b0133f926630badb41ea319a",
+      "02-change.webm": "sha256:351840233ff5a4b98857bfe7f26b6e6077e22d9384d8d9d5adf8ba9c35d5724e",
+      "03-response.webm": "sha256:60ee46fc2258e1508a8f0e55bd08f4b0e41b96f60694f28078a09a7e58221934",
+      "04-tests.webm": "sha256:135137759fbe85982a382263db4cca9e1803437547c79e9dcfe2a97c7668b499",
+      "05-note.webm": "sha256:4a861015beedfa2d945499289900d4b95977fa9fe1b16c66fcbe550973e37d6d",
+      "06-read.webm": "sha256:6b14dccb6db0ada6169b4c5ca07858c9ce14929f9f2c0c61aaea4bc973a986bd",
+      "07-change.webm": "sha256:1eb69e1cd83f1f03bef137398701213d256accf1b72c9a5d7ecacaf0fd9a0aeb",
+      "08-tests.webm": "sha256:fafc7ef9194dffbfcaef07d91e89569bbc294e82fd15fa26d60d4337b2c4ae99"
+    }
+  }
 }
