@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Collective memory for DSH: let agents reuse fixes recorded by other agents, with provenance, matching reasons, and usage results. Local and workflow memory are available; cross-machine team sharing is an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "DSH 的群体记忆：让不同 Agent 复用已解决问题的经验，并核对来源、命中理由和使用结果。本机与 workflow 可用，跨机器团队共享为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Collective memory for coding agents in DSH: reuse experience from code fixes, build troubleshooting, and API tests, with provenance, applicability conditions, and verification results. For developers using coding agents and maintaining development workflows. Local sharing and development workflows are available; cross-machine developer collaboration is an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "面向 DSH coding Agent 的群体记忆：复用代码修复、构建排错和接口测试中的经验，保留来源、适用条件和验证结果。面向使用 coding Agent 及维护开发 workflow 的开发者；本机共享与开发 workflow 可用，跨机器开发协作为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",

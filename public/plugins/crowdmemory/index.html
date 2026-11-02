@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。">
+  <meta name="description" content="把一个 coding Agent 在开发任务中验证过的经验，提供给处理相关问题的其他 Agent，并保留来源、适用条件和测试结果。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f7f9fb">
   <title>Crowd Memory · Fuxi通用DSH组件市场</title>
@@ -21,8 +21,8 @@
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <div class="plugin-name">Crowd Memory <span class="version">v0.1.0</span></div>
-        <h1 id="page-title"><span>Agent 群体记忆</span><span class="accent">复用已有经验</span></h1>
-        <p class="lede">把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。</p>
+        <h1 id="page-title"><span>Coding Agent</span><span class="accent">群体记忆</span></h1>
+        <p class="lede">把一个 coding Agent 在开发任务中验证过的经验，提供给处理相关问题的其他 Agent，并保留来源、适用条件和测试结果。</p>
         <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装 Crowd Memory</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0</code></pre></div><p>先启动本机 Runtime；web 换成实际使用的 DSH Profile。 <a href="#quickstart">安装步骤 ↓</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
         <p class="compatibility">DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.0</p>
@@ -30,13 +30,13 @@
       </div>
       <figure class="hero-visual">
         <button type="button" class="screenshot-button hero-image-button" data-screenshot="assets/coding-memory.jpg" data-title="从别的 Agent 的修复记录开始" aria-label="放大查看：从别的 Agent 的修复记录开始"><img src="assets/coding-memory.jpg" width="1280" height="720" alt="真实 DSH 后端 API 修复任务中，Agent B 读取另一个 Agent 留下的 HTTP 请求校验修复记录。"><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
-        <figcaption><strong>从别的 Agent 的修复记录开始</strong><p>记录提供问题现象、处理方法和出处。当前代码是否适用，仍由接手的 Agent 核对和测试。</p></figcaption>
+        <figcaption><strong>从别的 Agent 的修复记录开始</strong><p>记录保留问题定位、实际修法和验证结果。接手的 coding Agent 核对当前代码与依赖，再运行回归测试。</p></figcaption>
       </figure>
     </section>
 
     <section id="use-cases" class="wrap section" aria-labelledby="cases-title">
       <div class="section-heading"><h2 id="cases-title">使用场景与适合人群</h2></div>
-      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>维护多个模块的开发者</p><h3>修复重复出现的代码问题</h3><blockquote>“另一个模块是不是修过类似问题？”</blockquote><p>先查其他 Agent 留下的定位过程和修法，再对照当前模块补修改和回归测试。</p><button type="button" class="copy-button" data-copy="检查这个模块的问题；先查找并读取相关记忆，核对来源和适用条件，再修改代码并运行回归测试。不要直接照搬不适用的方案。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>运行多 Agent workflow 的团队</p><h3>把处理经验交给后续 Agent</h3><blockquote>“上一次在这个阶段踩过什么坑？”</blockquote><p>构建、测试或发布阶段留下的经验，可供同机后续 workflow 运行参考；需要按阶段采集时使用 workflow-default。</p><button type="button" class="copy-button" data-copy="开始当前 workflow 阶段前，读取相关历史经验，列出本次需要核对的条件；完成后用实际测试结果验证采用的方法。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>反复处理构建与配置的开发者</p><h3>保留已经验证的排查方法</h3><blockquote>“这个报错以前是怎么解决的？”</blockquote><p>修好后记录现象、原因、做法和检查结果。遇到同类失败的 Agent 可以取得记录和命中理由。</p><button type="button" class="copy-button" data-copy="修复当前问题，运行相关检查；通过后调用 memory_note，记录实际现象、原因、修改和验证结果，不要把未经验证的猜测写成结论。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
+      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>使用 coding Agent 的应用开发者</p><h3>修复代码与接口问题</h3><blockquote>“其他 Agent 是否修过类似的代码问题？”</blockquote><p>让 Agent 查阅已有的问题定位和修法，核对当前代码、依赖版本与接口行为，再补修改和回归测试。</p><button type="button" class="copy-button" data-copy="检查这个模块或接口的问题；先查找并读取相关记忆，核对来源、代码和依赖版本，再修改代码并运行回归测试，说明哪些条件与历史记录一致。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>开发 workflow 的集成与维护者</p><h3>在开发 workflow 中传递经验</h3><blockquote>“上一次在构建或测试阶段遇到过什么问题？”</blockquote><p>把构建、测试阶段留下的排查经验提供给同机后续运行的 Agent。需要按开发阶段采集时，使用 workflow-default。</p><button type="button" class="copy-button" data-copy="开始当前开发 workflow 的构建或测试阶段前，读取相关历史经验，核对项目环境和适用条件；执行后用实际构建与测试结果验证采用的方法。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>维护构建与测试环境的开发者</p><h3>复用构建排错方法</h3><blockquote>“相同的构建失败以前是怎么修好的？”</blockquote><p>记录编译、依赖或配置问题的原因、实际命令和检查结果。后续 coding Agent 可核对记录，在当前项目重新验证修法。</p><button type="button" class="copy-button" data-copy="定位并修复当前构建失败，运行构建和相关测试；通过后调用 memory_note，记录报错、环境、原因、实际修改和验证结果，注明不适用条件。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
     </section>
 
     <section id="example" class="wrap section" aria-labelledby="example-title">
@@ -60,7 +60,7 @@
       <div id="details" class="install-requirements">
         <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>运行平台</dt><dd>macOS 或 Linux；Python 需包含 venv。</dd></div><div><dt>宿主与插件</dt><dd>DSH 支持范围包含市场基准 0.2.1-rc.2；本次录像实际使用 0.1.6-alpha.2。adapter/runtime 均为 npm 0.1.0。</dd></div><div><dt>独立安装</dt><dd>Runtime 本地 npm 安装，在指定目录建立独立 Python 环境；不需要全局安装 Runtime。</dd></div></dl></div>
 
-        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>共享范围</strong><p>本机多个 Agent 和 workflow 可用；跨机器团队共享仍为内部预览。跨项目复用需要合适的 project/global 范围。</p></div><div><strong>记忆不等于正确答案</strong><p>记录可能过时或不适用于当前代码。Agent 仍需检查条件并运行测试。服务不可用时，会话继续执行，但这一步不带记忆。</p></div><div><strong>配置与验证</strong><p>DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。</p></div></div></details>
+        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>开发任务范围</strong><p>本页示例与评测面向 coding Agent 的代码修复、构建排错、接口测试和开发 workflow，其他业务场景的适用性未经本页验证。本机共享与 workflow 可用，跨机器开发协作仍为内部预览；跨项目复用需核对 project/global 范围。</p></div><div><strong>在当前项目重新验证</strong><p>代码、依赖和运行环境变化后，原来的修法可能不再适用。Agent 采用前应核对条件，采用后运行当前项目的测试。记忆服务不可用时，开发会话继续执行，但这一步不带记忆。</p></div><div><strong>配置与验证</strong><p>DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。</p></div></div></details>
       </div>
       <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>检查环境</strong> 确认 Node.js、Python 和 DSH 满足上面的条件。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>node --version
 python3 --version
@@ -81,7 +81,7 @@ dsh --profile web" aria-label="复制">复制 <span aria-hidden="true">⧉</span
 
     <section id="faq" class="wrap section" aria-labelledby="faq-title">
       <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
-      <div class="faq-list"><details><summary>群体记忆只是保存聊天吗？<span aria-hidden="true">＋</span></summary><p>这里复用的是 Agent 留下的问题现象、原因、做法及验证记录。其他 Agent 可按相关任务或失败取得记录和出处，再核对当前条件。本机与 workflow 已可用，跨机器团队共享仍为内部预览。</p></details><details><summary>已经有 session-default，为什么还要 DSH Profile？<span aria-hidden="true">＋</span></summary><p>DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。</p></details><details><summary>必须全局安装吗？Node.js 18 可以吗？<span aria-hidden="true">＋</span></summary><p>不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。</p></details><details><summary>为什么另一个 Agent 没有收到记录？<span aria-hidden="true">＋</span></summary><p>检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。</p></details><details><summary>评测能证明 PR4 提炼改进有效吗？<span aria-hidden="true">＋</span></summary><p>目前不能。固定 Episode 的前后实验受到中继服务错误和执行噪声影响；旧版重复组与新版默认投递内容 10/10 相同。评测页分别披露记忆开关实验、提炼实验与未公开的业务数据边界。</p></details></div>
+      <div class="faq-list"><details><summary>开发经验如何提供给其他 coding Agent？<span aria-hidden="true">＋</span></summary><p>修复并完成测试后，让 Agent 用 memory_note 记录现象、原因、实际修法、适用条件和检查结果。后续会话在相关开发任务或失败出现时可收到记录与命中理由，也可用 memory_search、memory_read 查找和核对来源；采用后仍需在当前代码上验证。</p></details><details><summary>已经有 session-default，为什么还要 DSH Profile？<span aria-hidden="true">＋</span></summary><p>DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。</p></details><details><summary>必须全局安装吗？Node.js 18 可以吗？<span aria-hidden="true">＋</span></summary><p>不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。</p></details><details><summary>为什么另一个 Agent 没有收到记录？<span aria-hidden="true">＋</span></summary><p>检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。</p></details><details><summary>如何判断已有修法适用于当前代码？<span aria-hidden="true">＋</span></summary><p>核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。历史测试通过不保证当前修改正确。后端 API 录像和受控构建评测的范围及原始依据见评测与运行依据链接。</p></details></div>
     </section>
   </main>
   <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html">连接与配置 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html">评测与公开数据 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html">记忆工具参考 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json">coding 录像运行依据 ↗</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>

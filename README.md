@@ -27,7 +27,7 @@ Fuxi 团队插件目录
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
-Crowd Memory 是 DSH 的群体记忆：让不同 Agent 复用已解决问题的经验，并核对来源、命中理由和使用结果，模型不需要重新训练。适合反复处理同类构建、配置或测试问题，以及多个 Agent 接力的 workflow。本机与 workflow 记忆可用，跨机器团队共享仍为内部预览。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)；各轮评测结果、数据来源和适用范围见[评测页](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html)。
+Crowd Memory 是面向 DSH coding Agent 的群体记忆：把代码修复、构建排错和接口测试中的经验提供给后续 Agent，附带来源、适用条件和验证结果。面向使用 coding Agent 的开发者，以及开发 workflow 的集成与维护者；采用已有修法后，仍需在当前项目运行测试。本机共享与开发 workflow 可用，跨机器开发协作仍为内部预览；公开示例与评测聚焦开发任务，其他业务场景的适用性尚未验证。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)；各轮评测结果、数据来源和适用范围见[评测页](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html)。
 workflow-rsi 让 Workflow 递归自我改进：不改模型权重，用真实运行结果持续搜索、评测并发布更好的 Workflow 结构，并评估和改进自己的改进方法。改进来自闭环、Memory 共性、请求、工作计划与假设驱动，结构用已审批的算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进，全部在整个 Workflow 上分级评测，以 PR 交付；评分规则与发布标准只由人准入。市场收录的是 DSH 操作台，使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 Insight 把当前 DSH 会话导入 Context-Insight，查看 Workflow、Subagent 与工具调用，并在 DSH 中读取评分卡。插件会自动准备运行时，并在配置页检查 Provider Auth、CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。

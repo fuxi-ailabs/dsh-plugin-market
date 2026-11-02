@@ -2,6 +2,8 @@
 
 介绍页改用与 AgentLineage 相同的市场模板、生成器及浅色绿色样式。内容源为 `content/plugins/crowdmemory.json`，生成 `index.html`、`styles.css`、`page.js` 和 `demo-data.js`；不再用文档目录式首页。已有详细文档保留。范围仅为 CrowdMemory 内容及资源白名单；其他组件目录、版本和清单保留。
 
+页面、市场中英文描述及 README 统一面向使用 coding Agent 的开发者和开发 workflow 的集成与维护者。场景限定为代码修复、构建排错、接口测试与开发流程；FAQ 说明经验如何交付、如何核对代码与依赖并重新测试。“团队”仅指开发协作，跨机器共享仍为内部预览；其他业务场景的适用性未在当前公开示例与评测中验证。
+
 | 模板元素 | 页面位置或资源 | 性质 |
 | --- | --- | --- |
 | a 名称 | 首屏 plugin-name | Crowd Memory 及版本 |

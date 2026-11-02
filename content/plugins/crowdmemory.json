@@ -3,8 +3,8 @@
   "name": "Crowd Memory",
   "version": "0.1.0",
   "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.0",
-  "description": "把一个 Agent 解决问题的经验，交给遇到同类问题的其他 Agent；附带来源、命中理由和使用记录。",
-  "headline": ["Agent 群体记忆", "复用已有经验"],
+  "description": "把一个 coding Agent 在开发任务中验证过的经验，提供给处理相关问题的其他 Agent，并保留来源、适用条件和测试结果。",
+  "headline": ["Coding Agent", "群体记忆"],
   "install": {
     "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.0",
     "codeLabel": "终端 · 安装 Crowd Memory",
@@ -14,29 +14,29 @@
     "image": "assets/coding-memory.jpg",
     "alt": "真实 DSH 后端 API 修复任务中，Agent B 读取另一个 Agent 留下的 HTTP 请求校验修复记录。",
     "title": "从别的 Agent 的修复记录开始",
-    "description": "记录提供问题现象、处理方法和出处。当前代码是否适用，仍由接手的 Agent 核对和测试。"
+    "description": "记录保留问题定位、实际修法和验证结果。接手的 coding Agent 核对当前代码与依赖，再运行回归测试。"
   },
   "useCases": [
     {
-      "audience": "维护多个模块的开发者",
-      "title": "修复重复出现的代码问题",
-      "question": "“另一个模块是不是修过类似问题？”",
-      "description": "先查其他 Agent 留下的定位过程和修法，再对照当前模块补修改和回归测试。",
-      "prompt": "检查这个模块的问题；先查找并读取相关记忆，核对来源和适用条件，再修改代码并运行回归测试。不要直接照搬不适用的方案。"
+      "audience": "使用 coding Agent 的应用开发者",
+      "title": "修复代码与接口问题",
+      "question": "“其他 Agent 是否修过类似的代码问题？”",
+      "description": "让 Agent 查阅已有的问题定位和修法，核对当前代码、依赖版本与接口行为，再补修改和回归测试。",
+      "prompt": "检查这个模块或接口的问题；先查找并读取相关记忆，核对来源、代码和依赖版本，再修改代码并运行回归测试，说明哪些条件与历史记录一致。"
     },
     {
-      "audience": "运行多 Agent workflow 的团队",
-      "title": "把处理经验交给后续 Agent",
-      "question": "“上一次在这个阶段踩过什么坑？”",
-      "description": "构建、测试或发布阶段留下的经验，可供同机后续 workflow 运行参考；需要按阶段采集时使用 workflow-default。",
-      "prompt": "开始当前 workflow 阶段前，读取相关历史经验，列出本次需要核对的条件；完成后用实际测试结果验证采用的方法。"
+      "audience": "开发 workflow 的集成与维护者",
+      "title": "在开发 workflow 中传递经验",
+      "question": "“上一次在构建或测试阶段遇到过什么问题？”",
+      "description": "把构建、测试阶段留下的排查经验提供给同机后续运行的 Agent。需要按开发阶段采集时，使用 workflow-default。",
+      "prompt": "开始当前开发 workflow 的构建或测试阶段前，读取相关历史经验，核对项目环境和适用条件；执行后用实际构建与测试结果验证采用的方法。"
     },
     {
-      "audience": "反复处理构建与配置的开发者",
-      "title": "保留已经验证的排查方法",
-      "question": "“这个报错以前是怎么解决的？”",
-      "description": "修好后记录现象、原因、做法和检查结果。遇到同类失败的 Agent 可以取得记录和命中理由。",
-      "prompt": "修复当前问题，运行相关检查；通过后调用 memory_note，记录实际现象、原因、修改和验证结果，不要把未经验证的猜测写成结论。"
+      "audience": "维护构建与测试环境的开发者",
+      "title": "复用构建排错方法",
+      "question": "“相同的构建失败以前是怎么修好的？”",
+      "description": "记录编译、依赖或配置问题的原因、实际命令和检查结果。后续 coding Agent 可核对记录，在当前项目重新验证修法。",
+      "prompt": "定位并修复当前构建失败，运行构建和相关测试；通过后调用 memory_note，记录报错、环境、原因、实际修改和验证结果，注明不适用条件。"
     }
   ],
   "example": {
@@ -71,8 +71,8 @@
     ]
   },
   "boundaries": [
-    {"title":"共享范围","description":"本机多个 Agent 和 workflow 可用；跨机器团队共享仍为内部预览。跨项目复用需要合适的 project/global 范围。"},
-    {"title":"记忆不等于正确答案","description":"记录可能过时或不适用于当前代码。Agent 仍需检查条件并运行测试。服务不可用时，会话继续执行，但这一步不带记忆。"},
+    {"title":"开发任务范围","description":"本页示例与评测面向 coding Agent 的代码修复、构建排错、接口测试和开发 workflow，其他业务场景的适用性未经本页验证。本机共享与 workflow 可用，跨机器开发协作仍为内部预览；跨项目复用需核对 project/global 范围。"},
+    {"title":"在当前项目重新验证","description":"代码、依赖和运行环境变化后，原来的修法可能不再适用。Agent 采用前应核对条件，采用后运行当前项目的测试。记忆服务不可用时，开发会话继续执行，但这一步不带记忆。"},
     {"title":"配置与验证","description":"DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。"}
   ],
   "quickstart": {
@@ -86,11 +86,11 @@
     ]
   },
   "faq":[
-    {"question":"群体记忆只是保存聊天吗？","answer":"这里复用的是 Agent 留下的问题现象、原因、做法及验证记录。其他 Agent 可按相关任务或失败取得记录和出处，再核对当前条件。本机与 workflow 已可用，跨机器团队共享仍为内部预览。"},
+    {"question":"开发经验如何提供给其他 coding Agent？","answer":"修复并完成测试后，让 Agent 用 memory_note 记录现象、原因、实际修法、适用条件和检查结果。后续会话在相关开发任务或失败出现时可收到记录与命中理由，也可用 memory_search、memory_read 查找和核对来源；采用后仍需在当前代码上验证。"},
     {"question":"已经有 session-default，为什么还要 DSH Profile？","answer":"DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。"},
     {"question":"必须全局安装吗？Node.js 18 可以吗？","answer":"不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。"},
     {"question":"为什么另一个 Agent 没有收到记录？","answer":"检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。"},
-    {"question":"评测能证明 PR4 提炼改进有效吗？","answer":"目前不能。固定 Episode 的前后实验受到中继服务错误和执行噪声影响；旧版重复组与新版默认投递内容 10/10 相同。评测页分别披露记忆开关实验、提炼实验与未公开的业务数据边界。"}
+    {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。历史测试通过不保证当前修改正确。后端 API 录像和受控构建评测的范围及原始依据见评测与运行依据链接。"}
   ],
   "links":[
     {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
