@@ -268,7 +268,7 @@
   ],
   "assets": {
     "coding-agent-demo.mp4": "sha256:cfa527cf9c0e9b7085daacaeca2b01209fd2e24de6c2c6edfa4768cff095076f",
-    "coding-agent-poster.jpg": "sha256:b29936fb3fd01f4b685b8eb3cbe96b2024ed7bb6d233d8e7b3f0f2e4d58751fb",
+    "coding-agent-poster.jpg": "sha256:be8b0aa447725399dd8873e7329fd4901238b99341e269cbde1818aeac6933c8",
     "coding-agent-zh.vtt": "sha256:690d8dce9acdd0a1ded717f9d26c1a63a32405e91b99cccc7653834fac5d0cf3",
     "coding-memory.jpg": "sha256:7aea4407b1cfb9db4e36f31e43a67782c0f030f40da84d87f8148600e6f2870d"
   },
@@ -295,6 +295,10 @@
       "06-read.webm": "sha256:6b14dccb6db0ada6169b4c5ca07858c9ce14929f9f2c0c61aaea4bc973a986bd",
       "07-change.webm": "sha256:1eb69e1cd83f1f03bef137398701213d256accf1b72c9a5d7ecacaf0fd9a0aeb",
       "08-tests.webm": "sha256:fafc7ef9194dffbfcaef07d91e89569bbc294e82fd15fa26d60d4337b2c4ae99"
+    },
+    "poster_source": {
+      "clip": "06-read.webm",
+      "seconds": 8
     }
   }
 }
