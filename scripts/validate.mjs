@@ -1,5 +1,5 @@
 import { readFile, readdir } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { resolve, posix } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 // The override lets a local DSH installation provide the same pinned validator without reinstalling it.
@@ -28,7 +28,7 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'content.example.json',
   'review.css', 'assets/overview.svg', 'assets/demo.svg', 'assets/before.svg', 'assets/after.svg',
 ])], ['plugins/crowdmemory', new Set([
-  'changelog.html', 'configuration.html', 'docs.css', 'docs.js',
+  'adapters.html', 'changelog.html', 'configuration.html', 'docs.css', 'docs.js',
   'errors.html', 'evaluation.html', 'faq.html', 'index.html',
   'limits.html', 'push.html', 'runtime.html', 'security.html',
   'stats.html', 'team.html', 'tools.html', 'versions.html',
@@ -76,10 +76,21 @@ const publicLinks = new Map([['plugins/workflow-rsi', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapters.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-openclaude/README.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-core/README.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-opencode/README.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapter-openjiuwen-design.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/crowdmemory-pr7-development-20261101',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/pr4-candidate-utility',
 ])], ['plugins/agentlineage', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
@@ -117,6 +128,9 @@ const publicLinks = new Map([['plugins/workflow-rsi', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify',
+])], ['plugins/workflow-rsi', new Set([
+  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi/-/workflow-rsi-0.1.0-alpha.1.tgz',
+  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi-dsh-console/-/workflow-rsi-dsh-console-0.1.0-alpha.1.tgz',
 ])], ['templates/plugin-page', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/',
@@ -133,6 +147,7 @@ for (const root of pageRoots) {
 }
 for (const [page, allowed] of publicPages) {
   const found = new Set();
+  const htmlFiles = new Map();
   const walk = async (prefix = '') => {
     for (const entry of await readdir(`public/${page}/${prefix}`, { withFileTypes: true })) {
       const path = prefix + entry.name;
@@ -140,6 +155,7 @@ for (const [page, allowed] of publicPages) {
         await walk(path + '/');
       } else if (entry.isFile() && allowed.has(path)) {
         const data = await readFile(`public/${page}/${path}`);
+        if (path.endsWith('.html')) htmlFiles.set(path, data.toString('utf8'));
         if (path.endsWith('.svg') && (!data.toString('utf8').startsWith('<svg ') || /<script\b|<foreignObject\b|\bon\w+\s*=|\b(?:href|src)\s*=/i.test(data.toString('utf8')))) {
           throw new Error(`Review unsafe SVG content: ${page}/${path}`);
         }
@@ -164,11 +180,22 @@ for (const [page, allowed] of publicPages) {
   };
   await walk();
   if (found.size !== allowed.size) throw new Error(`Missing page resources: ${page}`);
-  const html = await readFile(`public/${page}/index.html`, 'utf8');
-  const ids = new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]));
-  for (const [, url] of html.matchAll(/\b(?:src|href|poster)="([^"]+)"/g)) {
-    if (url.startsWith('#') ? !ids.has(url.slice(1)) : !allowed.has(url) && !publicLinks.get(page)?.has(url)) {
-      throw new Error(`Unreviewed page link: ${url}`);
+  const idsByFile = new Map([...htmlFiles].map(([file, html]) => [file,
+    new Set([...html.matchAll(/\bid\s*=\s*(["'])(.*?)\1/gi)].map(match => match[2]))]));
+  for (const [file, html] of htmlFiles) {
+    for (const [, , rawUrl] of html.matchAll(/\b(?:src|href|poster)\s*=\s*(["'])(.*?)\1/gi)) {
+      // Existing documentation uses numeric HTML entities in registry links.
+      const url = rawUrl.replace(/&#(x[\da-f]+|\d+);|&amp;/gi, (entity, number) =>
+        number ? String.fromCodePoint(Number(number[0].toLowerCase() === 'x' ? '0' + number : number)) : '&');
+      if (url === 'data:,' || publicLinks.get(page)?.has(url)) continue;
+      const hash = url.indexOf('#');
+      const target = hash === -1 ? url : url.slice(0, hash);
+      const fragment = hash === -1 ? undefined : url.slice(hash + 1);
+      const path = target ? posix.normalize(posix.join(posix.dirname(file), target)) : file;
+      if (/^(?:[a-z][a-z\d+.-]*:|\/)/i.test(url) || !allowed.has(path) ||
+          (fragment !== undefined && !idsByFile.get(path)?.has(fragment))) {
+        throw new Error(`Unreviewed page link in ${page}/${file}: ${rawUrl}`);
+      }
     }
   }
 }

@@ -94,6 +94,7 @@
   ],
   "links":[
     {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
+    {"label":"Agent framework 接入 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
     {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
     {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
     {"label":"coding 录像运行依据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json"}
