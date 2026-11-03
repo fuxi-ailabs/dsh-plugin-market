@@ -3,8 +3,11 @@
   "name": "workflow-rsi",
   "version": "0.1.0-alpha.1",
   "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.1-rc.2 · 操作台与本体 0.1.0-alpha.1",
-  "description": "让 Workflow 递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的 Workflow。",
-  "headline": ["Workflow", "递归自我改进"],
+  "description": "面向软件开发生命周期（SDE lifecycle）的静态工作流做递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的版本。",
+  "headline": [
+    "SDE 静态工作流",
+    "递归自我改进"
+  ],
   "install": {
     "code": "dsh plugin --profile web add @fuxi-ailabs/workflow-rsi-dsh-console@0.1.0-alpha.1",
     "codeLabel": "终端 · 安装 workflow-rsi 操作台",
@@ -14,11 +17,11 @@
     "image": "assets/rsi-loop.jpg",
     "alt": "workflow-rsi 一轮改进的流程：改进入口、沿结构诊断、在隔离环境生成候选、在整个 Workflow 上分级评测、以 PR 交付，并记录 Trial 改进改进方法本身。",
     "title": "一轮改进：从发现问题到 PR",
-    "description": "示意图。结构候选用已审批算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进；评分规则与发布标准只由人准入。"
+    "description": "示意图。改进对象是 SDE lifecycle 上的静态工作流：阶段、节点与交接随版本固定，每个输入按同一张结构图执行。结构候选用已审批算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进；评分规则与发布标准只由人准入。"
   },
   "useCases": [
     {
-      "audience": "维护多阶段 Workflow 的工程师",
+      "audience": "维护 SDE 多阶段 Workflow 的工程师",
       "title": "Run 停下后定位并修复",
       "question": "“Run 停在第 5 个阶段，是输入的问题还是 Workflow 的缺陷？”",
       "description": "闭环读取停止证据，沿 Workflow 结构回溯，区分结构问题和节点内容问题，生成带测试的改动，验证通过后提出 PR；把握不足时停下交给人决定。",
@@ -40,9 +43,34 @@
     }
   ],
   "example": {
-    "title": "一次真实闭环：从 Run 停下到 PR",
-    "description": "一个已接入的多阶段 Workflow 在同一份输入上的两轮。下面的事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。",
+    "title": "改进对象与一次真实闭环",
+    "description": "先说明 workflow-rsi 改进的是什么样的 Workflow，再看一个已接入的多阶段 Workflow 在同一份输入上的两轮。事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。",
     "blocks": [
+      {
+        "type": "text",
+        "title": "什么是静态工作流",
+        "text": "静态工作流是结构随版本固定的 Workflow：有哪些阶段和节点、节点之间交接什么、在哪里分支、重试和设门禁，都写在 Workflow 仓的源码里；同一个版本对每个输入都按同一张结构图执行。每个节点用的模型、提示、Skill 和工具也随版本固定。运行时由 Agent 按输入临时决定步骤的编排属于动态工作流，不在 workflow-rsi 的改进范围内。"
+      },
+      {
+        "type": "text",
+        "title": "为什么只针对 SDE lifecycle",
+        "text": "workflow-rsi 改进的是软件开发生命周期上的静态工作流：从需求、分析、设计、计划到实现、构建与验证，按固定阶段推进，每个阶段有明确的产出和可以自动判定的结果（构建是否通过、测试通过多少、覆盖率多少）。这些结果给出可重复的评测信号，改动可以用测试证明、以 PR 交付、合入后重跑同一任务复核。通用业务流程、客服对话、数据处理等其他类型的工作流，暂不作为改进对象。"
+      },
+      {
+        "type": "code",
+        "title": "一个 SDE lifecycle 静态工作流的结构",
+        "codeLabel": "阶段与交接（示例中的 Workflow）",
+        "code": "generate      准备任务与需求说明\n  ↓\nanalysis      分析代码与依赖\n  ↓\ndesign        设计改动方案\n  ↓\nplan          拆成可执行的步骤\n  ↓\nexecution     实现与构建\n  ↓\nverification  运行测试；失败时由 Repair 决定去向\n                safe_fix          → 有限修复后复测\n                request_redesign  → 交给 Redesign 重新设计\n                no_action         → 结束（no_safe_repair）"
+      },
+      {
+        "type": "list",
+        "title": "workflow-rsi 在这张结构图上能改什么",
+        "items": [
+          "结构：插入已审步骤、删除可选步骤、调整允许的交接、切换已审策略；门禁和受保护路径不能动。",
+          "节点内容：指令、Skill、工具说明和模型选择，经 skill / agent RSI 接口改进。",
+          "两类改动都在整个 Workflow 上分级评测，产出的是一个新的静态版本，以 PR 交付。"
+        ]
+      },
       {
         "type": "code",
         "title": "流程图：一轮改进",
@@ -126,17 +154,45 @@
     "summary": "wrsi-server 本机服务 · Node.js ≥ 22.19 · macOS 或 Linux",
     "description": "workflow-rsi 由本体和 DSH 操作台两个 npm 包组成。判定、状态与注册表都不进 DSH 进程，插件只经 wrsi-server 的本机 HTTP API 和 wie 子进程访问它。",
     "items": [
-      {"label": "插件", "value": "@fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1"},
-      {"label": "workflow-rsi 本体", "value": "@fuxi-ailabs/workflow-rsi 0.1.0-alpha.1（命令 wie、wrsi-server）"},
-      {"label": "DSH", "value": "0.1.6-alpha.2 或 ^0.2.1-rc.2，两版都已实跑 22 项验收"},
-      {"label": "系统", "value": "macOS 或 Linux，Node.js ≥ 22.19；暂不支持原生 Windows"},
-      {"label": "被改进的 Workflow", "value": "需要它的适配器读取 Run 的状态和停止记录，以及仓库与闭环配置"}
+      {
+        "label": "插件",
+        "value": "@fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1"
+      },
+      {
+        "label": "workflow-rsi 本体",
+        "value": "@fuxi-ailabs/workflow-rsi 0.1.0-alpha.1（命令 wie、wrsi-server）"
+      },
+      {
+        "label": "DSH",
+        "value": "0.1.6-alpha.2 或 ^0.2.1-rc.2，两版都已实跑 22 项验收"
+      },
+      {
+        "label": "系统",
+        "value": "macOS 或 Linux，Node.js ≥ 22.19；暂不支持原生 Windows"
+      },
+      {
+        "label": "被改进的 Workflow",
+        "value": "SDE lifecycle 上的静态工作流，需要它的适配器读取 Run 的状态和停止记录，以及仓库与闭环配置"
+      }
     ]
   },
   "boundaries": [
-    {"title": "适合的场景", "description": "同一个 Workflow 反复处理同类任务、由多个阶段和 Agent 组成、团队要求改动可审计可回滚。只跑一次的任务，或者 Workflow 还没有接入适配器时，用处不大。"},
-    {"title": "操作台的范围", "description": "操作台在 DSH 里查看会话、Run、停止记录、闭环和工作计划，并转交人的决定。11 个工具都只读，守卫拒绝其他 wrsi_ 写工具；诊断、评测、提出 PR 和闭环都由 workflow-rsi 本体完成。"},
-    {"title": "由人准入", "description": "评分规则、发布标准、预算分配和新改进方法的启用只由人准入，workflow-rsi 和 Agent 都改不了；是否合入 PR 由 Workflow 仓的维护者决定。Harness（会话、沙箱、预算、状态、证据）不自动修改。"}
+    {
+      "title": "改进对象",
+      "description": "SDE lifecycle 上的静态工作流：需求、分析、设计、计划、实现、构建、验证等阶段按固定结构推进，结构随版本固定，每个阶段有可自动判定的结果。运行时按输入临时编排步骤的动态工作流，以及非软件开发类的工作流，不在改进范围内。"
+    },
+    {
+      "title": "适合的场景",
+      "description": "同一个静态工作流反复处理同类开发任务、由多个阶段和 Agent 组成、团队要求改动可审计可回滚。只跑一次的任务，或者 Workflow 还没有接入适配器时，用处不大。"
+    },
+    {
+      "title": "操作台的范围",
+      "description": "操作台在 DSH 里查看会话、Run、停止记录、闭环和工作计划，并转交人的决定。11 个工具都只读，守卫拒绝其他 wrsi_ 写工具；诊断、评测、提出 PR 和闭环都由 workflow-rsi 本体完成。"
+    },
+    {
+      "title": "由人准入",
+      "description": "评分规则、发布标准、预算分配和新改进方法的启用只由人准入，workflow-rsi 和 Agent 都改不了；是否合入 PR 由 Workflow 仓的维护者决定。Harness（会话、沙箱、预算、状态、证据）不自动修改。"
+    }
   ],
   "quickstart": {
     "title": "安装与验证",
@@ -179,17 +235,55 @@
     ]
   },
   "faq": [
-    {"question": "workflow-rsi 和直接改提示词或 Skill 有什么区别？", "answer": "workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。"},
-    {"question": "操作台会自己改 Workflow 或合入 PR 吗？", "answer": "不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。"},
-    {"question": "闭环停下等人时怎么处理？", "answer": "诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop <loop id> 查看停止原因和诊断结论，再用 /wrsi loop-resume <loop id> <fix|rerun|give-up|merge-done> --confirm 给出决定。"},
-    {"question": "接入一个新的 Workflow 需要准备什么？", "answer": "需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。"},
-    {"question": "插件调用失败，先检查哪里？", "answer": "先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。"},
-    {"question": "评分规则和发布标准由谁来定？", "answer": "只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。"}
+    {
+      "question": "什么是静态工作流？",
+      "answer": "结构随版本固定的 Workflow：阶段、节点、交接、分支、重试和门禁写在 Workflow 仓的源码里，同一个版本对每个输入都按同一张结构图执行，节点用的模型、提示、Skill 和工具也随版本固定。workflow-rsi 每次改进产出一个新的静态版本，经评测后以 PR 交付。"
+    },
+    {
+      "question": "我的工作流不是软件开发流程，能用吗？",
+      "answer": "workflow-rsi 只针对 SDE lifecycle 的静态工作流，依赖构建、测试、覆盖率这类可以自动判定的阶段结果做评测。其他类型的工作流暂不支持；运行时按输入临时编排步骤的动态工作流，也不在改进范围内。"
+    },
+    {
+      "question": "workflow-rsi 和直接改提示词或 Skill 有什么区别？",
+      "answer": "workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。"
+    },
+    {
+      "question": "操作台会自己改 Workflow 或合入 PR 吗？",
+      "answer": "不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。"
+    },
+    {
+      "question": "闭环停下等人时怎么处理？",
+      "answer": "诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop <loop id> 查看停止原因和诊断结论，再用 /wrsi loop-resume <loop id> <fix|rerun|give-up|merge-done> --confirm 给出决定。"
+    },
+    {
+      "question": "接入一个新的 Workflow 需要准备什么？",
+      "answer": "需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。"
+    },
+    {
+      "question": "插件调用失败，先检查哪里？",
+      "answer": "先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。"
+    },
+    {
+      "question": "评分规则和发布标准由谁来定？",
+      "answer": "只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。"
+    }
   ],
   "links": [
-    {"label": "使用文档 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html"},
-    {"label": "工具与命令 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html"},
-    {"label": "错误与写操作 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html"},
-    {"label": "组件与版本 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html"}
+    {
+      "label": "使用文档 ↗",
+      "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html"
+    },
+    {
+      "label": "工具与命令 ↗",
+      "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html"
+    },
+    {
+      "label": "错误与写操作 ↗",
+      "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html"
+    },
+    {
+      "label": "组件与版本 ↗",
+      "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html"
+    }
   ]
 }

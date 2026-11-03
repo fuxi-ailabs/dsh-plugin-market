@@ -1,8 +1,33 @@
 // Illustrative data for this page, not a live plugin connection.
 window.PLUGIN_DEMO = {
-  "title": "一次真实闭环：从 Run 停下到 PR",
-  "description": "一个已接入的多阶段 Workflow 在同一份输入上的两轮。下面的事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。",
+  "title": "改进对象与一次真实闭环",
+  "description": "先说明 workflow-rsi 改进的是什么样的 Workflow，再看一个已接入的多阶段 Workflow 在同一份输入上的两轮。事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。",
   "blocks": [
+    {
+      "type": "text",
+      "title": "什么是静态工作流",
+      "text": "静态工作流是结构随版本固定的 Workflow：有哪些阶段和节点、节点之间交接什么、在哪里分支、重试和设门禁，都写在 Workflow 仓的源码里；同一个版本对每个输入都按同一张结构图执行。每个节点用的模型、提示、Skill 和工具也随版本固定。运行时由 Agent 按输入临时决定步骤的编排属于动态工作流，不在 workflow-rsi 的改进范围内。"
+    },
+    {
+      "type": "text",
+      "title": "为什么只针对 SDE lifecycle",
+      "text": "workflow-rsi 改进的是软件开发生命周期上的静态工作流：从需求、分析、设计、计划到实现、构建与验证，按固定阶段推进，每个阶段有明确的产出和可以自动判定的结果（构建是否通过、测试通过多少、覆盖率多少）。这些结果给出可重复的评测信号，改动可以用测试证明、以 PR 交付、合入后重跑同一任务复核。通用业务流程、客服对话、数据处理等其他类型的工作流，暂不作为改进对象。"
+    },
+    {
+      "type": "code",
+      "title": "一个 SDE lifecycle 静态工作流的结构",
+      "codeLabel": "阶段与交接（示例中的 Workflow）",
+      "code": "generate      准备任务与需求说明\n  ↓\nanalysis      分析代码与依赖\n  ↓\ndesign        设计改动方案\n  ↓\nplan          拆成可执行的步骤\n  ↓\nexecution     实现与构建\n  ↓\nverification  运行测试；失败时由 Repair 决定去向\n                safe_fix          → 有限修复后复测\n                request_redesign  → 交给 Redesign 重新设计\n                no_action         → 结束（no_safe_repair）"
+    },
+    {
+      "type": "list",
+      "title": "workflow-rsi 在这张结构图上能改什么",
+      "items": [
+        "结构：插入已审步骤、删除可选步骤、调整允许的交接、切换已审策略；门禁和受保护路径不能动。",
+        "节点内容：指令、Skill、工具说明和模型选择，经 skill / agent RSI 接口改进。",
+        "两类改动都在整个 Workflow 上分级评测，产出的是一个新的静态版本，以 PR 交付。"
+      ]
+    },
     {
       "type": "code",
       "title": "流程图：一轮改进",

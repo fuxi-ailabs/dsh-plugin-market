@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="让 Workflow 递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的 Workflow。">
+  <meta name="description" content="面向软件开发生命周期（SDE lifecycle）的静态工作流做递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的版本。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f7f9fb">
   <title>workflow-rsi · Fuxi通用DSH组件市场</title>
@@ -21,8 +21,8 @@
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <div class="plugin-name">workflow-rsi <span class="version">v0.1.0-alpha.1</span></div>
-        <h1 id="page-title"><span>Workflow</span><span class="accent">递归自我改进</span></h1>
-        <p class="lede">让 Workflow 递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的 Workflow。</p>
+        <h1 id="page-title"><span>SDE 静态工作流</span><span class="accent">递归自我改进</span></h1>
+        <p class="lede">面向软件开发生命周期（SDE lifecycle）的静态工作流做递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的版本。</p>
         <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装 workflow-rsi 操作台</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/workflow-rsi-dsh-console@0.1.0-alpha.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/workflow-rsi-dsh-console@0.1.0-alpha.1</code></pre></div><p>先安装并启动 wrsi-server；web 换成操作台使用的 DSH Profile。 <a href="#quickstart">安装步骤 ↓</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
         <p class="compatibility">DSH 0.1.6-alpha.2 或 ^0.2.1-rc.2 · 操作台与本体 0.1.0-alpha.1</p>
@@ -30,19 +30,45 @@
       </div>
       <figure class="hero-visual">
         <button type="button" class="screenshot-button hero-image-button" data-screenshot="assets/rsi-loop.jpg" data-title="一轮改进：从发现问题到 PR" aria-label="放大查看：一轮改进：从发现问题到 PR"><img src="assets/rsi-loop.jpg" width="1280" height="720" alt="workflow-rsi 一轮改进的流程：改进入口、沿结构诊断、在隔离环境生成候选、在整个 Workflow 上分级评测、以 PR 交付，并记录 Trial 改进改进方法本身。"><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
-        <figcaption><strong>一轮改进：从发现问题到 PR</strong><p>示意图。结构候选用已审批算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进；评分规则与发布标准只由人准入。</p></figcaption>
+        <figcaption><strong>一轮改进：从发现问题到 PR</strong><p>示意图。改进对象是 SDE lifecycle 上的静态工作流：阶段、节点与交接随版本固定，每个输入按同一张结构图执行。结构候选用已审批算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进；评分规则与发布标准只由人准入。</p></figcaption>
       </figure>
     </section>
 
     <section id="use-cases" class="wrap section" aria-labelledby="cases-title">
       <div class="section-heading"><h2 id="cases-title">使用场景与适合人群</h2></div>
-      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>维护多阶段 Workflow 的工程师</p><h3>Run 停下后定位并修复</h3><blockquote>“Run 停在第 5 个阶段，是输入的问题还是 Workflow 的缺陷？”</blockquote><p>闭环读取停止证据，沿 Workflow 结构回溯，区分结构问题和节点内容问题，生成带测试的改动，验证通过后提出 PR；把握不足时停下交给人决定。</p><button type="button" class="copy-button" data-copy="列出 workflow-rsi 里正在等人决定的闭环，说明每个闭环停在哪个阶段、停止原因和诊断结论。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>只能通过 API 调用模型的团队</p><h3>不训练模型，持续提升效果</h3><blockquote>“拿不到模型权重，怎样让同一类任务越做越好？”</blockquote><p>改动落在 Workflow 上，改好一次，之后同类任务都复用；每次尝试记成 Trial，按收益在改进方法之间分配预算。换模型后，固化在 Workflow 代码和测试里的判断可以直接复用。</p><button type="button" class="copy-button" data-copy="汇总 workflow-rsi 最近一周的 Trial：每次用了什么改进方法、改了什么、评测结果，以及是否合入。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>Workflow 仓维护者与评审者</p><h3>审一个带证据的改动</h3><blockquote>“这个 PR 改了什么，证据够不够合入？”</blockquote><p>每个 PR 都附诊断结论、改动范围、测试和分级验证结果。合入由 Workflow 仓决定；合入后 workflow-rsi 重跑原任务，跟踪改动是否被保留。</p><button type="button" class="copy-button" data-copy="查看这个闭环提出的 PR：诊断结论和置信度、改了哪些文件、L1/L2/L3 验证结果，以及合入后重跑停在哪里。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
+      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>维护 SDE 多阶段 Workflow 的工程师</p><h3>Run 停下后定位并修复</h3><blockquote>“Run 停在第 5 个阶段，是输入的问题还是 Workflow 的缺陷？”</blockquote><p>闭环读取停止证据，沿 Workflow 结构回溯，区分结构问题和节点内容问题，生成带测试的改动，验证通过后提出 PR；把握不足时停下交给人决定。</p><button type="button" class="copy-button" data-copy="列出 workflow-rsi 里正在等人决定的闭环，说明每个闭环停在哪个阶段、停止原因和诊断结论。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>只能通过 API 调用模型的团队</p><h3>不训练模型，持续提升效果</h3><blockquote>“拿不到模型权重，怎样让同一类任务越做越好？”</blockquote><p>改动落在 Workflow 上，改好一次，之后同类任务都复用；每次尝试记成 Trial，按收益在改进方法之间分配预算。换模型后，固化在 Workflow 代码和测试里的判断可以直接复用。</p><button type="button" class="copy-button" data-copy="汇总 workflow-rsi 最近一周的 Trial：每次用了什么改进方法、改了什么、评测结果，以及是否合入。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>Workflow 仓维护者与评审者</p><h3>审一个带证据的改动</h3><blockquote>“这个 PR 改了什么，证据够不够合入？”</blockquote><p>每个 PR 都附诊断结论、改动范围、测试和分级验证结果。合入由 Workflow 仓决定；合入后 workflow-rsi 重跑原任务，跟踪改动是否被保留。</p><button type="button" class="copy-button" data-copy="查看这个闭环提出的 PR：诊断结论和置信度、改了哪些文件、L1/L2/L3 验证结果，以及合入后重跑停在哪里。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
     </section>
 
     <section id="example" class="wrap section" aria-labelledby="example-title">
-      <div class="section-heading"><h2 id="example-title">一次真实闭环：从 Run 停下到 PR</h2><p class="section-description">一个已接入的多阶段 Workflow 在同一份输入上的两轮。下面的事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。</p></div>
+      <div class="section-heading"><h2 id="example-title">改进对象与一次真实闭环</h2><p class="section-description">先说明 workflow-rsi 改进的是什么样的 Workflow，再看一个已接入的多阶段 Workflow 在同一份输入上的两轮。事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。</p></div>
 
-      <div class="demo-content"><div class="demo-content-block"><h3>流程图：一轮改进</h3><div class="code-block"><div class="code-bar"><span>流程</span><button type="button" class="copy-button" data-copy="改进入口：闭环、Memory 共性、请求、工作计划、假设驱动
+      <div class="demo-content"><div class="demo-content-block"><h3>什么是静态工作流</h3><p>静态工作流是结构随版本固定的 Workflow：有哪些阶段和节点、节点之间交接什么、在哪里分支、重试和设门禁，都写在 Workflow 仓的源码里；同一个版本对每个输入都按同一张结构图执行。每个节点用的模型、提示、Skill 和工具也随版本固定。运行时由 Agent 按输入临时决定步骤的编排属于动态工作流，不在 workflow-rsi 的改进范围内。</p></div><div class="demo-content-block"><h3>为什么只针对 SDE lifecycle</h3><p>workflow-rsi 改进的是软件开发生命周期上的静态工作流：从需求、分析、设计、计划到实现、构建与验证，按固定阶段推进，每个阶段有明确的产出和可以自动判定的结果（构建是否通过、测试通过多少、覆盖率多少）。这些结果给出可重复的评测信号，改动可以用测试证明、以 PR 交付、合入后重跑同一任务复核。通用业务流程、客服对话、数据处理等其他类型的工作流，暂不作为改进对象。</p></div><div class="demo-content-block"><h3>一个 SDE lifecycle 静态工作流的结构</h3><div class="code-block"><div class="code-bar"><span>阶段与交接（示例中的 Workflow）</span><button type="button" class="copy-button" data-copy="generate      准备任务与需求说明
+  ↓
+analysis      分析代码与依赖
+  ↓
+design        设计改动方案
+  ↓
+plan          拆成可执行的步骤
+  ↓
+execution     实现与构建
+  ↓
+verification  运行测试；失败时由 Repair 决定去向
+                safe_fix          → 有限修复后复测
+                request_redesign  → 交给 Redesign 重新设计
+                no_action         → 结束（no_safe_repair）" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>generate      准备任务与需求说明
+  ↓
+analysis      分析代码与依赖
+  ↓
+design        设计改动方案
+  ↓
+plan          拆成可执行的步骤
+  ↓
+execution     实现与构建
+  ↓
+verification  运行测试；失败时由 Repair 决定去向
+                safe_fix          → 有限修复后复测
+                request_redesign  → 交给 Redesign 重新设计
+                no_action         → 结束（no_safe_repair）</code></pre></div></div><div class="demo-content-block"><h3>workflow-rsi 在这张结构图上能改什么</h3><ul><li>结构：插入已审步骤、删除可选步骤、调整允许的交接、切换已审策略；门禁和受保护路径不能动。</li><li>节点内容：指令、Skill、工具说明和模型选择，经 skill / agent RSI 接口改进。</li><li>两类改动都在整个 Workflow 上分级评测，产出的是一个新的静态版本，以 PR 交付。</li></ul></div><div class="demo-content-block"><h3>流程图：一轮改进</h3><div class="code-block"><div class="code-bar"><span>流程</span><button type="button" class="copy-button" data-copy="改进入口：闭环、Memory 共性、请求、工作计划、假设驱动
   ↓
 诊断：沿 Workflow 结构回溯，区分结构问题与节点内容问题
   ↓
@@ -156,9 +182,9 @@ redesign can address the failure.</code></pre></div></div><div class="demo-conte
     <section id="quickstart" class="wrap section" aria-labelledby="start-title">
       <div class="section-heading"><h2 id="start-title">安装与验证</h2></div>
       <div id="details" class="install-requirements">
-        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>插件</dt><dd>@fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1</dd></div><div><dt>workflow-rsi 本体</dt><dd>@fuxi-ailabs/workflow-rsi 0.1.0-alpha.1（命令 wie、wrsi-server）</dd></div><div><dt>DSH</dt><dd>0.1.6-alpha.2 或 ^0.2.1-rc.2，两版都已实跑 22 项验收</dd></div><div><dt>系统</dt><dd>macOS 或 Linux，Node.js ≥ 22.19；暂不支持原生 Windows</dd></div><div><dt>被改进的 Workflow</dt><dd>需要它的适配器读取 Run 的状态和停止记录，以及仓库与闭环配置</dd></div></dl></div>
+        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>插件</dt><dd>@fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1</dd></div><div><dt>workflow-rsi 本体</dt><dd>@fuxi-ailabs/workflow-rsi 0.1.0-alpha.1（命令 wie、wrsi-server）</dd></div><div><dt>DSH</dt><dd>0.1.6-alpha.2 或 ^0.2.1-rc.2，两版都已实跑 22 项验收</dd></div><div><dt>系统</dt><dd>macOS 或 Linux，Node.js ≥ 22.19；暂不支持原生 Windows</dd></div><div><dt>被改进的 Workflow</dt><dd>SDE lifecycle 上的静态工作流，需要它的适配器读取 Run 的状态和停止记录，以及仓库与闭环配置</dd></div></dl></div>
         <p>workflow-rsi 由本体和 DSH 操作台两个 npm 包组成。判定、状态与注册表都不进 DSH 进程，插件只经 wrsi-server 的本机 HTTP API 和 wie 子进程访问它。</p>
-        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>适合的场景</strong><p>同一个 Workflow 反复处理同类任务、由多个阶段和 Agent 组成、团队要求改动可审计可回滚。只跑一次的任务，或者 Workflow 还没有接入适配器时，用处不大。</p></div><div><strong>操作台的范围</strong><p>操作台在 DSH 里查看会话、Run、停止记录、闭环和工作计划，并转交人的决定。11 个工具都只读，守卫拒绝其他 wrsi_ 写工具；诊断、评测、提出 PR 和闭环都由 workflow-rsi 本体完成。</p></div><div><strong>由人准入</strong><p>评分规则、发布标准、预算分配和新改进方法的启用只由人准入，workflow-rsi 和 Agent 都改不了；是否合入 PR 由 Workflow 仓的维护者决定。Harness（会话、沙箱、预算、状态、证据）不自动修改。</p></div></div></details>
+        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>改进对象</strong><p>SDE lifecycle 上的静态工作流：需求、分析、设计、计划、实现、构建、验证等阶段按固定结构推进，结构随版本固定，每个阶段有可自动判定的结果。运行时按输入临时编排步骤的动态工作流，以及非软件开发类的工作流，不在改进范围内。</p></div><div><strong>适合的场景</strong><p>同一个静态工作流反复处理同类开发任务、由多个阶段和 Agent 组成、团队要求改动可审计可回滚。只跑一次的任务，或者 Workflow 还没有接入适配器时，用处不大。</p></div><div><strong>操作台的范围</strong><p>操作台在 DSH 里查看会话、Run、停止记录、闭环和工作计划，并转交人的决定。11 个工具都只读，守卫拒绝其他 wrsi_ 写工具；诊断、评测、提出 PR 和闭环都由 workflow-rsi 本体完成。</p></div><div><strong>由人准入</strong><p>评分规则、发布标准、预算分配和新改进方法的启用只由人准入，workflow-rsi 和 Agent 都改不了；是否合入 PR 由 Workflow 仓的维护者决定。Harness（会话、沙箱、预算、状态、证据）不自动修改。</p></div></div></details>
       </div>
       <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>安装 workflow-rsi 本体</strong> 全局安装后得到 wie 与 wrsi-server 两个命令；包内自带内部库，只另外从 registry 安装 TypeScript。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>npm install -g @fuxi-ailabs/workflow-rsi@0.1.0-alpha.1
 which wie wrsi-server</code></pre><button type="button" class="copy-button" data-copy="npm install -g @fuxi-ailabs/workflow-rsi@0.1.0-alpha.1
@@ -181,7 +207,7 @@ which wie wrsi-server" aria-label="复制">复制 <span aria-hidden="true">⧉</
 
     <section id="faq" class="wrap section" aria-labelledby="faq-title">
       <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
-      <div class="faq-list"><details><summary>workflow-rsi 和直接改提示词或 Skill 有什么区别？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。</p></details><details><summary>操作台会自己改 Workflow 或合入 PR 吗？<span aria-hidden="true">＋</span></summary><p>不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。</p></details><details><summary>闭环停下等人时怎么处理？<span aria-hidden="true">＋</span></summary><p>诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop &lt;loop id&gt; 查看停止原因和诊断结论，再用 /wrsi loop-resume &lt;loop id&gt; &lt;fix|rerun|give-up|merge-done&gt; --confirm 给出决定。</p></details><details><summary>接入一个新的 Workflow 需要准备什么？<span aria-hidden="true">＋</span></summary><p>需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。</p></details><details><summary>插件调用失败，先检查哪里？<span aria-hidden="true">＋</span></summary><p>先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。</p></details><details><summary>评分规则和发布标准由谁来定？<span aria-hidden="true">＋</span></summary><p>只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。</p></details></div>
+      <div class="faq-list"><details><summary>什么是静态工作流？<span aria-hidden="true">＋</span></summary><p>结构随版本固定的 Workflow：阶段、节点、交接、分支、重试和门禁写在 Workflow 仓的源码里，同一个版本对每个输入都按同一张结构图执行，节点用的模型、提示、Skill 和工具也随版本固定。workflow-rsi 每次改进产出一个新的静态版本，经评测后以 PR 交付。</p></details><details><summary>我的工作流不是软件开发流程，能用吗？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 只针对 SDE lifecycle 的静态工作流，依赖构建、测试、覆盖率这类可以自动判定的阶段结果做评测。其他类型的工作流暂不支持；运行时按输入临时编排步骤的动态工作流，也不在改进范围内。</p></details><details><summary>workflow-rsi 和直接改提示词或 Skill 有什么区别？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。</p></details><details><summary>操作台会自己改 Workflow 或合入 PR 吗？<span aria-hidden="true">＋</span></summary><p>不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。</p></details><details><summary>闭环停下等人时怎么处理？<span aria-hidden="true">＋</span></summary><p>诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop &lt;loop id&gt; 查看停止原因和诊断结论，再用 /wrsi loop-resume &lt;loop id&gt; &lt;fix|rerun|give-up|merge-done&gt; --confirm 给出决定。</p></details><details><summary>接入一个新的 Workflow 需要准备什么？<span aria-hidden="true">＋</span></summary><p>需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。</p></details><details><summary>插件调用失败，先检查哪里？<span aria-hidden="true">＋</span></summary><p>先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。</p></details><details><summary>评分规则和发布标准由谁来定？<span aria-hidden="true">＋</span></summary><p>只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。</p></details></div>
     </section>
   </main>
   <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html">使用文档 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html">工具与命令 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html">错误与写操作 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html">组件与版本 ↗</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
