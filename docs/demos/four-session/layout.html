@@ -1,0 +1,11 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>四 Agent 对照标识</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:3840px;height:2160px;background:#fff;font-family:Arial,"PingFang SC",sans-serif;color:#132e29}
+header{height:160px;padding:24px 54px;background:#102e27;color:#fff;display:flex;align-items:center;justify-content:space-between}
+h1{font-size:58px;line-height:1.25;margin:0 0 10px;font-weight:700}header p{font-size:32px;margin:0;color:#c2dfd3}.qualifier{font-size:30px;color:#c2dfd3}
+.row{display:grid;grid-template-columns:1920px 1920px;height:1000px}.pane{height:1000px}.label{height:80px;display:flex;align-items:center;gap:30px;padding:0 44px;font-size:38px;font-weight:600;background:#edf0f3;color:#354451;border-bottom:2px solid #d2dce1}.on .label{background:#e3f3e8;color:#17643c}.group{font-size:32px;padding:9px 18px;background:#d9e0e7;border-radius:8px}.on .group{background:#b9e5c9}.display{height:920px;background:#fff}
+</style>
+<header><div><h1>同一后端问题，四个 Agent</h1><p>上排修复 GET 接口，下排接手 POST 问题；分别使用独立工作区</p></div><div class="qualifier">真实运行回看 · 按阶段整理 · 非同步计时</div></header>
+<div class="row"><section class="pane"><div class="label"><span class="group">不共享经验</span>Agent A · 首次定位、修复 GET</div><div class="display"></div></section><section class="pane on"><div class="label"><span class="group">共享经验</span>Agent C · 修复 GET，记录 memory_note</div><div class="display"></div></section></div>
+<div class="row"><section class="pane"><div class="label"><span class="group">不共享经验</span>Agent B · 接手 POST，独立排查</div><div class="display"></div></section><section class="pane on"><div class="label"><span class="group">共享经验</span>Agent D · 接手 POST，读取 C 的经验</div><div class="display"></div></section></div>
+</html>

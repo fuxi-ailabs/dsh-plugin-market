@@ -1,0 +1,160 @@
+{
+  "schema": "crowdmemory-four-session-demo/v1",
+  "kind": "qualitative-workflow-demonstration",
+  "source": {
+    "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
+    "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
+    "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py"
+  },
+  "versions": {
+    "dsh": "0.1.6-alpha.2",
+    "adapter": "0.1.1",
+    "runtime": "0.1.1",
+    "requested_model": "claude-sonnet-4-6"
+  },
+  "model_identity_note": "relay request alias; underlying provider identity not independently verified",
+  "layout": {
+    "top_left": "a",
+    "bottom_left": "b",
+    "top_right": "c",
+    "bottom_right": "d"
+  },
+  "actors": {
+    "a": {
+      "session_id": "session-a28e364d-f6aa-4c94-85eb-62d3f61b8039",
+      "workspace": "off-origin",
+      "memory_enabled": false,
+      "task_method": "GET",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:fd5da41e6d302e8905b409f9c1a316bb59a2dc000188fd768e574bed45313f76",
+      "test_sha256": "sha256:09af2484ebbc94cb809e93aaa5a8495aa43791194c0aba89bfc0f9c713f6b071",
+      "patch_sha256": "sha256:2d33845aea71e80c98ca41aef9686946941a85509c627381416a2af782fd01e8",
+      "raw_stream_sha256": "sha256:1994e48cdc53b0f97e63b330f21bee09ec063810a6107c60f4c69ddd12729478",
+      "stop_reason": "time_budget",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "2 failed, 5 passed in 6.11s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.00s"
+      },
+      "memory_tools": [],
+      "tools_observed": 34,
+      "tool_results": 33
+    },
+    "b": {
+      "session_id": "session-5f2f6bdf-5c27-41c1-ab12-20a521b64acc",
+      "workspace": "off-follower",
+      "memory_enabled": false,
+      "task_method": "POST",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:ad78a527f75ef225ce20a788770d055020429670f4df1ed2df0835054fb1becc",
+      "test_sha256": "sha256:9aee79ba83714e8fbe2ef91b66093110e1eb97ab633da2b99ef681a4e1ff89cb",
+      "patch_sha256": "sha256:998a2db6d8660f9fc125bfef6d29bb218befdd9709da5a566fe4cee988d5a94c",
+      "raw_stream_sha256": "sha256:43ed695520d345c3321cc78a5693cf84ffedc56b1e81c9ae88d4e688fd90a271",
+      "stop_reason": "final",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "3 failed, 4 passed in 6.06s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.24s"
+      },
+      "memory_tools": [],
+      "tools_observed": 45,
+      "tool_results": 45
+    },
+    "c": {
+      "session_id": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
+      "workspace": "on-origin",
+      "memory_enabled": true,
+      "task_method": "GET",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:71cc479f5146700d1d3292d85242302a000ae16172a0cc52fd0fba9b6d701fd5",
+      "test_sha256": "sha256:e41ef67de57d271bd47457116073b4077fde30340d1fc0c5fadb49ce7a772353",
+      "patch_sha256": "sha256:59002ad4274b402a53f3257f191bf00292ddf7c27b6fb86a10ed42ccb295d078",
+      "raw_stream_sha256": "sha256:d8d32d0f0336c28bd6dcaf3367dd61e1db34da7d0b0335dd58a9427afa284523",
+      "stop_reason": "final",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 3 passed in 3.58s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "4 passed in 3.71s"
+      },
+      "memory_tools": [
+        "memory_note"
+      ],
+      "tools_observed": 36,
+      "tool_results": 36
+    },
+    "d": {
+      "session_id": "session-9fd54db7-7240-4bea-9c27-fe8e69b9a442",
+      "workspace": "on-follower",
+      "memory_enabled": true,
+      "task_method": "POST",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:9af2713cb35c01165b18939ac4724ba91d22236f8655ec52ff6f21e982673868",
+      "test_sha256": "sha256:c39943981b7b893c9c2fa8a3d50619a70b864a8df041864cbc31dfcac8b03002",
+      "patch_sha256": "sha256:b6ce8aeace30f39f90517bf38067cf8e1806847cee5c89c8a8b665f40982e7e5",
+      "raw_stream_sha256": "sha256:09330cca3951b182ef64a1c15fe3eb4cff13454c477c925b6f91d5550534a286",
+      "stop_reason": "time_budget",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 4 passed in 4.45s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "5 passed in 4.34s"
+      },
+      "memory_tools": [
+        "memory_search",
+        "memory_read"
+      ],
+      "tools_observed": 45,
+      "tool_results": 44
+    }
+  },
+  "record": {
+    "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
+    "origin_session_ref": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
+    "project": "on-origin",
+    "scope": "global",
+    "title": "HTTP Content-Length 非数字导致 BaseHTTPRequestHandler 断连：需在读取前解析并回结构化 400",
+    "recorded_outcome": "unknown"
+  },
+  "reader_receipts": [
+    {
+      "kind": "record_usage",
+      "exposure_kind": "read",
+      "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
+      "reasons": []
+    }
+  ],
+  "limits": [
+    "same source and common HTTP handler, GET then POST; not unrelated implementations",
+    "staged conversation views, not synchronized elapsed-time comparison",
+    "not a task-success-rate, tool-cost or speed benchmark",
+    "A and D reached 600-second limits during extra regression work; required API tests independently pass",
+    "an initial environment-loading attempt was stopped and archived before using a fresh isolated dependency environment",
+    "recorded terminal outcome is preserved, not upgraded to trusted or passed by this presentation"
+  ],
+  "verification_output_normalization": "Only trailing spaces and tabs removed from published pytest output; original stdout retained locally.",
+  "raw_verification_stdout_sha256": {
+    "session-c-before.txt": "sha256:893874005017dfbc2c537a14a117905b7de82d395e42e2bb986976767f945144",
+    "session-d-before.txt": "sha256:5d8b6e6504bb3a9a93969e2734183b316186024d3a481993dcc7e13f29675e35",
+    "session-a-tests.txt": "sha256:5bc1111c621ccf76e817eaa3b9817afa7f0b848497b7e5bf73017ec36b80a0bb",
+    "session-a-before.txt": "sha256:af7d02c90114d8fa161202f8b1f99b601e835ae3175160571ba3dcf54ef2aadc",
+    "session-b-tests.txt": "sha256:dcde789366d7c29d399397c51ea0e5cdb23dd7aefcc39f507230037bc202387f",
+    "session-b-before.txt": "sha256:27edc414150ff95fa1239c6d13932f51b547941fa88ad4b675c521e2504f30c6",
+    "session-d-tests.txt": "sha256:622ca99c7c564a032d2e4a7fade0d521265d22d3abb2dfda62f3bf22c91aa72a",
+    "session-c-tests.txt": "sha256:9c46f5eb51e699c5af62a810cabd0ccc79655d7b50a375dfce26ec4976be61aa"
+  }
+}
