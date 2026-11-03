@@ -1,304 +1,218 @@
 {
-  "schema": "crowdmemory-coding-demo/v1",
-  "kind": "backend-http-api",
-  "recorded_at_utc": "2026-11-02T03:17:28.374366+00:00",
+  "schema": "crowdmemory-four-session-demo/v1",
+  "kind": "qualitative-workflow-demonstration",
   "source": {
     "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
     "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
     "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-    "task_a": "GET malformed Content-Length",
-    "task_b": "POST malformed Content-Length"
+    "snapshot_archive_sha256": "sha256:34d2a2a86885b282e712059c90af87e5a1b1843a0e67dda6abdeb73e701c4d98"
   },
-  "qualification": "real-model backend API repair on clean source snapshots; HTTP over actual Unix sockets; not a benchmark",
   "versions": {
     "dsh": "0.1.6-alpha.2",
-    "adapter": "0.1.0",
-    "runtime": "0.1.0",
-    "model": "claude-sonnet-4-6"
+    "adapter": "0.1.1",
+    "runtime": "0.1.1",
+    "requested_model": "claude-sonnet-4-6"
   },
-  "requested_model_note": "relay request name, backend model identity not independently verified",
-  "runtime_roles": "npm runtime/adapter serve memory; the API under repair runs from the independent source snapshot identified above",
-  "baseline": {
-    "request": {
-      "method": "GET",
-      "path": "/v1/status",
-      "headers": {
-        "X-CrowdMemory-Protocol-Major": "1",
-        "Content-Length": "abc"
-      }
-    },
-    "response": {
-      "exception": "RemoteDisconnected",
-      "message": "Remote end closed connection without response"
-    },
-    "subsequent_status": 200
+  "model_identity_note": "relay request alias; underlying provider identity not independently verified",
+  "layout": {
+    "top_left": "a",
+    "bottom_left": "b",
+    "top_right": "c",
+    "bottom_right": "d"
   },
   "actors": {
-    "agent-a": {
-      "session_id": "session-8125499d-faa9-4318-97e3-66d017fddfb6",
-      "method": "GET",
-      "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-      "test": "tests/test_http_length_get.py",
-      "checks": {
-        "original": {
-          "exit_code": 1,
-          "summary": "7 failed, 4 passed in 8.82s"
-        },
-        "fixed": {
-          "exit_code": 0,
-          "summary": "11 passed in 8.79s"
-        },
-        "existing_uds": {
-          "exit_code": 0,
-          "summary": "3 passed in 2.81s"
-        },
-        "wire": {
-          "malformed": {
-            "request": {
-              "method": "GET",
-              "path": "/v1/status",
-              "headers": {
-                "X-CrowdMemory-Protocol-Major": "1",
-                "Content-Length": "abc"
-              }
-            },
-            "response": {
-              "status": 400,
-              "body": {
-                "error": {
-                  "code": "invalid_content_length",
-                  "message": "Content-Length 不是合法非负整数",
-                  "retryable": false
-                },
-                "ok": false
-              }
-            }
-          },
-          "subsequent_get_status": 200,
-          "valid_post_session_start": {
-            "status": 200,
-            "ok": true
-          }
-        }
-      },
+    "a": {
+      "session_id": "session-a28e364d-f6aa-4c94-85eb-62d3f61b8039",
+      "workspace": "off-origin",
+      "memory_enabled": false,
+      "task_method": "GET",
       "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "fixed_source_sha256": "sha256:8fc8ff72876f362d263b13edb8fe40dc6975f85d8ae9aae7b17298779e5533a2",
-      "patch_sha256": "sha256:35994da88ca18864b8ac21415b385ce669ea382116b89b4eaafed545249add52",
-      "test_sha256": "sha256:f9450aff8c362e8d1dca7b333626b5b4f6fb7f96a67aba22c5ae53a39a0fe760",
-      "session_log_sha256": "sha256:97f5ab316a60094076ff340f88b39bc7007cf54820626adc2a25dd60eb5d24f5",
-      "tool_results": 35
+      "final_source_sha256": "sha256:fd5da41e6d302e8905b409f9c1a316bb59a2dc000188fd768e574bed45313f76",
+      "test_sha256": "sha256:09af2484ebbc94cb809e93aaa5a8495aa43791194c0aba89bfc0f9c713f6b071",
+      "patch_sha256": "sha256:2d33845aea71e80c98ca41aef9686946941a85509c627381416a2af782fd01e8",
+      "raw_stream_sha256": "sha256:1994e48cdc53b0f97e63b330f21bee09ec063810a6107c60f4c69ddd12729478",
+      "stop_reason": "time_budget",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "2 failed, 5 passed in 6.11s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.00s"
+      },
+      "memory_tools": [],
+      "tools_observed": 34,
+      "tool_results": 33
     },
-    "agent-b": {
-      "session_id": "session-3499bb59-d13b-4bb4-b36f-768bda7a486c",
-      "method": "POST",
-      "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-      "test": "tests/test_http_length_post.py",
-      "checks": {
-        "original": {
-          "exit_code": 1,
-          "summary": "10 failed, 2 passed in 9.59s"
-        },
-        "fixed": {
-          "exit_code": 0,
-          "summary": "12 passed in 9.53s"
-        },
-        "existing_uds": {
-          "exit_code": 0,
-          "summary": "3 passed in 2.82s"
-        },
-        "wire": {
-          "malformed": {
-            "request": {
-              "method": "POST",
-              "path": "/v1/agent-ingress/dsh/events/session.start",
-              "headers": {
-                "X-CrowdMemory-Protocol-Major": "1",
-                "Content-Length": "abc"
-              }
-            },
-            "response": {
-              "status": 400,
-              "body": {
-                "error": {
-                  "code": "invalid_content_length",
-                  "message": "Content-Length 不是合法非负整数",
-                  "retryable": false
-                },
-                "ok": false
-              }
-            }
-          },
-          "subsequent_get_status": 200,
-          "valid_post_session_start": {
-            "status": 200,
-            "ok": true
-          }
-        }
-      },
+    "b": {
+      "session_id": "session-5f2f6bdf-5c27-41c1-ab12-20a521b64acc",
+      "workspace": "off-follower",
+      "memory_enabled": false,
+      "task_method": "POST",
       "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "fixed_source_sha256": "sha256:24be9e524610e390eef5c539c4a64786ac64c5785e3476ec8c42c23767ce2407",
-      "patch_sha256": "sha256:67491ded6e205178e7646567bc73ab90f5436203d907fdbbcc0dc547d58649d6",
-      "test_sha256": "sha256:d186a37a9c2f8f7415176d668e9b8c8b4f63c64aa7b1c3c0c440e7429c880c5c",
-      "session_log_sha256": "sha256:3d42faa55a9102a8bec601e58bdb3c91b95facc9cc70e3aee44f6c545c3ac6ff",
-      "tool_results": 34
+      "final_source_sha256": "sha256:ad78a527f75ef225ce20a788770d055020429670f4df1ed2df0835054fb1becc",
+      "test_sha256": "sha256:9aee79ba83714e8fbe2ef91b66093110e1eb97ab633da2b99ef681a4e1ff89cb",
+      "patch_sha256": "sha256:998a2db6d8660f9fc125bfef6d29bb218befdd9709da5a566fe4cee988d5a94c",
+      "raw_stream_sha256": "sha256:43ed695520d345c3321cc78a5693cf84ffedc56b1e81c9ae88d4e688fd90a271",
+      "stop_reason": "final",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "3 failed, 4 passed in 6.06s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.24s"
+      },
+      "memory_tools": [],
+      "tools_observed": 45,
+      "tool_results": 45
+    },
+    "c": {
+      "session_id": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
+      "workspace": "on-origin",
+      "memory_enabled": true,
+      "task_method": "GET",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:71cc479f5146700d1d3292d85242302a000ae16172a0cc52fd0fba9b6d701fd5",
+      "test_sha256": "sha256:e41ef67de57d271bd47457116073b4077fde30340d1fc0c5fadb49ce7a772353",
+      "patch_sha256": "sha256:59002ad4274b402a53f3257f191bf00292ddf7c27b6fb86a10ed42ccb295d078",
+      "raw_stream_sha256": "sha256:d8d32d0f0336c28bd6dcaf3367dd61e1db34da7d0b0335dd58a9427afa284523",
+      "stop_reason": "final",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 3 passed in 3.58s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "4 passed in 3.71s"
+      },
+      "memory_tools": [
+        "memory_note"
+      ],
+      "tools_observed": 36,
+      "tool_results": 36
+    },
+    "d": {
+      "session_id": "session-9fd54db7-7240-4bea-9c27-fe8e69b9a442",
+      "workspace": "on-follower",
+      "memory_enabled": true,
+      "task_method": "POST",
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "final_source_sha256": "sha256:9af2713cb35c01165b18939ac4724ba91d22236f8655ec52ff6f21e982673868",
+      "test_sha256": "sha256:c39943981b7b893c9c2fa8a3d50619a70b864a8df041864cbc31dfcac8b03002",
+      "patch_sha256": "sha256:b6ce8aeace30f39f90517bf38067cf8e1806847cee5c89c8a8b665f40982e7e5",
+      "raw_stream_sha256": "sha256:09330cca3951b182ef64a1c15fe3eb4cff13454c477c925b6f91d5550534a286",
+      "stop_reason": "time_budget",
+      "provider_error": null,
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 4 passed in 4.45s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "5 passed in 4.34s"
+      },
+      "memory_tools": [
+        "memory_search",
+        "memory_read"
+      ],
+      "tools_observed": 45,
+      "tool_results": 44
     }
   },
   "record": {
-    "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
-    "revision": 2,
+    "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
+    "origin_session_ref": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
+    "project": "on-origin",
     "scope": "global",
-    "title": "CrowdMemory /v1/status 遇非数字 Content-Length 断连：handler int() 未捕获 ValueError",
-    "origin_project": "agent-a",
-    "writer_terminal_outcome": null,
+    "title": "HTTP Content-Length 非数字导致 BaseHTTPRequestHandler 断连：需在读取前解析并回结构化 400",
+    "recorded_outcome": "unknown",
     "content": {
       "evidence_refs": [
         "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-        "tests/test_http_length_get.py",
+        "tests/test_http_length_demo.py",
         "tests/test_crowdmemory_ingress_uds.py"
       ],
       "files": [],
-      "fix": {
-        "diff": "diff --git a/distributions/memory-runtime/src/crowdmemory_runtime/server.py b/distributions/memory-runtime/src/crowdmemory_runtime/server.py\nindex 593e667..8bfa0b0 100644\n--- a/distributions/memory-runtime/src/crowdmemory_runtime/server.py\n+++ b/distributions/memory-runtime/src/crowdmemory_runtime/server.py\n@@ -602,7 +602,13 @@ class MemoryServer:\n                     return\n                 # 所有路由只认 ``X-CrowdMemory-Protocol-Major``（FR-01⑤）；缺失或别的 major 一律在分派前拒绝\n                 compatible = self.headers.get(PROTOCOL_HEADER) == str(PROTOCOL_MAJOR)\n-                length = int(self.headers.get(\"Content-Length\") or 0)\n+                # 非数字 Content-Length（\"abc\"、\"1.5\"、空值等）必须回结构化 400：直接 int() 会抛 ValueError，\n+                # 异常逃出 handler 后连接被静默关闭，调用方只看到空响应而不是 wire error。\n+                try:\n+                    length = int(self.headers.get(\"Content-Length\") or 0)\n+                except (TypeError, ValueError):\n+                    self._respond(400, _wire_error(\"invalid_content_length\", \"Content-Length 不是合法非负整数\"))\n+                    return\n                 if length < 0 or length > MAX_MESSAGE_BYTES:\n                     self._respond(413, _wire_error(\"request_too_large\", \"请求过大\"))\n                     return",
-        "kind": "diff"
-      },
-      "learned": "HTTP 层 header 解析必须 try/except 后落成 wire error，不能让异常穿出 handler。实测校验规则（真实 serve-dev + Unix socket，非 mock）：无 Content-Length -> 200；Content-Length: 0 -> 200；abc / 12abc / 1.5 / 0x20 / \"+\" / \"1 2\" -> 400 {\"ok\":false,\"error\":{\"code\":\"invalid_content_length\",\"message\":\"Content-Length 不是合法非负整数\",\"retryable\":false}}；-1 -> 413 request_too_large；4194305 (=MAX_MESSAGE_BYTES+1) -> 413 request_too_large；随后正常 GET 仍 200，进程 stderr 无 Traceback/ValueError。注意 /v1/status 返回的是 runtime 状态对象本身（无 ok/result 包裹），断言用 value[\"lifecycle_protocol\"][\"protocol_major\"] == 1。测试须用裸 socket 发字面 header 行：http.client 不允许发送非数字 Content-Length。检查结果：tests/test_http_length_get.py 11 passed，tests/test_crowdmemory_ingress_uds.py 3 passed，git diff --check 退出码 0。修复前该文件 11 个测试全失败（首条断言即 b''）。适用条件：仅 Python stdlib BaseHTTPRequestHandler 自定义 _handle 的 CrowdMemory Runtime；若改用解析库或新增 Max-Content-Length 策略需重跑该测试。",
+      "learned": "HTTP 校验规则：Content-Length 解析必须有明确分支——缺失或空白视为 0，仅接受十进制整数（int(str.strip()) 会拒绝 'abc'/'1e3'/'3.0'），非法值回 400 且 error.code=invalid_content_length（区别于 invalid_json 这类 body 缺陷），负数与超 MAX_MESSAGE_BYTES 保持原 413 request_too_large 分支不变。额外要点：长度不可解析意味着消息边界不可判定，按 RFC 7230 §3.3.3 应先置 self.close_connection = True 再回 400，否则 socket 缓冲区里残留的字节可能被当作下一条请求（请求走私类错位）。测试须启动真实服务并经 Unix socket 发裸 HTTP，不能 mock Handler，否则 framing 层根本没被执行；断言除状态码外还要覆盖「后续请求仍成功」和「服务端 stderr 无 Traceback」，并用 socket.shutdown(SHUT_WR) 半关闭避免服务端等 body 时测试挂住。验证结果：新增测试修复前失败（response=b''，断言 server closed the connection without writing any HTTP response），修复后 1 passed；既有 tests/test_crowdmemory_ingress_uds.py 3 passed；合并 117 passed；git diff --check exit=0。",
       "relates_to": [],
-      "what": "GET /v1/status（Unix socket 上的 HTTP，crowdmemory_runtime.server.MemoryServer 内联的 BaseHTTPRequestHandler._handle）在带 X-CrowdMemory-Protocol-Major: 1 + Content-Length: abc 时不返回任何字节、直接断连，调用方拿不到结构化错误。",
-      "where": "distributions/memory-runtime/src/crowdmemory_runtime/server.py 的 _handle 方法中（原第 605 行，_respond(403) 之后、MAX_MESSAGE_BYTES 判定之前）。相关：distributions/memory-runtime/src/crowdmemory_runtime/protocol.py 的 MAX_MESSAGE_BYTES = 4*1024*1024；新增测试 tests/test_http_length_get.py。",
-      "why": "原代码 `length = int(self.headers.get(\"Content-Length\") or 0)` 在 header 非数字时抛 ValueError，异常从 do_GET -> _handle 逃出 handle_one_request，BaseHTTPRequestHandler 仅打印 traceback 并关闭连接，HTTP 层没有兜底转换。负数（-1）不抛异常，落在既有 `length < 0` 分支返回 413；非数字才是断连根因。"
+      "what": "crowdmemory_runtime MemoryServer._handle 里 `length = int(self.headers.get(\"Content-Length\") or 0)` 未捕获 ValueError：客户端发送 GET /v1/status 且带 `X-CrowdMemory-Protocol-Major: 1` 与 `Content-Length: abc` 时，int('abc') 抛出 ValueError 逃出 do_GET->_handle，socketserver 线程栈直接终止，客户端收到 0 字节响应（连接被静默断开），服务端 stderr 打印 Traceback。",
+      "where": "distributions/memory-runtime/src/crowdmemory_runtime/server.py，MemoryServer.serve_forever 内嵌 Handler._handle（约 604-616 行，Content-Length 解析处）；新增测试 tests/test_http_length_demo.py（真实 serve-dev 子进程 + AF_UNIX 裸 HTTP/1.1）。",
+      "why": "http.server.BaseHTTPRequestHandler 不会替业务代码兜住 handler 内的异常：一旦异常逃出 do_* 方法，handle_one_request 中断且没有任何响应写出。因为解析发生在读取/校验之前，属于消息分帧（framing）阶段的输入校验缺失，而不是 JSON body 解析问题；同一个缺陷还会让原本应返回 protocol_incompatible 的请求直接断连，掩盖真正的协议错误。"
     }
   },
   "reader_receipts": [
     {
-      "kind": "view_exposure",
-      "exposure_kind": "pushed",
-      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
-      "reasons": [
-        {
-          "contribution": 0.15,
-          "signal": "lexical",
-          "value": "400,abc,content-length,get,server.py,status,v1,一"
-        },
-        {
-          "contribution": 0.05,
-          "signal": "environment",
-          "value": "os=darwin"
-        },
-        {
-          "contribution": 0.05,
-          "signal": "recency",
-          "value": "0d"
-        },
-        {
-          "contribution": 0.025,
-          "signal": "trust",
-          "value": "local_auto"
-        },
-        {
-          "contribution": 0.0125,
-          "signal": "evidence",
-          "value": "sources=1,used_success=0"
-        },
-        {
-          "contribution": 0.0,
-          "signal": "same_project",
-          "value": "跨项目:agent-a"
-        }
-      ],
-      "payload": {
-        "dedupe_key": "pushed:session_start",
-        "overrides": {},
-        "policy": {
-          "enabled": true,
-          "max_chars": 4000,
-          "max_items": 3,
-          "min_score": 0.0,
-          "require": []
-        },
-        "profile": {
-          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-          "id": "session-default",
-          "revision": "3"
-        },
-        "repeat": false,
-        "trigger": "session_start"
-      }
-    },
-    {
       "kind": "record_usage",
       "exposure_kind": "read",
-      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
-      "reasons": [],
-      "payload": {
-        "chars": 5401,
-        "profile": {
-          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-          "id": "session-default",
-          "revision": "3"
-        }
-      }
-    },
-    {
-      "kind": "record_usage",
-      "exposure_kind": "applied",
-      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
-      "reasons": [],
-      "payload": {
-        "path": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-        "profile": {
-          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-          "id": "session-default",
-          "revision": "3"
-        },
-        "via": "fix_path"
-      }
+      "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
+      "reasons": []
     }
   ],
-  "editing": {
-    "actual_browser_pixels": true,
-    "post_run_inspection": true,
-    "waiting_removed": true,
-    "redrawn_results": false
-  },
   "limits": [
-    "same backend source in independent local workspaces; GET and POST share a handler",
-    "no speed or general task-success-rate claim",
-    "source repair does not update the published runtime package",
-    "passing interface tests are not a terminal-session trust verdict"
+    "same source and common HTTP handler, GET then POST; not unrelated implementations",
+    "staged conversation views, not synchronized elapsed-time comparison",
+    "not a task-success-rate, tool-cost or speed benchmark",
+    "A and D reached 600-second limits during extra regression work; required API tests independently pass",
+    "an initial environment-loading attempt was stopped and archived before using a fresh isolated dependency environment",
+    "recorded terminal outcome is preserved, not upgraded to trusted or passed by this presentation"
   ],
   "assets": {
-    "coding-agent-demo.mp4": "sha256:cfa527cf9c0e9b7085daacaeca2b01209fd2e24de6c2c6edfa4768cff095076f",
-    "coding-agent-poster.jpg": "sha256:be8b0aa447725399dd8873e7329fd4901238b99341e269cbde1818aeac6933c8",
-    "coding-agent-zh.vtt": "sha256:690d8dce9acdd0a1ded717f9d26c1a63a32405e91b99cccc7653834fac5d0cf3",
-    "coding-memory.jpg": "sha256:7aea4407b1cfb9db4e36f31e43a67782c0f030f40da84d87f8148600e6f2870d"
+    "coding-agent-demo.mp4": "sha256:214d09b1b16087e20870fc3780b95b475f0bbd0f4ca54145a736da8df151b138",
+    "coding-agent-poster.jpg": "sha256:76c7ce9e89edec40b4893c8ee69a251fed1a7de4011b0aea8cbbfaed6a4f0ebd",
+    "coding-agent-zh.vtt": "sha256:dc128c2bb4b1a90bfed80f0adf5341eadaf5f7a334402f87ea389f61d5b2248e",
+    "coding-memory.jpg": "sha256:76c7ce9e89edec40b4893c8ee69a251fed1a7de4011b0aea8cbbfaed6a4f0ebd"
   },
-  "raw_recording_sha256": "sha256:90ef8f0e54d49335ae984263b8d3bfe70417866dc47ec7fe38d700365b23c7ea",
   "presentation_capture": {
-    "captured_at_utc": "2026-11-02T14:51:07.113511+00:00",
-    "method": "native browser recapture of original saved DSH sessions; tool cards opened and outputs scrolled",
-    "width": 1920,
-    "height": 1080,
+    "width": 3840,
+    "height": 2160,
     "fps": 30,
-    "browser_text_zoom": 1.5,
-    "sidebar": "collapsed",
-    "codec": "h264",
-    "crf": 18,
-    "duration_seconds": 72,
-    "original_execution_rerun": false,
-    "old_video_upscaled": false,
+    "duration_seconds": 54,
+    "panel_width": 1920,
+    "panel_height": 920,
+    "browser_text_zoom": 2,
+    "native_browser_pixels": true,
+    "low_resolution_upscaling": false,
+    "stages": 3,
+    "synchronized_elapsed_time": false,
+    "label_plate_sha256": "sha256:5a7503de72c7a3b6214768025f3fe4cc8439848b05e2571076e38ebe610cb1a0",
     "raw_clips": {
-      "01-request.webm": "sha256:dc104cc27e1d72ec5cad470fa7336abca30b38c6b0133f926630badb41ea319a",
-      "02-change.webm": "sha256:351840233ff5a4b98857bfe7f26b6e6077e22d9384d8d9d5adf8ba9c35d5724e",
-      "03-response.webm": "sha256:60ee46fc2258e1508a8f0e55bd08f4b0e41b96f60694f28078a09a7e58221934",
-      "04-tests.webm": "sha256:135137759fbe85982a382263db4cca9e1803437547c79e9dcfe2a97c7668b499",
-      "05-note.webm": "sha256:4a861015beedfa2d945499289900d4b95977fa9fe1b16c66fcbe550973e37d6d",
-      "06-read.webm": "sha256:6b14dccb6db0ada6169b4c5ca07858c9ce14929f9f2c0c61aaea4bc973a986bd",
-      "07-change.webm": "sha256:1eb69e1cd83f1f03bef137398701213d256accf1b72c9a5d7ecacaf0fd9a0aeb",
-      "08-tests.webm": "sha256:fafc7ef9194dffbfcaef07d91e89569bbc294e82fd15fa26d60d4337b2c4ae99"
+      "a-1.webm": "sha256:bedb26075c3c18fdf09ca2d3c82bd51df4dd9ba6ee60cdcc63366a02d31237f9",
+      "a-2.webm": "sha256:595ef01b6e6b1e727a1da20c687afe5f3f557ebeba2f73b1eedd50b5a78a1161",
+      "a-3.webm": "sha256:a60093f3160d678e22d44743bfa6d96f08d746a5eddb06025c7ea710a01d8b6d",
+      "b-1.webm": "sha256:031057b299f0a25d81cbaaf039bae42e5c5f6a14d52395edf329afcef492b1d8",
+      "b-2.webm": "sha256:6916ee581dc0b31fc206ce014754b708058f1d3cffa3ba31a90e17727ab50ecd",
+      "b-3.webm": "sha256:2af7c1d61046cfd2c8fa28b4cbbb3b082c862ae9c364257acabfe3b69c8d7737",
+      "c-1.webm": "sha256:1df9de9127f33d66c9064d1c5a79f354794a302bea7851d92e7bf96bd2e26120",
+      "c-2.webm": "sha256:66da669c838d7f10077d3971fc9b4aef9f636cd40aff0d065575d1f67165af24",
+      "c-3.webm": "sha256:16f57f21f80de58aa46335e05ebd6e92d7b4f154d16165a7509f6cfb54347088",
+      "d-1.webm": "sha256:49337972183a67486696be8920d4189d3fabfd8ee968fad1a166cc2e97a33a93",
+      "d-2.webm": "sha256:7ba4ca149b344e7f1118b6ee716699701e9b97988a05288e37e52028b4535e8e",
+      "d-3.webm": "sha256:b6fa8994f92e9c68c77cbbd2bb13c7a171e01c28e715701c7097f897d79fba87"
     },
-    "poster_source": {
-      "clip": "06-read.webm",
-      "seconds": 8
+    "encoder_failure_checks": {
+      "missing_clip_preserves_published_assets": true,
+      "encoder_failure_preserves_published_assets": true
     }
+  },
+  "editing": {
+    "annotation_only": "versioned session/column label plate",
+    "actual_tool_results_preserved": true,
+    "viewing_saved_sessions": true,
+    "waiting_removed": true
+  },
+  "verification_output_normalization": "Only trailing spaces and tabs removed from published pytest output; original stdout retained locally.",
+  "raw_verification_stdout_sha256": {
+    "session-c-before.txt": "sha256:893874005017dfbc2c537a14a117905b7de82d395e42e2bb986976767f945144",
+    "session-d-before.txt": "sha256:5d8b6e6504bb3a9a93969e2734183b316186024d3a481993dcc7e13f29675e35",
+    "session-a-tests.txt": "sha256:5bc1111c621ccf76e817eaa3b9817afa7f0b848497b7e5bf73017ec36b80a0bb",
+    "session-a-before.txt": "sha256:af7d02c90114d8fa161202f8b1f99b601e835ae3175160571ba3dcf54ef2aadc",
+    "session-b-tests.txt": "sha256:dcde789366d7c29d399397c51ea0e5cdb23dd7aefcc39f507230037bc202387f",
+    "session-b-before.txt": "sha256:27edc414150ff95fa1239c6d13932f51b547941fa88ad4b675c521e2504f30c6",
+    "session-d-tests.txt": "sha256:622ca99c7c564a032d2e4a7fade0d521265d22d3abb2dfda62f3bf22c91aa72a",
+    "session-c-tests.txt": "sha256:9c46f5eb51e699c5af62a810cabd0ccc79655d7b50a375dfce26ec4976be61aa"
   }
 }

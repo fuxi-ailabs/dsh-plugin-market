@@ -1,21 +1,22 @@
 // Illustrative data for this page, not a live plugin connection.
 window.PLUGIN_DEMO = {
-  "title": "后端 API 修复与测试",
-  "description": "真实 HTTP 接口遇到非法 Content-Length 时直接断连。Agent A 阅读 Python 服务端代码，复现 GET 请求并修复；Agent B 在独立工作区读取经验，核对 POST 入口并补接口回归测试。",
+  "title": "同一后端问题，四个独立 Session",
+  "description": "GET 与 POST 共用一段 HTTP 处理代码，四个独立工作区遇到同类请求错误。上排先修复 GET，下排接手 POST。",
   "blocks": [
     {
       "type": "list",
       "items": [
-        "Agent A：发送真实 HTTP 请求，复现异常断连，修改请求校验并补 pytest 测试。",
-        "Agent B：读取修复记录与来源，核对 POST 入口，在另一份干净源码上修复并验证。",
-        "接口测试经过实际 Unix socket，检查 HTTP 状态、JSON 错误结构和后续正常请求；本机复用，不是速度基准。"
+        "左上 A：独立定位和修复 GET，不写共享记忆。",
+        "左下 B：在新工作区接手 POST，独立排查并补接口测试。",
+        "右上 C：修复 GET 并测试后，用 memory_note 记录修法和适用条件。",
+        "右下 D：用 memory_search、memory_read 读取 C 的记录，核对公共 HTTP 层，再修改 POST 并测试。"
       ]
     }
   ],
-  "note": "真实 DSH 操作录像，包含运行后展开原始工具卡片；已剪去等待和设置，没有替换工具结果。示例源码测试需要 Python 3.11、pytest 及项目依赖；版本和运行依据见页脚链接。",
+  "note": "左列未安装记忆适配器，右列共享一个 Runtime。画面来自四个真实 DSH 会话，按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
   "video": {
-    "title": "从接口断连，到结构化错误响应与回归测试",
-    "description": "1080p 后端 API 修复与测试示例，可全屏查看代码。画面重新采集自发布前的真实会话，接口修复运行在独立源码快照上。包版本与测试结果见页脚“coding 录像运行依据”；当前版本的安装步骤见下方。",
+    "title": "不共享 / 共享：四个 Session 处理同类后端问题",
+    "description": "4K 四分屏，建议横屏全屏查看代码与来源。左侧独立排查，右侧记录并复用经验；Runtime 与适配器均为 0.1.1。每个画面对应一个独立 session。",
     "src": "assets/coding-agent-demo.mp4",
     "poster": "assets/coding-agent-poster.jpg",
     "captions": "assets/coding-agent-zh.vtt"

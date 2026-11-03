@@ -1,42 +1,47 @@
-# Crowd Memory：后端 API 修复与测试录像
+# 四个 Session：不共享 / 共享记忆
 
-本录像使用 CrowdMemory 的真实源码快照，执行 Python HTTP API 修复与接口回归测试。没有向源文件植入编译或配置错误。旧 zlib 材料保留作受控构建示例与 eval 对照；首页视频改为后端 coding 任务。
+同屏四个真实 DSH 会话，左列没有记忆适配器，右列共享一个 CrowdMemory Runtime。每个 session 使用独立工作区；上排 A、C 修复 GET 接口，下排 B、D 接手 POST 问题。C 实际写入全局记忆，D 实际搜索、读取同一条记录，核对代码后补测试和修复。
 
-## 任务来源
+这是开发工作流演示。画面按阶段整理，并非同步计时；不据此计算耗时、工具成本或任务成功率收益。
 
-源仓库：`https://gitcode.com/third-party-library-for-harmony/CrowdMemory`，快照提交 `f81435bb8c6e11cc52a4b6d873e026879cf31963`。两个 Agent 各有一份干净的完整快照，使用一份新安装且初始为空的记忆 Runtime。
+## 任务与环境
 
-- A 检查 `GET /v1/status`：在正确协议头下发送 `Content-Length: abc`，原始服务端抛出 ValueError，客户端收到断连而非 HTTP 响应。修改目标为 `distributions/memory-runtime/src/crowdmemory_runtime/server.py`，新增 `tests/test_http_length_get.py`。
-- B 在另一份原始源码上检查 `POST /v1/agent-ingress/dsh/events/session.start`。先读取 A 的记录，核对 GET/POST 共用的 Handler，再修复并补 `tests/test_http_length_post.py`。
+源码为 CrowdMemory 的实际快照 `f81435bb8c6e11cc52a4b6d873e026879cf31963`，没有植入新错误。四份初始 `server.py` 的 SHA-256 完全相同。GET 与 POST 共用 `MemoryServer` 的 HTTP Handler：非法 `Content-Length: abc` 在 `int()` 解析时抛出异常，客户端拿不到结构化错误响应。目标是返回 JSON 400，保持正常请求可用，超大请求仍为 413。
 
-测试启动实际服务进程，经 Unix socket 发送真实 HTTP 请求，检查状态码、JSON 错误结构、合法请求以及异常请求后的服务可用性，不使用 mock Handler。GET 与 POST 使用同一个 HTTP 处理函数；这是同一后端问题在两个独立工作区的复用演示，不是两个无关实现之间的泛化评测。
+四个会话均请求 `claude-sonnet-4-6`，经既有兼容中继，底层供应商身份未独立核验。使用 DSH `0.1.6-alpha.2`，记忆服务和适配器均为 npm `0.1.1`；Python 3.11、pytest、jsonschema 和模板依赖在独立临时环境中准备。每个会话上限为 48 个工具结果、600 秒，完整提示词见 [prompts.json](four-session/prompts.json)。
 
-独立复核对每个 Agent 的最终测试分别运行原始与修复后源码，要求原始版本失败、修复后通过；再运行既有 Unix socket 接口测试，并额外实际发送 GET/POST 请求。具体数量、退出码和完整错误响应在公开的 `assets/coding-evidence.json` 中，不用截图中的 shell 管道退出码代替 pytest 结果。
+| 位置 | Session | 任务 | 记忆工具 |
+|---|---|---|---|
+| 左上 | A / off-origin | GET 修复 | 未安装适配器 |
+| 左下 | B / off-follower | POST 修复 | 未安装适配器 |
+| 右上 | C / on-origin | GET 修复后记录经验 | memory_note |
+| 右下 | D / on-follower | 读取 C 的经验，再处理 POST | memory_search、memory_read |
 
-独立复核结果：A 原始源码为 7 failed / 4 passed，应用 patch 后 11 passed；B 原始源码为 10 failed / 2 passed，应用 patch 后 12 passed。两份修复后的源码各自运行既有 UDS 测试，均 3 passed。额外直接请求确认 GET 和 POST 的非法长度均返回 HTTP 400、`invalid_content_length`、`retryable: false`；同一服务之后的 GET 状态查询和合法 POST 会话创建均返回 200。
+记忆记录为 `lr_01a19f7cddaa7f8dbee2fb1d9dc63e06`，来源是 C 的真实 session。D 的 Runtime 回执包含对同一记录的 `record_usage / read`。实际 session ID、来源、停止原因和摘要见 [verification.json](four-session/verification.json)，也同步发布在页面的 `assets/coding-evidence.json`。
 
-具体 prompt、源提交描述和两个 Agent 实际产生的 patch 见 `coding-task/`。任务修改只保存在隔离工作区与演示 patch；本市场 PR 不更改已发布 Runtime 的代码或版本。
+## 独立复核
 
-patch 为无上下文的 unified diff，避免作为文档入库时空白上下文行触发 whitespace 检查。在对应干净快照中运行 `git apply --unidiff-zero /path/to/agent-a.patch`（或 agent-b.patch），再运行其中新增的测试。独立复核已实际应用公开 patch，确认还原出的源文件与测试哈希等于 Agent 的最终文件。
+每个 Agent 只修改 `server.py` 和新增 `tests/test_http_length_demo.py`。测试启动真实服务进程，经 Unix socket 发送 HTTP 请求，不 mock Handler。独立复核在相同测试文件下分别运行原始和修复后源码，并运行既有 `test_crowdmemory_ingress_uds.py`：
 
-## 环境与范围
+| Session | 原始源码 | 修复后源码 |
+|---|---|---|
+| A | 2 failed、5 passed | 7 passed |
+| B | 3 failed、4 passed | 7 passed |
+| C | 1 failed、3 passed | 4 passed |
+| D | 1 failed、4 passed | 5 passed |
 
-录像在当前版本发布前录制；录制使用的包版本由 [coding-evidence.json 的 versions 字段](../../public/plugins/crowdmemory/assets/coding-evidence.json) 记录，不能将录像中的测试结果当作当前版本的重新实测。示例环境为 DSH `0.1.6-alpha.2`、Node `22.23.3`、macOS arm64。模型请求名为 `claude-sonnet-4-6`，经既有兼容中继调用，后端身份未独立核验。
+各 Agent 编写的用例划分不同，不能比较这些数量来推断收益。原始源码与修复后源码的测试输出和四份 patch 见 [four-session/](four-session/)。发布的 pytest 输出仅去除行尾空白；原始字节保留本机，摘要列入运行依据。每份 patch 在独立干净快照中用 `git apply --unidiff-zero` 应用；按源仓库 Makefile 准备隔离 Python 环境，显式将当前工作区 `src` 及三个 `distributions/*/src` 放在 PYTHONPATH 前部，再运行上述两个测试文件。
 
-当前推荐安装 npm runtime / adapter `0.1.1`，命令见[介绍页安装步骤](../../public/plugins/crowdmemory/index.html#quickstart)。
+A、D 在额外回归阶段达到 600 秒时限；指定接口测试的独立复核通过，不代表整场 Agent 运行或全量回归成功。相关回归中出现的既有收集错误也不作为共享记忆的收益。最初一次依赖加载卡住的尝试已停止并在本机归档，随后换用新的隔离依赖环境，基础 UDS 检查 3 项通过后重新运行。原始停止原因均保留。
 
-Python 3.11、pytest 和项目依赖预先准备。测试进程的 PYTHONPATH 显式优先当前快照的 src 和 distributions 源目录；实际打印并核对导入的 server.py 路径，防止误测已安装包。源码按其 Makefile 的 bootstrap 步骤准备依赖后，可运行新增测试及 `tests/test_crowdmemory_ingress_uds.py` 复现。
+记忆记录的终局标记为 unknown，页面没有将其改写成自动核验通过或 trusted。独立测试结果与终局信任标记分别记录。本演示只覆盖同一后端共享 Handler 的不同入口和本机跨 session 复用，不外推到无关实现、跨机器团队或生产场景。
 
-接口测试在 macOS 上经本机 Unix socket 运行，不是公网部署、负载测试或跨平台设备验收。运行依据保留测试与实际响应，市场 PR 另运行自己的 `npm run ci`。
+## 画面与编码
 
-这是本机不同工作区之间的经验复用，既不是生产故障评测，也不是跨机器团队发布。不能从视频推断耗时、工具调用数或任务成功率改进。真实 read 回执和最终测试应分别核对；不把读过记忆直接等同于采用正确，也不把测试成功当作会话结束后的信任判定。
+成片为 3840×2160、30 fps、54 秒的 H.264，使用 yuv420p 和 faststart。十二段原生 1920×920 浏览器录像按三个阶段组合为四分屏；浏览器文字放大显示、侧栏收起，未放大低分辨率视频。所有请求、工具卡片、代码、读取内容和测试结果均为真实 DSH 画面；标签板只标注四个 session 的位置与角色。
 
-## 素材与复核
+剪辑阶段依次为：定位与检索、修法与来源读取、各自接口测试。上下左右画面分别整理，不能用画面之间的先后或片段长度比较真实耗时。
 
-首页视频为 `assets/coding-agent-demo.mp4`，有海报和中文字幕；`assets/coding-evidence.json` 提供实际会话、记忆来源、读取回执、source/patch/媒体哈希和独立测试结果。
+`four-session/encode-video.py CAPTURES ASSETS` 需要 `a-1.webm` 至 `d-3.webm` 十二段录像，以及脚本同目录中已入库的 `layout.png`。标签源为 `layout.html`，以 3840×2160 浏览器 viewport 截图生成标签板。编码器先检查全部视频和标签板的尺寸、时长，在暂存目录成功生成视频与海报后才替换发布文件；海报从新成片第 27 秒提取，没有额外输入海报。
 
-网页视频已重新采集为原生 1920×1080、30 fps、16:9，海报同为 1920×1080。旧视频为 800×600，浏览器放大后代码模糊；新片段从原始 DSH 会话重新打开工具卡片采集，浏览器以 150% 文字缩放显示并收起侧栏，没有放大旧视频。仍为 72 秒，沿用八条中文字幕。H.264 使用 CRF 18、yuv420p 与 faststart，兼顾文字清晰度与浏览器播放。
-
-本次高清重采集是对已保存真实会话的查看，不代表重新执行模型、接口测试或更换录制使用的包。原执行版本和运行结果保持原样，新增的 `presentation_capture` 字段记录高清采集参数及八份原始片段摘要。编码脚本为 `coding-task/encode-hd-video.py`，仅需其中列出的八份 WebM，要求输入原生 1920×1080 并拒绝低分辨率输入。海报直接取自 `06-read.webm` 第 8 秒，无需 PNG；全部输入检查及两个产物编码成功后才替换发布文件，输入或编码失败时保留原视频与海报。
-
-发布片段包括运行后展开原始工具卡片的查看过程，按请求复现、服务端修改、响应与测试、写记忆、另一 Agent 读取并验证的顺序剪辑。全部为真实 DSH 浏览器画面；没有重画界面、替换工具结果或模拟输出。字幕是说明文字，非原始终端输出。长录像、完整压缩日志和数据库快照保留本机，不公开鉴权配置。
+发布媒体的 SHA-256 和十二段原片摘要保存在页面运行依据中。完整会话日志、原始录像和带鉴权的浏览器配置仅保留本机；不公开凭据或 Runtime 令牌。
