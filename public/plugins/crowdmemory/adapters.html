@@ -23,7 +23,8 @@
     <div class="table"><table><thead><tr><th>宿主</th><th>状态</th><th>接入范围</th></tr></thead><tbody>
       <tr><td>DSH</td><td>npm 0.1.1 已发布</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件，推送与三个记忆工具。<a href="configuration.html">连接与配置</a></td></tr>
       <tr><td>OpenClaude</td><td>npm 0.1.1 已发布</td><td>Node.js 插件，hooks + MCP；会话、工具结果、压缩、子代理、推送及 memory_search / memory_read / memory_note。没有 L2 workflow / goal 事件。</td></tr>
-      <tr><td>opencode / openJiuwen</td><td>评审中</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9">PR #9</a> 提供 opencode 适配器与 openJiuwen 接入设计；当前 main 尚未包含，不列为已发布支持。</td></tr>
+      <tr><td>opencode</td><td>已合入，npm 待发布</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-opencode/README.md">同包支持 1.x / 2.x 的适配器</a>，可从源码构建；提供会话、工具结果、压缩、子代理、推送与三个记忆工具，没有 L2 workflow / goal 事件。</td></tr>
+      <tr><td>openJiuwen</td><td>接入设计已合入</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapter-openjiuwen-design.md">设计稿</a>，尚无可安装实现，不列为已发布支持。</td></tr>
     </tbody></table></div>
     <p>OpenClaude 插件要求 Node.js ≥ 22.18，仓库记录的宿主验证版本为 OpenClaude 0.12.0、0.31.0。它连接同用户的 Runtime，不依赖 DSH、MigBot-Air 或独立 Python adapter；Runtime 仍可使用 npm 0.1.1。Claude Code 兼容性不作已验收承诺。</p>
     <h2 id="openclaude">在独立目录试用 OpenClaude 插件</h2>
@@ -50,7 +51,7 @@ openclaude --plugin-dir "$PWD/plugin/package"</code></pre></div>
       <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapters.md">Framework adapter 开发指南</a>：协议、事件映射、职责与验收要求。</li>
       <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-core/README.md">适配器公共核心</a>：在该目录用 <code>npm run update</code> 下发公共改动并测试；用 <code>npm run adopt -- &lt;adapter&gt;</code> 收回副本修改。脚本不提交、不发布。</li>
     </ul>
-    <p>已合入：<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8">#8 OpenClaude 插件</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10">#10 公共核心</a>。OpenClaude 插件已发布 npm 0.1.1；公共核心随各插件打包，不需要另装。</p>
+    <p>已合入：<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8">#8 OpenClaude 插件</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9">#9 opencode 适配器与 openJiuwen 设计</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10">#10 公共核心</a>。OpenClaude 插件已发布 npm 0.1.1；公共核心随各插件打包，不需要另装。</p>
     <p>仓库记录了真实 OpenClaude CLI 的 L0 e2e，覆盖脚本化模型、真实 Runtime、跨会话召回、子代理、压缩和异常降级，并有真实模型一轮验证；这不等同于生产设备验收或普遍的收益证明。评测数据与适配器验收分别见<a href="evaluation.html">评测与公开数据</a>和上述源码指南。</p>
     <p><a href="index.html">返回 Crowd Memory 介绍与安装</a></p>
   </article>

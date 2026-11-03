@@ -71,6 +71,8 @@ const publicLinks = new Map([['plugins/crowdmemory', new Set([
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapters.md',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-openclaude/README.md',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-core/README.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-opencode/README.md',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapter-openjiuwen-design.md',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10',
