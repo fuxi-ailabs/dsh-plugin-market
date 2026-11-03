@@ -105,8 +105,8 @@
         "zh": "Crowd Memory · 群体记忆"
       },
       "description": {
-        "en": "Collective memory for DSH. What each agent learns at work is checked against task outcomes and then shared with other sessions, other agents in the same workflow, and the team, with no model retraining. In a paired on/off test with the same model and budget, completion rose from 39% to 78%. Requires @fuxi-ailabs/crowdmemory-runtime.",
-        "zh": "Crowd Memory 是 DSH 的群体记忆：每个 Agent 在工作中得到的经验，按任务结果判断可信后，提供给其他会话、同一 workflow 里的其他 Agent 和团队复用，模型不需要重新训练。开关记忆配对评测中，同样的模型和预算下完成率从 39% 提高到 78%。需要 @fuxi-ailabs/crowdmemory-runtime。"
+        "en": "Collective memory for coding agents in DSH: reuse experience from code fixes, build troubleshooting, and API tests, with provenance, applicability conditions, and verification results. For developers using coding agents and maintaining development workflows. Local sharing and development workflows are available; cross-machine developer collaboration is an internal preview. Requires @fuxi-ailabs/crowdmemory-runtime.",
+        "zh": "面向 DSH coding Agent 的群体记忆：复用代码修复、构建排错和接口测试中的经验，保留来源、适用条件和验证结果。面向使用 coding Agent 及维护开发 workflow 的开发者；本机共享与开发 workflow 可用，跨机器开发协作为内部预览。需要 @fuxi-ailabs/crowdmemory-runtime。"
       },
       "icon": "icons/crowdmemory.svg",
       "author": "cacheline",
@@ -127,8 +127,8 @@
       },
       "versions": [
         {
-          "version": "0.1.0",
-          "publishTimestamp": 1792740637,
+          "version": "0.1.1",
+          "publishTimestamp": 1793595445,
           "source": {
             "type": "npm"
           },
@@ -344,8 +344,8 @@
         "zh": "Session Audit · 会话审计"
       },
       "description": {
-        "en": "Audit real DSH Session trajectories with SIFT, review findings and evidence, and open the report in a native right-side panel.",
-        "zh": "用 SIFT 审计真实的 DSH 会话执行轨迹，查看 finding、证据和 turn 引用，并在右侧面板浏览完整报告。"
+        "en": "Audit real DSH Session trajectories with SIFT, review findings and evidence, navigate from a turn reference back to its Trajectory record, and open the full report in a native right-side panel.",
+        "zh": "用 SIFT 审计真实的 DSH 会话执行轨迹，查看 finding、证据和 turn 引用，并可从 turn 引用反向定位到 Trajectory 中的对应记录，或在右侧面板浏览完整报告。"
       },
       "icon": "icons/audit.svg",
       "author": "Fuxi AI Labs",
@@ -370,6 +370,16 @@
         ]
       },
       "versions": [
+        {
+          "version": "1.1.1",
+          "publishTimestamp": 1793351485,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
         {
           "version": "1.0.1",
           "publishTimestamp": 1793089816,
@@ -415,6 +425,16 @@
       },
       "versions": [
         {
+          "version": "1.1.2",
+          "publishTimestamp": 1793417314,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
           "version": "1.1.1",
           "publishTimestamp": 1793342256,
           "source": {
@@ -458,6 +478,26 @@
         ]
       },
       "versions": [
+        {
+          "version": "1.1.3",
+          "publishTimestamp": 1793417348,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
+          "version": "1.1.2",
+          "publishTimestamp": 1793416832,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
         {
           "version": "1.0.0",
           "publishTimestamp": 1793098705,

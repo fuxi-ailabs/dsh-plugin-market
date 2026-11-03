@@ -2,3 +2,5 @@ node_modules/
 *.log
 .env*
 .release-work/
+.playwright-cli/
+output/playwright/

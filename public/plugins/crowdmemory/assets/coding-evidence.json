@@ -1,0 +1,304 @@
+{
+  "schema": "crowdmemory-coding-demo/v1",
+  "kind": "backend-http-api",
+  "recorded_at_utc": "2026-11-02T03:17:28.374366+00:00",
+  "source": {
+    "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
+    "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
+    "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+    "task_a": "GET malformed Content-Length",
+    "task_b": "POST malformed Content-Length"
+  },
+  "qualification": "real-model backend API repair on clean source snapshots; HTTP over actual Unix sockets; not a benchmark",
+  "versions": {
+    "dsh": "0.1.6-alpha.2",
+    "adapter": "0.1.0",
+    "runtime": "0.1.0",
+    "model": "claude-sonnet-4-6"
+  },
+  "requested_model_note": "relay request name, backend model identity not independently verified",
+  "runtime_roles": "npm runtime/adapter serve memory; the API under repair runs from the independent source snapshot identified above",
+  "baseline": {
+    "request": {
+      "method": "GET",
+      "path": "/v1/status",
+      "headers": {
+        "X-CrowdMemory-Protocol-Major": "1",
+        "Content-Length": "abc"
+      }
+    },
+    "response": {
+      "exception": "RemoteDisconnected",
+      "message": "Remote end closed connection without response"
+    },
+    "subsequent_status": 200
+  },
+  "actors": {
+    "agent-a": {
+      "session_id": "session-8125499d-faa9-4318-97e3-66d017fddfb6",
+      "method": "GET",
+      "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+      "test": "tests/test_http_length_get.py",
+      "checks": {
+        "original": {
+          "exit_code": 1,
+          "summary": "7 failed, 4 passed in 8.82s"
+        },
+        "fixed": {
+          "exit_code": 0,
+          "summary": "11 passed in 8.79s"
+        },
+        "existing_uds": {
+          "exit_code": 0,
+          "summary": "3 passed in 2.81s"
+        },
+        "wire": {
+          "malformed": {
+            "request": {
+              "method": "GET",
+              "path": "/v1/status",
+              "headers": {
+                "X-CrowdMemory-Protocol-Major": "1",
+                "Content-Length": "abc"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": {
+                  "code": "invalid_content_length",
+                  "message": "Content-Length 不是合法非负整数",
+                  "retryable": false
+                },
+                "ok": false
+              }
+            }
+          },
+          "subsequent_get_status": 200,
+          "valid_post_session_start": {
+            "status": 200,
+            "ok": true
+          }
+        }
+      },
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "fixed_source_sha256": "sha256:8fc8ff72876f362d263b13edb8fe40dc6975f85d8ae9aae7b17298779e5533a2",
+      "patch_sha256": "sha256:35994da88ca18864b8ac21415b385ce669ea382116b89b4eaafed545249add52",
+      "test_sha256": "sha256:f9450aff8c362e8d1dca7b333626b5b4f6fb7f96a67aba22c5ae53a39a0fe760",
+      "session_log_sha256": "sha256:97f5ab316a60094076ff340f88b39bc7007cf54820626adc2a25dd60eb5d24f5",
+      "tool_results": 35
+    },
+    "agent-b": {
+      "session_id": "session-3499bb59-d13b-4bb4-b36f-768bda7a486c",
+      "method": "POST",
+      "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+      "test": "tests/test_http_length_post.py",
+      "checks": {
+        "original": {
+          "exit_code": 1,
+          "summary": "10 failed, 2 passed in 9.59s"
+        },
+        "fixed": {
+          "exit_code": 0,
+          "summary": "12 passed in 9.53s"
+        },
+        "existing_uds": {
+          "exit_code": 0,
+          "summary": "3 passed in 2.82s"
+        },
+        "wire": {
+          "malformed": {
+            "request": {
+              "method": "POST",
+              "path": "/v1/agent-ingress/dsh/events/session.start",
+              "headers": {
+                "X-CrowdMemory-Protocol-Major": "1",
+                "Content-Length": "abc"
+              }
+            },
+            "response": {
+              "status": 400,
+              "body": {
+                "error": {
+                  "code": "invalid_content_length",
+                  "message": "Content-Length 不是合法非负整数",
+                  "retryable": false
+                },
+                "ok": false
+              }
+            }
+          },
+          "subsequent_get_status": 200,
+          "valid_post_session_start": {
+            "status": 200,
+            "ok": true
+          }
+        }
+      },
+      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
+      "fixed_source_sha256": "sha256:24be9e524610e390eef5c539c4a64786ac64c5785e3476ec8c42c23767ce2407",
+      "patch_sha256": "sha256:67491ded6e205178e7646567bc73ab90f5436203d907fdbbcc0dc547d58649d6",
+      "test_sha256": "sha256:d186a37a9c2f8f7415176d668e9b8c8b4f63c64aa7b1c3c0c440e7429c880c5c",
+      "session_log_sha256": "sha256:3d42faa55a9102a8bec601e58bdb3c91b95facc9cc70e3aee44f6c545c3ac6ff",
+      "tool_results": 34
+    }
+  },
+  "record": {
+    "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
+    "revision": 2,
+    "scope": "global",
+    "title": "CrowdMemory /v1/status 遇非数字 Content-Length 断连：handler int() 未捕获 ValueError",
+    "origin_project": "agent-a",
+    "writer_terminal_outcome": null,
+    "content": {
+      "evidence_refs": [
+        "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+        "tests/test_http_length_get.py",
+        "tests/test_crowdmemory_ingress_uds.py"
+      ],
+      "files": [],
+      "fix": {
+        "diff": "diff --git a/distributions/memory-runtime/src/crowdmemory_runtime/server.py b/distributions/memory-runtime/src/crowdmemory_runtime/server.py\nindex 593e667..8bfa0b0 100644\n--- a/distributions/memory-runtime/src/crowdmemory_runtime/server.py\n+++ b/distributions/memory-runtime/src/crowdmemory_runtime/server.py\n@@ -602,7 +602,13 @@ class MemoryServer:\n                     return\n                 # 所有路由只认 ``X-CrowdMemory-Protocol-Major``（FR-01⑤）；缺失或别的 major 一律在分派前拒绝\n                 compatible = self.headers.get(PROTOCOL_HEADER) == str(PROTOCOL_MAJOR)\n-                length = int(self.headers.get(\"Content-Length\") or 0)\n+                # 非数字 Content-Length（\"abc\"、\"1.5\"、空值等）必须回结构化 400：直接 int() 会抛 ValueError，\n+                # 异常逃出 handler 后连接被静默关闭，调用方只看到空响应而不是 wire error。\n+                try:\n+                    length = int(self.headers.get(\"Content-Length\") or 0)\n+                except (TypeError, ValueError):\n+                    self._respond(400, _wire_error(\"invalid_content_length\", \"Content-Length 不是合法非负整数\"))\n+                    return\n                 if length < 0 or length > MAX_MESSAGE_BYTES:\n                     self._respond(413, _wire_error(\"request_too_large\", \"请求过大\"))\n                     return",
+        "kind": "diff"
+      },
+      "learned": "HTTP 层 header 解析必须 try/except 后落成 wire error，不能让异常穿出 handler。实测校验规则（真实 serve-dev + Unix socket，非 mock）：无 Content-Length -> 200；Content-Length: 0 -> 200；abc / 12abc / 1.5 / 0x20 / \"+\" / \"1 2\" -> 400 {\"ok\":false,\"error\":{\"code\":\"invalid_content_length\",\"message\":\"Content-Length 不是合法非负整数\",\"retryable\":false}}；-1 -> 413 request_too_large；4194305 (=MAX_MESSAGE_BYTES+1) -> 413 request_too_large；随后正常 GET 仍 200，进程 stderr 无 Traceback/ValueError。注意 /v1/status 返回的是 runtime 状态对象本身（无 ok/result 包裹），断言用 value[\"lifecycle_protocol\"][\"protocol_major\"] == 1。测试须用裸 socket 发字面 header 行：http.client 不允许发送非数字 Content-Length。检查结果：tests/test_http_length_get.py 11 passed，tests/test_crowdmemory_ingress_uds.py 3 passed，git diff --check 退出码 0。修复前该文件 11 个测试全失败（首条断言即 b''）。适用条件：仅 Python stdlib BaseHTTPRequestHandler 自定义 _handle 的 CrowdMemory Runtime；若改用解析库或新增 Max-Content-Length 策略需重跑该测试。",
+      "relates_to": [],
+      "what": "GET /v1/status（Unix socket 上的 HTTP，crowdmemory_runtime.server.MemoryServer 内联的 BaseHTTPRequestHandler._handle）在带 X-CrowdMemory-Protocol-Major: 1 + Content-Length: abc 时不返回任何字节、直接断连，调用方拿不到结构化错误。",
+      "where": "distributions/memory-runtime/src/crowdmemory_runtime/server.py 的 _handle 方法中（原第 605 行，_respond(403) 之后、MAX_MESSAGE_BYTES 判定之前）。相关：distributions/memory-runtime/src/crowdmemory_runtime/protocol.py 的 MAX_MESSAGE_BYTES = 4*1024*1024；新增测试 tests/test_http_length_get.py。",
+      "why": "原代码 `length = int(self.headers.get(\"Content-Length\") or 0)` 在 header 非数字时抛 ValueError，异常从 do_GET -> _handle 逃出 handle_one_request，BaseHTTPRequestHandler 仅打印 traceback 并关闭连接，HTTP 层没有兜底转换。负数（-1）不抛异常，落在既有 `length < 0` 分支返回 413；非数字才是断连根因。"
+    }
+  },
+  "reader_receipts": [
+    {
+      "kind": "view_exposure",
+      "exposure_kind": "pushed",
+      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
+      "reasons": [
+        {
+          "contribution": 0.15,
+          "signal": "lexical",
+          "value": "400,abc,content-length,get,server.py,status,v1,一"
+        },
+        {
+          "contribution": 0.05,
+          "signal": "environment",
+          "value": "os=darwin"
+        },
+        {
+          "contribution": 0.05,
+          "signal": "recency",
+          "value": "0d"
+        },
+        {
+          "contribution": 0.025,
+          "signal": "trust",
+          "value": "local_auto"
+        },
+        {
+          "contribution": 0.0125,
+          "signal": "evidence",
+          "value": "sources=1,used_success=0"
+        },
+        {
+          "contribution": 0.0,
+          "signal": "same_project",
+          "value": "跨项目:agent-a"
+        }
+      ],
+      "payload": {
+        "dedupe_key": "pushed:session_start",
+        "overrides": {},
+        "policy": {
+          "enabled": true,
+          "max_chars": 4000,
+          "max_items": 3,
+          "min_score": 0.0,
+          "require": []
+        },
+        "profile": {
+          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+          "id": "session-default",
+          "revision": "3"
+        },
+        "repeat": false,
+        "trigger": "session_start"
+      }
+    },
+    {
+      "kind": "record_usage",
+      "exposure_kind": "read",
+      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
+      "reasons": [],
+      "payload": {
+        "chars": 5401,
+        "profile": {
+          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+          "id": "session-default",
+          "revision": "3"
+        }
+      }
+    },
+    {
+      "kind": "record_usage",
+      "exposure_kind": "applied",
+      "record_ref": "lr_01a19a350ddb7289a84c182b98f0e519",
+      "reasons": [],
+      "payload": {
+        "path": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
+        "profile": {
+          "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+          "id": "session-default",
+          "revision": "3"
+        },
+        "via": "fix_path"
+      }
+    }
+  ],
+  "editing": {
+    "actual_browser_pixels": true,
+    "post_run_inspection": true,
+    "waiting_removed": true,
+    "redrawn_results": false
+  },
+  "limits": [
+    "same backend source in independent local workspaces; GET and POST share a handler",
+    "no speed or general task-success-rate claim",
+    "source repair does not update the published runtime package",
+    "passing interface tests are not a terminal-session trust verdict"
+  ],
+  "assets": {
+    "coding-agent-demo.mp4": "sha256:cfa527cf9c0e9b7085daacaeca2b01209fd2e24de6c2c6edfa4768cff095076f",
+    "coding-agent-poster.jpg": "sha256:be8b0aa447725399dd8873e7329fd4901238b99341e269cbde1818aeac6933c8",
+    "coding-agent-zh.vtt": "sha256:690d8dce9acdd0a1ded717f9d26c1a63a32405e91b99cccc7653834fac5d0cf3",
+    "coding-memory.jpg": "sha256:7aea4407b1cfb9db4e36f31e43a67782c0f030f40da84d87f8148600e6f2870d"
+  },
+  "raw_recording_sha256": "sha256:90ef8f0e54d49335ae984263b8d3bfe70417866dc47ec7fe38d700365b23c7ea",
+  "presentation_capture": {
+    "captured_at_utc": "2026-11-02T14:51:07.113511+00:00",
+    "method": "native browser recapture of original saved DSH sessions; tool cards opened and outputs scrolled",
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "browser_text_zoom": 1.5,
+    "sidebar": "collapsed",
+    "codec": "h264",
+    "crf": 18,
+    "duration_seconds": 72,
+    "original_execution_rerun": false,
+    "old_video_upscaled": false,
+    "raw_clips": {
+      "01-request.webm": "sha256:dc104cc27e1d72ec5cad470fa7336abca30b38c6b0133f926630badb41ea319a",
+      "02-change.webm": "sha256:351840233ff5a4b98857bfe7f26b6e6077e22d9384d8d9d5adf8ba9c35d5724e",
+      "03-response.webm": "sha256:60ee46fc2258e1508a8f0e55bd08f4b0e41b96f60694f28078a09a7e58221934",
+      "04-tests.webm": "sha256:135137759fbe85982a382263db4cca9e1803437547c79e9dcfe2a97c7668b499",
+      "05-note.webm": "sha256:4a861015beedfa2d945499289900d4b95977fa9fe1b16c66fcbe550973e37d6d",
+      "06-read.webm": "sha256:6b14dccb6db0ada6169b4c5ca07858c9ce14929f9f2c0c61aaea4bc973a986bd",
+      "07-change.webm": "sha256:1eb69e1cd83f1f03bef137398701213d256accf1b72c9a5d7ecacaf0fd9a0aeb",
+      "08-tests.webm": "sha256:fafc7ef9194dffbfcaef07d91e89569bbc294e82fd15fa26d60d4337b2c4ae99"
+    },
+    "poster_source": {
+      "clip": "06-read.webm",
+      "seconds": 8
+    }
+  }
+}

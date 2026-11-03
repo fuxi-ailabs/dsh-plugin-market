@@ -1,0 +1,3 @@
+这是一个独立工作区的后端 API 修复任务，全程中文。原始 server.py 未修改。POST /v1/agent-ingress/dsh/events/session.start 遇到非法 Content-Length: abc 会直接断连；需要返回结构化 JSON 400，并保持正常 POST 会话创建以及 GET /v1/status 可用。
+先查询并读取相关记忆，核对它对应的 HTTP 层和本工作区源码，再补 tests/test_http_length_post.py，用真实 Unix socket / HTTP 请求复现这个 POST 问题，之后修复。检查错误响应状态、JSON 错误结构、合法 POST 和后续正常请求；不要用 mock Handler 或跳过 HTTP。
+python 已有 pytest 和依赖，在仓库根运行；先确认 crowdmemory_runtime.server.__file__ 指向本工作区。只改 distributions/memory-runtime/src/crowdmemory_runtime/server.py 和新增测试，不改其他产品代码、不装依赖、不启动子 Agent、不 commit，不打印 token。最后跑新增测试、既有 tests/test_crowdmemory_ingress_uds.py 和 git diff --check，说明采用的记录及适用条件。不新增或改写记忆。

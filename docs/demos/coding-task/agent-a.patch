@@ -1,0 +1,231 @@
+diff --git a/distributions/memory-runtime/src/crowdmemory_runtime/server.py b/distributions/memory-runtime/src/crowdmemory_runtime/server.py
+index 593e667..8bfa0b0 100644
+--- a/distributions/memory-runtime/src/crowdmemory_runtime/server.py
++++ b/distributions/memory-runtime/src/crowdmemory_runtime/server.py
+@@ -605 +605,7 @@ class MemoryServer:
+-                length = int(self.headers.get("Content-Length") or 0)
++                # 非数字 Content-Length（"abc"、"1.5"、空值等）必须回结构化 400：直接 int() 会抛 ValueError，
++                # 异常逃出 handler 后连接被静默关闭，调用方只看到空响应而不是 wire error。
++                try:
++                    length = int(self.headers.get("Content-Length") or 0)
++                except (TypeError, ValueError):
++                    self._respond(400, _wire_error("invalid_content_length", "Content-Length 不是合法非负整数"))
++                    return
+diff --git a/tests/test_http_length_get.py b/tests/test_http_length_get.py
+new file mode 100644
+index 0000000..1317ca4
+--- /dev/null
++++ b/tests/test_http_length_get.py
+@@ -0,0 +1,212 @@
++"""GET /v1/status over a real Unix-socket HTTP connection: malformed Content-Length must yield a structured 400.
++
++Regression: ``int(self.headers.get("Content-Length"))`` raised ``ValueError`` inside the request handler, so the
++socket was closed without any response and callers saw an empty reply instead of a wire error.
++"""
++from __future__ import annotations
++
++import http.client
++import json
++import os
++import shutil
++import signal
++import socket
++import subprocess
++import sys
++import tempfile
++import time
++from pathlib import Path
++
++import pytest
++
++ROOT = Path(__file__).resolve().parents[1]
++TOO_LARGE = 4 * 1024 * 1024 + 1  # crowdmemory_runtime.protocol.MAX_MESSAGE_BYTES + 1
++
++
++def _spawn(state_root: Path) -> tuple[subprocess.Popen, dict]:
++    (state_root / "endpoint.json").unlink(missing_ok=True)
++    process = subprocess.Popen(
++        [sys.executable, "-m", "crowdmemory_runtime", "serve-dev", "--state-root", str(state_root),
++         "--socket", str(state_root / "runtime.sock"), "--profile", "session-default"],
++        stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={**os.environ, "HOME": str(state_root)},
++    )
++    deadline = time.monotonic() + 20
++    while time.monotonic() < deadline:
++        if (state_root / "endpoint.json").is_file() and (state_root / "runtime.sock").exists():
++            return process, json.loads((state_root / "endpoint.json").read_text())
++        if process.poll() is not None:
++            raise AssertionError(process.stderr.read().decode())
++        time.sleep(0.05)
++    process.kill()
++    raise AssertionError("serve-dev did not publish endpoint.json")
++
++
++def _stop(process: subprocess.Popen) -> None:
++    if process.poll() is None:
++        process.send_signal(signal.SIGTERM)
++        try:
++            process.wait(timeout=10)
++        except subprocess.TimeoutExpired:
++            process.kill()
++            process.wait()
++
++
++@pytest.fixture
++def service():
++    root = Path(tempfile.mkdtemp(prefix="exi-http-len-", dir="/tmp"))
++    process, endpoint = _spawn(root)
++    try:
++        yield process, endpoint
++    finally:
++        _stop(process)
++        shutil.rmtree(root, ignore_errors=True)
++
++
++def _raw_exchange(socket_path: str, header_lines: list[str], *, path: str = "/v1/status",
++                  method: str = "GET") -> tuple[int, dict[str, str], bytes]:
++    """Send literal header bytes (http.client refuses to emit a non-numeric Content-Length) and parse the reply."""
++    request = "\r\n".join([f"{method} {path} HTTP/1.1", "Host: localhost", "Connection: close",
++                           *header_lines, "", ""]).encode("ascii")
++    sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++    sock.settimeout(5.0)
++    try:
++        sock.connect(socket_path)
++        sock.sendall(request)
++        chunks: list[bytes] = []
++        while True:
++            try:
++                chunk = sock.recv(65536)
++            except socket.timeout:
++                break
++            if not chunk:
++                break
++            chunks.append(chunk)
++    finally:
++        sock.close()
++    response = b"".join(chunks)
++    assert response, "服务端没有返回任何字节（连接被直接断开）"
++    head, _, body = response.partition(b"\r\n\r\n")
++    lines = head.decode("iso-8859-1").split("\r\n")
++    status = int(lines[0].split()[1])
++    headers = {}
++    for line in lines[1:]:
++        key, _, value = line.partition(":")
++        headers[key.strip().lower()] = value.strip()
++    declared = headers.get("content-length")
++    if declared is not None:
++        body = body[:int(declared)]
++    return status, headers, body
++
++
++def _json_body(headers: dict[str, str], body: bytes) -> dict:
++    assert headers.get("content-type", "").startswith("application/json"), headers
++    return json.loads(body.decode("utf-8"))
++
++
++def _assert_wire_error(headers: dict[str, str], body: bytes, code: str | None = None) -> dict:
++    value = _json_body(headers, body)
++    assert value["ok"] is False, value
++    error = value["error"]
++    assert isinstance(error["message"], str) and error["message"]
++    assert isinstance(error["retryable"], bool)
++    if code is not None:
++        assert error["code"] == code, value
++    return value
++
++
++def _status_ok(socket_path: str) -> None:
++    """A plain http.client GET with a well-formed request still succeeds (server alive, route unchanged)."""
++    class _UnixConnection(http.client.HTTPConnection):
++        def connect(inner) -> None:
++            sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
++            sock.settimeout(5.0)
++            sock.connect(socket_path)
++            inner.sock = sock
++
++    connection = _UnixConnection("localhost", timeout=5.0)
++    try:
++        connection.request("GET", "/v1/status", headers={"X-CrowdMemory-Protocol-Major": "1"})
++        response = connection.getresponse()
++        value = json.loads(response.read())
++    finally:
++        connection.close()
++    assert response.status == 200, value
++    # /v1/status returns the runtime status object itself (no envelope)
++    assert value["lifecycle_protocol"]["protocol_major"] == 1, value
++
++
++def _assert_alive(service) -> None:
++    process, endpoint = service
++    assert process.poll() is None, "服务进程在非法长度请求后已退出"
++    _status_ok(endpoint["socket_path"])
++
++
++@pytest.mark.parametrize("bad_length", ["abc", "12abc", "1.5", "0x20", "+", "1 2"])
++def test_non_numeric_content_length_returns_structured_400(service, bad_length) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", f"Content-Length: {bad_length}"],
++    )
++    assert status == 400, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "invalid_content_length")
++    _assert_alive(service)
++
++
++def test_negative_content_length_returns_structured_json_error(service) -> None:
++    """A negative length cannot describe a body; it stays on the existing 413 path but must answer, not disconnect."""
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: -1"],
++    )
++    assert status == 413, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "request_too_large")
++    _assert_alive(service)
++
++
++def test_valid_get_without_content_length_returns_200(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(endpoint["socket_path"], ["X-CrowdMemory-Protocol-Major: 1"])
++    assert status == 200, (status, headers, body[:200])
++    assert _json_body(headers, body)["lifecycle_protocol"]["protocol_major"] == 1
++    _assert_alive(service)
++
++
++def test_zero_length_content_length_returns_200(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: 0"],
++    )
++    assert status == 200, (status, headers, body[:200])
++    assert _json_body(headers, body)["lifecycle_protocol"]["protocol_major"] == 1
++    _assert_alive(service)
++
++
++def test_oversized_content_length_still_returns_413(service) -> None:
++    _, endpoint = service
++    status, headers, body = _raw_exchange(
++        endpoint["socket_path"],
++        ["X-CrowdMemory-Protocol-Major: 1", f"Content-Length: {TOO_LARGE}"],
++    )
++    assert status == 413, (status, headers, body[:200])
++    _assert_wire_error(headers, body, "request_too_large")
++    _assert_alive(service)
++
++
++def test_server_keeps_serving_after_malformed_length(service) -> None:
++    """The same process answers a well-formed GET immediately after a rejected one, and its stderr has no traceback."""
++    process, endpoint = service
++    for _ in range(3):
++        status, headers, body = _raw_exchange(
++            endpoint["socket_path"],
++            ["X-CrowdMemory-Protocol-Major: 1", "Content-Length: abc"],
++        )
++        assert status == 400, (status, headers, body[:200])
++        _assert_wire_error(headers, body, "invalid_content_length")
++        _status_ok(endpoint["socket_path"])
++    _stop(process)
++    stderr = process.stderr.read().decode("utf-8", "replace")
++    assert "Traceback" not in stderr, stderr[-2000:]
++    assert "ValueError" not in stderr, stderr[-2000:]

@@ -1,0 +1,4 @@
+请修复一个真实后端 HTTP API bug，全程中文：CrowdMemory 的 GET /v1/status 在带 X-CrowdMemory-Protocol-Major: 1、Content-Length: abc 时直接断连，调用方拿不到结构化错误。
+阅读 distributions/memory-runtime/src/crowdmemory_runtime/server.py 和 tests/test_crowdmemory_ingress_uds.py。先写新增 pytest 测试，通过真实 HTTP/Unix socket 复现；再作最小服务端修复，使非法长度返回结构化 JSON 400，而不是异常断连。覆盖合法请求继续 200、缺失/零长度、超出 MAX_MESSAGE_BYTES 仍 413；修复后服务仍可处理后续请求。不要用 mock Handler 或绕过真实 HTTP 层。
+python 命令已准备好 pytest 和项目依赖，请在仓库根目录运行；先打印 crowdmemory_runtime.server.__file__，确认实际导入本工作区源码。只改该 server.py 和一个新增的 tests/test_http_length_get.py，不改其他产品代码，不安装依赖、不启动子 Agent、不 commit，不打印任何 token。
+记录实际请求、响应、失败测试及通过测试。最后运行新增测试、既有 tests/test_crowdmemory_ingress_uds.py 和 git diff --check。验证完成后用 memory_note（global / bugfix）留下实际现象、原因、HTTP 校验规则、检查结果和适用条件；fix.kind=diff，附实际相对路径 git diff。仅记录实际验证的结论。
