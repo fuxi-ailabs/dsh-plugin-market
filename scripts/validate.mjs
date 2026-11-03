@@ -72,6 +72,8 @@ const publicLinks = new Map([['plugins/workflow-rsi', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html',
+  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi/-/workflow-rsi-0.1.0-alpha.1.tgz',
+  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi-dsh-console/-/workflow-rsi-dsh-console-0.1.0-alpha.1.tgz',
 ])], ['plugins/crowdmemory', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/',
@@ -128,9 +130,6 @@ const publicLinks = new Map([['plugins/workflow-rsi', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify',
-])], ['plugins/workflow-rsi', new Set([
-  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi/-/workflow-rsi-0.1.0-alpha.1.tgz',
-  'https://registry.npmjs.org/@fuxi-ailabs/workflow-rsi-dsh-console/-/workflow-rsi-dsh-console-0.1.0-alpha.1.tgz',
 ])], ['templates/plugin-page', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/templates/plugin-page/',
