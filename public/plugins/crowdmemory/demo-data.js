@@ -1,6 +1,6 @@
 // Illustrative data for this page, not a live plugin connection.
 window.PLUGIN_DEMO = {
-  "title": "同一后端问题，四个独立 Session",
+  "title": "同一后端问题，四个 Agent",
   "description": "GET 与 POST 共用一段 HTTP 处理代码，四个独立工作区遇到同类请求错误。上排先修复 GET，下排接手 POST。",
   "blocks": [
     {
@@ -13,10 +13,10 @@ window.PLUGIN_DEMO = {
       ]
     }
   ],
-  "note": "左列未安装记忆适配器，右列共享一个 Runtime。画面来自四个真实 DSH 会话，按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
+  "note": "左列未安装记忆适配器，右列共享一个 Runtime。四个 Agent 的真实运行画面按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
   "video": {
-    "title": "不共享 / 共享：四个 Session 处理同类后端问题",
-    "description": "4K 四分屏，建议横屏全屏查看代码与来源。左侧独立排查，右侧记录并复用经验；Runtime 与适配器均为 0.1.1。每个画面对应一个独立 session。",
+    "title": "不共享 / 共享：四个 Agent 处理同类后端问题",
+    "description": "4K 四分屏，建议横屏全屏查看代码与来源。左侧独立排查，右侧记录并复用经验；Runtime 与适配器均为 0.1.1。每个 Agent 使用独立工作区，本演示在同一台机器上运行。",
     "src": "assets/coding-agent-demo.mp4",
     "poster": "assets/coding-agent-poster.jpg",
     "captions": "assets/coding-agent-zh.vtt"

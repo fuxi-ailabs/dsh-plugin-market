@@ -8,7 +8,7 @@
 | --- | --- | --- |
 | a 名称 | 首屏 plugin-name | Crowd Memory 及版本 |
 | b 一句话用途 | 标题后 lede | 不同 Agent 间的经验复用 |
-| c 代表图 | heroMedia / coding-memory.jpg | 四个真实 session 画面及角色标注，可放大 |
+| c 代表图 | heroMedia / coding-memory.jpg | 四个 Agent 的真实运行画面及角色标注，可放大 |
 | d 安装命令 | 标题后代码块、安装第 4 步 | 可复制，adapter 固定 0.1.1 |
 | e 使用场景 | #use-cases | 适用人群、具体问题、说明及可复制提问 |
 | f 功能演示 | #example / #recording | 四分屏不共享 / 共享对照，C 记录、D 读取来源并验证后端 API 修复 |
@@ -23,7 +23,7 @@ coding 视频采用 54 秒 4K 四分屏：左列 A、B 独立排查，右列 C �
 
 评测页链接公开数据与 PR #7：120 对 E1 控制任务 45/120 → 104/120 不能解读为 PR #4 的收益。固定 Episode 的 PR #4 前后实验受中继错误和执行噪声影响；恢复轮默认模式与旧版重复对照的内容和提示摘要 10/10 相同，不能证明提炼改进。可选切分丢失修复内容的机械回放也独立标注，不当作 Agent 成功率。
 
-## 四 Session 对照视频验证（2026-11-03）
+## 四 Agent 对照视频验证（2026-11-03）
 
 - 市场页面基线 `88e6799211199da2879f8e66869983a5cf59f23a`；后端任务源快照 `f81435bb8c6e11cc52a4b6d873e026879cf31963`，任务 patch 未改动市场插件包及版本。
 - `npm run build:pages` 与 `npm run ci` 通过。新增 CrowdMemory 生成一致性检查；共享 CSS / page.js 与模板源逐字节一致。

@@ -161,10 +161,10 @@
     "recorded terminal outcome is preserved, not upgraded to trusted or passed by this presentation"
   ],
   "assets": {
-    "coding-agent-demo.mp4": "sha256:214d09b1b16087e20870fc3780b95b475f0bbd0f4ca54145a736da8df151b138",
-    "coding-agent-poster.jpg": "sha256:76c7ce9e89edec40b4893c8ee69a251fed1a7de4011b0aea8cbbfaed6a4f0ebd",
-    "coding-agent-zh.vtt": "sha256:dc128c2bb4b1a90bfed80f0adf5341eadaf5f7a334402f87ea389f61d5b2248e",
-    "coding-memory.jpg": "sha256:76c7ce9e89edec40b4893c8ee69a251fed1a7de4011b0aea8cbbfaed6a4f0ebd"
+    "coding-agent-demo.mp4": "sha256:932f46d7d9ad8b80c89d89efdea3ac2e9d05d0aa621c95163f7b0e925e845f45",
+    "coding-agent-poster.jpg": "sha256:dd43dbebd4a9270812f5fb2c060192ca314061ddeac0c8a253ef0e969673175f",
+    "coding-agent-zh.vtt": "sha256:9ccf65faf726a29a293bc07ed4ffc60715f556a47362f7e8f5db95c346262093",
+    "coding-memory.jpg": "sha256:dd43dbebd4a9270812f5fb2c060192ca314061ddeac0c8a253ef0e969673175f"
   },
   "presentation_capture": {
     "width": 3840,
@@ -178,7 +178,7 @@
     "low_resolution_upscaling": false,
     "stages": 3,
     "synchronized_elapsed_time": false,
-    "label_plate_sha256": "sha256:5a7503de72c7a3b6214768025f3fe4cc8439848b05e2571076e38ebe610cb1a0",
+    "label_plate_sha256": "sha256:aef4a88daadb6ee4271f43ce9747997ee7c81d36d8380e07920d2a0e4134e5f2",
     "raw_clips": {
       "a-1.webm": "sha256:bedb26075c3c18fdf09ca2d3c82bd51df4dd9ba6ee60cdcc63366a02d31237f9",
       "a-2.webm": "sha256:595ef01b6e6b1e727a1da20c687afe5f3f557ebeba2f73b1eedd50b5a78a1161",
@@ -199,7 +199,7 @@
     }
   },
   "editing": {
-    "annotation_only": "versioned session/column label plate",
+    "annotation_only": "versioned Agent/column label plate",
     "actual_tool_results_preserved": true,
     "viewing_saved_sessions": true,
     "waiting_removed": true
