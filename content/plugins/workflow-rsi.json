@@ -1,0 +1,195 @@
+{
+  "slug": "workflow-rsi",
+  "name": "workflow-rsi",
+  "version": "0.1.0-alpha.1",
+  "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.1-rc.2 · 操作台与本体 0.1.0-alpha.1",
+  "description": "让 Workflow 递归自我改进：不改模型权重，用真实运行结果诊断问题、生成改动并在整个 Workflow 上评测，以 PR 交付更好的 Workflow。",
+  "headline": ["Workflow", "递归自我改进"],
+  "install": {
+    "code": "dsh plugin --profile web add @fuxi-ailabs/workflow-rsi-dsh-console@0.1.0-alpha.1",
+    "codeLabel": "终端 · 安装 workflow-rsi 操作台",
+    "note": "先安装并启动 wrsi-server；web 换成操作台使用的 DSH Profile。"
+  },
+  "heroMedia": {
+    "image": "assets/rsi-loop.jpg",
+    "alt": "workflow-rsi 一轮改进的流程：改进入口、沿结构诊断、在隔离环境生成候选、在整个 Workflow 上分级评测、以 PR 交付，并记录 Trial 改进改进方法本身。",
+    "title": "一轮改进：从发现问题到 PR",
+    "description": "示意图。结构候选用已审批算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进；评分规则与发布标准只由人准入。"
+  },
+  "useCases": [
+    {
+      "audience": "维护多阶段 Workflow 的工程师",
+      "title": "Run 停下后定位并修复",
+      "question": "“Run 停在第 5 个阶段，是输入的问题还是 Workflow 的缺陷？”",
+      "description": "闭环读取停止证据，沿 Workflow 结构回溯，区分结构问题和节点内容问题，生成带测试的改动，验证通过后提出 PR；把握不足时停下交给人决定。",
+      "prompt": "列出 workflow-rsi 里正在等人决定的闭环，说明每个闭环停在哪个阶段、停止原因和诊断结论。"
+    },
+    {
+      "audience": "只能通过 API 调用模型的团队",
+      "title": "不训练模型，持续提升效果",
+      "question": "“拿不到模型权重，怎样让同一类任务越做越好？”",
+      "description": "改动落在 Workflow 上，改好一次，之后同类任务都复用；每次尝试记成 Trial，按收益在改进方法之间分配预算。换模型后，固化在 Workflow 代码和测试里的判断可以直接复用。",
+      "prompt": "汇总 workflow-rsi 最近一周的 Trial：每次用了什么改进方法、改了什么、评测结果，以及是否合入。"
+    },
+    {
+      "audience": "Workflow 仓维护者与评审者",
+      "title": "审一个带证据的改动",
+      "question": "“这个 PR 改了什么，证据够不够合入？”",
+      "description": "每个 PR 都附诊断结论、改动范围、测试和分级验证结果。合入由 Workflow 仓决定；合入后 workflow-rsi 重跑原任务，跟踪改动是否被保留。",
+      "prompt": "查看这个闭环提出的 PR：诊断结论和置信度、改了哪些文件、L1/L2/L3 验证结果，以及合入后重跑停在哪里。"
+    }
+  ],
+  "example": {
+    "title": "一次真实闭环：从 Run 停下到 PR",
+    "description": "一个已接入的多阶段 Workflow 在同一份输入上的两轮。下面的事件取自闭环账本，时间为 UTC，诊断一行依次为处理方式、所属层、置信度。",
+    "blocks": [
+      {
+        "type": "code",
+        "title": "流程图：一轮改进",
+        "codeLabel": "流程",
+        "code": "改进入口：闭环、Memory 共性、请求、工作计划、假设驱动\n  ↓\n诊断：沿 Workflow 结构回溯，区分结构问题与节点内容问题\n  ↓\n生成候选\n  结构问题：已审批的结构算子 + 受约束搜索\n  节点内容问题：交给 skill / agent RSI 接口\n  ↓\n整体评测：分级打分；validation 选候选，holdout 定发布\n  ↓\nPR：人审、合入；合入后重跑原任务，跟踪改动是否被保留\n  ↓\nTrial 记录 → 评估改进方法，按收益分配预算"
+      },
+      {
+        "type": "code",
+        "title": "第 1 轮：诊断、改动、验证、提出 PR",
+        "codeLabel": "闭环事件（UTC）",
+        "code": "17:24  run.started\n17:26  stage generate    passed\n17:32  stage analysis    passed\n17:42  stage design      passed\n17:55  stage plan        passed\n17:59  stage execution   failed\n17:59  triage.decided    diagnose\n18:45  loop.escalated    diagnosis_low_confidence\n18:47  loop.resumed      fix\n21:07  loop.escalated    agent_failed\n21:10  loop.resumed      fix\n21:18  loop.escalated    diagnosis_low_confidence\n21:27  loop.resumed      fix\n21:50  diagnosis         engine_fix / contract / 0.9\n22:06  candidate         2 files, 45 lines\n22:07  validation        L1 passed, L2 passed, L3 inconclusive\n22:07  pr.opened         #469"
+      },
+      {
+        "type": "text",
+        "text": "第 1 轮在第 5 个阶段停下，报“输入无法准备”。workflow-rsi 确认输入本身合法，问题出在节点的输入检查规则；中间三次停下等人（两次把握不足，一次诊断 Agent 自身失败），人确认后继续。第四次诊断置信度 0.9，随后在独立分支生成 45 行改动和测试，L1、L2 通过后提出 PR，PR 合入。从 Run 停下到提出 PR 用时 4 小时 8 分钟，其中等人 14 分钟；模型用量约 3113 万 token，其中 2908 万为缓存命中。"
+      },
+      {
+        "type": "code",
+        "title": "第 2 轮：验证不过就不提交",
+        "codeLabel": "闭环事件（UTC，节选）",
+        "code": "09:01  run.started\n09:32  stage plan        passed\n10:03  stage execution   failed\n10:03  triage.decided    diagnose\n15:50  diagnosis         engine_fix / contract / 0.82\n17:20  candidate 1       timed_out, 0 files\n18:50  candidate 2       4 files, 133 lines\n                         scope: the fix agent named no test_command\n                         scope: spec: no change spec was delivered\n18:50  loop.gave_up      validation_exhausted"
+      },
+      {
+        "type": "text",
+        "text": "PR 合入后同一份输入再跑，Run 越过了原来的停止点，停在同一阶段的后一个节点。诊断指出这个节点只支持一种处理方式；第一次修复超时没有改动，第二次改动没有给出测试命令和改动说明，没有通过改动范围检查。workflow-rsi 不提 PR，把诊断结论留给人决定。"
+      },
+      {
+        "type": "code",
+        "title": "结构问题：补上阶段之间的交接",
+        "codeLabel": "Repair 角色任务说明 · 改动前后",
+        "code": "改动前\nApply one bounded safe fix, request Redesign, or report that\nno safe action exists from frozen verification evidence.\n\n改动后\nFrom frozen verification evidence, apply one bounded safe fix\n(safe_fix), or choose request_redesign, the only route to\nRedesign: use it when no bounded safe fix exists but a redesign\ncould address the failure. no_action ends Verification with\nno_safe_repair; choose it only when neither a safe fix nor a\nredesign can address the failure."
+      },
+      {
+        "type": "text",
+        "text": "另一次运行停在最后一个阶段：修复角色选择“不处理”之后流程没有出口，以修复预算耗尽结束。诊断定位到任务说明没有写清三种决定各自的去向，属于阶段之间的交接问题。修复只改了一句话并加了一条测试；再跑时，修复角色要求重新设计，流程正确交给了重新设计角色。"
+      },
+      {
+        "type": "code",
+        "title": "在 DSH 操作台里查看闭环并给出决定",
+        "codeLabel": "发送给 DSH",
+        "code": "/wrsi loop <loop id>\n/wrsi loop-resume <loop id> fix --confirm"
+      },
+      {
+        "type": "list",
+        "title": "闭环停下时人可以给出的决定",
+        "items": [
+          "fix：重新诊断，再生成修复候选。",
+          "rerun：不改动，重跑 Workflow，例如环境恢复之后。",
+          "give-up：结束这个闭环。",
+          "merge-done：PR 已在 Workflow 仓合入，开始重跑。",
+          "写命令不带 --confirm 时只显示将要执行的操作，不执行。"
+        ]
+      }
+    ],
+    "note": "事件为真实闭环账本的原始记录，按时间排版。",
+    "prompt": "/wrsi status\n/wrsi loop"
+  },
+  "comparison": {
+    "title": "使用前后效果对比",
+    "description": "同一次 Run 停止：左边是没有 workflow-rsi 时留下的记录，右边是闭环接手后的事件和结果。两张图按真实事件记录排版。",
+    "screenshotLabel": "真实事件记录整理 · 点击放大",
+    "before": {
+      "title": "使用前：Run 停下，只留下一条失败记录",
+      "description": "前四个阶段通过，第 5 个阶段报“输入无法准备”后结束。判断原因、定位节点、改代码补测试、重跑确认，都要人来做。",
+      "image": "assets/before-run-stop.jpg",
+      "alt": "Run 事件：generate、analysis、design、plan 四个阶段 passed，execution 阶段 failed；右侧列出人需要接手的四步。"
+    },
+    "after": {
+      "title": "使用后：闭环接手，从停下到提出 PR",
+      "description": "闭环自动诊断、生成 45 行改动与测试、L1/L2 验证通过后提出 PR；人只在三次停下时给出决定，最后审 PR。",
+      "image": "assets/after-loop-pr.jpg",
+      "alt": "闭环事件：triage、三次 escalation 与 resume、诊断置信度 0.9、候选 2 个文件 45 行、L1/L2 通过、提出 PR #469；右侧为用时与结果。"
+    },
+    "takeaways": [
+      "第 1 轮从 Run 停下到提出 PR 用时 4 小时 8 分钟，其中等人 14 分钟；PR 合入后同一份输入重跑，越过了原停止点。",
+      "第 2 轮候选没有通过改动范围检查，workflow-rsi 不提 PR，诊断结论留给人决定。",
+      "人从盯着跑转向审 PR：发现问题、提出改动、评测由 workflow-rsi 完成，人负责准入规则和合入。"
+    ]
+  },
+  "requirements": {
+    "summary": "wrsi-server 本机服务 · Node.js ≥ 22.19 · macOS 或 Linux",
+    "description": "workflow-rsi 由本体和 DSH 操作台两个 npm 包组成。判定、状态与注册表都不进 DSH 进程，插件只经 wrsi-server 的本机 HTTP API 和 wie 子进程访问它。",
+    "items": [
+      {"label": "插件", "value": "@fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1"},
+      {"label": "workflow-rsi 本体", "value": "@fuxi-ailabs/workflow-rsi 0.1.0-alpha.1（命令 wie、wrsi-server）"},
+      {"label": "DSH", "value": "0.1.6-alpha.2 或 ^0.2.1-rc.2，两版都已实跑 22 项验收"},
+      {"label": "系统", "value": "macOS 或 Linux，Node.js ≥ 22.19；暂不支持原生 Windows"},
+      {"label": "被改进的 Workflow", "value": "需要它的适配器读取 Run 的状态和停止记录，以及仓库与闭环配置"}
+    ]
+  },
+  "boundaries": [
+    {"title": "适合的场景", "description": "同一个 Workflow 反复处理同类任务、由多个阶段和 Agent 组成、团队要求改动可审计可回滚。只跑一次的任务，或者 Workflow 还没有接入适配器时，用处不大。"},
+    {"title": "操作台的范围", "description": "操作台在 DSH 里查看会话、Run、停止记录、闭环和工作计划，并转交人的决定。11 个工具都只读，守卫拒绝其他 wrsi_ 写工具；诊断、评测、提出 PR 和闭环都由 workflow-rsi 本体完成。"},
+    {"title": "由人准入", "description": "评分规则、发布标准、预算分配和新改进方法的启用只由人准入，workflow-rsi 和 Agent 都改不了；是否合入 PR 由 Workflow 仓的维护者决定。Harness（会话、沙箱、预算、状态、证据）不自动修改。"}
+  ],
+  "quickstart": {
+    "title": "安装与验证",
+    "steps": [
+      {
+        "title": "安装 workflow-rsi 本体",
+        "description": "全局安装后得到 wie 与 wrsi-server 两个命令；包内自带内部库，只另外从 registry 安装 TypeScript。",
+        "code": "npm install -g @fuxi-ailabs/workflow-rsi@0.1.0-alpha.1\nwhich wie wrsi-server",
+        "codeLabel": "终端",
+        "expected": "输出 wie 与 wrsi-server 的路径。"
+      },
+      {
+        "title": "启动 wrsi-server",
+        "description": "按使用文档写一个最小 wie.config.json（业务名、actor、registry_root、server.data_root 与 server.key_file，路径放在工作目录之外），然后在前台启动服务。",
+        "code": "wrsi-server --config /abs/path/wie.config.json --port 8799",
+        "codeLabel": "终端 A · 保持运行",
+        "expected": "服务只监听 127.0.0.1:8799；key_file 不存在时首次启动生成它（权限 0600），之后重启沿用同一个 key。"
+      },
+      {
+        "title": "安装操作台插件",
+        "description": "建议给操作台单独建一个 Profile，只放这一个插件；web 换成实际使用的 Profile。桌面版也可在「插件」→「发现」中找到 workflow-rsi 操作台安装。",
+        "code": "dsh plugin --profile web add @fuxi-ailabs/workflow-rsi-dsh-console@0.1.0-alpha.1",
+        "codeLabel": "终端 B",
+        "expected": "插件出现在该 Profile 的已安装列表中。"
+      },
+      {
+        "title": "配置 key 与 wie",
+        "description": "在该 Profile 的 cordis.patch.yml 里写上服务地址、key 文件和 wie；未知字段在插件加载时报错。",
+        "code": "- id: wrsi-console\n  config:\n    server_url: http://127.0.0.1:8799\n    key_file: /abs/path/wrsi-server.key\n    wie: { argv: [wie], config: /abs/path/wie.config.json }\n    timeout_ms: 30000",
+        "codeLabel": "cordis.patch.yml",
+        "expected": "重新打开该 Profile 后插件加载成功，没有配置错误。"
+      },
+      {
+        "title": "验证连通并查看闭环",
+        "description": "在操作台 Profile 里发送命令；也可以直接问 Agent “workflow-rsi 现在有哪些会话”，它会调用 wrsi_sessions。",
+        "code": "/wrsi status\n/wrsi loop",
+        "codeLabel": "发送给 DSH",
+        "expected": "返回业务名、actor 与服务状态，并列出闭环；服务没启动时工具返回 available: false 与原因，会话照常继续。"
+      }
+    ]
+  },
+  "faq": [
+    {"question": "workflow-rsi 和直接改提示词或 Skill 有什么区别？", "answer": "workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。"},
+    {"question": "操作台会自己改 Workflow 或合入 PR 吗？", "answer": "不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。"},
+    {"question": "闭环停下等人时怎么处理？", "answer": "诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop <loop id> 查看停止原因和诊断结论，再用 /wrsi loop-resume <loop id> <fix|rerun|give-up|merge-done> --confirm 给出决定。"},
+    {"question": "接入一个新的 Workflow 需要准备什么？", "answer": "需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。"},
+    {"question": "插件调用失败，先检查哪里？", "answer": "先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。"},
+    {"question": "评分规则和发布标准由谁来定？", "answer": "只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。"}
+  ],
+  "links": [
+    {"label": "使用文档 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html"},
+    {"label": "工具与命令 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html"},
+    {"label": "错误与写操作 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html"},
+    {"label": "组件与版本 ↗", "url": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html"}
+  ]
+}
