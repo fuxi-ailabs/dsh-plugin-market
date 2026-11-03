@@ -78,6 +78,8 @@ const publicLinks = new Map([['plugins/crowdmemory', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/crowdmemory-pr7-development-20261101',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/pr4-candidate-utility',
 ])], ['plugins/agentlineage', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
