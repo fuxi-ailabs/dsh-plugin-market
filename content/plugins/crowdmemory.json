@@ -93,6 +93,7 @@
     {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。历史测试通过不保证当前修改正确。后端 API 录像和受控构建评测的范围及原始依据见评测与运行依据链接。"}
   ],
   "links":[
+    {"label":"Agent framework 接入 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
     {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
     {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
     {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
