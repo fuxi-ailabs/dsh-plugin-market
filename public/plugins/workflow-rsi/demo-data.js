@@ -10,12 +10,12 @@ window.PLUGIN_DEMO = {
     },
     {
       "type": "text",
-      "title": "为什么只针对 SDE lifecycle",
-      "text": "workflow-rsi 改进的是软件开发生命周期上的静态工作流：从需求、分析、设计、计划到实现、构建与验证，按固定阶段推进，每个阶段有明确的产出和可以自动判定的结果（构建是否通过、测试通过多少、覆盖率多少）。这些结果给出可重复的评测信号，改动可以用测试证明、以 PR 交付、合入后重跑同一任务复核。通用业务流程、客服对话、数据处理等其他类型的工作流，暂不作为改进对象。"
+      "title": "为什么只针对 ToD",
+      "text": "ToD 即 to Developer：workflow-rsi 改进的是面向开发者、替开发者完成开发任务的静态工作流，例如从需求、分析、设计、计划到实现、构建与验证按固定阶段推进的工作流。这类工作流每个阶段都有可以自动判定的结果（构建是否通过、测试通过多少、覆盖率多少），能给出可重复的评测信号；改动可以用测试证明、以 PR 交付、合入后重跑同一任务复核。面向 ToB、ToC 业务的工作流，例如客服对话、业务审批、数据处理，暂不作为改进对象。"
     },
     {
       "type": "code",
-      "title": "一个 SDE lifecycle 静态工作流的结构",
+      "title": "一个 ToD 静态工作流的结构",
       "codeLabel": "阶段与交接（示例中的 Workflow）",
       "code": "generate      准备任务与需求说明\n  ↓\nanalysis      分析代码与依赖\n  ↓\ndesign        设计改动方案\n  ↓\nplan          拆成可执行的步骤\n  ↓\nexecution     实现与构建\n  ↓\nverification  运行测试；失败时由 Repair 决定去向\n                safe_fix          → 有限修复后复测\n                request_redesign  → 交给 Redesign 重新设计\n                no_action         → 结束（no_safe_repair）"
     },
