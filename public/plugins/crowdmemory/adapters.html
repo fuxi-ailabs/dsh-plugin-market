@@ -21,24 +21,39 @@
     <p>Adapter 把宿主的事件和调用转换为 CrowdMemory 接入协议，并把查询结果送回 Agent。更换 framework 时，替换对应 adapter；任务阶段和失败判定继续由自己的工作流提供。</p>
     <h2 id="support">支持状态</h2>
     <div class="table"><table><thead><tr><th>宿主</th><th>状态</th><th>接入范围</th></tr></thead><tbody>
-      <tr><td>DSH</td><td>已发布 0.1.1</td><td>会话与 workflow 事件、工具结果、推送、记忆工具。<a href="index.html#quickstart">安装与验证</a></td></tr>
-      <tr><td>OpenClaude</td><td>源码开发预览</td><td>派子代理前召回、结束前提醒、结束时采集笔记，另提供 JSON bridge。尚未发布 Python 包或完成设备验收。</td></tr>
+      <tr><td>DSH</td><td>npm 0.1.1 已发布</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件，推送与三个记忆工具。<a href="configuration.html">连接与配置</a></td></tr>
+      <tr><td>OpenClaude</td><td>已合入 main，npm 待发布</td><td>Node.js 插件，hooks + MCP；会话、工具结果、压缩、子代理、推送及 memory_search / memory_read / memory_note。没有 L2 workflow / goal 事件。</td></tr>
+      <tr><td>opencode / openJiuwen</td><td>评审中</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9">PR #9</a> 提供 opencode 适配器与 openJiuwen 接入设计；当前 main 尚未包含，不列为已发布支持。</td></tr>
     </tbody></table></div>
-    <p>OpenClaude 预览使用独立 Python 环境与同用户 Runtime，不依赖 DSH；不能直接套用 DSH 的 npm 安装命令。目标 OpenClaude 版本的 hook 合同需验证，Claude Code 兼容性尚未验收。</p>
+    <p>OpenClaude 插件要求 Node.js ≥ 22.18，仓库记录的宿主验证版本为 OpenClaude 0.12.0、0.31.0。它连接同用户的 Runtime，不依赖 DSH、MigBot-Air 或独立 Python adapter；Runtime 仍可使用 npm 0.1.1。Claude Code 兼容性不作已验收承诺。</p>
+    <h2 id="openclaude">在独立目录试用 OpenClaude 插件</h2>
+    <p>npm 发布完成前，从已合入的源码构建并解包使用，无需全局安装插件。先按<a href="configuration.html">配置文档</a>启动 Runtime，再将下方端点路径和项目名替换为自己的值。</p>
+    <pre><code>git clone https://gitcode.com/third-party-library-for-harmony/CrowdMemory.git
+cd CrowdMemory/distributions/memory-adapter-openclaude
+npm install --ignore-scripts --package-lock=false
+npm run build
+npm pack
+mkdir -p plugin
+tar -xzf fuxi-ailabs-crowdmemory-openclaude-plugin-0.1.1.tgz -C plugin
+CROWDMEMORY_ENDPOINT_FILE="/absolute/path/to/runtime/state/endpoint.json" \
+CROWDMEMORY_PROJECT="my-repository" \
+CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 \
+openclaude --plugin-dir "$PWD/plugin/package"</code></pre>
+    <p>会话初始化应显示 MCP 服务 <code>plugin:crowdmemory:memory</code> 已连接，Agent 可调用三个记忆工具。让会话 A 写入 <code>memory_note</code> 并结束，再在会话 B 用 <code>memory_search</code>、<code>memory_read</code> 核对来源。不加 <code>--bare</code>，该选项会跳过插件。持久安装方式和环境变量见<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-openclaude/README.md">OpenClaude 插件指南</a>。</p>
     <h2 id="boundaries">代码放在哪里</h2>
     <ul>
-      <li>CrowdMemory 仓库维护通用 framework adapter、Client 协议映射、开发指南与合同测试。</li>
-      <li>使用方保留自己的任务、阶段、失败事实和调用时机；已有 hooks 的框架通过 JSON bridge 接入，避免重复修改输入。</li>
+      <li>CrowdMemory 仓库维护各 framework adapter；DSH 与 OpenClaude 共用适配器核心，包括 Runtime 客户端、错误签名、脱敏、推送包装、记忆工具与协议快照。</li>
+      <li>使用方保留自己的任务、阶段、失败事实和门禁。MigBot-Air 是使用方，通用插件不依赖其代码或迁移流程。</li>
       <li>Runtime 管理记忆存储、召回、来源与信任。Adapter 不替使用方判断任务成功。</li>
     </ul>
     <h2 id="guides">源码与开发指南</h2>
-    <p>开发预览的指南和独立安装步骤见下方源码链接。当前没有可安装的 OpenClaude npm 插件，也不应尝试安装尚未发布的 Python 包名。</p>
+    <p>公共核心是仓库内的唯一源码，由同步脚本拷入各 adapter 再独立构建；不作为额外运行时依赖发布。新增 adapter 只实现宿主事件到规范事件的转换。</p>
     <ul>
-      <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/codex%2Fopenclaude-adapter">CrowdMemory adapter 分支与开发指南</a>：docs/crowdmemory/adapters.md、distributions/memory-adapter-openclaude/README.md。</li>
-      <li><a href="https://gitcode.com/third-party-library-for-harmony/MigBot-Air/tree/codex%2Fcrowdmemory-openclaude">MigBot-Air 工作流接入预览</a>：docs/crowdmemory-integration.md；显式开启，保留原工作流门禁与原始笔记留档。</li>
+      <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapters.md">Framework adapter 开发指南</a>：协议、事件映射、职责与验收要求。</li>
+      <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-core/README.md">适配器公共核心</a>：在该目录用 <code>npm run update</code> 下发公共改动并测试；用 <code>npm run adopt -- &lt;adapter&gt;</code> 收回副本修改。脚本不提交、不发布。</li>
     </ul>
-    <p>实现评审：<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8">CrowdMemory #8</a> · <a href="https://gitcode.com/third-party-library-for-harmony/MigBot-Air/pull/429">MigBot-Air #429</a>。合并和发布前，OpenClaude 相关接入均为源码预览。</p>
-    <p>当前验证范围是合同测试、真实 Unix socket 上的笔记写入与跨会话读取、工作流 JSON 往返及异常降级。完整模型任务与生产设备验收需单独记录。</p>
+    <p>已合入：<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8">#8 OpenClaude 插件</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10">#10 公共核心</a>。源码合入与 npm 发布是两个状态。</p>
+    <p>仓库记录了真实 OpenClaude CLI 的 L0 e2e，覆盖脚本化模型、真实 Runtime、跨会话召回、子代理、压缩和异常降级，并有真实模型一轮验证；这不等同于生产设备验收或普遍的收益证明。评测数据与适配器验收分别见<a href="evaluation.html">评测与公开数据</a>和上述源码指南。</p>
     <p><a href="index.html">返回 Crowd Memory 介绍与安装</a></p>
   </article>
 </main>
