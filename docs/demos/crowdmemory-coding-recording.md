@@ -36,6 +36,12 @@ A、D 在额外回归阶段达到 600 秒时限；指定接口测试的独立复
 
 记忆记录的终局标记为 unknown，页面没有将其改写成自动核验通过或 trusted。独立测试结果与终局信任标记分别记录。本演示只覆盖同一后端共享 Handler 的不同入口和本机跨 session 复用，不外推到无关实现、跨机器团队或生产场景。
 
+### HTTP 连接边界复核
+
+针对 PR #41 对 B 补丁的审查意见，补充了独立检查 [check-framing.py](four-session/check-framing.py) 与 [输出](four-session/framing-check.json)。这项检查在录像之后运行，不属于 Agent 当时执行的测试，也不改变原始补丁或原有测试计数。使用录像 B 的隔离 Python 环境执行 `python check-framing.py /path/to/off-follower`，脚本以同一次 socket 写入发送非法 Content-Length 的 POST 和后续 GET，两者均声明 HTTP/1.1、Connection: keep-alive。
+
+实测只收到一次 `HTTP/1.0 400 Bad Request`，错误码为 `invalid_content_length`，随后 EOF，没有执行第二个请求。该 Handler 继承 `BaseHTTPRequestHandler`，未覆盖默认的 `protocol_version = "HTTP/1.0"`；客户端请求 HTTP/1.1 不会使此实现启用连接复用。因此评论所述的 keep-alive 前提不适用于录像代码。若以后启用 HTTP/1.1，非法帧长后应显式关闭连接，不能把直接读取 socket 的排空逻辑当作可靠的请求边界处理。公开补丁用于还原 Agent 输出，不作为生产级 HTTP framing 修复推荐。
+
 ## 画面与编码
 
 成片为 3840×2160、30 fps、54 秒的 H.264，使用 yuv420p 和 faststart。十二段原生 1920×920 浏览器录像按三个阶段组合为四分屏；浏览器文字放大显示、侧栏收起，未放大低分辨率视频。所有请求、工具卡片、代码、读取内容和测试结果均为真实 DSH 画面；标签板只标注四个 Agent 的位置与角色。
