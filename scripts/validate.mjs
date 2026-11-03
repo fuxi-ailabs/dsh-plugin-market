@@ -42,6 +42,8 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'guide.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
   'assets/rsi-loop.jpg', 'assets/before-run-stop.jpg', 'assets/after-loop-pr.jpg',
+  'assets/console-plugins.jpg', 'assets/console-agent.jpg', 'assets/console-commands.jpg',
+  'assets/console-demo.mp4', 'assets/console-demo-poster.jpg', 'assets/console-demo-zh.vtt',
 ])], ['plugins/ecat', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-without-plugin.jpg', 'assets/after-with-plugin.jpg', 'assets/hero-loop.jpg',

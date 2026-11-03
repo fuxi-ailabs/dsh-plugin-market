@@ -71,6 +71,27 @@ window.PLUGIN_DEMO = {
       "code": "/wrsi loop \u003cloop id>\n/wrsi loop-resume \u003cloop id> fix --confirm"
     },
     {
+      "type": "image",
+      "title": "安装后：插件页出现操作台",
+      "src": "assets/console-plugins.jpg",
+      "alt": "DSH 网页端「插件」页，已安装 workflow-rsi-dsh-console 并启用。",
+      "caption": "真实截图：DSH 0.1.6-alpha.2 网页端，dsh plugin add 安装的 @fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1。"
+    },
+    {
+      "type": "image",
+      "title": "向 Agent 提问，它调用只读工具",
+      "src": "assets/console-agent.jpg",
+      "alt": "DSH 会话中 Agent 调用 wrsi_loop_status，再按状态汇总 11 个闭环。",
+      "caption": "真实截图：Agent 调用 wrsi_loop_status，按真实闭环账本回答每个闭环的状态和停止原因。"
+    },
+    {
+      "type": "image",
+      "title": "/wrsi 命令：查看闭环，写操作先确认",
+      "src": "assets/console-commands.jpg",
+      "alt": "/wrsi status 与 /wrsi loop 的返回，以及 /wrsi loop-resume 不带 --confirm 时的 Not run 提示。",
+      "caption": "真实截图：/wrsi status、/wrsi loop \u003cloop id> 返回原始数据；/wrsi loop-resume 不带 --confirm 时只显示将要执行的操作。"
+    },
+    {
       "type": "list",
       "title": "闭环停下时人可以给出的决定",
       "items": [
@@ -83,5 +104,12 @@ window.PLUGIN_DEMO = {
     }
   ],
   "note": "事件为真实闭环账本的原始记录，按时间排版。",
-  "prompt": "/wrsi status\n/wrsi loop"
+  "prompt": "/wrsi status\n/wrsi loop",
+  "video": {
+    "title": "安装并在 DSH 操作台查看闭环",
+    "description": "前半段是安装：从 npm 装本体和操作台插件、启动 wrsi-server、写配置；后半段是 DSH 网页端的真实录屏：插件页、Agent 调用只读工具回答闭环状态、/wrsi status、/wrsi loop、不带 --confirm 的 /wrsi loop-resume。终端画面按实际命令输出与时间回放，服务 key 与网页 token 已打码；等待模型回答的部分 6 倍速。闭环数据是真实闭环账本的副本，由单独启动的 wrsi-server 提供。",
+    "src": "assets/console-demo.mp4",
+    "poster": "assets/console-demo-poster.jpg",
+    "captions": "assets/console-demo-zh.vtt"
+  }
 };
