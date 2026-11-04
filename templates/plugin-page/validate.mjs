@@ -8,6 +8,10 @@ export function validateContent(p) {
   if (!/^[a-z0-9-]+$/.test(p.slug)) throw new Error('Invalid plugin slug');
   for (const key of ['name','version','compatibility','description']) requireText(p[key], key);
   for (const key of ['code','codeLabel','note']) requireText(p.install?.[key], `install.${key}`);
+  if (p.install.guide) {
+    requireText(p.install.guide.label, 'install.guide.label');
+    if (!/^[a-z0-9-]+\.html(?:#[a-z0-9-]+)?$/.test(p.install.guide.url)) throw new Error('Install guide must be a local documentation page');
+  }
   for (const key of ['headline']) {
     requireList(p[key], key, 2); p[key].forEach(v => requireText(v, key));
   }

@@ -136,19 +136,22 @@
     "A exceeded the prompted 16-tool limit; actual call counts and execution times are disclosed only as provenance, not efficacy metrics.",
     "The host has older libpng 1.6.43 headers in /usr/local/include; header precedence fix is environment-specific.",
     "Record terminal outcome remains unknown; independent functional test results do not upgrade it to trusted.",
-    "Synthetic Mandarin narration is generated once as a continuous track over recorded tool results; seven visual scenes do not splice the voice or add inter-scene pauses. This is not live Agent audio."
+    "Synthetic Mandarin narration is generated once as a continuous track over recorded tool results and supplemental configuration views; nine visual scenes do not splice the voice or add inter-scene pauses. This is not live Agent audio."
   ],
   "presentation_capture": {
-    "duration_seconds": 76.467,
-    "container_duration_seconds": 76.467,
+    "duration_seconds": 94.2,
+    "poster_time_seconds": 20.733,
+    "container_duration_seconds": 94.2,
     "fps": 30,
     "width": 3840,
     "height": 2160,
     "captions_burned_in": true,
-    "caption_count": 16,
+    "caption_count": 19,
     "font_name": "STHeiti Medium.ttc",
     "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
     "source_capture_sha256": {
+      "config_doc.webm": "sha256:4e97ac4caa8fb5e3a30e44dc338132957fc443aa68ede9ee64115d57e7cf6728",
+      "config_loaded.webm": "sha256:0b8ddf30d823a378c698203956b6202638a985e9d370d92e48d31c552dea09cf",
       "a-2.webm": "sha256:29b07aa7b213124d5f441a555f879e536b8fb2ac80604e3f780e5d1706f9ff7e",
       "b-2.webm": "sha256:b290640050582c2770d1c8c513d6e9b1ca98dd4998a1f71b49ff9bc1f91a8eaa",
       "a_failure.webm": "sha256:0f31a0f7a96419bd9a5fd2cbe10ac9ef6ae29a2e23552cca1ba4a6bd51e40772",
@@ -161,61 +164,90 @@
     },
     "scenes": [
       {
-        "id": "overview",
+        "id": "config_doc",
         "start_seconds": 0,
+        "duration_seconds": 11.533,
+        "label": "接入配置 · 端点与项目标识"
+      },
+      {
+        "id": "config_loaded",
+        "start_seconds": 11.533,
+        "duration_seconds": 6.2,
+        "label": "DSH · 确认适配器已加载"
+      },
+      {
+        "id": "overview",
+        "start_seconds": 17.733,
         "duration_seconds": 9.133,
         "label": "libpng 接入：两个 Agent 共享构建经验"
       },
       {
         "id": "a_failure",
-        "start_seconds": 9.133,
+        "start_seconds": 26.867,
         "duration_seconds": 11.8,
         "label": "Agent A · 先复现构建失败"
       },
       {
         "id": "a_verified",
-        "start_seconds": 20.933,
+        "start_seconds": 38.667,
         "duration_seconds": 12.567,
         "label": "Agent A · 修复配置，验证读取结果"
       },
       {
         "id": "a_note",
-        "start_seconds": 33.5,
+        "start_seconds": 51.233,
         "duration_seconds": 9.967,
         "label": "Agent A · 把实际修法记下来"
       },
       {
         "id": "b_read",
-        "start_seconds": 43.467,
+        "start_seconds": 61.2,
         "duration_seconds": 12.433,
         "label": "Agent B · 读取同一条来源记录"
       },
       {
         "id": "b_verified",
-        "start_seconds": 55.9,
-        "duration_seconds": 10.0,
+        "start_seconds": 73.633,
+        "duration_seconds": 9.967,
         "label": "Agent B · 在当前工程重新验证"
       },
       {
         "id": "closing",
-        "start_seconds": 65.9,
-        "duration_seconds": 10.567,
+        "start_seconds": 83.6,
+        "duration_seconds": 10.6,
         "label": "一个 Agent 的经验，供后续 Agent 核对与复用"
       }
     ],
+    "supplemental_capture": {
+      "recorded_at": "2026-11-05",
+      "views": [
+        "config_doc",
+        "config_loaded"
+      ],
+      "configuration_document": "configuration.html#override",
+      "configuration_document_sha256": "sha256:7d7ca0dfcff9580b0d8760ed555f0c7370025fdcda441bc3761723d3c5e465a4",
+      "loaded_state": {
+        "module": "@fuxi-ailabs/crowdmemory-dsh-adapter",
+        "configuration": "Enabled",
+        "status": "Running"
+      },
+      "scope": "Public configuration instructions and actual DSH plugin loaded state, not an editable form or endpoint connectivity assertion. No model task executed; original task captures and read receipt remain from 2026-11-04."
+    },
     "native_browser_pixels": true,
     "low_resolution_upscaling": false,
     "synchronized_elapsed_time": false,
     "browser_text_zoom": {
       "two_agent": 2,
-      "focus": 3
+      "focus": 3,
+      "config_doc": 2,
+      "config_loaded": 2.5
     }
   },
   "assets": {
-    "coding-agent-demo.mp4": "sha256:941b8db029e2967b15d6c039461b92781b6475c08e89dcf2f7031e3f7fd4054a",
-    "coding-agent-poster.jpg": "sha256:5610d25cf864b2003b19227766ad436e0300a6124b26ee4dc2f39a4f3c796c27",
-    "coding-agent-zh.vtt": "sha256:5818066516ae6000385b25b65ad8b15f7d811fe6a468c3448071a3b00d940ef9",
-    "coding-memory.jpg": "sha256:5610d25cf864b2003b19227766ad436e0300a6124b26ee4dc2f39a4f3c796c27",
+    "coding-agent-demo.mp4": "sha256:898e3f8ad433129514bdc0e3e85d7c66e61dd09bfe8e425bc342f34a919d1d89",
+    "coding-agent-poster.jpg": "sha256:de23567c807dc6e69d62e9b777a6e4833345bcde2baec983340c149770880fe8",
+    "coding-agent-zh.vtt": "sha256:a7ae03ee037102683f45762a1f41450e46ce52450a50fa8635c15b0a6a8427f5",
+    "coding-memory.jpg": "sha256:de23567c807dc6e69d62e9b777a6e4833345bcde2baec983340c149770880fe8",
     "libpng-before.jpg": "sha256:20cab20414c19598d0fb454f6ec9eb95fd4b7f945c5fadfe3a0e4bc3aa6111f1",
     "libpng-after.jpg": "sha256:a1cf813bf8ca69391809df62f749ee979900a70275369238fe86e3373050320d"
   },
@@ -290,14 +322,14 @@
     "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP",
     "generator": "edge-tts 7.3.1",
     "measured_audio": {
-      "integrated_lufs": -18.78,
-      "true_peak_dbtp": -1.41,
+      "integrated_lufs": -18.75,
+      "true_peak_dbtp": -1.43,
       "measurement": "ffmpeg loudnorm analysis of final AAC decode"
     },
-    "script_sha256": "sha256:e1a4c78235207260e63f971a29e93341b92feee2a34b73a20fcdbace0871d71f",
+    "script_sha256": "sha256:d0d1861a8a10c51910fccd360388551ec0127333c40f642687c7b2bdd610b2b5",
     "source_audio_sha256": {
-      "narration.mp3": "sha256:855b3dbe661ec54089b9c48696d98aba7fa44836b338bfd3bf55be363a11616e"
+      "narration.mp3": "sha256:b1125e9560999450a22717c48282b2de6241c5d13e6878f098aa0733942abe2b"
     },
-    "encoding_metadata_sha256": "sha256:90c580ecf491bed1b4db3dbf3da6c6100f53a39bd25f9dc1b0798bd304a778df"
+    "encoding_metadata_sha256": "sha256:fdd56b31962fe30a9d590f8ed2362548477bd34da7958543d532b4d4d203e575"
   }
 }

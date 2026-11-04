@@ -7,8 +7,9 @@
   "headline": ["Coding Agent", "群体记忆"],
   "install": {
     "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1",
-    "codeLabel": "终端 · 安装 Crowd Memory",
-    "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。"
+    "codeLabel": "终端 · DSH 适配器",
+    "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。其他 Agent 请按接入指南安装。",
+    "guide": {"label":"选择 Agent 接入方式 →","url":"adapters.html"}
   },
   "heroMedia": {
     "image": "assets/coding-memory.jpg",
@@ -48,7 +49,7 @@
     "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
     "video": {
       "title": "两个 Agent，一份可核对的 libpng 构建经验",
-      "description": "约 77 秒中文配音讲解，字幕已嵌入画面，建议全屏观看。双屏交代两个 Agent 的关系，讲到关键步骤时切换放大查看；Runtime 与适配器均为 0.1.1。",
+      "description": "约 94 秒中文配音讲解：先看 DSH 适配器配置说明与实际加载状态，再看两个 Agent 复用 libpng 构建经验。字幕已嵌入画面，建议全屏观看；Runtime 与适配器均为 0.1.1。",
       "src": "assets/coding-agent-demo.mp4",
       "poster": "assets/coding-agent-poster.jpg",
       "captions": "assets/coding-agent-zh.vtt",
@@ -77,7 +78,8 @@
     {"title":"配置与验证","description":"DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。"}
   ],
   "quickstart": {
-    "title":"安装与验证",
+    "title":"DSH 安装与验证",
+    "description":"以下是视频中的 DSH 接入步骤。OpenClaude、opencode 和 Codex 的安装方式见 Agent 接入指南。",
     "steps":[
       {"title":"检查环境","description":"确认 Node.js、Python 和 DSH 满足上面的条件。","code":"node --version\npython3 --version\ndsh --version","codeLabel":"终端","expected":"Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。"},
       {"title":"本地安装 Runtime","description":"在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。","code":"mkdir -p CMLocal && cd CMLocal\nnpm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1\nnpx --no-install crowdmemory-runtime install --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A","expected":"安装输出包含 Runtime 目录、Python 环境及 host-config.json。"},
@@ -94,8 +96,8 @@
     {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。历史测试通过不保证当前修改正确。libpng 接入录像与受控评测的范围及原始依据见评测与运行依据链接。"}
   ],
   "links":[
-    {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
-    {"label":"Agent framework 接入 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
+    {"label":"Agent 接入文档 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
+    {"label":"DSH 连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
     {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
     {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
     {"label":"coding 录像运行依据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json"}

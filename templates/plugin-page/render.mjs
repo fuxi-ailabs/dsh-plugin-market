@@ -50,7 +50,7 @@ export function renderPage(p, {preview = false} = {}) {
         <div class="plugin-name">${e(p.name)} <span class="version">v${e(p.version)}</span></div>
         <h1 id="page-title">${p.headline.map((line, i) => `<span${i ? ' class="accent"' : ''}>${e(line)}</span>`).join('')}</h1>
         <p class="lede">${e(p.description)}</p>
-        <div class="hero-install" aria-label="安装命令">${code(p.install.code, p.install.codeLabel)}<p>${e(p.install.note)} <a href="#quickstart">安装步骤 ↓</a></p></div>
+        <div class="hero-install" aria-label="安装命令">${code(p.install.code, p.install.codeLabel)}<p>${e(p.install.note)} <a href="${e(p.install.guide?.url || '#quickstart')}">${e(p.install.guide?.label || '安装步骤 ↓')}</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
         <p class="compatibility">${e(p.compatibility)}</p>
         <p class="requirements-link">${e(p.requirements.summary)} <a href="#details">使用条件 ↓</a></p>

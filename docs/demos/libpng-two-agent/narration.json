@@ -6,6 +6,18 @@
   "type": "synthetic_narration",
   "scenes": [
     {
+      "id": "config_doc",
+      "view": "config_doc",
+      "label": "接入配置 · 端点与项目标识",
+      "speech": "先把适配器接上。这里是 DSH 的配置说明，把本机记忆服务的端点和项目名写进 Profile，Agent 就通过它读取和记录经验。"
+    },
+    {
+      "id": "config_loaded",
+      "view": "config_loaded",
+      "label": "DSH · 确认适配器已加载",
+      "speech": "回到 DSH，在插件列表里确认 CrowdMemory 已经加载，再开始任务。"
+    },
+    {
       "id": "overview",
       "view": "two_agents",
       "label": "libpng 接入：两个 Agent 共享构建经验",

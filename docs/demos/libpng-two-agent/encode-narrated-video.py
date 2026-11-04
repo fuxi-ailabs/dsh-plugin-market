@@ -1,7 +1,7 @@
 """Encode a narrated walkthrough from native browser captures and TTS output.
 
 Usage: python encode-narrated-video.py FOCUS ORIGINAL AUDIO ASSETS [--font FONT]
-FOCUS: five native 3840x1920 WebM files named for narration views.
+FOCUS: native 3840x1920 WebM files named for narration views.
 ORIGINAL: native 1920x1920 a-2/b-2/a-3/b-3 clips for two-Agent overview/end.
 AUDIO: one continuous narration.mp3 and narration.srt from narration.json.
 Requires Pillow, ffmpeg and ffprobe. All input validation precedes replacement.
@@ -200,7 +200,8 @@ def encode(args):
             "-af", f"loudnorm=I=-16:LRA=11:TP=-1.5,aresample=48000,apad,atrim=duration={elapsed}",
             "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(video)], check=True)
         poster = stage / "coding-agent-poster.jpg"
-        subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-ss", "3", "-i", str(video),
+        poster_time = next(s["start"] for s in scenes if s["id"] == "overview") + 3
+        subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-ss", str(poster_time), "-i", str(video),
                         "-frames:v", "1", "-q:v", "2", str(poster)], check=True)
         representative = stage / "coding-memory.jpg"
         shutil.copyfile(poster, representative)
@@ -208,6 +209,7 @@ def encode(args):
         vtt.write_text("WEBVTT\n\n" + "\n\n".join(
             f"{timestamp(c['start'])} --> {timestamp(c['end'])}\n{c['text']}" for c in timeline) + "\n")
         metadata = {"duration_seconds":round(elapsed,3),
+            "poster_time_seconds":round(poster_time,3),
             "container_duration_seconds":round(float(probe(video)["format"]["duration"]),3),
             "fps":FPS,"width":3840,"height":2160,
             "narration":{"voice":spec["voice"],"rate":spec["rate"],"type":spec["type"],
