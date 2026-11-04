@@ -38,6 +38,7 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
   'assets/crowdmemory-demo-zh.vtt', 'assets/demo-evidence.json',
   'assets/coding-memory.jpg', 'assets/coding-agent-demo.mp4',
   'assets/coding-agent-poster.jpg', 'assets/coding-agent-zh.vtt', 'assets/coding-evidence.json',
+  'assets/libpng-before.jpg', 'assets/libpng-after.jpg',
 ])], ['plugins/workflow-rsi', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'guide.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',

@@ -1,218 +1,206 @@
 {
-  "schema": "crowdmemory-four-session-demo/v1",
-  "kind": "qualitative-workflow-demonstration",
-  "source": {
-    "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
-    "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
-    "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-    "snapshot_archive_sha256": "sha256:34d2a2a86885b282e712059c90af87e5a1b1843a0e67dda6abdeb73e701c4d98"
-  },
-  "versions": {
+  "schema": "crowdmemory-libpng-two-agent-demo/v1",
+  "recorded_at": "2026-11-04",
+  "environment": {
+    "platform": "macOS arm64",
     "dsh": "0.1.6-alpha.2",
-    "adapter": "0.1.1",
     "runtime": "0.1.1",
-    "requested_model": "claude-sonnet-4-6"
+    "adapter": "0.1.1",
+    "model_requested": "claude-sonnet-4-6",
+    "provider_identity_independently_verified": false,
+    "libpng": "1.6.59",
+    "cmake": "cmake version 4.2.1",
+    "compiler": "Apple clang version 17.0.0 (clang-1700.4.4.1)",
+    "libpng_dylib_sha256": "sha256:ec95a41f112fac5e0b077f129bccc67acf9b5ad1a01f56cc0ecebae2a8727ff2"
   },
-  "model_identity_note": "relay request alias; underlying provider identity not independently verified",
-  "layout": {
-    "top_left": "a",
-    "bottom_left": "b",
-    "top_right": "c",
-    "bottom_right": "d"
-  },
-  "actors": {
-    "a": {
-      "session_id": "session-a28e364d-f6aa-4c94-85eb-62d3f61b8039",
-      "workspace": "off-origin",
-      "memory_enabled": false,
-      "task_method": "GET",
-      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "final_source_sha256": "sha256:fd5da41e6d302e8905b409f9c1a316bb59a2dc000188fd768e574bed45313f76",
-      "test_sha256": "sha256:09af2484ebbc94cb809e93aaa5a8495aa43791194c0aba89bfc0f9c713f6b071",
-      "patch_sha256": "sha256:2d33845aea71e80c98ca41aef9686946941a85509c627381416a2af782fd01e8",
-      "raw_stream_sha256": "sha256:1994e48cdc53b0f97e63b330f21bee09ec063810a6107c60f4c69ddd12729478",
-      "stop_reason": "time_budget",
-      "provider_error": null,
-      "required_tests_before": {
-        "exit_code": 1,
-        "summary": "2 failed, 5 passed in 6.11s"
-      },
-      "required_tests_after": {
+  "actors": [
+    {
+      "agent": "agent-a",
+      "task": "info",
+      "session_ref": "session-d7726e40-18cf-4f27-840d-7b77ddca6c0e",
+      "execution": {
         "exit_code": 0,
-        "summary": "7 passed in 6.00s"
+        "stop": "exited",
+        "elapsed_seconds": 307.14
       },
-      "memory_tools": [],
-      "tools_observed": 34,
-      "tool_results": 33
-    },
-    "b": {
-      "session_id": "session-5f2f6bdf-5c27-41c1-ab12-20a521b64acc",
-      "workspace": "off-follower",
-      "memory_enabled": false,
-      "task_method": "POST",
-      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "final_source_sha256": "sha256:ad78a527f75ef225ce20a788770d055020429670f4df1ed2df0835054fb1becc",
-      "test_sha256": "sha256:9aee79ba83714e8fbe2ef91b66093110e1eb97ab633da2b99ef681a4e1ff89cb",
-      "patch_sha256": "sha256:998a2db6d8660f9fc125bfef6d29bb218befdd9709da5a566fe4cee988d5a94c",
-      "raw_stream_sha256": "sha256:43ed695520d345c3321cc78a5693cf84ffedc56b1e81c9ae88d4e688fd90a271",
-      "stop_reason": "final",
-      "provider_error": null,
-      "required_tests_before": {
-        "exit_code": 1,
-        "summary": "3 failed, 4 passed in 6.06s"
-      },
-      "required_tests_after": {
-        "exit_code": 0,
-        "summary": "7 passed in 6.24s"
-      },
-      "memory_tools": [],
-      "tools_observed": 45,
-      "tool_results": 45
-    },
-    "c": {
-      "session_id": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
-      "workspace": "on-origin",
-      "memory_enabled": true,
-      "task_method": "GET",
-      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "final_source_sha256": "sha256:71cc479f5146700d1d3292d85242302a000ae16172a0cc52fd0fba9b6d701fd5",
-      "test_sha256": "sha256:e41ef67de57d271bd47457116073b4077fde30340d1fc0c5fadb49ce7a772353",
-      "patch_sha256": "sha256:59002ad4274b402a53f3257f191bf00292ddf7c27b6fb86a10ed42ccb295d078",
-      "raw_stream_sha256": "sha256:d8d32d0f0336c28bd6dcaf3367dd61e1db34da7d0b0335dd58a9427afa284523",
-      "stop_reason": "final",
-      "provider_error": null,
-      "required_tests_before": {
-        "exit_code": 1,
-        "summary": "1 failed, 3 passed in 3.58s"
-      },
-      "required_tests_after": {
-        "exit_code": 0,
-        "summary": "4 passed in 3.71s"
-      },
-      "memory_tools": [
-        "memory_note"
+      "raw_stream_sha256": "sha256:2e40ca906d37ea002b6ae7bb3b67ed194e10b9b03637981f89c0914610bc8f55",
+      "tool_calls": 29,
+      "changed_files": [
+        "info/CMakeLists.txt"
       ],
-      "tools_observed": 36,
-      "tool_results": 36
+      "fixed_cmake_sha256": "sha256:52927cdef498eaf6ec5c3d5a37d0909f00bfa65cccaff1dc2493572edd1b5092",
+      "verification": {
+        "before": {
+          "command_exit_codes": [
+            0,
+            2
+          ],
+          "output_sha256": "sha256:54c1f3c09786b4bb1c50a05f1b4ed9d3936390b761aa4e16cf652cc75d50d710"
+        },
+        "after": {
+          "command_exit_codes": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "output_sha256": "sha256:167c91870d6da1becf5af4356f6ff2611025ba22c3b9cf8cf6f363a7d0b9ebd2"
+        }
+      }
     },
-    "d": {
-      "session_id": "session-9fd54db7-7240-4bea-9c27-fe8e69b9a442",
-      "workspace": "on-follower",
-      "memory_enabled": true,
-      "task_method": "POST",
-      "original_source_sha256": "sha256:70df990d046846cc210a3ef35fef7be6c0f50647634e61fae10bcc8b98e711cf",
-      "final_source_sha256": "sha256:9af2713cb35c01165b18939ac4724ba91d22236f8655ec52ff6f21e982673868",
-      "test_sha256": "sha256:c39943981b7b893c9c2fa8a3d50619a70b864a8df041864cbc31dfcac8b03002",
-      "patch_sha256": "sha256:b6ce8aeace30f39f90517bf38067cf8e1806847cee5c89c8a8b665f40982e7e5",
-      "raw_stream_sha256": "sha256:09330cca3951b182ef64a1c15fe3eb4cff13454c477c925b6f91d5550534a286",
-      "stop_reason": "time_budget",
-      "provider_error": null,
-      "required_tests_before": {
-        "exit_code": 1,
-        "summary": "1 failed, 4 passed in 4.45s"
-      },
-      "required_tests_after": {
+    {
+      "agent": "agent-b",
+      "task": "roundtrip",
+      "session_ref": "session-95942b6d-e6b4-4103-aa90-0dcbcfc44446",
+      "execution": {
         "exit_code": 0,
-        "summary": "5 passed in 4.34s"
+        "stop": "exited",
+        "elapsed_seconds": 137.06
       },
-      "memory_tools": [
-        "memory_search",
-        "memory_read"
+      "raw_stream_sha256": "sha256:62d16eaedcb1dd171cd9bff8b800252ef6e14276ca019abb716b8b248f3fccfe",
+      "tool_calls": 11,
+      "changed_files": [
+        "roundtrip/CMakeLists.txt"
       ],
-      "tools_observed": 45,
-      "tool_results": 44
+      "fixed_cmake_sha256": "sha256:6175e9894d9e662a8eabf994018bb0f24d4f2c070f9108cf268139812f39d978",
+      "verification": {
+        "before": {
+          "command_exit_codes": [
+            0,
+            2
+          ],
+          "output_sha256": "sha256:258b40002e9a1c42d1bfeb707bdc28549159f780af984b3853e10709909b06fe"
+        },
+        "after": {
+          "command_exit_codes": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "output_sha256": "sha256:c31d672a1d3bee9ace88ddbbfb83bfe097f8ab77d1df23e15157e7f190348c79"
+        }
+      }
     }
+  ],
+  "fixture_sha256": {
+    "generate-fixture.py": "sha256:38210ffb3883d7b6c117df79c152abbf930dfc26ee55f96585ba945d1c01e1fa",
+    "roundtrip/CMakeLists.txt": "sha256:154e7f74c8c0461ddb978faaeb7f67ceee0b377752009736d5fef55273305c84",
+    "roundtrip/main.c": "sha256:5a5527203a5ab7efaffc83e5990cd8db6ea6da121211dda42bc25a2bae30db2a",
+    "info/CMakeLists.txt": "sha256:9c7c4c910a359d299e56e5d4642c138198e114c3f93205976b8196822a747ab1",
+    "info/main.c": "sha256:740161edd9633f778752fd1b9b9279df59739e85b91da7a54d80dd8bd4f3dfd7",
+    "fixtures/sample.png": "sha256:9ccfc2abaa3984dc34c93aee16be0afa8a5e1395f25492b3df67897e6d00df10"
   },
-  "record": {
-    "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
-    "origin_session_ref": "session-415ba89a-47fa-4805-9e8a-0429e665b178",
-    "project": "on-origin",
+  "operator_recovery": {
+    "prompt": "继续当前任务。操作人员核对了 Runtime 契约：topic_key 必须是 family/description，仅一个斜杠，例如 libpng/cmake-link-target。此前给你的 libpng/cmake/link-target 不合法，这是任务准备时的参数错误。不要再猜格式或重跑修复；使用已经实测的内容，调用 memory_note，scope=global，topic_key=libpng/cmake-link-target，保留实际环境条件。成功后简短总结。",
+    "execution": {
+      "exit_code": 0,
+      "stop": "exited",
+      "elapsed_seconds": 39.56
+    },
+    "raw_stream_sha256": "sha256:82347d7ef0873983335aed730feb307a2712bd76570526c91a82946a20e77be6",
+    "description": "Original A saved revision 1 after invalid-topic retries and exited normally. Operator resumed the same Agent to correct the originally supplied invalid topic format; A saved revision 2. B read revision 2."
+  },
+  "memory": {
+    "record_ref": "lr_01a1a5fe4bee72e59f8b6dddd23f7108",
+    "project": "agent-a",
+    "topic_key": "libpng/cmake-link-target",
+    "title": "CMake 接 libpng：只加 PNG_INCLUDE_DIRS 不链接 PNG::PNG 会缺 png_image_* 符号",
     "scope": "global",
-    "title": "HTTP Content-Length 非数字导致 BaseHTTPRequestHandler 断连：需在读取前解析并回结构化 400",
+    "revision": 2,
+    "origin_session_ref": "session-d7726e40-18cf-4f27-840d-7b77ddca6c0e",
     "recorded_outcome": "unknown",
     "content": {
-      "evidence_refs": [
-        "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-        "tests/test_http_length_demo.py",
-        "tests/test_crowdmemory_ingress_uds.py"
-      ],
+      "evidence_refs": [],
       "files": [],
-      "learned": "HTTP 校验规则：Content-Length 解析必须有明确分支——缺失或空白视为 0，仅接受十进制整数（int(str.strip()) 会拒绝 'abc'/'1e3'/'3.0'），非法值回 400 且 error.code=invalid_content_length（区别于 invalid_json 这类 body 缺陷），负数与超 MAX_MESSAGE_BYTES 保持原 413 request_too_large 分支不变。额外要点：长度不可解析意味着消息边界不可判定，按 RFC 7230 §3.3.3 应先置 self.close_connection = True 再回 400，否则 socket 缓冲区里残留的字节可能被当作下一条请求（请求走私类错位）。测试须启动真实服务并经 Unix socket 发裸 HTTP，不能 mock Handler，否则 framing 层根本没被执行；断言除状态码外还要覆盖「后续请求仍成功」和「服务端 stderr 无 Traceback」，并用 socket.shutdown(SHUT_WR) 半关闭避免服务端等 body 时测试挂住。验证结果：新增测试修复前失败（response=b''，断言 server closed the connection without writing any HTTP response），修复后 1 passed；既有 tests/test_crowdmemory_ingress_uds.py 3 passed；合并 117 passed；git diff --check exit=0。",
+      "learned": "实际失败符号：_png_image_begin_read_from_file、_png_image_finish_read、_png_image_free（ld: symbol(s) not found for architecture arm64）。它们是 libpng16 简化 API，必须有实体库提供实现。修复两处：(1) target_link_libraries(png_info PRIVATE PNG::PNG)；(2) set(CMAKE_NO_SYSTEM_FROM_IMPORTED ON)，让 PNG::PNG 的包含目录以 -I 而非 -isystem 传递，从而压过 /usr/local/include 中的旧头文件。核对命令：grep C_INCLUDES build/<dir>/CMakeFiles/<t>.dir/flags.make（应为 -I/opt/homebrew/opt/libpng/include，而非 -isystem）；cat 同目录 link.txt（应出现 /opt/homebrew/opt/libpng/lib/libpng.dylib 与 libz）；otool -L 二进制确认加载 libpng16.16.dylib；直接运行确认打印的 PNG_LIBPNG_VER_STRING 与 dylib 版本一致（修复前打印 1.6.43、实际 dylib 1.6.59，属头/库不一致）。配置命令：cmake -S <任务目录> -B build/<任务目录> -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/libpng；验证：cmake --build build/<任务目录> 与 ctest --test-dir build/<任务目录> --output-on-failure。实测环境：macOS arm64、AppleClang 17、CMake 4.2.1、Homebrew libpng 1.6.59（/opt/homebrew/Cellar/libpng/1.6.59），冲突头文件 /usr/local/include/png.h -> Cellar/libpng/1.6.43。适用条件：CMake >= 3.20 的 FindPNG 模块 + Homebrew 安装的 libpng。此结论只在本工程实测成立，换到新工程必须重新验证，尤其要复查是否也存在 -isystem 导致的头文件抢占（若 /usr/local/include 无旧 png.h，则第二步可能不必要）。本机 /opt/homebrew/Cellar/libpng 已被替换为 1.6.59，1.6.43 仅作为 /usr/local/include 的悬空头文件残留。",
       "relates_to": [],
-      "what": "crowdmemory_runtime MemoryServer._handle 里 `length = int(self.headers.get(\"Content-Length\") or 0)` 未捕获 ValueError：客户端发送 GET /v1/status 且带 `X-CrowdMemory-Protocol-Major: 1` 与 `Content-Length: abc` 时，int('abc') 抛出 ValueError 逃出 do_GET->_handle，socketserver 线程栈直接终止，客户端收到 0 字节响应（连接被静默断开），服务端 stderr 打印 Traceback。",
-      "where": "distributions/memory-runtime/src/crowdmemory_runtime/server.py，MemoryServer.serve_forever 内嵌 Handler._handle（约 604-616 行，Content-Length 解析处）；新增测试 tests/test_http_length_demo.py（真实 serve-dev 子进程 + AF_UNIX 裸 HTTP/1.1）。",
-      "why": "http.server.BaseHTTPRequestHandler 不会替业务代码兜住 handler 内的异常：一旦异常逃出 do_* 方法，handle_one_request 中断且没有任何响应写出。因为解析发生在读取/校验之前，属于消息分帧（framing）阶段的输入校验缺失，而不是 JSON body 解析问题；同一个缺陷还会让原本应返回 protocol_incompatible 的请求直接断连，掩盖真正的协议错误。"
+      "what": "find_package(PNG REQUIRED) 之后只写了 target_include_directories(... ${PNG_INCLUDE_DIRS})，没有链接任何库目标，导致链接期缺 png_image_* 符号；补链接后又暴露头文件版本与所链接库不一致的问题。",
+      "where": "info/CMakeLists.txt（可执行目标 png_info，测试 png_info_reads_fixture，读取 fixtures/sample.png）；依赖 /opt/homebrew/opt/libpng 的 libpng 1.6.59；冲突头文件 /usr/local/include/png.h（1.6.43）。",
+      "why": "find_package 只负责查找并定义变量与导入目标，不会自动把库加到可执行文件上，必须显式 target_link_libraries。另外 PNG::PNG 的 INTERFACE_INCLUDE_DIRECTORIES 默认按 SYSTEM 传递为 -isystem，Clang 会把 -isystem 路径排在 /usr/local/include 之后，若该目录残留另一份 libpng 头文件就会被优先命中，出现用旧头编译、链新库的版本错配，运行期打印的版本与实际加载的 dylib 不符。"
     }
   },
-  "reader_receipts": [
+  "read_receipts": [
     {
       "kind": "record_usage",
       "exposure_kind": "read",
-      "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
-      "reasons": []
+      "record_ref": "lr_01a1a5fe4bee72e59f8b6dddd23f7108",
+      "revision": 2,
+      "session_ref": "session-95942b6d-e6b4-4103-aa90-0dcbcfc44446"
     }
   ],
   "limits": [
-    "same source and common HTTP handler, GET then POST; not unrelated implementations",
-    "staged conversation views, not synchronized elapsed-time comparison",
-    "not a task-success-rate, tool-cost or speed benchmark",
-    "A and D reached 600-second limits during extra regression work; required API tests independently pass",
-    "an initial environment-loading attempt was stopped and archived before using a fresh isolated dependency environment",
-    "recorded terminal outcome is preserved, not upgraded to trusted or passed by this presentation"
+    "Controlled integration fixture using an unmodified real third-party library; not an upstream libpng bug.",
+    "Two Agents on one host, different targets and workspaces; sequential staged playback, not a speed or success-rate benchmark.",
+    "Operator supplied an invalid topic key in the initial A prompt, then resumed A to correct the tool-parameter format. All retries preserved privately.",
+    "A exceeded the prompted 16-tool limit; actual call counts and execution times are disclosed only as provenance, not efficacy metrics.",
+    "The host has older libpng 1.6.43 headers in /usr/local/include; header precedence fix is environment-specific.",
+    "Record terminal outcome remains unknown; independent functional test results do not upgrade it to trusted."
   ],
-  "assets": {
-    "coding-agent-demo.mp4": "sha256:932f46d7d9ad8b80c89d89efdea3ac2e9d05d0aa621c95163f7b0e925e845f45",
-    "coding-agent-poster.jpg": "sha256:dd43dbebd4a9270812f5fb2c060192ca314061ddeac0c8a253ef0e969673175f",
-    "coding-agent-zh.vtt": "sha256:9ccf65faf726a29a293bc07ed4ffc60715f556a47362f7e8f5db95c346262093",
-    "coding-memory.jpg": "sha256:dd43dbebd4a9270812f5fb2c060192ca314061ddeac0c8a253ef0e969673175f"
-  },
   "presentation_capture": {
     "width": 3840,
     "height": 2160,
     "fps": 30,
     "duration_seconds": 54,
     "panel_width": 1920,
-    "panel_height": 920,
+    "panel_height": 1920,
     "browser_text_zoom": 2,
     "native_browser_pixels": true,
     "low_resolution_upscaling": false,
     "stages": 3,
     "synchronized_elapsed_time": false,
-    "label_plate_sha256": "sha256:aef4a88daadb6ee4271f43ce9747997ee7c81d36d8380e07920d2a0e4134e5f2",
+    "label_plate_sha256": "sha256:86a8032824dc5fbd7f0f6dc5e541b025c947264bbad86d6b0a99db7d6fa11b84",
     "raw_clips": {
-      "a-1.webm": "sha256:bedb26075c3c18fdf09ca2d3c82bd51df4dd9ba6ee60cdcc63366a02d31237f9",
-      "a-2.webm": "sha256:595ef01b6e6b1e727a1da20c687afe5f3f557ebeba2f73b1eedd50b5a78a1161",
-      "a-3.webm": "sha256:a60093f3160d678e22d44743bfa6d96f08d746a5eddb06025c7ea710a01d8b6d",
-      "b-1.webm": "sha256:031057b299f0a25d81cbaaf039bae42e5c5f6a14d52395edf329afcef492b1d8",
-      "b-2.webm": "sha256:6916ee581dc0b31fc206ce014754b708058f1d3cffa3ba31a90e17727ab50ecd",
-      "b-3.webm": "sha256:2af7c1d61046cfd2c8fa28b4cbbb3b082c862ae9c364257acabfe3b69c8d7737",
-      "c-1.webm": "sha256:1df9de9127f33d66c9064d1c5a79f354794a302bea7851d92e7bf96bd2e26120",
-      "c-2.webm": "sha256:66da669c838d7f10077d3971fc9b4aef9f636cd40aff0d065575d1f67165af24",
-      "c-3.webm": "sha256:16f57f21f80de58aa46335e05ebd6e92d7b4f154d16165a7509f6cfb54347088",
-      "d-1.webm": "sha256:49337972183a67486696be8920d4189d3fabfd8ee968fad1a166cc2e97a33a93",
-      "d-2.webm": "sha256:7ba4ca149b344e7f1118b6ee716699701e9b97988a05288e37e52028b4535e8e",
-      "d-3.webm": "sha256:b6fa8994f92e9c68c77cbbd2bb13c7a171e01c28e715701c7097f897d79fba87"
+      "a-1.webm": "sha256:4c232eec453cd6d6b40c55352512657db12280790b5fc09424aece047316dfce",
+      "a-2.webm": "sha256:29b07aa7b213124d5f441a555f879e536b8fb2ac80604e3f780e5d1706f9ff7e",
+      "a-3.webm": "sha256:104ac1fa10ce09746510d3419eaa649b170bc6466dc6e5de7568f03c0fddc226",
+      "b-1.webm": "sha256:65bf9429955ba68d1a7debb709cc2d54ecefbc5676bbed5de19642a5ca377ed7",
+      "b-2.webm": "sha256:b290640050582c2770d1c8c513d6e9b1ca98dd4998a1f71b49ff9bc1f91a8eaa",
+      "b-3.webm": "sha256:5b755394fc99918efceb33a448e8389dcf677a94068e1bf35f9b97b6dbc2a984"
     },
-    "encoder_failure_checks": {
-      "missing_clip_preserves_published_assets": true,
-      "encoder_failure_preserves_published_assets": true
+    "stage_tool_cards": [
+      {
+        "stage": 1,
+        "A": "Bash 复现构建失败",
+        "B": "Bash 复现构建失败"
+      },
+      {
+        "stage": 2,
+        "A": "Tool call memory_note · libpng/cmake-link-target (recovery / revision 2)",
+        "B": "Tool call memory_read · lr_01a1a5fe4bee72e59f8b6dddd23f7108"
+      },
+      {
+        "stage": 3,
+        "A": "Bash 验证测试与版本一致性",
+        "B": "Bash 验证构建与测试"
+      }
+    ]
+  },
+  "assets": {
+    "coding-agent-demo.mp4": "sha256:999b98f3815d43746e7cdc17d4f9c8f037c6379c0aed332cbd9dded15a4bdd3b",
+    "coding-agent-poster.jpg": "sha256:b1dd5907e51a85835b778cc0cb3e2545b8aff3b12ed5569af37f651ace5b5694",
+    "coding-agent-zh.vtt": "sha256:3acb0f2d2e82078c17c5fd14d1f9692d6c5a7c08271867f97df8a7785da653d5",
+    "coding-memory.jpg": "sha256:b1dd5907e51a85835b778cc0cb3e2545b8aff3b12ed5569af37f651ace5b5694",
+    "libpng-before.jpg": "sha256:20cab20414c19598d0fb454f6ec9eb95fd4b7f945c5fadfe3a0e4bc3aa6111f1",
+    "libpng-after.jpg": "sha256:a1cf813bf8ca69391809df62f749ee979900a70275369238fe86e3373050320d"
+  },
+  "public_reproduction": {
+    "fixture": "docs/demos/libpng-fixture/",
+    "prompts_sha256": "sha256:fabdb9ba1f9da65d94506521d5a21ec40844bc2cfca5e34bc072a9e814275b63",
+    "patch_sha256": {
+      "agent-a.patch": "sha256:42b1b3678a0badbbbc9bf7bc698830e0e87ece5d67f0348331a3e41c2b1fdadd",
+      "agent-b.patch": "sha256:d88ce7075b59656e9bc84d471b4e40f267528861cfdfa87538f6eb6fa6ee480a"
+    },
+    "output_normalization": "line-end whitespace stripped from published verification output"
+  },
+  "npm_artifacts": {
+    "crowdmemory-runtime": {
+      "version": "0.1.1",
+      "integrity": "sha512-Hb99nCKT5/oiLXuz1/rAKsBJXWUZ2gx+Qilg31gHjR+gVkiuZyhYLTWFgz4ldCeGVk5lsMX1h9NZv4JF3ppaYg=="
+    },
+    "crowdmemory-dsh-adapter": {
+      "version": "0.1.1",
+      "integrity": "sha512-Xu+W21ka9Hb+PwlLY3NcgmCppl/Hi5ogLNXwBWw0iuz0nJ7SmwT4bPQ7onop4LA+RCGttTwReXiTERKuN5tGRA=="
     }
-  },
-  "editing": {
-    "annotation_only": "versioned Agent/column label plate",
-    "actual_tool_results_preserved": true,
-    "viewing_saved_sessions": true,
-    "waiting_removed": true
-  },
-  "verification_output_normalization": "Only trailing spaces and tabs removed from published pytest output; original stdout retained locally.",
-  "raw_verification_stdout_sha256": {
-    "session-c-before.txt": "sha256:893874005017dfbc2c537a14a117905b7de82d395e42e2bb986976767f945144",
-    "session-d-before.txt": "sha256:5d8b6e6504bb3a9a93969e2734183b316186024d3a481993dcc7e13f29675e35",
-    "session-a-tests.txt": "sha256:5bc1111c621ccf76e817eaa3b9817afa7f0b848497b7e5bf73017ec36b80a0bb",
-    "session-a-before.txt": "sha256:af7d02c90114d8fa161202f8b1f99b601e835ae3175160571ba3dcf54ef2aadc",
-    "session-b-tests.txt": "sha256:dcde789366d7c29d399397c51ea0e5cdb23dd7aefcc39f507230037bc202387f",
-    "session-b-before.txt": "sha256:27edc414150ff95fa1239c6d13932f51b547941fa88ad4b675c521e2504f30c6",
-    "session-d-tests.txt": "sha256:622ca99c7c564a032d2e4a7fade0d521265d22d3abb2dfda62f3bf22c91aa72a",
-    "session-c-tests.txt": "sha256:9c46f5eb51e699c5af62a810cabd0ccc79655d7b50a375dfce26ec4976be61aa"
   }
 }

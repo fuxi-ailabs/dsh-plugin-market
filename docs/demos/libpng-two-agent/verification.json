@@ -1,0 +1,140 @@
+{
+  "schema": "crowdmemory-libpng-two-agent-demo/v1",
+  "recorded_at": "2026-11-04",
+  "environment": {
+    "platform": "macOS arm64",
+    "dsh": "0.1.6-alpha.2",
+    "runtime": "0.1.1",
+    "adapter": "0.1.1",
+    "model_requested": "claude-sonnet-4-6",
+    "provider_identity_independently_verified": false,
+    "libpng": "1.6.59",
+    "cmake": "cmake version 4.2.1",
+    "compiler": "Apple clang version 17.0.0 (clang-1700.4.4.1)",
+    "libpng_dylib_sha256": "sha256:ec95a41f112fac5e0b077f129bccc67acf9b5ad1a01f56cc0ecebae2a8727ff2"
+  },
+  "actors": [
+    {
+      "agent": "agent-a",
+      "task": "info",
+      "session_ref": "session-d7726e40-18cf-4f27-840d-7b77ddca6c0e",
+      "execution": {
+        "exit_code": 0,
+        "stop": "exited",
+        "elapsed_seconds": 307.14
+      },
+      "raw_stream_sha256": "sha256:2e40ca906d37ea002b6ae7bb3b67ed194e10b9b03637981f89c0914610bc8f55",
+      "tool_calls": 29,
+      "changed_files": [
+        "info/CMakeLists.txt"
+      ],
+      "fixed_cmake_sha256": "sha256:52927cdef498eaf6ec5c3d5a37d0909f00bfa65cccaff1dc2493572edd1b5092",
+      "verification": {
+        "before": {
+          "command_exit_codes": [
+            0,
+            2
+          ],
+          "output_sha256": "sha256:54c1f3c09786b4bb1c50a05f1b4ed9d3936390b761aa4e16cf652cc75d50d710"
+        },
+        "after": {
+          "command_exit_codes": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "output_sha256": "sha256:167c91870d6da1becf5af4356f6ff2611025ba22c3b9cf8cf6f363a7d0b9ebd2"
+        }
+      }
+    },
+    {
+      "agent": "agent-b",
+      "task": "roundtrip",
+      "session_ref": "session-95942b6d-e6b4-4103-aa90-0dcbcfc44446",
+      "execution": {
+        "exit_code": 0,
+        "stop": "exited",
+        "elapsed_seconds": 137.06
+      },
+      "raw_stream_sha256": "sha256:62d16eaedcb1dd171cd9bff8b800252ef6e14276ca019abb716b8b248f3fccfe",
+      "tool_calls": 11,
+      "changed_files": [
+        "roundtrip/CMakeLists.txt"
+      ],
+      "fixed_cmake_sha256": "sha256:6175e9894d9e662a8eabf994018bb0f24d4f2c070f9108cf268139812f39d978",
+      "verification": {
+        "before": {
+          "command_exit_codes": [
+            0,
+            2
+          ],
+          "output_sha256": "sha256:258b40002e9a1c42d1bfeb707bdc28549159f780af984b3853e10709909b06fe"
+        },
+        "after": {
+          "command_exit_codes": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "output_sha256": "sha256:c31d672a1d3bee9ace88ddbbfb83bfe097f8ab77d1df23e15157e7f190348c79"
+        }
+      }
+    }
+  ],
+  "fixture_sha256": {
+    "generate-fixture.py": "sha256:38210ffb3883d7b6c117df79c152abbf930dfc26ee55f96585ba945d1c01e1fa",
+    "roundtrip/CMakeLists.txt": "sha256:154e7f74c8c0461ddb978faaeb7f67ceee0b377752009736d5fef55273305c84",
+    "roundtrip/main.c": "sha256:5a5527203a5ab7efaffc83e5990cd8db6ea6da121211dda42bc25a2bae30db2a",
+    "info/CMakeLists.txt": "sha256:9c7c4c910a359d299e56e5d4642c138198e114c3f93205976b8196822a747ab1",
+    "info/main.c": "sha256:740161edd9633f778752fd1b9b9279df59739e85b91da7a54d80dd8bd4f3dfd7",
+    "fixtures/sample.png": "sha256:9ccfc2abaa3984dc34c93aee16be0afa8a5e1395f25492b3df67897e6d00df10"
+  },
+  "operator_recovery": {
+    "prompt": "继续当前任务。操作人员核对了 Runtime 契约：topic_key 必须是 family/description，仅一个斜杠，例如 libpng/cmake-link-target。此前给你的 libpng/cmake/link-target 不合法，这是任务准备时的参数错误。不要再猜格式或重跑修复；使用已经实测的内容，调用 memory_note，scope=global，topic_key=libpng/cmake-link-target，保留实际环境条件。成功后简短总结。",
+    "execution": {
+      "exit_code": 0,
+      "stop": "exited",
+      "elapsed_seconds": 39.56
+    },
+    "raw_stream_sha256": "sha256:82347d7ef0873983335aed730feb307a2712bd76570526c91a82946a20e77be6",
+    "description": "Original A saved revision 1 after invalid-topic retries and exited normally. Operator resumed the same Agent to correct the originally supplied invalid topic format; A saved revision 2. B read revision 2."
+  },
+  "memory": {
+    "record_ref": "lr_01a1a5fe4bee72e59f8b6dddd23f7108",
+    "project": "agent-a",
+    "topic_key": "libpng/cmake-link-target",
+    "title": "CMake 接 libpng：只加 PNG_INCLUDE_DIRS 不链接 PNG::PNG 会缺 png_image_* 符号",
+    "scope": "global",
+    "revision": 2,
+    "origin_session_ref": "session-d7726e40-18cf-4f27-840d-7b77ddca6c0e",
+    "recorded_outcome": "unknown",
+    "content": {
+      "evidence_refs": [],
+      "files": [],
+      "learned": "实际失败符号：_png_image_begin_read_from_file、_png_image_finish_read、_png_image_free（ld: symbol(s) not found for architecture arm64）。它们是 libpng16 简化 API，必须有实体库提供实现。修复两处：(1) target_link_libraries(png_info PRIVATE PNG::PNG)；(2) set(CMAKE_NO_SYSTEM_FROM_IMPORTED ON)，让 PNG::PNG 的包含目录以 -I 而非 -isystem 传递，从而压过 /usr/local/include 中的旧头文件。核对命令：grep C_INCLUDES build/<dir>/CMakeFiles/<t>.dir/flags.make（应为 -I/opt/homebrew/opt/libpng/include，而非 -isystem）；cat 同目录 link.txt（应出现 /opt/homebrew/opt/libpng/lib/libpng.dylib 与 libz）；otool -L 二进制确认加载 libpng16.16.dylib；直接运行确认打印的 PNG_LIBPNG_VER_STRING 与 dylib 版本一致（修复前打印 1.6.43、实际 dylib 1.6.59，属头/库不一致）。配置命令：cmake -S <任务目录> -B build/<任务目录> -DCMAKE_PREFIX_PATH=/opt/homebrew/opt/libpng；验证：cmake --build build/<任务目录> 与 ctest --test-dir build/<任务目录> --output-on-failure。实测环境：macOS arm64、AppleClang 17、CMake 4.2.1、Homebrew libpng 1.6.59（/opt/homebrew/Cellar/libpng/1.6.59），冲突头文件 /usr/local/include/png.h -> Cellar/libpng/1.6.43。适用条件：CMake >= 3.20 的 FindPNG 模块 + Homebrew 安装的 libpng。此结论只在本工程实测成立，换到新工程必须重新验证，尤其要复查是否也存在 -isystem 导致的头文件抢占（若 /usr/local/include 无旧 png.h，则第二步可能不必要）。本机 /opt/homebrew/Cellar/libpng 已被替换为 1.6.59，1.6.43 仅作为 /usr/local/include 的悬空头文件残留。",
+      "relates_to": [],
+      "what": "find_package(PNG REQUIRED) 之后只写了 target_include_directories(... ${PNG_INCLUDE_DIRS})，没有链接任何库目标，导致链接期缺 png_image_* 符号；补链接后又暴露头文件版本与所链接库不一致的问题。",
+      "where": "info/CMakeLists.txt（可执行目标 png_info，测试 png_info_reads_fixture，读取 fixtures/sample.png）；依赖 /opt/homebrew/opt/libpng 的 libpng 1.6.59；冲突头文件 /usr/local/include/png.h（1.6.43）。",
+      "why": "find_package 只负责查找并定义变量与导入目标，不会自动把库加到可执行文件上，必须显式 target_link_libraries。另外 PNG::PNG 的 INTERFACE_INCLUDE_DIRECTORIES 默认按 SYSTEM 传递为 -isystem，Clang 会把 -isystem 路径排在 /usr/local/include 之后，若该目录残留另一份 libpng 头文件就会被优先命中，出现用旧头编译、链新库的版本错配，运行期打印的版本与实际加载的 dylib 不符。"
+    }
+  },
+  "read_receipts": [
+    {
+      "kind": "record_usage",
+      "exposure_kind": "read",
+      "record_ref": "lr_01a1a5fe4bee72e59f8b6dddd23f7108",
+      "revision": 2,
+      "session_ref": "session-95942b6d-e6b4-4103-aa90-0dcbcfc44446"
+    }
+  ],
+  "limits": [
+    "Controlled integration fixture using an unmodified real third-party library; not an upstream libpng bug.",
+    "Two Agents on one host, different targets and workspaces; sequential staged playback, not a speed or success-rate benchmark.",
+    "Operator supplied an invalid topic key in the initial A prompt, then resumed A to correct the tool-parameter format. All retries preserved privately.",
+    "A exceeded the prompted 16-tool limit; actual call counts and execution times are disclosed only as provenance, not efficacy metrics.",
+    "The host has older libpng 1.6.43 headers in /usr/local/include; header precedence fix is environment-specific.",
+    "Record terminal outcome remains unknown; independent functional test results do not upgrade it to trusted."
+  ]
+}
