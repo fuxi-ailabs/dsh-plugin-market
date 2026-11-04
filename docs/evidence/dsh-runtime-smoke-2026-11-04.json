@@ -1,0 +1,195 @@
+{
+  "results": [
+    {
+      "runtime": "0.2.1-rc.2",
+      "status": "passed",
+      "plugins": [
+        {
+          "name": "@fuxi-ailabs/dsh-agentlineage",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/crowdmemory-dsh-adapter",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/workflow-rsi-dsh-console",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-ecat",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-dt-verify",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-insight-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-audit-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-static-check-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-eval-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-skillopt",
+          "missing": []
+        }
+      ],
+      "calls": [
+        {
+          "name": "skillopt_status",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "memory_search",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "lineage_status",
+          "isError": false,
+          "contentBlocks": 1
+        }
+      ]
+    },
+    {
+      "runtime": "0.2.1-rc.5",
+      "status": "passed",
+      "plugins": [
+        {
+          "name": "@fuxi-ailabs/dsh-agentlineage",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/crowdmemory-dsh-adapter",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/workflow-rsi-dsh-console",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-ecat",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-dt-verify",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-insight-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-audit-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-static-check-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-eval-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-skillopt",
+          "missing": []
+        }
+      ],
+      "calls": [
+        {
+          "name": "skillopt_status",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "memory_search",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "lineage_status",
+          "isError": false,
+          "contentBlocks": 1
+        }
+      ]
+    },
+    {
+      "runtime": "0.2.2-alpha.3",
+      "status": "passed",
+      "plugins": [
+        {
+          "name": "@fuxi-ailabs/dsh-agentlineage",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/crowdmemory-dsh-adapter",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/workflow-rsi-dsh-console",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-ecat",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-dt-verify",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-insight-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-audit-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-static-check-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-eval-bundle",
+          "missing": []
+        },
+        {
+          "name": "@fuxi-ailabs/dsh-skillopt",
+          "missing": []
+        }
+      ],
+      "calls": [
+        {
+          "name": "skillopt_status",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "memory_search",
+          "isError": false,
+          "contentBlocks": 1
+        },
+        {
+          "name": "lineage_status",
+          "isError": false,
+          "contentBlocks": 1
+        }
+      ]
+    }
+  ],
+  "sourceCommit": "63722fc25f87200fd41d67f26ac837c4b589d5f2",
+  "scope": "joint host loading, session creation, capability discovery and three native calls; not full business acceptance"
+}

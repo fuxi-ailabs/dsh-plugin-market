@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "dt-verify",
+  "kind": "dt-verify",
+  "plugin": "@fuxi-ailabs/dsh-dt-verify",
+  "version": "0.1.0-dev.28",
+  "repository": "fuxi-ailabs/harmony-verify",
+  "range": "^0.2.1-rc.2",
+  "tools": ["dtv_subagent"],
+  "skills": ["dt-verify"],
+  "presets": ["dtv_ut_feature_writer", "dtv_ui_page_writer", "dtv_ut_sub_fixer", "dtv_ui_sub_fixer", "dtv_plan_reviewer"],
+  "deferred": [
+    { "id": "model-delegation", "reason": "This credential-free contract does not execute a real model or delegate a business task" },
+    { "id": "device-ut-ui", "reason": "Requires an approved HarmonyOS project, SDK, Spec and target device" },
+    { "id": "desktop-ui", "reason": "Headless contract does not establish Desktop visual acceptance" }
+  ]
+}

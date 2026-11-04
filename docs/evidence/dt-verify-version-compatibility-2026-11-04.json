@@ -1,0 +1,1751 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-11-04",
+  "scope": "version-compatibility",
+  "plugin": "@fuxi-ailabs/dsh-dt-verify",
+  "pluginVersion": "0.1.0-dev.28",
+  "businessFunctionalityAssessed": false,
+  "desktopUiAssessed": false,
+  "remoteScheduledWorkflowExecuted": false,
+  "observations": [
+    {
+      "schemaVersion": 1,
+      "scope": "version-compatibility",
+      "contractId": "dt-verify",
+      "plugin": "@fuxi-ailabs/dsh-dt-verify",
+      "pluginVersion": "0.1.0-dev.28",
+      "repository": "fuxi-ailabs/harmony-verify",
+      "baseline": "0.2.1-rc.2",
+      "candidate": "0.2.2-alpha.3",
+      "identity": {
+        "contract": "2bf7ceed1ff34a1ad9d499094b93a3fc3ccaa1907a01697dd5ed78dc46bf7b5b",
+        "probe": "79f20d89d0785718e2416f28fb2135b1aeb16062f0f67ba0c9007c7c1f072a3d",
+        "platform": "win32-x64",
+        "node": "v24.19.0",
+        "packageManager": "pnpm@11.7.0",
+        "artifact": "sha512-UjT1jc+Naol14uUEz0c8Uqq+i7qykymZIvup1TsB2e5RrKOSnqb0+6b7Sqv0+h6MSPfgiGNE6c4grYox8ipJgQ==",
+        "artifactSource": "https://registry.npmjs.org/@fuxi-ailabs/dsh-dt-verify/-/dsh-dt-verify-0.1.0-dev.28.tgz",
+        "dependencies": "0966f0cd80e807bdbf5fbff111ae26ab6aa8f472957a6415bc33e784f5831373"
+      },
+      "controls": {
+        "baseline": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "win32-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "existing-host"
+        },
+        "candidate": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "win32-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "existing-host"
+        }
+      },
+      "deferred": [
+        {
+          "id": "model-delegation",
+          "reason": "This credential-free contract does not execute a real model or delegate a business task"
+        },
+        {
+          "id": "device-ut-ui",
+          "reason": "Requires an approved HarmonyOS project, SDK, Spec and target device"
+        },
+        {
+          "id": "desktop-ui",
+          "reason": "Headless contract does not establish Desktop visual acceptance"
+        }
+      ],
+      "cases": [
+        {
+          "id": "installation",
+          "status": "PASS"
+        },
+        {
+          "id": "bundle-registration",
+          "status": "PASS"
+        },
+        {
+          "id": "skill-load",
+          "status": "PASS"
+        },
+        {
+          "id": "preset-composition",
+          "status": "PASS"
+        },
+        {
+          "id": "tool-schema",
+          "status": "PASS"
+        },
+        {
+          "id": "unload",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_TESTED_SCOPE",
+      "baselineRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14595
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14595
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "candidateRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14596
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14596
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "issueDrafts": 0
+    },
+    {
+      "schemaVersion": 1,
+      "scope": "version-compatibility",
+      "contractId": "dt-verify",
+      "plugin": "@fuxi-ailabs/dsh-dt-verify",
+      "pluginVersion": "0.1.0-dev.28",
+      "repository": "fuxi-ailabs/harmony-verify",
+      "baseline": "0.2.1-rc.2",
+      "candidate": "0.2.1-rc.5",
+      "identity": {
+        "contract": "2bf7ceed1ff34a1ad9d499094b93a3fc3ccaa1907a01697dd5ed78dc46bf7b5b",
+        "probe": "79f20d89d0785718e2416f28fb2135b1aeb16062f0f67ba0c9007c7c1f072a3d",
+        "platform": "win32-x64",
+        "node": "v24.19.0",
+        "packageManager": "pnpm@11.7.0",
+        "artifact": "sha512-UjT1jc+Naol14uUEz0c8Uqq+i7qykymZIvup1TsB2e5RrKOSnqb0+6b7Sqv0+h6MSPfgiGNE6c4grYox8ipJgQ==",
+        "artifactSource": "https://registry.npmjs.org/@fuxi-ailabs/dsh-dt-verify/-/dsh-dt-verify-0.1.0-dev.28.tgz",
+        "dependencies": "2d72511c197c404426fd62300eeb3b7c18aa873d740cab52426eac57b83e3f29"
+      },
+      "controls": {
+        "baseline": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "win32-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "existing-host"
+        },
+        "candidate": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "win32-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "registry-install"
+        }
+      },
+      "deferred": [
+        {
+          "id": "model-delegation",
+          "reason": "This credential-free contract does not execute a real model or delegate a business task"
+        },
+        {
+          "id": "device-ut-ui",
+          "reason": "Requires an approved HarmonyOS project, SDK, Spec and target device"
+        },
+        {
+          "id": "desktop-ui",
+          "reason": "Headless contract does not establish Desktop visual acceptance"
+        }
+      ],
+      "cases": [
+        {
+          "id": "installation",
+          "status": "PASS"
+        },
+        {
+          "id": "bundle-registration",
+          "status": "PASS"
+        },
+        {
+          "id": "skill-load",
+          "status": "PASS"
+        },
+        {
+          "id": "preset-composition",
+          "status": "PASS"
+        },
+        {
+          "id": "tool-schema",
+          "status": "PASS"
+        },
+        {
+          "id": "unload",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_TESTED_SCOPE",
+      "baselineRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14595
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14595
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "candidateRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14596
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14596
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "pwsh",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "issueDrafts": 0
+    },
+    {
+      "schemaVersion": 1,
+      "scope": "version-compatibility",
+      "contractId": "dt-verify",
+      "plugin": "@fuxi-ailabs/dsh-dt-verify",
+      "pluginVersion": "0.1.0-dev.28",
+      "repository": "fuxi-ailabs/harmony-verify",
+      "baseline": "0.2.1-rc.2",
+      "candidate": "0.2.2-alpha.3",
+      "identity": {
+        "contract": "2bf7ceed1ff34a1ad9d499094b93a3fc3ccaa1907a01697dd5ed78dc46bf7b5b",
+        "probe": "79f20d89d0785718e2416f28fb2135b1aeb16062f0f67ba0c9007c7c1f072a3d",
+        "platform": "linux-x64",
+        "node": "v24.19.0",
+        "packageManager": "pnpm@11.7.0",
+        "artifact": "sha512-UjT1jc+Naol14uUEz0c8Uqq+i7qykymZIvup1TsB2e5RrKOSnqb0+6b7Sqv0+h6MSPfgiGNE6c4grYox8ipJgQ==",
+        "artifactSource": "https://registry.npmjs.org/@fuxi-ailabs/dsh-dt-verify/-/dsh-dt-verify-0.1.0-dev.28.tgz",
+        "dependencies": "ad32c27964ec42d29800d84ba6a634f3799a723c59886ae1e50f918d6a050f53"
+      },
+      "controls": {
+        "baseline": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "linux-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "registry-install"
+        },
+        "candidate": {
+          "schemaVersion": 1,
+          "ok": true,
+          "node": "v24.19.0",
+          "platform": "linux-x64",
+          "cases": [],
+          "deferred": [],
+          "installMode": "registry-install"
+        }
+      },
+      "deferred": [
+        {
+          "id": "model-delegation",
+          "reason": "This credential-free contract does not execute a real model or delegate a business task"
+        },
+        {
+          "id": "device-ut-ui",
+          "reason": "Requires an approved HarmonyOS project, SDK, Spec and target device"
+        },
+        {
+          "id": "desktop-ui",
+          "reason": "Headless contract does not establish Desktop visual acceptance"
+        }
+      ],
+      "cases": [
+        {
+          "id": "installation",
+          "status": "PASS"
+        },
+        {
+          "id": "bundle-registration",
+          "status": "PASS"
+        },
+        {
+          "id": "skill-load",
+          "status": "PASS"
+        },
+        {
+          "id": "preset-composition",
+          "status": "PASS"
+        },
+        {
+          "id": "tool-schema",
+          "status": "PASS"
+        },
+        {
+          "id": "unload",
+          "status": "PASS"
+        }
+      ],
+      "status": "PASS_TESTED_SCOPE",
+      "baselineRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14603
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14603
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "candidateRuns": [
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14604
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        },
+        {
+          "cases": [
+            {
+              "id": "installation",
+              "status": "PASS"
+            },
+            {
+              "id": "bundle-registration",
+              "status": "PASS",
+              "evidence": {
+                "tools": [
+                  "dtv_subagent"
+                ],
+                "skills": [
+                  "dt-verify"
+                ],
+                "presets": [
+                  "dtv_ut_feature_writer",
+                  "dtv_ui_page_writer",
+                  "dtv_ut_sub_fixer",
+                  "dtv_ui_sub_fixer",
+                  "dtv_plan_reviewer"
+                ]
+              }
+            },
+            {
+              "id": "tool-schema",
+              "status": "PASS",
+              "evidence": {
+                "name": "dtv_subagent",
+                "roles": 5
+              }
+            },
+            {
+              "id": "skill-load",
+              "status": "PASS",
+              "evidence": {
+                "contentBlocks": 1,
+                "characters": 14604
+              }
+            },
+            {
+              "id": "preset-composition",
+              "status": "PASS",
+              "evidence": [
+                {
+                  "id": "dtv_ut_feature_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_page_writer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ut_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_ui_sub_fixer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                },
+                {
+                  "id": "dtv_plan_reviewer",
+                  "tools": [
+                    "working_directory",
+                    "dtv_subagent",
+                    "read",
+                    "write",
+                    "edit",
+                    "glob",
+                    "grep",
+                    "bash",
+                    "read_image"
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "unload",
+              "status": "PASS"
+            }
+          ]
+        }
+      ],
+      "issueDrafts": 0
+    }
+  ],
+  "notes": [
+    "Each comparison uses the same verified plugin tarball and frozen dependency lock across two fresh profiles per host.",
+    "Windows alpha comparison reuses existing host installations; Windows rc.5 candidate and both Linux hosts were installed from npm in isolated directories.",
+    "This records local Windows and WSL Linux execution, not an already enabled GitHub schedule or Desktop/device business acceptance."
+  ]
+}

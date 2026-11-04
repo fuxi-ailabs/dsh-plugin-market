@@ -2,8 +2,9 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import semver from 'semver';
+import { supportedDshVersions, uncoveredDshVersions } from './dsh-compatibility.mjs';
 
-const { satisfies, valid, validRange } = semver;
+const { valid, validRange } = semver;
 
 // The override lets a local DSH installation provide the same pinned validator without reinstalling it.
 const moduleId = process.env.DSH_MARKET_VALIDATOR
@@ -12,12 +13,14 @@ const moduleId = process.env.DSH_MARKET_VALIDATOR
 const { parseMarketIndex } = await import(moduleId);
 
 const indexUrl = 'https://fuxi-ailabs.github.io/dsh-plugin-market/index.json';
-// `.dsh-version` is the single runtime version this catalog is gated against.
+// Keep the latest target and the existing supported runtimes in the same gate.
 const declaredVersion = (await readFile('.dsh-version', 'utf8')).trim();
 const dshVersion = valid(declaredVersion);
 if (dshVersion === null) {
   throw new Error(`.dsh-version must contain exactly one valid SemVer version, got ${JSON.stringify(declaredVersion)}`);
 }
+const compatibility = JSON.parse(await readFile('.dsh-compatibility.json', 'utf8'));
+const dshVersions = supportedDshVersions(dshVersion, compatibility.versions);
 const index = parseMarketIndex(JSON.parse(await readFile('public/index.json', 'utf8')), indexUrl);
 
 const failures = [];
@@ -34,9 +37,6 @@ for (const plugin of index.plugins) {
       failures.push(`${label}: engines.dsh must not be empty`);
     } else if (validRange(range) === null) {
       failures.push(`${label}: engines.dsh ${JSON.stringify(range)} is not a valid SemVer range`);
-    } else if (!satisfies(dshVersion, range, { includePrerelease: true })) {
-      // Mirrors the install-time check in dsh-app-boot, including its prerelease matching.
-      failures.push(`${label}: engines.dsh ${range} does not cover .dsh-version ${dshVersion}`);
     }
 
     if (version.publishTimestamp > latestAllowedTimestamp) {
@@ -72,6 +72,9 @@ for (const plugin of index.plugins) {
       }
     }
   }
+  for (const runtime of uncoveredDshVersions(plugin.versions, dshVersions)) {
+    failures.push(`${plugin.name}: no catalog version declares support for DSH ${runtime}`);
+  }
 }
 
 if (failures.length > 0) {
@@ -79,4 +82,4 @@ if (failures.length > 0) {
 }
 
 const versionCount = index.plugins.reduce((count, plugin) => count + plugin.versions.length, 0);
-console.log(`Market policy valid for DSH ${dshVersion}: ${index.plugins.length} plugin(s), ${versionCount} version(s).`);
+console.log(`Market policy valid for DSH ${dshVersions.join(', ')}: ${index.plugins.length} plugin(s), ${versionCount} version(s).`);

@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "baseline": "0.2.1-rc.2",
+  "discoveryFloor": "0.2.1-rc.5",
+  "registry": "https://registry.npmjs.org",
+  "runtimePackage": "@deepseek-ai/dsh",
+  "attempts": 2,
+  "pnpmVersion": "11.7.0",
+  "reportRepository": "fuxi-ailabs/dsh-plugin-market",
+  "stateBranch": "compatibility-results",
+  "contracts": ["compatibility/contracts/dt-verify.json"],
+  "skipped": [{ "plugin": "@fuxi-ailabs/dsh-agentlineage", "reason": "User excluded AgentLineage from further testing" }],
+  "notifications": { "mode": "market", "allowedRepositories": ["fuxi-ailabs/harmony-verify"] }
+}

@@ -24,11 +24,11 @@ Top banner 必须保留两个链接，且手机端和滚动后仍可返回市场
 ## 检查清单
 
 - [ ] 本地跑过 `npm ci --ignore-scripts && npm run ci`
-- [ ] 新版本 `engines.dsh` 是范围（默认 `^0.2.1-rc.2`）且覆盖 `.dsh-version`
+- [ ] 新版本 `engines.dsh` 是真实支持范围；每个插件对支持矩阵中的每个 DSH 至少保留一个可选版本
 - [ ] Git 来源固定完整 40 位 commit SHA，`path` 指向真实子目录
 - [ ] `publishTimestamp` 是来源提交的 Unix 秒
 - [ ] 新增页面资源已登记到 `scripts/validate.mjs` 的 `publicPages`
-- [ ] 若升级 `.dsh-version`：已列出受影响的插件版本，并确认范围覆盖或已在本 PR 内更新
+- [ ] 若升级 `.dsh-version`：已列出受影响的插件，确认各自有可选版本；没有为了检查通过而扩大历史版本范围
 
 ## 合并
 

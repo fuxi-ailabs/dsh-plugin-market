@@ -1,0 +1,20 @@
+import { readFile, writeFile, readdir } from 'node:fs/promises';
+import { parseArgs } from 'node:util';
+import { join } from 'node:path';
+import semver from 'semver';
+import { digest, discoverVersions } from './core.mjs';
+import { readState } from './github.mjs';
+const {values}=parseArgs({options:{output:{type:'string',default:'compatibility-plan.json'},candidate:{type:'string'},state:{type:'string'}}});
+const config=JSON.parse(await readFile('compatibility/monitor.json','utf8'));
+const inputs=await Promise.all((await readdir('scripts/compatibility')).filter(f=>f.endsWith('.mjs')).sort().map(f=>readFile(join('scripts/compatibility',f),'utf8')));
+const contracts=await Promise.all(config.contracts.map(f=>readFile(f,'utf8')));
+const revision=digest([config,...inputs,...contracts]);
+const state=values.state?JSON.parse(await readFile(values.state,'utf8')):await readState(config,process.env.GH_TOKEN);
+const response=await fetch(`${config.registry}/${encodeURIComponent(config.runtimePackage)}`,{signal:AbortSignal.timeout(30000)});
+if(!response.ok)throw Error('npm runtime discovery HTTP '+response.status);
+const packument=await response.json();
+const plan=discoverVersions(packument,state,revision,config.discoveryFloor);
+if(values.candidate){if(!semver.valid(values.candidate)||!packument.versions[values.candidate])throw Error('Candidate must be a published exact version');plan.versions=[values.candidate];plan.pending=[...new Set([...plan.pending,values.candidate])];}
+await writeFile(values.output,JSON.stringify(plan,null,2)+'\n');
+if(process.env.GITHUB_OUTPUT)await writeFile(process.env.GITHUB_OUTPUT,`versions=${JSON.stringify(plan.versions)}\nhas-work=${plan.versions.length>0}\n`,{flag:'a'});
+console.log(JSON.stringify({baseline:config.baseline,candidates:plan.versions,pending:plan.pending.length,revision}));
