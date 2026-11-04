@@ -256,7 +256,9 @@
     "coding-agent-zh.vtt": "sha256:a7ae03ee037102683f45762a1f41450e46ce52450a50fa8635c15b0a6a8427f5",
     "coding-memory.jpg": "sha256:de23567c807dc6e69d62e9b777a6e4833345bcde2baec983340c149770880fe8",
     "libpng-before.jpg": "sha256:20cab20414c19598d0fb454f6ec9eb95fd4b7f945c5fadfe3a0e4bc3aa6111f1",
-    "libpng-after.jpg": "sha256:a1cf813bf8ca69391809df62f749ee979900a70275369238fe86e3373050320d"
+    "libpng-after.jpg": "sha256:a1cf813bf8ca69391809df62f749ee979900a70275369238fe86e3373050320d",
+    "coding-agent-demo-1080p.mp4": "sha256:93d1662c3ee73f7fb03cadf2384a58b3b97bc125e2dbfd17175cf5f936862044",
+    "coding-agent-preview.jpg": "sha256:85051deb563055df22e5d121eba11f9247f4fa7ec563051fda05b44b7f7f3a47"
   },
   "public_reproduction": {
     "fixture": "docs/demos/libpng-fixture/",
@@ -338,5 +340,27 @@
       "narration.mp3": "sha256:b1125e9560999450a22717c48282b2de6241c5d13e6878f098aa0733942abe2b"
     },
     "encoding_metadata_sha256": "sha256:b4b29cbc502adf4a97240849a774f5dd50252e9d6c0255c3de43d348c5ffcd97"
+  },
+  "web_delivery": {
+    "source": "coding-agent-demo.mp4",
+    "source_sha256": "sha256:898e3f8ad433129514bdc0e3e85d7c66e61dd09bfe8e425bc342f34a919d1d89",
+    "default": "coding-agent-demo-1080p.mp4",
+    "original_4k_selectable": true,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30,
+    "duration_seconds": 94.21,
+    "video_encoding": "H.264 / libx264 slow CRF 23 / GOP maximum 300 frames / yuv420p / faststart",
+    "audio_encoding": "AAC mono 48 kHz 64 kbit/s, derived from the continuous original soundtrack",
+    "size_bytes": 2834394,
+    "original_size_bytes": 7836259,
+    "preview": {
+      "file": "coding-agent-preview.jpg",
+      "width": 1280,
+      "height": 720,
+      "size_bytes": 94099,
+      "source": "coding-agent-poster.jpg"
+    },
+    "content_changes": "Resolution and encoding only; same complete timeline, narration and embedded captions. Original 4K video and run evidence unchanged."
   }
 }

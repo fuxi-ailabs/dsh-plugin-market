@@ -33,7 +33,7 @@ export function renderPage(p, {preview = false} = {}) {
   <title>${preview ? '插件介绍页模板 · 预览与评审' : e(p.name) + ' · Fuxi通用DSH组件市场'}</title>
   <link rel="stylesheet" href="styles.css">${preview ? '\n  <link rel="stylesheet" href="review.css">' : ''}
   <script src="demo-data.js" defer></script>
-  <script src="page.js" defer></script>
+  <script src="page.js" defer></script>${x.video?.qualities ? '\n  <link rel="stylesheet" href="media-controls.css">\n  <script src="media-controls.js" defer></script>' : ''}
 </head>
 <body>
   <a class="skip-link" href="#overview">跳到主要内容</a>
@@ -56,7 +56,7 @@ export function renderPage(p, {preview = false} = {}) {
         <p class="requirements-link">${e(p.requirements.summary)} <a href="#details">使用条件 ↓</a></p>
       </div>
       <figure class="hero-visual">
-        <button type="button" class="screenshot-button hero-image-button" data-screenshot="${e(p.heroMedia.image)}" data-title="${e(p.heroMedia.title)}" aria-label="放大查看：${e(p.heroMedia.title)}"><img src="${e(p.heroMedia.image)}" width="1280" height="720" alt="${e(p.heroMedia.alt)}"><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
+        <button type="button" class="screenshot-button hero-image-button" data-screenshot="${e(p.heroMedia.image)}" data-title="${e(p.heroMedia.title)}" aria-label="放大查看：${e(p.heroMedia.title)}"><img src="${e(p.heroMedia.thumbnail || p.heroMedia.image)}" width="1280" height="720" alt="${e(p.heroMedia.alt)}"${p.heroMedia.thumbnail ? ' decoding="async" fetchpriority="high"' : ''}><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
         <figcaption><strong>${e(p.heroMedia.title)}</strong>${p.heroMedia.description ? `<p>${e(p.heroMedia.description)}</p>` : ''}</figcaption>
       </figure>
     </section>
@@ -71,7 +71,7 @@ export function renderPage(p, {preview = false} = {}) {
       ${x.interactive ? renderFileHistory(x.interactive, e) : ''}
       ${x.blocks?.length ? `<div class="demo-content">${x.blocks.map(renderDemoBlock).join('')}</div>` : ''}
       ${x.note ? `<p class="media-note">${e(x.note)}</p>` : ''}
-      ${x.video ? `<figure id="recording" class="video-demo"><figcaption><strong>${e(x.video.title)}</strong>${x.video.description ? `<p>${e(x.video.description)}</p>` : ''}</figcaption><video controls${x.video.loop ? ' autoplay muted loop' : ''} playsinline preload="${x.video.loop ? 'auto' : 'none'}" poster="${e(x.video.poster)}" aria-label="${e(x.video.title)}"><source src="${e(x.video.src)}" type="${x.video.src.endsWith('.webm')?'video/webm':'video/mp4'}"><track kind="captions" src="${e(x.video.captions)}" srclang="zh" label="中文字幕"${x.video.captionsBurnedIn ? '' : ' default'}>浏览器不支持视频播放。</video></figure>` : preview ? `<figure id="recording" class="video-demo"><figcaption><strong>操作录像</strong></figcaption><div class="video-placeholder"><span>视频占位</span></div></figure>` : ''}
+      ${x.video ? `<figure id="recording" class="video-demo"><figcaption><strong>${e(x.video.title)}</strong>${x.video.description ? `<p>${e(x.video.description)}</p>` : ''}${x.video.qualities ? `<div class="media-toolbar" hidden><button type="button" class="button secondary" data-video-play>播放演示</button><label>清晰度 <select data-video-quality>${x.video.qualities.map(q=>`<option value="${e(q.src)}">${e(q.label)}</option>`).join('')}</select></label><span data-video-status role="status" aria-live="polite"></span></div><noscript><p>${x.video.qualities.map(q=>`<a href="${e(q.src)}">${e(q.label)}</a>`).join(' · ')}</p></noscript>` : ''}</figcaption><video controls${x.video.loop ? ' autoplay muted loop' : ''} playsinline preload="${x.video.loop ? 'auto' : 'none'}" poster="${e(x.video.poster)}" aria-label="${e(x.video.title)}"><source src="${e(x.video.src)}" type="${x.video.src.endsWith('.webm')?'video/webm':'video/mp4'}"><track kind="captions" src="${e(x.video.captions)}" srclang="zh" label="中文字幕"${x.video.captionsBurnedIn ? '' : ' default'}>浏览器不支持视频播放。</video></figure>` : preview ? `<figure id="recording" class="video-demo"><figcaption><strong>操作录像</strong></figcaption><div class="video-placeholder"><span>视频占位</span></div></figure>` : ''}
       ${x.prompt ? `<details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在 DSH 中复现</span><span aria-hidden="true">＋</span></summary><div>${code(x.prompt, '发送给 DSH')}</div></details>` : ''}
       ${x.interactive ? '<noscript><p class="noscript-note">启用 JavaScript 后可切换演示步骤。</p></noscript>' : ''}
     </section>

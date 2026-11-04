@@ -17,6 +17,7 @@ export function validateContent(p) {
   }
   for (const key of ['image','alt','title']) requireText(p.heroMedia?.[key], `heroMedia.${key}`);
   if (!/^assets\/[a-z0-9-]+\.jpg$/.test(p.heroMedia.image)) throw new Error('Hero image must be a local reviewed JPEG');
+  if (p.heroMedia.thumbnail !== undefined && !/^assets\/[a-z0-9-]+\.jpg$/.test(p.heroMedia.thumbnail)) throw new Error('Hero thumbnail must be a local reviewed JPEG');
   const x = p.example;
   requireText(x?.title, 'example.title');
   if (x.blocks !== undefined) requireList(x.blocks, 'example.blocks', 0);
@@ -37,6 +38,14 @@ export function validateContent(p) {
     if (x.video.loop !== undefined && typeof x.video.loop !== 'boolean') throw new Error('video.loop must be true or false');
     if (x.video.captionsBurnedIn !== undefined && typeof x.video.captionsBurnedIn !== 'boolean') throw new Error('video.captionsBurnedIn must be true or false');
     if (!/^assets\/[a-z0-9-]+\.(mp4|webm)$/.test(x.video.src) || !/^assets\/[a-z0-9-]+\.jpg$/.test(x.video.poster) || !/^assets\/[a-z0-9-]+\.vtt$/.test(x.video.captions)) throw new Error('Video, poster and captions must be reviewed local assets');
+    if (x.video.qualities !== undefined) {
+      requireList(x.video.qualities, 'video.qualities', 2);
+      for (const quality of x.video.qualities) {
+        requireText(quality.label, 'video quality label');
+        if (!/^assets\/[a-z0-9-]+\.mp4$/.test(quality.src)) throw new Error('Video quality must be a local reviewed MP4');
+      }
+      if (x.video.qualities[0].src !== x.video.src || new Set(x.video.qualities.map(q=>q.src)).size !== x.video.qualities.length) throw new Error('Video qualities must start with the default source and have unique sources');
+    }
   }
   if (x.interactive) {
     const d = x.interactive;

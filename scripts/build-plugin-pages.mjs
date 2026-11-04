@@ -11,6 +11,11 @@ const [styles, runtime] = await Promise.all([
   readFile('templates/plugin-page/page.js','utf8'),
 ]);
 async function emitPage(content, output, {preview = false, extraFiles = []} = {}) {
+  if (content.example.video?.qualities) {
+    for (const name of ['media-controls.js', 'media-controls.css']) {
+      extraFiles.push([name, await readFile(`templates/plugin-page/${name}`, 'utf8')]);
+    }
+  }
   const files = new Map([
     ['index.html', renderPage(content, {preview})],
     ['styles.css', styles],

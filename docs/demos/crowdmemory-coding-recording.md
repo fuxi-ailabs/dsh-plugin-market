@@ -48,3 +48,21 @@ A 也超过了提示中“不超过 16 次工具调用”的要求；实际调�
 [encode-narrated-video.py](libpng-two-agent/encode-narrated-video.py) 接收七段原生聚焦录像、双屏原片、连续配音目录和发布资源目录；需要 Pillow、ffmpeg/ffprobe 及中文字体。先将整段音轨的语句边界与稿件逐一对齐，再据此决定镜头切换时间。视频各段不携带音频，合并后只接入一次完整主音轨，合成 AAC 单声道 48kHz，响度归一到 -16 LUFS 目标。保留 VTT 供播放器选择，网页默认不再叠加第二份字幕。编码器检查尺寸、时长与字体，全部编码成功后替换发布文件；海报取自双 Agent 总览开始后第 3 秒。实际场景时长、句级边界、原片与唯一配音源的哈希见 [narrated-encoding.json](libpng-two-agent/narrated-encoding.json)，`audio_splice_count` 为 0。原来的静音双屏编码脚本与标签板保留作历史制作依据。
 
 当前成片、字幕、截图、原片与配音的 SHA-256，以及来源读取回执，发布在页面 `assets/coding-evidence.json`。完整原始日志、原片、合成音频、浏览器鉴权、模型请求响应与 Runtime 数据库保留录制者本机；公开内容不带凭据。旧版四 Agent 后端演示归档在 [历史说明](crowdmemory-four-agent-20261103.md)。
+
+## 网页播放版本
+
+网页默认播放 1920×1080、30 fps 的完整 94 秒版本，约 2.83 MB；保留原 3840×2160 成片（约 7.84 MB），可在播放器上方切换。分辨率切换保留播放进度及播放/暂停状态。默认不预取视频，点击“播放演示”后开始加载；缓冲时显示提示，网络失败后可重试。禁用 JavaScript 时仍可使用原生播放器，并通过链接打开两种清晰度。
+
+首屏图片和视频封面共用一张 1280×720 预览图，约 94 KB；点击放大时才请求原始 4K 图片。原片、运行记录及字幕内容不变，派生文件的参数、大小与哈希单独记在 `coding-evidence.json` 的 `web_delivery` / `assets` 中。
+
+在仓库根目录运行以下命令可重新生成网页版本。长关键帧间隔适合这段以静态工具结果为主的录像，避免频繁编码整幅文字画面；MP4 索引放在文件开头，支持边下边播。音轨只作整段重新编码，不按镜头剪接。
+
+```bash
+ffmpeg -i public/plugins/crowdmemory/assets/coding-agent-demo.mp4 \
+  -vf scale=1920:1080:flags=lanczos -c:v libx264 -preset slow -crf 23 \
+  -pix_fmt yuv420p -g 300 -c:a aac -b:a 64k -ac 1 -ar 48000 \
+  -movflags +faststart public/plugins/crowdmemory/assets/coding-agent-demo-1080p.mp4
+ffmpeg -i public/plugins/crowdmemory/assets/coding-agent-poster.jpg \
+  -vf scale=1280:720 -frames:v 1 -q:v 5 \
+  public/plugins/crowdmemory/assets/coding-agent-preview.jpg
+```
