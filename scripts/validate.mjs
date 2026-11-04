@@ -47,6 +47,9 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
 ])], ['plugins/ecat', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-without-plugin.jpg', 'assets/after-with-plugin.jpg', 'assets/hero-loop.jpg',
+])], ['plugins/dog', new Set([
+  'index.html', 'styles.css', 'page.js', 'demo-data.js',
+  'assets/before-chat.jpg', 'assets/after-debugger.jpg', 'assets/hero-debugger.jpg',
 ])], ['plugins/dt-verify', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'guide.html', 'docs.css', 'docs.js',
   'assets/verify-flow.jpg', 'assets/fix-before.jpg', 'assets/fix-after.jpg',
@@ -106,6 +109,11 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://github.com/fuxi-ailabs/ECAT',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/ecat/',
+])], ['plugins/dog', new Set([
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dog/',
+  'https://github.com/Fun10165/dsh-dog',
+  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dog',
 ])], ['plugins/insight', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://www.npmjs.com/package/context-insight',

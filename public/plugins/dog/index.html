@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f7f9fb">
+  <title>DoG · DAG of Goals 价值判断器 · Fuxi通用DSH组件市场</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="demo-data.js" defer></script>
+  <script src="page.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#overview">跳到主要内容</a>
+  <header class="site-header"><div class="market-banner"><div class="wrap header-inner">
+    <nav class="market-breadcrumb" aria-label="当前位置"><a class="market-brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a><span class="market-location"><span class="market-separator" aria-hidden="true">/</span><a class="market-current" href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dog/" aria-current="page">DoG · DAG of Goals 价值判断器</a></span></nav>
+    <nav class="section-nav" aria-label="页面导航"><a href="#use-cases">适合谁用</a><a href="#example">看例子</a><a class="nav-faq" href="#faq">常见问题</a><a class="nav-docs" href="https://github.com/Fun10165/dsh-dog">使用文档 ↗</a><a class="nav-cta" href="#quickstart">安装使用</a></nav>
+  </div></div></header>
+  <main>
+    <section id="overview" class="wrap hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <div class="plugin-name">DoG · DAG of Goals 价值判断器 <span class="version">v2.0.0-alpha.1</span></div>
+        <h1 id="page-title"><span>经院哲学式展开，落到原子目标。</span><span class="accent">标准由你确认，判定隔离执行。</span></h1>
+        <p class="lede">「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。</p>
+        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1</code></pre></div><p>默认不需要配置：被检查的文件按当前会话的目录找，判定沿用当前会话的模型。 <a href="#quickstart">安装步骤 ↓</a></p></div>
+        <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
+        <p class="compatibility">DSH 0.2.1-rc.2 · 预览版</p>
+        <p class="requirements-link">需要 DSH 0.2.1-rc.2 和一个可用的模型。 <a href="#details">使用条件 ↓</a></p>
+      </div>
+      <figure class="hero-visual">
+        <button type="button" class="screenshot-button hero-image-button" data-screenshot="assets/hero-debugger.jpg" data-title="调试面板：每个目标的判决、证据与运行条件" aria-label="放大查看：调试面板：每个目标的判决、证据与运行条件"><img src="assets/hero-debugger.jpg" width="1280" height="720" alt="调试面板：八个目标里六个通过、两个失败；右侧是目标「内容质量（四维）」的契约与证据入口"><span>点击放大 <span aria-hidden="true">⤢</span></span></button>
+        <figcaption><strong>调试面板：每个目标的判决、证据与运行条件</strong><p>选中一个目标，右边那一栏就是它拿到的判据、判定与证据。</p></figcaption>
+      </figure>
+    </section>
+
+    <section id="use-cases" class="wrap section" aria-labelledby="cases-title">
+      <div class="section-heading"><h2 id="cases-title">使用场景与适合人群</h2></div>
+      <div class="case-grid"><article class="case-card"><p class="case-audience"><span>适合</span>写文档或文章的人</p><h3>文章「像 AI 写的」，但说不出改哪句</h3><blockquote>「读着别扭，可我说不出是哪里。」</blockquote><p>把「AI 味」拆成能单独查的子目标：套话、句式单调、模糊用语、同一个所指在一篇文章中非得有多个能指、非得用比喻式的动词、标题喜欢带动词之类的。每条由独立判定者给证据，你按证据改。</p><button type="button" class="copy-button" data-copy="给 article.md 建一张 DoG：根目标是「读起来像一个有判断的人写的」，下面拆出套话、句式单调、模糊用语、一个概念多个词、比喻式动词、标题带动词几条。先把图和判据给我看，我确认后再跑。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>用 skill 或子 agent 产出东西的人</p><h3>产物交上来了，但没按 skill 的要求</h3><blockquote>「它说遵守了 skill，哪一条哪里遵守了？」</blockquote><p>把 skill 里每条要求写成判据，逐条判定并留证据；判定会话在独立上下文，看不到生成会话的自我描述。</p><button type="button" class="copy-button" data-copy="按 skills/xxx/SKILL.md 的要求建图，一条要求对一个判据；跑完把每条的证据列出来，没判出来的标出来。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article><article class="case-card"><p class="case-audience"><span>适合</span>想给「项目」或「一天」做评价的人</p><h3>想评价的东西没有固定格式</h3><blockquote>「这周过得怎么样，能不能有个说得清的评价？」</blockquote><p>只要评价对象能落成文件（日志、清单、报告、截图），就能建图判定。</p><button type="button" class="copy-button" data-copy="这是我这一周的日志.md，建一张图评价「这一周有没有推进我真正在意的事」，先给我看判据。" aria-label="复制提问">复制提问 <span aria-hidden="true">⧉</span></button></article></div>
+    </section>
+
+    <section id="example" class="wrap section" aria-labelledby="example-title">
+      <div class="section-heading"><h2 id="example-title">从一句话到一张图</h2><p class="section-description">前两步是人机来回，后两步是命令。插件自带一个写图用的 skill（dog-v02-agentic-ci），装好后 Agent 就知道怎么和你一起写图：先立抽象层、每一层请你确认、写完用元图自检。</p></div>
+
+      <div class="demo-content"><div class="demo-content-block"><ul><li>说目标：把你自己的原话交给 Agent，比如「这篇文章我读着别扭，可说不出哪句不对」。</li><li>拆图：Agent 按经院哲学式展开，先把抽象层摆正，再逐层落到原子目标。每一层都请你确认；你说不清的地方，它继续问，问到能写成判据为止。</li><li>自检：图写完先跑一遍元图（用一张检查图结构的图去判这张图），看抽象层有没有混杂、目标有没有重叠、判据是否可判。</li><li>运行：dog_create 把产物和背景文档固化成一个不可改的副本，dog_run 按 DAG 顺序开判定，每个判定最多跑 900 秒。</li><li>看结果：dog_status 列出每个目标的判决与证据；在调试面板里选中一个目标，右边那一栏就是它的判定、证据与事件。</li></ul></div><div class="demo-content-block"><div class="code-block"><div class="code-bar"><span>代码</span><button type="button" class="copy-button" data-copy="按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图：先给我看抽象层怎么分，再逐层展开到原子目标，每一层等我确认；写完用元图自检一遍，我看过之后再固化运行，最后把每个目标的判决和证据列出来。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图：先给我看抽象层怎么分，再逐层展开到原子目标，每一层等我确认；写完用元图自检一遍，我看过之后再固化运行，最后把每个目标的判决和证据列出来。</code></pre></div></div></div>
+      <p class="media-note">演示是固定示意数据，不读你的工程。</p>
+
+      <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在 DSH 中复现</span><span aria-hidden="true">＋</span></summary><div><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图：先给我看抽象层怎么分，再逐层展开到原子目标，每一层等我确认；写完用元图自检一遍，我看过之后再固化运行，最后把每个目标的判决和证据列出来。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图：先给我看抽象层怎么分，再逐层展开到原子目标，每一层等我确认；写完用元图自检一遍，我看过之后再固化运行，最后把每个目标的判决和证据列出来。</code></pre></div></div></details>
+
+    </section>
+
+    <section id="comparison" class="wrap section" aria-labelledby="comparison-title">
+      <div class="section-heading"><h2 id="comparison-title">同一个目标，两种做法</h2><p class="section-description">同一篇 1,613 字节的文章，左边是直接问模型「这篇文章好不好」，右边是拆成图后逐条判定。</p></div>
+      <div class="comparison-grid"><article class="comparison-card before"><div class="comparison-copy"><h3>之前：直接问一句</h3><p>模型给出「好文章，合格偏上」和一组分数，依据是它自己的阅读印象；没有判据，没有逐条证据，也没有记录为什么是这个结论。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/before-chat.jpg" data-title="之前：直接问一句" aria-label="放大查看：之前：直接问一句"><img src="assets/before-chat.jpg" width="1280" height="720" alt="普通对话截图：模型回答「结论：好文章，合格偏上」，并给出内容 8/10、文笔 8/10 的打分，没有任何判据或证据条目。" loading="lazy"><span>真实运行截图 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article><article class="comparison-card after"><div class="comparison-copy"><h3>之后：拆成图，逐条判定</h3><p>八个目标各自判定，六个通过、两个失败；失败的那个整体断言说明了「四个子目标都过、整体仍然不成立」，每个结论都能点开看证据。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/after-debugger.jpg" data-title="之后：拆成图，逐条判定" aria-label="放大查看：之后：拆成图，逐条判定"><img src="assets/after-debugger.jpg" width="1280" height="720" alt="调试面板截图：八个目标六个通过两个失败，右侧显示目标「内容质量（四维）」的契约、整体断言与证据入口。" loading="lazy"><span>真实运行截图 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article></div>
+      <div class="takeaways"><p><span aria-hidden="true">↳</span> 「完成」变成一个可核对的说法。</p><p><span aria-hidden="true">↳</span> 判不出来的时候，系统停下来找你。</p><p><span aria-hidden="true">↳</span> 判据、产物、判定记录都在，能查到当时凭什么这么判。</p></div>
+    </section>
+
+    <section id="quickstart" class="wrap section" aria-labelledby="start-title">
+      <div class="section-heading"><h2 id="start-title">安装与开始</h2><p class="section-description">四步，默认不需要配置。</p></div>
+      <div id="details" class="install-requirements">
+        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>DSH</dt><dd>0.2.1-rc.2（包声明 &gt;=0.2.1-0 &lt;0.3.0-0，只在 rc.2 实测）</dd></div><div><dt>模型</dt><dd>一个可用的模型给判定者用，留空时继承当前会话</dd></div><div><dt>文件位置</dt><dd>被检查的文件在会话目录里，或把 dog.workspaceRoot 指到它所在的目录</dd></div><div><dt>脚本判据</dt><dd>需要脚本判据时，把脚本放进 scriptsDirectory 指向的目录</dd></div></dl></div>
+        <p>判定默认沿用当前会话的模型；被检查的文件默认在会话目录里找。</p>
+        <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>打榜、刷性能这类评价</strong><p>能完全机械判定的部分交给普通 CI。</p></div><div><strong>整条分支都能被脚本判完的结构</strong><p>图校验会拒绝，它属于普通 CI 的活。</p></div><div><strong>极端个人偏好与对比式评价</strong><p>对比式评价需要改逻辑才能做。</p></div></div></details>
+      </div>
+      <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>装插件</strong> 加到要用的 profile 上。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1</code></pre><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-2"><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>让它写图</strong> 把你要判的东西和你的原话交给它，它会逐层展开并请你确认。 <span class="command-context">发给 DSH</span></p><div class="install-command" aria-label="发给 DSH"><pre><code>按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图，先给我看抽象层怎么分。</code></pre><button type="button" class="copy-button" data-copy="按插件自带的写图 skill，帮我把「这篇文章读着别扭，可我说不出哪句不对」写成一张 DoG 图，先给我看抽象层怎么分。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-3"><span class="step-index" aria-hidden="true">3</span><div><p class="step-description"><strong>运行</strong> 图和判据确认后就固化运行，每个判定最多 900 秒。 <span class="command-context">发给 DSH</span></p><div class="install-command" aria-label="发给 DSH"><pre><code>运行这张图，跑完把每个目标的判决和证据列出来。</code></pre><button type="button" class="copy-button" data-copy="运行这张图，跑完把每个目标的判决和证据列出来。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-4"><span class="step-index" aria-hidden="true">4</span><div><p class="step-description"><strong>看结果</strong> 打开调试面板，点任意一个目标。 <span class="command-context">DSH 界面</span></p><div class="install-command" aria-label="DSH 界面"><pre><code>打开 DoG 面板，选中刚才那张图。</code></pre><button type="button" class="copy-button" data-copy="打开 DoG 面板，选中刚才那张图。" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li></ol>
+      <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>装插件</strong><p>插件出现在该 profile 的依赖里，DSH 面板上多出一个 DoG 区域。</p></li><li><strong>让它写图</strong><p>它先给抽象层方案，再逐层展开；每一层都停下来等你确认。</p></li><li><strong>运行</strong><p>运行结束，每个目标有判决与证据；判不出来的会标成需要人工。</p></li><li><strong>看结果</strong><p>右边一栏显示这个目标拿到的判据、判定、证据与事件。</p></li></ol></details>
+      <p class="help-link"><a href="https://github.com/Fun10165/dsh-dog">安装与使用文档 ↗</a></p>
+    </section>
+
+    <section id="faq" class="wrap section" aria-labelledby="faq-title">
+      <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
+      <div class="faq-list"><details><summary>它和 CI 有什么区别？<span aria-hidden="true">＋</span></summary><p>能被脚本判定的部分交给普通 CI。DoG 处理的是不能程序化的那部分：很多目标能用一句话说清楚，却不容易写成一个程序，这类才需要 DoG。一条分支也不能全靠脚本判完。</p></details><details><summary>判据谁写？<span aria-hidden="true">＋</span></summary><p>你和 Agent 一起写。写图时它会请你确认：写图前、拆解后、运行前各一次。根节点是你的原话，Agent 的解读不算数。</p></details><details><summary>判定准不准？<span aria-hidden="true">＋</span></summary><p>单次判定是信号。同一张图多跑几次，稳定出现的失败才值得动手；偶尔翻转的结果先放着。</p></details><details><summary>一个判定要多久？<span aria-hidden="true">＋</span></summary><p>默认上限 900 秒，可以在配置里改（runDeadlineSeconds）。超过上限按「目标不够原子」记为需要人工，不重试；把目标拆小更划算。</p></details><details><summary>判定者会改动我的产物吗？<span aria-hidden="true">＋</span></summary><p>判定读的是 dog_create 时固化的副本；工作区后续改动不会进入这次判定。生成产物的活由你或你的 Agent 做。</p></details><details><summary>要花多少钱？<span aria-hidden="true">＋</span></summary><p>每条判据一次独立会话。运行预算用 runMaxTokens 控制，0 表示不设限；预算耗尽时，跑到一半的判定会被中止，运行按「未完成」结束并说明原因。</p></details><details><summary>产物改了要重新确认吗？<span aria-hidden="true">＋</span></summary><p>不用。要重新确认的是判据：图的结构、每个目标写的那句话、脚本内容、背景文档，这几样里任何一样改了都要重新确认；只换了被检查的产物，不用。</p></details><details><summary>判定者和生成者用同一个模型，算自己判自己吗？<span aria-hidden="true">＋</span></summary><p>算同一族。运行条件会标出这一点。要换成另一个模型族，配 crossCheckProvider / crossCheckModel，确认时把要交叉的目标一起定下来。</p></details></div>
+    </section>
+  </main>
+  <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://github.com/Fun10165/dsh-dog">GitHub 仓库</a><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-dog">npm</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
+  <p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
+  <dialog id="screenshot-dialog" class="screenshot-dialog" aria-labelledby="screenshot-title"><div class="dialog-bar"><h2 id="screenshot-title">运行截图</h2><button id="close-screenshot" type="button">关闭 ×</button></div><img id="screenshot-full" alt=""></dialog>
+</body>
+</html>

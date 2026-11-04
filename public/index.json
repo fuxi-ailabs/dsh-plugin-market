@@ -556,6 +556,52 @@
           }
         }
       ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-dog",
+      "title": {
+        "en": "DoG · DAG of Goals value judge",
+        "zh": "DoG · DAG of Goals 价值判断器"
+      },
+      "description": {
+        "en": "“Is this article good?” has no formal standard, and the intent behind it belongs to one particular person's preference. DoG splits such a goal into a directed acyclic graph (DAG): the root is the user's original goal, expanded in a scholastic style until the layers are complete, non-overlapping and sound in abstraction, and the expansion itself helps the user pin down what they mean. The lower layers are atomic goals. You hand your artifact (or your Agent's) to DoG, and a set of Agents judges it in isolated contexts, so the overall quality of the value judgment is far higher than asking one Agent “is this article good?”. Artifacts can be an article, a deck, a repository, a project, or a day of your life. We build a high-quality judge.",
+        "zh": "「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。"
+      },
+      "icon": "icons/dog.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dog/",
+      "repository": {
+        "url": "https://github.com/Fun10165/dsh-dog"
+      },
+      "metadata": {
+        "category": "verification",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "DoG",
+          "DAG",
+          "value judgment",
+          "agentic CI",
+          "判定",
+          "验收",
+          "价值判断",
+          "DAG of Goals"
+        ]
+      },
+      "versions": [
+        {
+          "version": "2.0.0-alpha.1",
+          "publishTimestamp": 1793779782,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-0 <0.3.0-0"
+          }
+        }
+      ]
     }
   ]
 }
