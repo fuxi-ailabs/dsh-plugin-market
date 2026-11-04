@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。">
+  <meta name="description" content="DoG 是一个把非形式化目标拆成 DAG、交给隔离上下文的 Agent 逐条判定的价值判断器。「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f7f9fb">
   <title>DoG · DAG of Goals 价值判断器 · Fuxi通用DSH组件市场</title>
@@ -22,7 +22,7 @@
       <div class="hero-copy">
         <div class="plugin-name">DoG · DAG of Goals 价值判断器 <span class="version">v2.0.0-alpha.1</span></div>
         <h1 id="page-title"><span>经院哲学式展开，落到原子目标。</span><span class="accent">标准由你确认，判定隔离执行。</span></h1>
-        <p class="lede">「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。</p>
+        <p class="lede">DoG 是一个把非形式化目标拆成 DAG、交给隔离上下文的 Agent 逐条判定的价值判断器。「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。</p>
         <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端</span><button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1</code></pre></div><p>把 web 换成你实际在用的 profile 名；默认不需要配置：被检查的文件按当前会话的目录找，判定沿用当前会话的模型。 <a href="#quickstart">安装步骤 ↓</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
         <p class="compatibility">DSH 0.2.1-rc.2 · 预览版</p>
