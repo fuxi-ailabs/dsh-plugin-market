@@ -219,7 +219,14 @@
       }
     ],
     "supplemental_capture": {
-      "recorded_at": "2026-11-05",
+      "recorded_at": "2026-11-05T00:28:37+09:00",
+      "timezone": "Asia/Tokyo",
+      "recorded_at_utc": "2026-11-04T15:28:37Z",
+      "timestamp_basis": "Completion time from original local WebM file modification timestamps, rounded to seconds.",
+      "source_files_finalized_at": {
+        "config_doc.webm": "2026-11-05T00:28:07+09:00",
+        "config_loaded.webm": "2026-11-05T00:28:37+09:00"
+      },
       "views": [
         "config_doc",
         "config_loaded"
@@ -330,6 +337,6 @@
     "source_audio_sha256": {
       "narration.mp3": "sha256:b1125e9560999450a22717c48282b2de6241c5d13e6878f098aa0733942abe2b"
     },
-    "encoding_metadata_sha256": "sha256:fdd56b31962fe30a9d590f8ed2362548477bd34da7958543d532b4d4d203e575"
+    "encoding_metadata_sha256": "sha256:b4b29cbc502adf4a97240849a774f5dd50252e9d6c0255c3de43d348c5ffcd97"
   }
 }
