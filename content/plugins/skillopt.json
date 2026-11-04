@@ -1,0 +1,200 @@
+{
+  "slug": "skillopt",
+  "name": "SkillOpt",
+  "version": "0.2.0-alpha.1",
+  "compatibility": "DSH 0.2.1-rc.2 实测 · SkillOpt 0.2.0-alpha.1 预览版",
+  "description": "为你已有的业务 skill 自动生成验收、复现问题、提出候选并复测。合格候选可应用到项目，也能回退。",
+  "install": {
+    "code": "dsh plugin --profile web add \"git+https://github.com/fuxi-ailabs/dsh-skillopt-dist.git#7f901e565f0b34976b87fc7c85f538b441b69aaf\"",
+    "codeLabel": "终端 · Web profile",
+    "note": "先准备 Python 3.11+、Node 24+ 与 DeepSeek API key；安装后重启该 profile 的 DSH。"
+  },
+  "headline": [
+    "SkillOpt",
+    "优化你自己的业务 skills"
+  ],
+  "heroMedia": {
+    "image": "assets/automatic-suite.jpg",
+    "alt": "说人话真实自动准备与 no_change 结果，包含生成的训练题和独立题",
+    "title": "自动准备与真实结果",
+    "description": "真实运行截图，裁去本机项目路径。基线通过训练题，因此返回 no_change；没有宣称写作质量已提升。"
+  },
+  "useCases": [
+    {
+      "audience": "业务 skill 维护者",
+      "title": "已有 skill，但没有验收题",
+      "question": "“能从我的业务规则直接开始吗？”",
+      "description": "选择可导出的文本 skill，提取原文条款，分别生成训练题和独立题，并检查正反样例。可以先开始验证，再检查题目是否覆盖自己的业务。",
+      "prompt": "调用 skillopt_assets，列出当前项目可优化的业务 skills；再调用 skillopt_open 返回管理页地址。"
+    },
+    {
+      "audience": "使用 DSH 的业务团队",
+      "title": "同一类错误反复出现",
+      "question": "“这段执行记录说明 skill 哪里有问题？”",
+      "description": "选择当前项目会话或提供业务材料文件。分析会区分 skill、工具、环境和证据不足，只把有出处的问题交给修改者。",
+      "prompt": "调用 skillopt_open。我想在管理页选择这份业务 skill 和当前项目会话，分析反复出现的问题。"
+    },
+    {
+      "audience": "负责上线的人",
+      "title": "修改过了，仍要知道能否应用",
+      "question": "“候选是否保住了原来做对的事？”",
+      "description": "查看重复评测、逐题回归和文件改动。只有满足资格的候选才可应用到项目；原始资产保留，项目覆盖版本可以回退。",
+      "prompt": "调用 skillopt_status，查看当前项目的实验结论和已应用版本。"
+    }
+  ],
+  "example": {
+    "title": "从已有条款到独立复测",
+    "description": "参考 MigBot-Lab 与 a2h-opt-loop 的通用主链，运行在本机 DSH，不依赖 Android 或 HarmonyOS。",
+    "blocks": [
+      {
+        "type": "list",
+        "items": [
+          "选择已有 skill → 固定文本快照，读取可选证据。",
+          "分析真实条款 → 训练作者和独立作者分别出题 → 校验引用与正反样例。",
+          "原生 DSH 重复执行基线 → 修改候选 → 逐题保留无回归的改进，最多三个候选。",
+          "最终独立复测 → 查看差异 → 合格后由人应用 → 新会话加载，必要时回退。"
+        ]
+      },
+      {
+        "type": "image",
+        "src": "assets/automatic-suite.jpg",
+        "alt": "真实说人话实验展示生成题和未发现可验证改进的结果",
+        "caption": "真实 skill 副本，合成验收样例。自动准备提取5条约束、生成2道训练题和2道独立题；4组正反样例检查通过。基线2题各跑2次均通过，实验停止为 no_change，没有进入候选修改或独立准出。"
+      },
+      {
+        "type": "text",
+        "text": "当前已有资产发现、选定轨迹取证、问题归因、自动出题、反思式候选优化、独立语义判据、版本应用与回退。新 skill 孵化、GEPA/MIPRO、全量历史守护采集和设备/编译适配器尚未移植。"
+      }
+    ]
+  },
+  "comparison": {
+    "title": "手动准备与自动准备",
+    "description": "对比的是准备方式。两张均为本版真实界面；不表示两组质量评测，也不表示 skill 已变好。",
+    "before": {
+      "title": "手动准备：先有套件",
+      "description": "手动入口需要自己准备包含训练题和独立题的 suite.json，再导入固定快照。",
+      "image": "assets/manual-suite.jpg",
+      "alt": "本版保留的手动套件导入入口，需要填写 suite.json 路径"
+    },
+    "after": {
+      "title": "自动准备：从已有条款出题",
+      "description": "选择 skill 后自动提取约束、分别出题并自检，管理页可查看题目和来源，再决定开始优化。",
+      "image": "assets/automatic-suite.jpg",
+      "alt": "自动准备后可查看训练题、独立题和实际实验结论"
+    },
+    "takeaways": [
+      "不要求先手写失败文案或 suite JSON；已有业务记录可作为可选证据。",
+      "运行中的复现、修改和复测自动执行；人负责确认业务标准和最终应用。",
+      "no_change、rejected、inconclusive 都保留，不能当成优化成功。"
+    ]
+  },
+  "requirements": {
+    "summary": "Node 24+ · Python 3.11+ · DeepSeek API key",
+    "description": "执行器已内置 DSH 运行依赖；Python仅用标准库。当前仅支持 DeepSeek 官方 API key 路由，业务材料会发送到该模型服务。",
+    "items": [
+      {
+        "label": "DSH",
+        "value": "实际验证为 0.2.1-rc.2；声明兼容 ^0.2.1-rc.2。"
+      },
+      {
+        "label": "本机环境",
+        "value": "Node.js 24+；Python 3.11+，可从 PATH 调用或设置 SKILLOPT_PYTHON。本次实测 Windows x64 / Python 3.12.10。"
+      },
+      {
+        "label": "模型凭据",
+        "value": "启动 DSH 的进程中需有 DEEPSEEK_API_KEY；默认模型 deepseek-flash。"
+      },
+      {
+        "label": "业务资产",
+        "value": "可导出的 UTF-8 文本 bundle，含 SKILL.md。最多100文件、1MB；自动分析另限150000字符。"
+      }
+    ]
+  },
+  "boundaries": [
+    {
+      "title": "业务效果仍需验收",
+      "description": "真实“说人话”自动准备已跑通，尚未证明稳定质量提升。本次新实验为 no_change；历史候选有拒绝和波动。应用与回退有机制测试，本版尚无合格真实候选的完整应用重放。"
+    },
+    {
+      "title": "面向文本类现有 skill",
+      "description": "支持文本/JSON输出，候选最多修改八个已有文件，不执行 scripts。编译、设备、业务工具调用和新 skill 孵化需后续适配。生成题是合成样例，正反自检不能证明业务覆盖充分。"
+    },
+    {
+      "title": "项目版本与调用预算",
+      "description": "源 skill 不覆盖，合格候选写入项目 .dsh/skillopt。准备最多5次模型请求；优化最多3个候选、100次请求、30分钟活动时间。安装成功不代表某个 skill 通过了业务准出。"
+    }
+  ],
+  "quickstart": {
+    "title": "安装与第一次验证",
+    "description": "下面使用你已有的业务 skill。插件不附带用户的“说人话”资产或原始轨迹。",
+    "steps": [
+      {
+        "title": "检查环境",
+        "description": "确认 Node、Python 与 DSH 版本，准备 DeepSeek 官方 API key。",
+        "code": "node --version\npython --version\ndsh --version",
+        "codeLabel": "终端",
+        "expected": "Node 24+、Python 3.11+；本页验证的 DSH 为0.2.1-rc.2。"
+      },
+      {
+        "title": "安装固定发行包",
+        "description": "安装到 web profile，随后重启该 profile。发行包已经预构建，不需要源码构建工具。",
+        "code": "dsh plugin --profile web add \"git+https://github.com/fuxi-ailabs/dsh-skillopt-dist.git#7f901e565f0b34976b87fc7c85f538b441b69aaf\"",
+        "codeLabel": "终端",
+        "expected": "安装记录出现 @fuxi-ailabs/dsh-skillopt，提交为 7f901e565f0b34976b87fc7c85f538b441b69aaf."
+      },
+      {
+        "title": "打开业务项目的管理页",
+        "description": "在该 profile 的业务项目会话中发送以下请求，打开返回的本机地址。",
+        "code": "调用 skillopt_assets，列出当前项目可优化的业务 skills；调用 skillopt_open，返回管理页地址。",
+        "codeLabel": "发送给 DSH",
+        "expected": "模型返回资产列表和127.0.0.1管理页地址；页面显示 Python 与凭据状态。"
+      },
+      {
+        "title": "自动准备并优化",
+        "description": "选择 skill，点击“自动分析并生成验收”；检查生成的题后点击“开始优化”。",
+        "code": "/skillopt doctor",
+        "codeLabel": "DSH 人工命令 · 可选就绪检查",
+        "expected": "页面显示生成用例和实验。未复现失败会 no_change；有失败才提出候选并复测。新会话人工命令无输出时，先发一条普通消息或用上一步模型工具。"
+      },
+      {
+        "title": "查看结论和版本",
+        "description": "查看独立结果与差异；合格候选可在管理页应用，再用新会话验证；回退按钮恢复应用前映射。",
+        "code": "调用 skillopt_status，查看实验结论和当前项目版本。",
+        "codeLabel": "发送给 DSH",
+        "expected": "展示真实业务结论。只有 accepted_measured 且运行环境未变的候选可应用；其他结论会被拦截。"
+      }
+    ]
+  },
+  "links": [
+    {
+      "label": "固定版本安装与使用文档 ↗",
+      "url": "https://github.com/fuxi-ailabs/dsh-skillopt-dist/blob/7f901e565f0b34976b87fc7c85f538b441b69aaf/README.md"
+    },
+    {
+      "label": "预构建发行文件 ↗",
+      "url": "https://github.com/fuxi-ailabs/dsh-skillopt-dist"
+    }
+  ],
+  "faq": [
+    {
+      "question": "是否必须提供失败文案和正确答案？",
+      "answer": "不必须。已有 skill 的原文条款可以启动自动出题与评测。业务标准不明确或合成题没有覆盖真实问题时，人补充失败例子和判断有助于改进；插件不会把缺少标准时的模型猜测当成正确答案。最终应用由人触发。"
+    },
+    {
+      "question": "安装后先检查哪里？",
+      "answer": "确认装在当前使用的 profile，重启 DSH。在管理页检查 Python 与模型凭据，或运行 /skillopt doctor。Python不在PATH时设置SKILLOPT_PYTHON。当前不继承任意OAuth或第三方模型provider。"
+    },
+    {
+      "question": "为什么输出 no_change 或候选未通过？",
+      "answer": "no_change表示没有复现可验证失败，或候选在独立题上没有额外收益；rejected表示未满足独立通过、稳定增益和无回归；inconclusive表示运行异常或重复结果波动。它们都不是质量提升证明，也不会允许正式应用。"
+    },
+    {
+      "question": "会改全局 skill 或上传业务资产到市场吗？",
+      "answer": "不会覆盖源 skill。项目覆盖版本写到 .dsh/skillopt，实验和轨迹保存在 DSH_HOME/skillopt/workspaces/项目哈希。选中的业务材料会发送给模型服务；原始轨迹和业务 skill 不随插件或市场页面发布。新会话加载新项目版本，旧会话保留原绑定。"
+    },
+    {
+      "question": "上游的全部功能都复制了吗？",
+      "answer": "已实现优化现有文本业务 skill 的通用主链。A2H设备和SDK、中央Server与OBS、GEPA/MIPRO、新skill出生、跨模型编排和全历史常驻采集尚未移植；本版不宣称完整复刻整个MigBot平台。"
+    }
+  ]
+}

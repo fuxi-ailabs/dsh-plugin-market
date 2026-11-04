@@ -20,7 +20,7 @@ for (const entry of await readdir('public', { withFileTypes: true })) {
   }
 }
 // Each page is reviewed independently. Add its exact resource list here before publishing.
-const publicPages = new Map([['plugins/agentlineage', new Set([
+const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles.css', 'page.js', 'demo-data.js', 'assets/manual-suite.jpg', 'assets/automatic-suite.jpg'])], ['plugins/agentlineage', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-dsh.jpg', 'assets/after-viewer.jpg',
   'assets/dsh-release-note-demo.mp4', 'assets/dsh-release-note-poster.jpg', 'assets/dsh-release-note-zh.vtt',
@@ -67,7 +67,7 @@ const publicPages = new Map([['plugins/agentlineage', new Set([
   'assets/skill-eval-demo.mp4', 'assets/skill-eval-demo-zh.vtt',
 ])]]);
 // Exact documentation URLs are reviewed alongside each page, never inferred from its content.
-const publicLinks = new Map([['plugins/workflow-rsi', new Set([
+const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.github.io/dsh-plugin-market/', 'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skillopt/', "https://github.com/fuxi-ailabs/dsh-skillopt-dist/blob/7f901e565f0b34976b87fc7c85f538b441b69aaf/README.md", 'https://github.com/fuxi-ailabs/dsh-skillopt-dist'])], ['plugins/workflow-rsi', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html',

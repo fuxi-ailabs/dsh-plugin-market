@@ -509,6 +509,53 @@
           }
         }
       ]
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-skillopt",
+      "title": {
+        "en": "SkillOpt",
+        "zh": "SkillOpt · 业务技能自优化"
+      },
+      "description": {
+        "en": "Evaluate and improve existing text-based business skills with native DSH agents, generated suites and project version rollback. Preview; stable business gains are not yet demonstrated.",
+        "zh": "针对自己的文本业务 skill 自动分析、出题、评测与候选优化，支持项目应用和回退。预览版，尚未证明稳定业务增益。"
+      },
+      "icon": "icons/skillopt.svg",
+      "author": "Fuxi AI Labs",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skillopt/",
+      "repository": {
+        "url": "https://github.com/fuxi-ailabs/dsh-skillopt-dist"
+      },
+      "metadata": {
+        "category": "workflow",
+        "labels": [
+          "preview"
+        ],
+        "keywords": [
+          "skill",
+          "skills",
+          "optimization",
+          "自优化",
+          "业务技能",
+          "评测",
+          "MigBot",
+          "a2h-opt-loop"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.2.0-alpha.1",
+          "publishTimestamp": 1793762288,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/fuxi-ailabs/dsh-skillopt-dist",
+            "commit": "7f901e565f0b34976b87fc7c85f538b441b69aaf"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        }
+      ]
     }
   ]
 }
