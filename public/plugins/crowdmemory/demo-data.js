@@ -16,7 +16,7 @@ window.PLUGIN_DEMO = {
   "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
   "video": {
     "title": "两个 Agent，一份可核对的 libpng 构建经验",
-    "description": "约 95 秒中文配音讲解，字幕已嵌入画面，建议全屏观看。双屏交代两个 Agent 的关系，讲到关键步骤时切换放大查看；Runtime 与适配器均为 0.1.1。",
+    "description": "约 77 秒中文配音讲解，字幕已嵌入画面，建议全屏观看。双屏交代两个 Agent 的关系，讲到关键步骤时切换放大查看；Runtime 与适配器均为 0.1.1。",
     "src": "assets/coding-agent-demo.mp4",
     "poster": "assets/coding-agent-poster.jpg",
     "captions": "assets/coding-agent-zh.vtt",

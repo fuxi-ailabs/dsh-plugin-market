@@ -3,7 +3,7 @@
 Usage: python encode-narrated-video.py FOCUS ORIGINAL AUDIO ASSETS [--font FONT]
 FOCUS: five native 3840x1920 WebM files named for narration views.
 ORIGINAL: native 1920x1920 a-2/b-2/a-3/b-3 clips for two-Agent overview/end.
-AUDIO: <scene-id>.mp3 and .srt files generated from narration.json.
+AUDIO: one continuous narration.mp3 and narration.srt from narration.json.
 Requires Pillow, ffmpeg and ffprobe. All input validation precedes replacement.
 """
 import argparse
@@ -43,8 +43,8 @@ def captions(path, duration):
     for block in path.read_text().strip().split("\n\n"):
         lines = block.splitlines()
         start, end = lines[1].split(" --> ")
-        result.append({"start":seconds(start) + 0.2,
-                       "end":min(seconds(end) + 0.2, duration),
+        result.append({"start":seconds(start),
+                       "end":min(seconds(end), duration),
                        "text":" ".join(lines[2:])})
     # Provider sentence boundaries can overlap by ~50ms. Avoid double subtitles.
     for index, cue in enumerate(result[:-1]):
@@ -102,13 +102,38 @@ def subtitle_plate(text, target, font_path):
 
 def encode(args):
     spec = json.loads((DOCS / "narration.json").read_text())
-    scenes = []
+    if not spec.get("continuous"):
+        raise ValueError("This encoder requires a single continuous narration")
+    master_audio = args.audio / "narration.mp3"
+    master_duration = float(probe(master_audio)["format"]["duration"])
+    master_cues = captions(args.audio / "narration.srt", master_duration)
+    normalize = lambda text: re.sub(r"[^\w\u4e00-\u9fff]", "", text).lower()
+    grouped_cues = []
+    cursor = 0
     for source in spec["scenes"]:
+        target = normalize(source["speech"])
+        text = ""
+        group = []
+        while cursor < len(master_cues) and text != target:
+            cue = master_cues[cursor]
+            text += normalize(cue["text"])
+            if not target.startswith(text):
+                raise ValueError("Narration boundaries do not match scene: " + source["id"])
+            group.append(cue)
+            cursor += 1
+        if text != target or not group:
+            raise ValueError("Missing narration for scene: " + source["id"])
+        grouped_cues.append(group)
+    if cursor != len(master_cues):
+        raise ValueError("Unexpected narration after the last scene")
+    starts = [0] + [math.floor(group[0]["start"] * FPS) / FPS for group in grouped_cues[1:]]
+    ends = starts[1:] + [math.ceil(master_duration * FPS) / FPS]
+    scenes = []
+    for source, group, start, end in zip(spec["scenes"], grouped_cues, starts, ends):
         scene = dict(source)
-        audio = args.audio / (scene["id"] + ".mp3")
-        info = probe(audio)
-        scene["duration"] = math.ceil((float(info["format"]["duration"]) + 0.8) * FPS) / FPS
-        scene["captions"] = captions(args.audio / (scene["id"] + ".srt"), scene["duration"])
+        scene["start"] = start
+        scene["duration"] = end - start
+        scene["captions"] = [{"start":c["start"] - start,"end":c["end"] - start,"text":c["text"]} for c in group]
         if scene["view"] == "two_agents":
             stage = 2 if scene["id"] == "overview" else 3
             inputs = [args.original / f"{actor}-{stage}.webm" for actor in "ab"]
@@ -148,25 +173,22 @@ def encode(args):
                             "[p1][v2]overlay=1920:240:shortest=1[content]"]
             else:
                 filters += ["[base][v1]overlay=0:240:shortest=1[content]"]
-            audio_index = len(scene["inputs"]) + 1
-            command += ["-i", str(args.audio / (sid + ".mp3"))]
             current = "content"
             for index, cue in enumerate(scene["captions"]):
                 overlay = stage / f"{sid}-caption-{index}.png"
                 subtitle_plate(cue["text"], overlay, args.font)
                 command += ["-loop", "1", "-framerate", str(FPS), "-i", str(overlay)]
-                stream_index = audio_index + index + 1
+                stream_index = len(scene["inputs"]) + index + 1
                 after = f"c{index}"
                 filters.append(f"[{current}][{stream_index}:v]overlay=0:0:enable='gte(t,{cue['start']})*lt(t,{cue['end']})'[{after}]")
                 current = after
                 timeline.append({"scene":sid,"start":round(elapsed + cue["start"],3),
                                  "end":round(elapsed + cue["end"],3),"text":cue["text"]})
-            filters.append(f"[{audio_index}:a]adelay=200:all=1,apad,atrim=duration={duration},aresample=48000,aformat=channel_layouts=mono[audio]")
             clip = stage / (sid + ".mp4")
             subprocess.run(command + ["-filter_complex_threads", "2", "-filter_complex", ";".join(filters),
-                "-map", f"[{current}]", "-map", "[audio]", "-t", str(duration),
+                "-map", f"[{current}]", "-an", "-t", str(duration),
                 "-c:v", "libx264", "-threads", "4", "-preset", "fast", "-crf", "20", "-pix_fmt", "yuv420p",
-                "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-movflags", "+faststart", str(clip)], check=True)
+                "-movflags", "+faststart", str(clip)], check=True)
             output_clips.append(clip)
             elapsed += duration
             print("Encoded", sid, round(duration,3), flush=True)
@@ -174,7 +196,8 @@ def encode(args):
         playlist.write_text("".join(f"file '{p.name}'\n" for p in output_clips))
         video = stage / "coding-agent-demo.mp4"
         subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-f", "concat", "-safe", "0", "-i", str(playlist),
-            "-t", str(elapsed), "-c:v", "copy", "-af", "loudnorm=I=-16:LRA=11:TP=-1.5,aresample=48000",
+            "-i", str(master_audio), "-map", "0:v:0", "-map", "1:a:0", "-t", str(elapsed), "-c:v", "copy",
+            "-af", f"loudnorm=I=-16:LRA=11:TP=-1.5,aresample=48000,apad,atrim=duration={elapsed}",
             "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(video)], check=True)
         poster = stage / "coding-agent-poster.jpg"
         subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-ss", "3", "-i", str(video),
@@ -188,12 +211,13 @@ def encode(args):
             "container_duration_seconds":round(float(probe(video)["format"]["duration"]),3),
             "fps":FPS,"width":3840,"height":2160,
             "narration":{"voice":spec["voice"],"rate":spec["rate"],"type":spec["type"],
+                         "continuous":True,"audio_splice_count":0,
                          "audio_master":"AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"},
             "captions_burned_in":True,"caption_count":len(timeline),"captions":timeline,
             "font_name":args.font.name,"font_sha256":sha(args.font),
             "source_capture_sha256":{p.name:sha(p) for s in scenes for p in s["inputs"]},
-            "source_audio_sha256":{s["id"] + ".mp3":sha(args.audio / (s["id"] + ".mp3")) for s in scenes},
-            "scenes":[{"id":s["id"],"duration_seconds":round(s["duration"],3),"label":s["label"]} for s in scenes]}
+            "source_audio_sha256":{"narration.mp3":sha(master_audio)},
+            "scenes":[{"id":s["id"],"start_seconds":round(s["start"],3),"duration_seconds":round(s["duration"],3),"label":s["label"]} for s in scenes]}
         for path in (video, poster, representative, vtt): path.replace(args.assets / path.name)
         (DOCS / "narrated-encoding.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2) + "\n")
         print("Published narrated video", round(elapsed,3), "seconds", flush=True)

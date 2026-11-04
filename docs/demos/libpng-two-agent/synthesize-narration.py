@@ -13,7 +13,10 @@ async def main():
     spec = json.loads(Path(__file__).with_name("narration.json").read_text())
     output = Path(sys.argv[1])
     output.mkdir(parents=True, exist_ok=True)
-    for scene in spec["scenes"]:
+    scenes = spec["scenes"]
+    if spec.get("continuous"):
+        scenes = [{"id":"narration", "speech":"".join(s["speech"] for s in scenes)}]
+    for scene in scenes:
         audio = output / (scene["id"] + ".mp3")
         metadata = output / (scene["id"] + ".jsonl")
         await edge_tts.Communicate(scene["speech"], spec["voice"], rate=spec["rate"]).save(str(audio), str(metadata))
