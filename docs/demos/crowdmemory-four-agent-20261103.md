@@ -19,7 +19,7 @@
 | 右上 | C / on-origin | GET 修复后记录经验 | memory_note |
 | 右下 | D / on-follower | 读取 C 的经验，再处理 POST | memory_search、memory_read |
 
-记忆记录为 `lr_01a19f7cddaa7f8dbee2fb1d9dc63e06`，来源是 C 的真实 session。D 的 Runtime 回执包含对同一记录的 `record_usage / read`。实际 session ID、来源、停止原因和摘要见 [verification.json](four-session/verification.json)，也同步发布在页面的 `assets/coding-evidence.json`。
+记忆记录为 `lr_01a19f7cddaa7f8dbee2fb1d9dc63e06`，来源是 C 的真实 session。D 的 Runtime 回执包含对同一记录的 `record_usage / read`。实际 session ID、来源、停止原因和摘要见 [verification.json](four-session/verification.json)；当时公开的完整运行依据及读取回执归档在 [published-evidence.json](four-session/published-evidence.json)。
 
 ## 独立复核
 
@@ -52,4 +52,4 @@ A、D 在额外回归阶段达到 600 秒时限；指定接口测试的独立复
 
 `four-session/encode-video.py CAPTURES ASSETS` 需要 `a-1.webm` 至 `d-3.webm` 十二段录像，以及脚本同目录中已入库的 `layout.png`。标签源为 `layout.html`，以 3840×2160 浏览器 viewport 截图生成标签板。编码器先检查全部视频和标签板的尺寸、时长，在暂存目录成功生成视频与海报后才替换发布文件；海报从新成片第 27 秒提取，没有额外输入海报。
 
-发布媒体的 SHA-256 和十二段原片摘要保存在页面运行依据中。完整会话日志、原始录像和带鉴权的浏览器配置仅保留本机；不公开凭据或 Runtime 令牌。
+当时发布媒体的 SHA-256 和十二段原片摘要保存在归档的 [published-evidence.json](four-session/published-evidence.json) 中。完整会话日志、原始录像和带鉴权的浏览器配置仅保留本机；不公开凭据或 Runtime 令牌。

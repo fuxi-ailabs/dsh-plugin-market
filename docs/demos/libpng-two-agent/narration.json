@@ -1,0 +1,50 @@
+{
+  "voice": "zh-CN-YunxiNeural",
+  "rate": "+0%",
+  "language": "zh-CN",
+  "type": "synthetic_narration",
+  "scenes": [
+    {
+      "id": "overview",
+      "view": "two_agents",
+      "label": "libpng 接入：两个 Agent 共享构建经验",
+      "speech": "这次用两个开发 Agent，看看三方库接入经验怎样共享。A 先处理信息读取工具，B 在独立工程接手图片读写。"
+    },
+    {
+      "id": "a_failure",
+      "view": "a_failure",
+      "label": "Agent A · 先复现构建失败",
+      "speech": "先看 A。虽然找到了库，构建仍然失败。这里几个 PNG 图像函数无法链接，说明找到头文件，并不等于已经链接了库。"
+    },
+    {
+      "id": "a_verified",
+      "view": "a_verified",
+      "label": "Agent A · 修复配置，验证读取结果",
+      "speech": "A 补上链接配置，又发现本机混用了旧版头文件。调整包含路径后重新构建，图片尺寸和首像素测试通过。"
+    },
+    {
+      "id": "a_note",
+      "view": "a_note",
+      "label": "Agent A · 把实际修法记下来",
+      "speech": "接着，A 把报错、原因、修改和适用条件写成记忆。这里能看到保存成功的记录编号，后续可以据此核对来源。"
+    },
+    {
+      "id": "b_read",
+      "view": "b_read",
+      "label": "Agent B · 读取同一条来源记录",
+      "speech": "再看 B。它处理的是另一个图片读写目标，先复现失败，再搜索并读取 A 的记录。读到的是同一条来源，但目标名和环境还要重新核对。"
+    },
+    {
+      "id": "b_verified",
+      "view": "b_verified",
+      "label": "Agent B · 在当前工程重新验证",
+      "speech": "B 确认当前条件适用后修改配置，再执行解码、编码和重新读取测试。这里的像素一致性检查通过，说明修法在这个工程也完成了验证。"
+    },
+    {
+      "id": "closing",
+      "view": "two_agents",
+      "label": "一个 Agent 的经验，供后续 Agent 核对与复用",
+      "speech": "一个 Agent 修过的问题，成为后续 Agent 可查、可核对的共同经验。采用后仍然要测试。本例的参数重试和人工恢复，也保留在运行依据中。"
+    }
+  ]
+}

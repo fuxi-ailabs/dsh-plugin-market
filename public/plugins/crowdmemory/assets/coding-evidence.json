@@ -135,52 +135,80 @@
     "Operator supplied an invalid topic key in the initial A prompt, then resumed A to correct the tool-parameter format. All retries preserved privately.",
     "A exceeded the prompted 16-tool limit; actual call counts and execution times are disclosed only as provenance, not efficacy metrics.",
     "The host has older libpng 1.6.43 headers in /usr/local/include; header precedence fix is environment-specific.",
-    "Record terminal outcome remains unknown; independent functional test results do not upgrade it to trusted."
+    "Record terminal outcome remains unknown; independent functional test results do not upgrade it to trusted.",
+    "Synthetic Mandarin narration explains previously recorded tool results; speech is not live Agent audio. Seven scenes are edited walkthrough views, not synchronous execution."
   ],
   "presentation_capture": {
+    "duration_seconds": 90.467,
+    "container_duration_seconds": 90.488,
+    "fps": 30,
     "width": 3840,
     "height": 2160,
-    "fps": 30,
-    "duration_seconds": 54,
-    "panel_width": 1920,
-    "panel_height": 1920,
-    "browser_text_zoom": 2,
-    "native_browser_pixels": true,
-    "low_resolution_upscaling": false,
-    "stages": 3,
-    "synchronized_elapsed_time": false,
-    "label_plate_sha256": "sha256:86a8032824dc5fbd7f0f6dc5e541b025c947264bbad86d6b0a99db7d6fa11b84",
-    "raw_clips": {
-      "a-1.webm": "sha256:4c232eec453cd6d6b40c55352512657db12280790b5fc09424aece047316dfce",
+    "captions_burned_in": true,
+    "caption_count": 17,
+    "font_name": "STHeiti Medium.ttc",
+    "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
+    "source_capture_sha256": {
       "a-2.webm": "sha256:29b07aa7b213124d5f441a555f879e536b8fb2ac80604e3f780e5d1706f9ff7e",
-      "a-3.webm": "sha256:104ac1fa10ce09746510d3419eaa649b170bc6466dc6e5de7568f03c0fddc226",
-      "b-1.webm": "sha256:65bf9429955ba68d1a7debb709cc2d54ecefbc5676bbed5de19642a5ca377ed7",
       "b-2.webm": "sha256:b290640050582c2770d1c8c513d6e9b1ca98dd4998a1f71b49ff9bc1f91a8eaa",
+      "a_failure.webm": "sha256:0f31a0f7a96419bd9a5fd2cbe10ac9ef6ae29a2e23552cca1ba4a6bd51e40772",
+      "a_verified.webm": "sha256:f5dd92c350c1bc8b676098719cf3feb234012084ce46f52ffa33516435f956f1",
+      "a_note.webm": "sha256:62a99ded92d8d29d799d6ce284724d2b2a21458b7131a0b3521387db0ecea7e3",
+      "b_read.webm": "sha256:26965502c6281e1cc6b4494825c12c383666f16ed9e929d943bd79f90036ad00",
+      "b_verified.webm": "sha256:a6f20ce933b502da48c4c2f0110390d2e294f90b938278ff36611d76ef53ea27",
+      "a-3.webm": "sha256:104ac1fa10ce09746510d3419eaa649b170bc6466dc6e5de7568f03c0fddc226",
       "b-3.webm": "sha256:5b755394fc99918efceb33a448e8389dcf677a94068e1bf35f9b97b6dbc2a984"
     },
-    "stage_tool_cards": [
+    "scenes": [
       {
-        "stage": 1,
-        "A": "Bash 复现构建失败",
-        "B": "Bash 复现构建失败"
+        "id": "overview",
+        "duration_seconds": 11.733,
+        "label": "libpng 接入：两个 Agent 共享构建经验"
       },
       {
-        "stage": 2,
-        "A": "Tool call memory_note · libpng/cmake-link-target (recovery / revision 2)",
-        "B": "Tool call memory_read · lr_01a1a5fe4bee72e59f8b6dddd23f7108"
+        "id": "a_failure",
+        "duration_seconds": 12.4,
+        "label": "Agent A · 先复现构建失败"
       },
       {
-        "stage": 3,
-        "A": "Bash 验证测试与版本一致性",
-        "B": "Bash 验证构建与测试"
+        "id": "a_verified",
+        "duration_seconds": 11.533,
+        "label": "Agent A · 修复配置，验证读取结果"
+      },
+      {
+        "id": "a_note",
+        "duration_seconds": 12.467,
+        "label": "Agent A · 把实际修法记下来"
+      },
+      {
+        "id": "b_read",
+        "duration_seconds": 14.233,
+        "label": "Agent B · 读取同一条来源记录"
+      },
+      {
+        "id": "b_verified",
+        "duration_seconds": 14.1,
+        "label": "Agent B · 在当前工程重新验证"
+      },
+      {
+        "id": "closing",
+        "duration_seconds": 14.0,
+        "label": "一个 Agent 的经验，供后续 Agent 核对与复用"
       }
-    ]
+    ],
+    "native_browser_pixels": true,
+    "low_resolution_upscaling": false,
+    "synchronized_elapsed_time": false,
+    "browser_text_zoom": {
+      "two_agent": 2,
+      "focus": 3
+    }
   },
   "assets": {
-    "coding-agent-demo.mp4": "sha256:999b98f3815d43746e7cdc17d4f9c8f037c6379c0aed332cbd9dded15a4bdd3b",
-    "coding-agent-poster.jpg": "sha256:b1dd5907e51a85835b778cc0cb3e2545b8aff3b12ed5569af37f651ace5b5694",
-    "coding-agent-zh.vtt": "sha256:3acb0f2d2e82078c17c5fd14d1f9692d6c5a7c08271867f97df8a7785da653d5",
-    "coding-memory.jpg": "sha256:b1dd5907e51a85835b778cc0cb3e2545b8aff3b12ed5569af37f651ace5b5694",
+    "coding-agent-demo.mp4": "sha256:8b0a3348eabfb10f842b1f3fc81139103e58b94d9a6445bbec56680ab8052950",
+    "coding-agent-poster.jpg": "sha256:361b138d639c918e1b32c251556e76a99d0bc1ccdbabf82ac5bee8195777b4db",
+    "coding-agent-zh.vtt": "sha256:e092c10a89bef66b7e464d04f3d45c51b035a82320d0fb8ae78a52af84df5671",
+    "coding-memory.jpg": "sha256:361b138d639c918e1b32c251556e76a99d0bc1ccdbabf82ac5bee8195777b4db",
     "libpng-before.jpg": "sha256:20cab20414c19598d0fb454f6ec9eb95fd4b7f945c5fadfe3a0e4bc3aa6111f1",
     "libpng-after.jpg": "sha256:a1cf813bf8ca69391809df62f749ee979900a70275369238fe86e3373050320d"
   },
@@ -202,5 +230,71 @@
       "version": "0.1.1",
       "integrity": "sha512-Xu+W21ka9Hb+PwlLY3NcgmCppl/Hi5ogLNXwBWw0iuz0nJ7SmwT4bPQ7onop4LA+RCGttTwReXiTERKuN5tGRA=="
     }
+  },
+  "previous_silent_cut": {
+    "commit": "89c874bc090815236a31c01cfed218d0f3d124de",
+    "media_sha256": "sha256:999b98f3815d43746e7cdc17d4f9c8f037c6379c0aed332cbd9dded15a4bdd3b",
+    "presentation_capture": {
+      "width": 3840,
+      "height": 2160,
+      "fps": 30,
+      "duration_seconds": 54,
+      "panel_width": 1920,
+      "panel_height": 1920,
+      "browser_text_zoom": 2,
+      "native_browser_pixels": true,
+      "low_resolution_upscaling": false,
+      "stages": 3,
+      "synchronized_elapsed_time": false,
+      "label_plate_sha256": "sha256:86a8032824dc5fbd7f0f6dc5e541b025c947264bbad86d6b0a99db7d6fa11b84",
+      "raw_clips": {
+        "a-1.webm": "sha256:4c232eec453cd6d6b40c55352512657db12280790b5fc09424aece047316dfce",
+        "a-2.webm": "sha256:29b07aa7b213124d5f441a555f879e536b8fb2ac80604e3f780e5d1706f9ff7e",
+        "a-3.webm": "sha256:104ac1fa10ce09746510d3419eaa649b170bc6466dc6e5de7568f03c0fddc226",
+        "b-1.webm": "sha256:65bf9429955ba68d1a7debb709cc2d54ecefbc5676bbed5de19642a5ca377ed7",
+        "b-2.webm": "sha256:b290640050582c2770d1c8c513d6e9b1ca98dd4998a1f71b49ff9bc1f91a8eaa",
+        "b-3.webm": "sha256:5b755394fc99918efceb33a448e8389dcf677a94068e1bf35f9b97b6dbc2a984"
+      },
+      "stage_tool_cards": [
+        {
+          "stage": 1,
+          "A": "Bash 复现构建失败",
+          "B": "Bash 复现构建失败"
+        },
+        {
+          "stage": 2,
+          "A": "Tool call memory_note · libpng/cmake-link-target (recovery / revision 2)",
+          "B": "Tool call memory_read · lr_01a1a5fe4bee72e59f8b6dddd23f7108"
+        },
+        {
+          "stage": 3,
+          "A": "Bash 验证测试与版本一致性",
+          "B": "Bash 验证构建与测试"
+        }
+      ]
+    }
+  },
+  "narration": {
+    "voice": "zh-CN-YunxiNeural",
+    "rate": "+0%",
+    "type": "synthetic_narration",
+    "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP",
+    "generator": "edge-tts 7.3.1",
+    "measured_audio": {
+      "integrated_lufs": -17.68,
+      "true_peak_dbtp": -1.44,
+      "measurement": "ffmpeg loudnorm analysis of final AAC decode"
+    },
+    "script_sha256": "sha256:f88c901e0622fadcdf644d44854d2e3c42925f410a41612a57d503e2b3a9a886",
+    "source_audio_sha256": {
+      "overview.mp3": "sha256:93c6375d34aeffcfc7d9b6953a37ab52ede7b30a25193590e151d05239f514cd",
+      "a_failure.mp3": "sha256:36e8f621f2658781c94cac814772618c0fb28045bcb54a127ae997f339e6427f",
+      "a_verified.mp3": "sha256:a6f4bcf698c513314165cea61f7cf2f7d048fa3811ed4ff7eaafd66101fab5c5",
+      "a_note.mp3": "sha256:82b6f5dd2a147ce9810b2b83f42bebf9ea804457061bc56da3a2007dedf8fd3a",
+      "b_read.mp3": "sha256:38259c54f2d386e521d38527acdc38de8d8794ee373fcd207a94af22afcbc189",
+      "b_verified.mp3": "sha256:f5efa921705c4ecdfca9ed4263c3966253b09608a78cc5a35932e5ed39bde936",
+      "closing.mp3": "sha256:eea64e9b43d85aba5375fc43a58cfe44b3f704eaffa5fe7229abfffa81074942"
+    },
+    "encoding_metadata_sha256": "sha256:7315a63d99e83c478253e94a3cef8fbc4f662ad9123e3a0218aea9ed81ee5136"
   }
 }
