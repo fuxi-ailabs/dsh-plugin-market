@@ -8,6 +8,7 @@
     "preview": "node scripts/preview.mjs",
     "validate": "node scripts/validate.mjs",
     "check:policy": "node scripts/check-market-policy.mjs",
+    "smoke:runtime": "node scripts/smoke-dsh-runtime.mjs",
     "ci": "npm test && npm run check:pages && npm run validate && npm run check:policy",
     "test": "node --test scripts/*.test.mjs"
   },

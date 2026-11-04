@@ -15,6 +15,8 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    outputs:
+      dsh-versions: ${{ steps.dsh-versions.outputs.versions }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,13 +28,38 @@ jobs:
       - run: npm run check:pages
       - run: npm run validate
       - run: npm run check:policy
+      - id: dsh-versions
+        run: node --input-type=module -e 'import fs from "node:fs"; const { versions } = JSON.parse(fs.readFileSync(".dsh-compatibility.json", "utf8")); fs.appendFileSync(process.env.GITHUB_OUTPUT, `versions=${JSON.stringify(versions)}\n`);'
       - uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
           path: public
+  compatibility:
+    needs: validate
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dsh: ${{ fromJSON(needs.validate.outputs.dsh-versions) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Install the runtime's official market parser
+        env:
+          DSH_VERSION: ${{ matrix.dsh }}
+        run: npm install --prefix "$RUNNER_TEMP/dsh-market-parser" --ignore-scripts --no-audit --no-fund "@deepseek-ai/dsh-plugin-market-index@$DSH_VERSION"
+      - name: Validate the catalog with the runtime's parser
+        run: |
+          export DSH_MARKET_VALIDATOR="$RUNNER_TEMP/dsh-market-parser/node_modules/@deepseek-ai/dsh-plugin-market-index/lib/index.js"
+          npm run validate
+          npm run check:policy
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: validate
+    needs: [validate, compatibility]
     runs-on: ubuntu-latest
     permissions:
       pages: write

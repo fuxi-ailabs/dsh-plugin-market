@@ -5,8 +5,8 @@
 ## 目标
 
 - 合并前就能发现格式错误、失效的发布路径、越界的页面资源和不兼容的 DSH 版本声明。
-- 用仓库根目录的 `.dsh-version` 作为唯一版本基准，避免"索引写的是什么版本"靠人记。
-- 让版本升级的改动范围可预期：范围覆盖新版本就不改插件，不覆盖才改。
+- 用 `.dsh-version` 声明最新对标版本，用 `.dsh-compatibility.json` 保留仍支持的旧版。
+- 版本范围检查和运行时验证分开记录，避免把范围覆盖当成功能兼容。
 
 ## 强制检查
 
@@ -14,7 +14,9 @@
 
 1. `npm ci --ignore-scripts`：按锁文件安装，不执行依赖脚本。
 2. `npm run validate`：官方 `parseMarketIndex` 校验格式，检查 `public/` 顶层白名单、页面资源逐文件清单、页面外链、图片/敏感信息。
-3. `npm run check:policy`：检查 `.dsh-version` 合法、每个版本的 `engines.dsh` 是合法且非空的范围并覆盖 `.dsh-version`、Git 来源固定 40 位 commit、`publishTimestamp` 是 Unix 秒。
+3. `npm run check:policy`：检查最新对标版本和兼容性矩阵合法，每个插件版本的 `engines.dsh` 是合法且非空的范围并覆盖矩阵中的全部运行时、Git 来源固定 40 位 commit、`publishTimestamp` 是 Unix 秒。
+
+`compatibility` job 使用矩阵中各版本的官方市场解析器分别运行 `validate` 和 `check:policy`。这些检查校验市场格式与版本声明，不执行第三方插件；实际宿主、工具、界面与业务流程的验证另附证据。Pages 部署同时依赖 `validate` 和全部 `compatibility` 检查通过。
 
 `main` 的 ruleset 应把 `Validate and publish market / validate` 设为 required status check；PR 分支需与 `main` 同步后才能合并。
 
@@ -22,7 +24,7 @@
 
 - `engines.dsh` 写范围（默认 `^0.2.1-rc.2`），不写精确版本。
 - 判定使用与 DSH 安装时相同的 `semver.satisfies(..., { includePrerelease: true })`：`^0.2.1-rc.2` 覆盖 `0.2.1`、`0.2.x` 正式版和不低于 `0.2.1-rc.2` 的 `0.2.x` 预发布版。
-- 升 `.dsh-version` 的 PR 通常只需要改这一个文件；若 CI 指出某些版本的范围不覆盖新版本，再在同一 PR 里更新这些版本的 `engines.dsh` 或删除它们。
+- 升 `.dsh-version` 时把新版本加入 `.dsh-compatibility.json`，保留仍支持的旧版，并记录上游接口变化与插件验证结果。需要修复时先发布插件，随后更新市场；不能只为通过检查而扩大未经验证的范围。
 - 索引的 `engines.dsh` 要与插件包自身的 `engines.dsh` 保持一致；市场展示用索引值，实际安装检查用包内值。
 - 不再支持当前 DSH 的历史版本应从索引移除，避免用户装到已知不兼容的包。
 

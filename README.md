@@ -10,7 +10,7 @@ Fuxi 团队插件目录
 
 ## 在 DSH 中添加
 
-以 `0.2.1-rc.2` 为例：打开「插件」→「实验性插件」旁的「更多」→ 启用「自定义插件市场」→「发现」→「添加索引源」，输入上面的完整 `index.json` 地址。索引按 profile 保存；以后新增插件仍使用这个地址，重新读取目录即可发现。
+打开「插件」→「实验性插件」旁的「更多」→ 启用「自定义插件索引」（`0.2.1` 中名为「自定义插件市场」）→「发现」→「添加索引源」，输入上面的完整 `index.json` 地址。索引按 profile 保存；以后新增插件仍使用这个地址，重新读取目录即可发现。
 
 ## 当前目录
 
@@ -19,11 +19,13 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.1` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
+| ECAT | `0.1.0-alpha.1` | `^0.2.1-rc.2` |
 | 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.28` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.1.1` | `^0.2.1-rc.2` |
 | Session Audit · 会话审计 | `1.1.1` | `^0.2.1-rc.2` |
 | Static Check · Skill 静态检查 | `1.1.2` | `^0.2.1-rc.2` |
 | Skill Eval · Skill 评测 | `1.1.3` | `^0.2.1-rc.2` |
+| SkillOpt · 业务技能优化 | `0.2.0-alpha.1` | `^0.2.1-rc.2` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
@@ -42,9 +44,11 @@ Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基
 
 ## 版本与兼容性
 
-仓库根目录的 `.dsh-version` 声明市场当前对标的 DSH 运行时版本，CI 用它做兼容性门槛。每个插件版本必须在 `versions[].engines.dsh` 里声明语义化版本范围，且该范围要覆盖 `.dsh-version`。
+仓库根目录的 `.dsh-version` 声明市场当前对标的 DSH 运行时版本，`.dsh-compatibility.json` 列出同时保留支持的版本：`0.2.1-rc.2`、`0.2.1-rc.5` 和 `0.2.2-alpha.3`。每个插件版本必须在 `versions[].engines.dsh` 里声明语义化版本范围，且该范围要覆盖矩阵中的全部版本。CI 还会分别使用这三个版本的官方市场解析器校验索引；部署要等这些检查全部通过。
 
-- 默认写范围（如 `^0.2.1-rc.2`），不要写死精确版本；这样后续 `0.2.x` 正式版发布时索引无需改动。
+DSH `0.2.2` 有工具、会话投影、提示词和 Timer 等接口变更，不能只凭版本范围认定功能兼容。当前 10 个默认插件版本的宿主检查、工具调用结果和未验证范围见 [2026-11-04 兼容性记录](docs/dsh-compatibility-2026-11-04.md)。
+
+- 默认写范围（如 `^0.2.1-rc.2`），不要写死精确版本；只有验证过接口兼容后，才把新运行时加入兼容性矩阵。
 - 来源可以是 npm 包，也可以是 Git 仓库；Git 来源必须固定 40 位 commit SHA，`path` 指向真实子目录。
 - 版本范围按 DSH 安装时的同一套 SemVer 规则判定（含 `includePrerelease`，因此 `^0.2.1-rc.2` 覆盖 `0.2.1`、`0.2.x` 正式版，以及不低于 `0.2.1-rc.2` 的 `0.2.x` 预发布版）。
 - 索引里的范围决定市场展示和默认版本；安装时 DSH 还会检查插件包自身的 `engines.dsh`，两处应保持一致，插件包同样写范围而不是精确版本。
@@ -52,8 +56,8 @@ Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基
 升级 `.dsh-version` 时：
 
 1. 用单独一个 PR 修改 `.dsh-version`，不要混入新插件或新版本。
-2. CI 逐版本检查 `satisfies(.dsh-version, engines.dsh)`。
-3. 只有范围没覆盖新版本的插件版本才需要在同一 PR 里更新 `engines.dsh`（或删除该版本）；范围已覆盖的不用动。
+2. 把新运行时加入 `.dsh-compatibility.json`，保留仍需支持的旧版；CI 对全部插件版本检查 `satisfies(runtime, engines.dsh)`，并用每个运行时的官方解析器校验索引。
+3. 检查上游破坏性变化并验证受影响的插件。需要修复时先在插件仓库发布，再更新市场来源；范围已覆盖且验证通过的插件不必只为升级宿主而发新版本。历史版本不再支持新宿主时，应先调整目录版本策略，不能仅为通过范围检查而扩大声明。
 
 ## 添加后续插件或版本
 
