@@ -231,8 +231,8 @@
         "zh": "鸿蒙代码验证器"
       },
       "description": {
-        "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-runs all tests. HarmonyOS Stage projects only.",
-        "zh": "读取需求文档和源码，为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。只用于鸿蒙 Stage 工程。"
+        "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-tests. HarmonyOS Stage projects only.",
+        "zh": "读取需求文档和源码，为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并复测。只用于鸿蒙 Stage 工程。"
       },
       "icon": "icons/dt-verify.svg",
       "author": "Fuxi AI Labs",
@@ -282,6 +282,17 @@
         {
           "version": "0.1.0-dev.28",
           "publishTimestamp": 1793264022,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
+        },
+        {
+          "version": "0.1.0-dev.39",
+          "publishTimestamp": 1793795337,
           "source": {
             "type": "npm",
             "registry": "https://registry.npmjs.org/"
