@@ -29,7 +29,9 @@ Desktop 使用官方 `plugin --profile desktop add` 安装候选，并通过原�
 
 SIFT 使用 Env Health 实际安装的 `2.6.0-dev.558d146`。评测明确传 `executor=dsh`，通过 `SIFT_DSH_BIN` 指向 Desktop 附带 CLI 的绝对 `.cmd` 入口，并使用隔离 headless profile。未把 SIFT 默认的 `cc` executor 当成 DSH executor，也未替换全局 rc.2 CLI。暂未覆盖所有超时/取消边界。
 
-SkillOpt 已完成真实管理页检查；Static Check 已完成原生桌面分析结果检查；Audit 已完成历史记录、报告、flyout 和证据跳转检查。其余界面只能按实际观察记录，不能用 API 或 HTML 文件生成替代界面验收。最终三版宿主 smoke 均复跑通过，使用 Windows 短隔离路径；它只覆盖联合加载、会话和三项调用，摘要见[宿主检查记录](evidence/dsh-runtime-smoke-2026-11-04.json)。
+SkillOpt 已完成真实管理页检查；Static Check 已完成原生桌面分析结果检查；Audit 已完成历史记录、报告、flyout 和证据跳转检查；Skill Eval 原生工作台可发现本次夹具，显示 2 道题并执行 inspection，正确提示 0 条程序化断言、2 条 expectation。其余界面只能按实际观察记录，不能用 API 或 HTML 文件生成替代界面验收。最终三版宿主 smoke 均复跑通过，使用 Windows 短隔离路径；它只覆盖联合加载、会话和三项调用，摘要见[宿主检查记录](evidence/dsh-runtime-smoke-2026-11-04.json)。
+
+验收结束后已卸载临时测试插件、恢复其进程环境、删除测试凭据引用、移除固定记忆测试项目和手工夹具目录配置；SkillOpt 保持回退到原始 Skill。Windows SIFT 通过一个本机 `.cmd` 包装入口设置绝对 `SIFT_DSH_BIN` 和隔离 headless profile，未改动第三方 SIFT 源码或全局 headless 配置。恢复临时环境后再次执行 live task 得到有效 JSON、stderr 为空。正式十插件及共享 Runtime 的候选 tarball 保留，随后原生退出并冷启动，安装列表仍包含全部插件；本地服务和测试证据目录保留供复核，不代表已经配置生产业务环境。
 
 ## 候选发布与剩余动作
 
