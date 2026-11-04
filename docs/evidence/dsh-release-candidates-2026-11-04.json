@@ -1,0 +1,200 @@
+{
+  "sourceRepository": "https://github.com/guixu-labs/dsh-plugin",
+  "sourceCommit": "63722fc25f87200fd41d67f26ac837c4b589d5f2",
+  "status": "prepared-not-published",
+  "packages": [
+    {
+      "name": "@fuxi-ailabs/dsh-audit",
+      "version": "1.1.1",
+      "file": "fuxi-ailabs-dsh-audit-1.1.1.tgz",
+      "integrity": "sha512-X6MUgZqRYWGM/YZZCicXDBPxyT+Gu3yA0JfZJucFeqXmGioO2q9lEzqQEz3WDzaXQtGHvSYKHWQLLeaFk3p/Iw==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "cross-spawn": "^7.0.6"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@deepseek-ai/dsh-commands": "^0.2.1-rc.2",
+        "@deepseek-ai/dsh-tools": "^0.2.1-rc.2"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-audit-bundle",
+      "version": "1.1.2",
+      "file": "fuxi-ailabs-dsh-audit-bundle-1.1.2.tgz",
+      "integrity": "sha512-3wNb5VwX10qO1TlcJrZYORvSJvrv2p5r7HDTk2JAp5YVuqwbjpFWPW0ogljO+yID759CkiGO9B5hPVVtZrn1UA==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "@fuxi-ailabs/dsh-audit": "^1.1.1",
+        "@fuxi-ailabs/dsh-audit-ux": "^1.1.0",
+        "@fuxi-ailabs/dsh-audit-flyout": "^1.1.0"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@fuxi-ailabs/dsh-runtime-bundle": "^1.1.4"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-env-health",
+      "version": "1.1.3",
+      "file": "fuxi-ailabs-dsh-env-health-1.1.3.tgz",
+      "integrity": "sha512-yhUyTlkdACvy0apudeTyUnzE1pZooatU3nj4H0OI2c5AQGibqkY+1LIUOmD6wZVuuq0V7NHm40Sa6ARIvRFLpg==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "cross-spawn": "^7.0.6"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-eval-bundle",
+      "version": "1.1.4",
+      "file": "fuxi-ailabs-dsh-eval-bundle-1.1.4.tgz",
+      "integrity": "sha512-HfRdqE+ePFL0rk50Oo3Rooy9qVneAUP5ek12B9k2Rh7Fn9W3pUme1vV4rBXmKUQIlStvpuKEPU4teKNSB7gW+w==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "@fuxi-ailabs/dsh-eval-suite": "^1.1.2",
+        "@fuxi-ailabs/dsh-eval-ux": "^1.1.1"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@fuxi-ailabs/dsh-runtime-bundle": "^1.1.4"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-eval-suite",
+      "version": "1.1.2",
+      "file": "fuxi-ailabs-dsh-eval-suite-1.1.2.tgz",
+      "integrity": "sha512-wLz3XcwpvI/8yWuaaata58DQdkARV2SIMqa1+MvQJF/6bwnFpRP7BESMForaBy8CcunlbiPpWDGuglWypZMn/w==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "cross-spawn": "^7.0.6"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@deepseek-ai/dsh-commands": "^0.2.1-rc.2",
+        "@deepseek-ai/dsh-tools": "^0.2.1-rc.2"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-insight",
+      "version": "1.1.1",
+      "file": "fuxi-ailabs-dsh-insight-1.1.1.tgz",
+      "integrity": "sha512-YrW11wgTtJON88Mva+7HrjNpCwmZ5KCHJs7T75u6LKYHF1bMCUTIBeyll+QiKeqiM4wXOiVJ6x37MKPrl3P6PQ==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "cross-spawn": "^7.0.6"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@deepseek-ai/dsh-commands": "^0.2.1-rc.2"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-insight-bundle",
+      "version": "1.1.2",
+      "file": "fuxi-ailabs-dsh-insight-bundle-1.1.2.tgz",
+      "integrity": "sha512-N4x2Ht9dJvfFHLorU6tQGcoRkaUi5En5+DJ2H4zC6QX51ljgGsOr7f7PfE07FujQfu74SZDyW5Y3CRHQJkKLnw==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "@fuxi-ailabs/dsh-insight": "^1.1.1"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@fuxi-ailabs/dsh-runtime-bundle": "^1.1.4"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-runtime-bundle",
+      "version": "1.1.4",
+      "file": "fuxi-ailabs-dsh-runtime-bundle-1.1.4.tgz",
+      "integrity": "sha512-zRVtDBkUBpmoEE9d2ulU41jPHQv0JM+WQE+ohGqsDucgAnfeMZIcSqZBO2cPoWEtwPhzz1z7/Ix9sm1OxT/Fqg==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "@fuxi-ailabs/dsh-env-health": "^1.1.3",
+        "@fuxi-ailabs/dsh-provider-auth": "^1.1.0"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-static-check",
+      "version": "1.1.2",
+      "file": "fuxi-ailabs-dsh-static-check-1.1.2.tgz",
+      "integrity": "sha512-bkgZWdQX4pmiyLbTcnxAzGmCPyLLiLB2BUmgN7UlXij/k3xlnC5ER6mlN+IgeAkpdDb/D+ZnBB+YdYH3SJFOzg==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "cross-spawn": "^7.0.6"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@deepseek-ai/dsh-commands": "^0.2.1-rc.2",
+        "@deepseek-ai/dsh-tools": "^0.2.1-rc.2"
+      }
+    },
+    {
+      "name": "@fuxi-ailabs/dsh-static-check-bundle",
+      "version": "1.1.3",
+      "file": "fuxi-ailabs-dsh-static-check-bundle-1.1.3.tgz",
+      "integrity": "sha512-Pm+Pw2rF05Bde1P/RV8woaoGKUUi47YNa204yxSk6hXnGwMF27iGLqnocowOYoayi6s3RAmV+u9DUCqC+kezSw==",
+      "engines": {
+        "dsh": "^0.2.1-rc.2",
+        "node": ">=24"
+      },
+      "dependencies": {
+        "@fuxi-ailabs/dsh-static-check": "^1.1.2"
+      },
+      "peerDependencies": {
+        "@deepseek-ai/cordis": "~4.0.5",
+        "@fuxi-ailabs/dsh-runtime-bundle": "^1.1.4"
+      }
+    }
+  ],
+  "publishOrder": [
+    "@fuxi-ailabs/dsh-audit@1.1.1",
+    "@fuxi-ailabs/dsh-env-health@1.1.3",
+    "@fuxi-ailabs/dsh-eval-suite@1.1.2",
+    "@fuxi-ailabs/dsh-insight@1.1.1",
+    "@fuxi-ailabs/dsh-static-check@1.1.2",
+    "@fuxi-ailabs/dsh-runtime-bundle@1.1.4",
+    "@fuxi-ailabs/dsh-audit-bundle@1.1.2",
+    "@fuxi-ailabs/dsh-eval-bundle@1.1.4",
+    "@fuxi-ailabs/dsh-insight-bundle@1.1.2",
+    "@fuxi-ailabs/dsh-static-check-bundle@1.1.3"
+  ],
+  "pending": [
+    "upstream maintainer review and merge",
+    "npm publisher authentication",
+    "uncached registry install",
+    "market index update after publication"
+  ]
+}

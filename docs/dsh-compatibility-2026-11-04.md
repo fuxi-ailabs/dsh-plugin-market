@@ -1,50 +1,47 @@
 # DSH 兼容性检查：2026-11-04
 
-市场以 `main@ade9f83` 的 10 个插件、16 个目录版本为准。最新源码/npm alpha 为 `0.2.2-alpha.3`，npm 常规通道和官网 Windows 桌面安装包为 `0.2.1-rc.5`。两个通道的版本不同，不应把安装桌面最新版写成安装了 alpha。
+市场以 `main@ade9f83` 的 10 个插件、16 个目录版本为准。当天 npm `latest` / `next` 为 `0.2.1-rc.5`，`alpha` 为 `0.2.2-alpha.3`。本机安装的官网 Windows Desktop 为 rc.5，手动检查更新显示已是最新；安装签名有效。桌面版与 alpha 是不同通道。
 
-## 结论与范围
+## 实际支持哪些版本
 
-现有 `engines.dsh` 范围覆盖 `0.2.1-rc.2`、`0.2.1-rc.5` 和 `0.2.2-alpha.3`。三个版本的官方 `parseMarketIndex` 均接受全部 16 个目录版本。当前 10 个默认插件版本在三个宿主中均通过联合加载、会话创建、命令与技能发现；原生工具调用检查覆盖 `skillopt_status`、`memory_search` 和 `lineage_status`。Crowd Memory 未接真实服务，验证的是服务不可用时正常降级；AgentLineage 使用插件附带的本地运行环境。
+没有把插件限制为只支持 rc.5，也没有为了适配新版提高最低 DSH 版本。
 
-| 插件 | 本次检查的版本 | 宿主检查 |
+| 插件范围 | 保留的 `engines.dsh` | 本次实际宿主检查 |
 |---|---|---|
-| AgentLineage | `0.1.0-alpha.4`，Git `211057da3b42eabbf92a7f723ce8c3fa46ce05ef` | 三个版本通过 |
-| Crowd Memory | `0.1.1` | 三个版本通过；服务降级路径通过 |
-| workflow-rsi | `0.1.0-alpha.1` | 三个版本通过；未接真实 wrsi-server |
-| ECAT | `0.1.0-alpha.1` | 三个版本的命令和 skill 注册通过 |
-| 鸿蒙代码验证器 | `0.1.0-dev.28` | 三个版本的 skill 与委派工具注册通过；未跑设备 |
-| Insight | `1.1.1` | 三个版本的宿主注册通过；未验证真实评分 |
-| Session Audit | `1.1.1` | 三个版本的宿主注册通过；SIFT Windows 问题见下文 |
-| Static Check | `1.1.2` | 三个版本的宿主注册通过；SIFT Windows 问题见下文 |
-| Skill Eval | `1.1.3` | 三个版本的宿主注册通过；未跑真实模型评测 |
-| SkillOpt | `0.2.0-alpha.1`，Git `7f901e565f0b34976b87fc7c85f538b441b69aaf` | 三个版本通过；状态工具调用通过 |
+| AgentLineage、ECAT、DT Verify、Insight、Audit、Static Check、Skill Eval、SkillOpt | `^0.2.1-rc.2` | rc.2、rc.5、alpha.3 全部通过 |
+| Crowd Memory | `0.1.6-alpha.2 || ^0.2.0-rc.2` | 同上；更早版本未复测 |
+| workflow-rsi | `0.1.6-alpha.2 || ^0.2.1-rc.2` | 同上；更早版本未复测 |
 
-这不是 10 个插件全部业务流程、前端界面或设备验证的验收。历史版本做了格式与范围检查，未逐一加载。宿主检查复用了同一批已解包插件和共享运行时 `dsh-runtime-bundle@1.1.3`；不等于从远程市场完成三轮全新安装。
+DSH 使用 `semver.satisfies(..., { includePrerelease: true })` 判定范围，因此 `^0.2.1-rc.2` 允许 `>=0.2.1-rc.2 <0.3.0` 的版本，包括 rc.5、0.2.1 正式版、0.2.2-alpha.3 和后续符合范围的 0.2.x。范围允许安装不等于未来每个版本都已验证。本次明确复测的旧版是 rc.2；没有宣称整套插件支持 0.1.x 或 0.2.0。
+
+三个版本的官方 `parseMarketIndex` 均接受全部 16 个目录版本。最终 Windows 修复候选在三个实际宿主中均通过 10 插件联合加载、会话创建、命令与技能发现，以及 `skillopt_status`、`memory_search`、`lineage_status` 三项原生调用。rc.5 使用桌面安装包内的运行时；官方 npm 全量安装当时缺少 `dsh-client-ui-deepseek-model-label-1017@0.2.1-rc.5`，全局 CLI 保留 rc.2。
+
+完整业务验收只在 Windows Desktop rc.5 上进行，并且仍有未通过项。各插件的真实调用、界面检查、依赖条件和阻断见[桌面验收记录](dsh-desktop-acceptance-2026-11-04.md)。不能把这里的宿主检查写成三个版本全部业务功能通过。
 
 ## 上游的破坏性变化
 
-[官方 alpha.2 发布说明](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-alpha.2) 列出了需要迁移的接口：异步会话投影句柄、Timer 返回值、`tools.resolve` / `tools.executable`、提示词组装、`agent.model` 路由、PTC 执行配置与取消分类。最低 Node.js 版本提高到 `24.9`。旧会话投影注册释放函数与按 key 读取暂有兼容入口，不能据此承诺以后一直保留。
+[官方 alpha.2 发布说明](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-alpha.2) 列出了异步会话投影句柄、Timer 返回值、`tools.resolve` / `tools.executable`、提示词组装、`agent.model` 路由、PTC 执行配置与取消分类等迁移项，并把最低 Node.js 提高到 `24.9`。部分旧会话投影接口暂有兼容入口，不能据此承诺以后一直保留。
 
-[alpha.3 发布说明](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-alpha.3) 还更新了 Cordis Core、Loader 和 Include，合并了工作树入口并调整了自动化任务。现有插件的注册接口在本次宿主检查中仍可用，因此本次不为这些变化批量扩大版本范围或重发插件。
+[alpha.3 发布说明](https://github.com/deepseek-ai/deepseek-harness/releases/tag/dsh-v0.2.2-alpha.3) 更新了 Cordis Core、Loader 和 Include，合并工作树入口并调整自动化任务。现有插件使用的接口在本次宿主检查中仍可用。本次修复不批量扩大 `engines.dsh` 范围。
 
-AgentLineage 和 SkillOpt 的部分 peer 依赖固定在 `0.2.1-rc.2`；官方 DSH 插件安装器会提示 peer 不匹配，但此次两个本地打包文件可通过安装器安装，宿主检查也通过。后续插件发布时应同步整理 peer 声明；普通 npm 安装与 DSH 的宿主依赖解析不能混为一谈。
+AgentLineage 和 SkillOpt 部分 peer 依赖固定在 rc.2；DSH 安装器提示 peer 不匹配，但本次两个固定源码打包文件可安装，三个宿主检查也通过。普通 npm 的 peer 解析与 DSH 宿主依赖解析仍应分别验证。SkillOpt 内部优化执行器使用其随包附带的 rc.2 SDK；Desktop 宿主为 rc.5，不代表每个子执行器都已升级。
 
-## Windows SIFT 问题与修复候选
+## Windows 修复与发布状态
 
-已发布的 Env Health `1.1.2` 把 `sift.cmd` 交给 Node 原生 `spawn`，在本机报 `spawn EINVAL`；Audit 与 Static Check 的初始化均可复现，旧 DSH 也有相同行为。这会阻碍实际业务使用，不能用“插件加载成功”掩盖。
+已发布的 Env Health `1.1.2` 用原生 `spawn` 执行 `sift.cmd`，本机报 `spawn EINVAL`，Audit 和 Static Check 因而不能初始化；旧 DSH 也会复现。这是 Windows 运行入口问题，不能归因为最新 DSH 的接口变化。
 
-修复候选见 [guixu-labs/dsh-plugin PR #3](https://github.com/guixu-labs/dsh-plugin/pull/3)：SIFT 探测、Audit / Static Check / Skill Eval 执行器、Insight/npm 安装器改用 `cross-spawn`。6 项 Windows 回归检查通过，涵盖 `.cmd`、空格路径和特殊字符参数；本地候选同样通过三个宿主的 10 插件检查。候选尚待维护者合入并发布 npm 补丁，本次市场索引仍指向已发布版本。
+[源码 PR #3](https://github.com/guixu-labs/dsh-plugin/pull/3) 的最终候选为 `63722fc25f87200fd41d67f26ac837c4b589d5f2`：九处调用改用 `cross-spawn`；SIFT 安装器补齐 Windows 原生 `.exe` 查找；修复 Env Health readonly 类型错误；空 AI 评审不再报成功；Audit、Static Check 和 Eval 的 Python 子进程强制 UTF-8，避免中文乱码及嵌套 DSH 输出读取失败。
 
-五个受影响包构建通过，四个业务插件类型检查通过。Env Health 原有 readonly 类型错误及部分原有 smoke 在 Windows 上的失败，已在原始 `9e465e2` 复现；没有把它们计为本次通过。
+五个库构建、类型检查及五个组合包 smoke 通过；Windows 8 项回归在本地和[相同提交的 fork CI](https://github.com/andrewyuq/dsh-plugin/actions/runs/41782195679) 通过。Static Check 的业务 smoke 和客户端检查通过。原有 Env Health/Audit/Eval 的部分库 smoke 使用 POSIX 测试入口，在 Windows 基线也失败，没有计入通过。fork CI 不是上游维护者批准或合并。
+
+十个补丁 tarball 已生成，检查过包名、版本、无残留 `workspace:` 及 SHA-512；版本和发布顺序见[候选清单](evidence/dsh-release-candidates-2026-11-04.json)。它们已通过官方 Desktop 插件 CLI 安装并冷重启加载，但尚未发布 npm。市场索引仍指向已发布版本，不能提前指向不存在的版本。
+
+当前源码仓库账号只有读取权限，npm 未登录。需维护者合入源码并由有权限的发布者发布，再做 registry 无缓存安装、更新市场索引、合入市场 PR 并确认 Pages 部署及匿名 HTTP 200。市场 PR 还需遵守[合并策略](pr-merge-policy.md)要求的至少一名维护者 approval。这些步骤尚未完成。
 
 ## 持续校验与复跑
 
-`.dsh-version` 对标 `0.2.2-alpha.3`；`.dsh-compatibility.json` 同时保留旧版与桌面版。`check:policy` 要求全部 16 个目录版本覆盖整个矩阵。CI 对每个版本安装官方市场解析器并校验，部署等待所有矩阵检查通过。此 CI 仅校验目录，不下载或执行第三方插件。
+`.dsh-version` 对标 alpha.3；`.dsh-compatibility.json` 同时保留 rc.2 和 rc.5。`check:policy` 要求全部 16 个目录版本覆盖整个矩阵。CI 对每个版本安装官方市场解析器并校验，部署等待所有矩阵检查通过。此 CI 仅校验目录，不下载或执行第三方插件。
 
-宿主检查使用 `npm run smoke:runtime -- --anchor <dsh/package.json> --home <新的隔离目录> --packages <已准备的node_modules> --output <result.json>`。`--packages` 应包含目录中对应版本的全部插件及其依赖。脚本拒绝复用未经它创建的非空 home；不向模型发送消息，不运行审计或优化，关闭 Insight/SIFT 自动安装。输出逐插件能力发现和三项原生调用的 JSON 结果。
+运行宿主检查：`npm run smoke:runtime -- --anchor <dsh/package.json> --home <新的隔离目录> --packages <已准备的node_modules> --output <result.json>`。`--packages` 应含全部插件及依赖；脚本拒绝复用未经它创建的非空 home，不向模型发消息，不运行审计或优化，并关闭 Insight/SIFT 自动安装。Windows 应使用较短的隔离路径；长路径曾使 AgentLineage 附带运行环境就绪失败。
 
-Windows 桌面宿主位于安装目录 `resources/app.asar/dsh/node_modules/@deepseek-ai/dsh/package.json`，可用该桌面应用的 `ELECTRON_RUN_AS_NODE=1` 运行同一脚本。常规 Node 的 alpha 宿主使用 npm 的隔离安装。`@deepseek-ai/dsh@0.2.1-rc.5` 的本次 npm 全量安装因上游缺少 `dsh-client-ui-deepseek-model-label-1017@0.2.1-rc.5` 而失败，因此 rc.5 的宿主检查使用桌面安装包内的运行时；全局 CLI 仍保留 rc.2。
-
-## 本机桌面状态
-
-未发现既有 DSH Desktop 安装项、快捷方式或可执行文件后，已从[官网](https://www.deepseek.com/harness/)安装 Windows x64 `0.2.1-rc.5`，Authenticode 签名有效，签名主体为杭州深度求索人工智能基础技术研究有限公司。应用已打开，手动“检查更新”显示当前版本 `0.2.1-rc.5` 已是最新。此项只证明桌面安装与启动，不替代上述插件业务验收。
+rc.5 的 anchor 位于安装目录 `resources/app.asar/dsh/node_modules/@deepseek-ai/dsh/package.json`，用桌面可执行文件设置 `ELECTRON_RUN_AS_NODE=1` 运行脚本。alpha.3 使用 npm 隔离安装。宿主检查复用同一批已解包插件，不等于从远程市场进行三轮全新安装。
