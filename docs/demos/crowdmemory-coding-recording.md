@@ -39,9 +39,9 @@ A 也超过了提示中“不超过 16 次工具调用”的要求；实际调�
 
 ## 录像与公开依据
 
-视频为 3840×2160、30 fps、约 90 秒 H.264，加入普通话合成配音及随配音嵌入画面的句级字幕。讲解按实际动作推进：双 Agent 总览 → A 复现失败 → A 验证修复 → A 写入记忆 → B 读取同一来源 → B 测试 → 结果回看。总览和结尾仍是两个 Agent 并排，关键步骤改为单个 Agent 放大展示。五段聚焦画面重新从真实 DSH 记录录制，原生 3840×1920，浏览器文字放大 3 倍；双屏部分使用原生 1920×1920 原片，不放大小分辨率视频。没有重画终端或替换工具输出；两个 Agent 并非同步计时运行。
+视频为 3840×2160、30 fps、约 95 秒 H.264，加入普通话合成配音及随配音嵌入画面的句级字幕。讲解按实际动作推进：双 Agent 总览 → A 复现失败 → A 验证修复 → A 写入记忆 → B 读取同一来源 → B 测试 → 结果回看。总览和结尾仍是两个 Agent 并排，关键步骤改为单个 Agent 放大展示。五段聚焦画面重新从真实 DSH 记录录制，原生 3840×1920，浏览器文字放大 3 倍；双屏部分使用原生 1920×1920 原片，不放大小分辨率视频。没有重画终端或替换工具输出；两个 Agent 并非同步计时运行。
 
-[narration.json](libpng-two-agent/narration.json) 是完整公开配音稿，使用 `zh-CN-YunxiNeural` 普通话合成音色、正常语速，不是 Agent 的现场声音。通过 [synthesize-narration.py](libpng-two-agent/synthesize-narration.py) 在隔离 Python 环境生成七段音频与时间边界；只将公开解说文本发送给语音服务。配音只解说已有运行结果，没有补造操作或验证结论。
+[narration.json](libpng-two-agent/narration.json) 是完整公开配音稿，使用 `zh-CN-YunyangNeural`（云扬）普通话合成音色、`-10%` 语速，不是 Agent 的现场声音。通过 [synthesize-narration.py](libpng-two-agent/synthesize-narration.py) 在隔离 Python 环境生成七段音频与时间边界；只将公开解说文本发送给语音服务。配音只解说已有运行结果，没有补造操作或验证结论。
 
 [encode-narrated-video.py](libpng-two-agent/encode-narrated-video.py) 接收五段原生聚焦录像、双屏原片、配音目录和发布资源目录；需要 Pillow、ffmpeg/ffprobe 及中文字体。各段按实际配音时长加停顿，合成 AAC 单声道 48kHz 音轨，响度归一到 -16 LUFS 目标，字幕同步嵌入。保留 VTT 供播放器选择，网页默认不再叠加第二份字幕。编码器检查尺寸、时长与字体，全部编码成功后替换发布文件；海报取自新成片第 3 秒。实际场景时长、句级边界、原片与配音哈希见 [narrated-encoding.json](libpng-two-agent/narrated-encoding.json)。原来的静音双屏编码脚本与标签板保留作历史制作依据。
 

@@ -1,18 +1,18 @@
 {
-  "duration_seconds": 90.467,
-  "container_duration_seconds": 90.488,
+  "duration_seconds": 95.367,
+  "container_duration_seconds": 95.388,
   "fps": 30,
   "width": 3840,
   "height": 2160,
   "narration": {
-    "voice": "zh-CN-YunxiNeural",
-    "rate": "+0%",
+    "voice": "zh-CN-YunyangNeural",
+    "rate": "-10%",
     "type": "synthetic_narration",
     "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP",
     "generator": "edge-tts 7.3.1",
     "measured_audio": {
-      "integrated_lufs": -17.68,
-      "true_peak_dbtp": -1.44,
+      "integrated_lufs": -18.4,
+      "true_peak_dbtp": -1.41,
       "measurement": "ffmpeg loudnorm analysis of final AAC decode"
     }
   },
@@ -22,103 +22,103 @@
     {
       "scene": "overview",
       "start": 0.3,
-      "end": 5.717,
+      "end": 6.167,
       "text": "这次用两个开发 Agent，看看三方库接入经验怎样共享。"
     },
     {
       "scene": "overview",
-      "start": 5.75,
-      "end": 11.062,
+      "start": 6.2,
+      "end": 11.936,
       "text": "A 先处理信息读取工具，B 在独立工程接手图片读写。"
     },
     {
       "scene": "a_failure",
-      "start": 12.033,
-      "end": 13.35,
+      "start": 12.933,
+      "end": 14.258,
       "text": "先看 A。"
     },
     {
       "scene": "a_failure",
-      "start": 13.383,
-      "end": 16.437,
+      "start": 14.291,
+      "end": 17.716,
       "text": "虽然找到了库，构建仍然失败。"
     },
     {
       "scene": "a_failure",
-      "start": 16.47,
-      "end": 23.47,
+      "start": 17.749,
+      "end": 25.36,
       "text": "这里几个 PNG 图像函数无法链接，说明找到头文件，并不等于已经链接了库。"
     },
     {
       "scene": "a_verified",
-      "start": 24.433,
-      "end": 28.987,
+      "start": 26.333,
+      "end": 31.366,
       "text": "A 补上链接配置，又发现本机混用了旧版头文件。"
     },
     {
       "scene": "a_verified",
-      "start": 29.02,
-      "end": 34.97,
+      "start": 31.399,
+      "end": 37.288,
       "text": "调整包含路径后重新构建，图片尺寸和首像素测试通过。"
     },
     {
       "scene": "a_note",
-      "start": 35.967,
-      "end": 41.745,
+      "start": 38.267,
+      "end": 44.091,
       "text": "接着，A 把报错、原因、修改和适用条件写成记忆。"
     },
     {
       "scene": "a_note",
-      "start": 41.779,
-      "end": 47.479,
+      "start": 44.125,
+      "end": 49.778,
       "text": "这里能看到保存成功的记录编号，后续可以据此核对来源。"
     },
     {
       "scene": "b_read",
-      "start": 48.433,
-      "end": 49.625,
+      "start": 50.733,
+      "end": 52.058,
       "text": "再看 B。"
     },
     {
       "scene": "b_read",
-      "start": 49.658,
-      "end": 56.0,
+      "start": 52.091,
+      "end": 59.113,
       "text": "它处理的是另一个图片读写目标，先复现失败，再搜索并读取 A 的记录。"
     },
     {
       "scene": "b_read",
-      "start": 56.033,
-      "end": 61.683,
+      "start": 59.146,
+      "end": 64.98,
       "text": "读到的是同一条来源，但目标名和环境还要重新核对。"
     },
     {
       "scene": "b_verified",
-      "start": 62.667,
-      "end": 69.533,
+      "start": 65.967,
+      "end": 73.124,
       "text": "B 确认当前条件适用后修改配置，再执行解码、编码和重新读取测试。"
     },
     {
       "scene": "b_verified",
-      "start": 69.567,
-      "end": 75.804,
+      "start": 73.158,
+      "end": 79.825,
       "text": "这里的像素一致性检查通过，说明修法在这个工程也完成了验证。"
     },
     {
       "scene": "closing",
-      "start": 76.767,
-      "end": 82.533,
+      "start": 80.8,
+      "end": 86.972,
       "text": "一个 Agent 修过的问题，成为后续 Agent 可查、可核对的共同经验。"
     },
     {
       "scene": "closing",
-      "start": 82.567,
-      "end": 84.608,
+      "start": 87.005,
+      "end": 89.403,
       "text": "采用后仍然要测试。"
     },
     {
       "scene": "closing",
-      "start": 84.642,
-      "end": 89.792,
+      "start": 89.436,
+      "end": 94.672,
       "text": "本例的参数重试和人工恢复，也保留在运行依据中。"
     }
   ],
@@ -136,28 +136,28 @@
     "b-3.webm": "sha256:5b755394fc99918efceb33a448e8389dcf677a94068e1bf35f9b97b6dbc2a984"
   },
   "source_audio_sha256": {
-    "overview.mp3": "sha256:93c6375d34aeffcfc7d9b6953a37ab52ede7b30a25193590e151d05239f514cd",
-    "a_failure.mp3": "sha256:36e8f621f2658781c94cac814772618c0fb28045bcb54a127ae997f339e6427f",
-    "a_verified.mp3": "sha256:a6f4bcf698c513314165cea61f7cf2f7d048fa3811ed4ff7eaafd66101fab5c5",
-    "a_note.mp3": "sha256:82b6f5dd2a147ce9810b2b83f42bebf9ea804457061bc56da3a2007dedf8fd3a",
-    "b_read.mp3": "sha256:38259c54f2d386e521d38527acdc38de8d8794ee373fcd207a94af22afcbc189",
-    "b_verified.mp3": "sha256:f5efa921705c4ecdfca9ed4263c3966253b09608a78cc5a35932e5ed39bde936",
-    "closing.mp3": "sha256:eea64e9b43d85aba5375fc43a58cfe44b3f704eaffa5fe7229abfffa81074942"
+    "overview.mp3": "sha256:f74e260c16bbcd5e2d5636ec49430a05a56fc02053fe0211995c5ce4f9486873",
+    "a_failure.mp3": "sha256:bb1b89e535fb47128486c7007f5c374a4f20f8932d3ccbb88906618f53582392",
+    "a_verified.mp3": "sha256:b36a729ece8e6dbf0b64c0b809034177c9376d93cc250ab7ba43cacc6086dcf0",
+    "a_note.mp3": "sha256:4d0f5feb1f6a472e89630280c52947de9819d8ddcd42ba845e8d388d4a715f1f",
+    "b_read.mp3": "sha256:8359d14f5ded02a749af7421f78aeeb51057bef2d6f128e4e2decb30400ab652",
+    "b_verified.mp3": "sha256:676bd1008bd194de45bce6e276c199290870e3e95071b0ad0882a04c0cad9b13",
+    "closing.mp3": "sha256:b42c5ab5570339f1a2596779e12c7788c8ea870d65af185f8513940f8b127fd7"
   },
   "scenes": [
     {
       "id": "overview",
-      "duration_seconds": 11.733,
+      "duration_seconds": 12.633,
       "label": "libpng 接入：两个 Agent 共享构建经验"
     },
     {
       "id": "a_failure",
-      "duration_seconds": 12.4,
+      "duration_seconds": 13.4,
       "label": "Agent A · 先复现构建失败"
     },
     {
       "id": "a_verified",
-      "duration_seconds": 11.533,
+      "duration_seconds": 11.933,
       "label": "Agent A · 修复配置，验证读取结果"
     },
     {
@@ -167,17 +167,17 @@
     },
     {
       "id": "b_read",
-      "duration_seconds": 14.233,
+      "duration_seconds": 15.233,
       "label": "Agent B · 读取同一条来源记录"
     },
     {
       "id": "b_verified",
-      "duration_seconds": 14.1,
+      "duration_seconds": 14.833,
       "label": "Agent B · 在当前工程重新验证"
     },
     {
       "id": "closing",
-      "duration_seconds": 14.0,
+      "duration_seconds": 14.867,
       "label": "一个 Agent 的经验，供后续 Agent 核对与复用"
     }
   ]

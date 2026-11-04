@@ -1,6 +1,6 @@
 {
-  "voice": "zh-CN-YunxiNeural",
-  "rate": "+0%",
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "-10%",
   "language": "zh-CN",
   "type": "synthetic_narration",
   "scenes": [
