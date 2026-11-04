@@ -9,6 +9,9 @@
     "validate": "node scripts/validate.mjs",
     "check:policy": "node scripts/check-market-policy.mjs",
     "smoke:runtime": "node scripts/smoke-dsh-runtime.mjs",
+    "compat:discover": "node scripts/compatibility/discover.mjs",
+    "compat:check": "node scripts/compatibility/run.mjs",
+    "compat:report": "node scripts/compatibility/publish.mjs",
     "ci": "npm test && npm run check:pages && npm run validate && npm run check:policy",
     "test": "node --test scripts/*.test.mjs"
   },

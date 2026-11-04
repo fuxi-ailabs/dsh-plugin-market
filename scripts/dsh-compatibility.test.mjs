@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { supportedDshVersions, unsupportedDshVersions } from './dsh-compatibility.mjs';
+import { supportedDshVersions, unsupportedDshVersions, uncoveredDshVersions } from './dsh-compatibility.mjs';
 
 test('the catalog keeps the existing runtime and includes the latest target', async () => {
   const target = (await readFile(new URL('../.dsh-version', import.meta.url), 'utf8')).trim();
@@ -15,6 +15,15 @@ test('a range that drops the existing runtime fails even when the latest target 
 
 test('existing ranges admit newer 0.2 prereleases but stop at the next minor', () => {
   assert.deepEqual(unsupportedDshVersions('^0.2.1-rc.2', ['0.2.1-rc.5', '0.2.2-alpha.3', '0.3.0-alpha.1']), ['0.3.0-alpha.1']);
+});
+
+test('different plugin releases may cover different supported hosts', () => {
+  const runtimes = ['0.2.1-rc.2', '0.2.2-alpha.3'];
+  const old = { engines: { dsh: '>=0.2.1-rc.2 <0.2.2-0' } };
+  const next = { engines: { dsh: '>=0.2.2-alpha.3 <0.3.0-0' } };
+  assert.deepEqual(uncoveredDshVersions([old, next], runtimes), []);
+  assert.deepEqual(uncoveredDshVersions([next], runtimes), ['0.2.1-rc.2']);
+  assert.deepEqual(uncoveredDshVersions([{ engines: { dsh: 'invalid' } }], runtimes), runtimes);
 });
 
 test('invalid, empty, duplicate, and target-less runtime matrices fail', () => {

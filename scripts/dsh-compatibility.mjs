@@ -13,3 +13,9 @@ export function supportedDshVersions(target, versions) {
 export function unsupportedDshVersions(range, versions) {
   return versions.filter(version => !semver.satisfies(version, range, { includePrerelease: true }));
 }
+
+export function uncoveredDshVersions(pluginVersions, runtimes) {
+  return runtimes.filter(runtime => !pluginVersions.some(version =>
+    typeof version.engines?.dsh === 'string' && semver.validRange(version.engines.dsh) &&
+    semver.satisfies(runtime, version.engines.dsh, { includePrerelease: true })));
+}

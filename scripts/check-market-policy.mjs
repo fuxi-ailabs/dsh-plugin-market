@@ -2,7 +2,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import semver from 'semver';
-import { supportedDshVersions, unsupportedDshVersions } from './dsh-compatibility.mjs';
+import { supportedDshVersions, uncoveredDshVersions } from './dsh-compatibility.mjs';
 
 const { valid, validRange } = semver;
 
@@ -37,11 +37,6 @@ for (const plugin of index.plugins) {
       failures.push(`${label}: engines.dsh must not be empty`);
     } else if (validRange(range) === null) {
       failures.push(`${label}: engines.dsh ${JSON.stringify(range)} is not a valid SemVer range`);
-    } else {
-      // Mirrors the install-time check in dsh-app-boot, including its prerelease matching.
-      for (const unsupported of unsupportedDshVersions(range, dshVersions)) {
-        failures.push(`${label}: engines.dsh ${range} does not cover supported DSH ${unsupported}`);
-      }
     }
 
     if (version.publishTimestamp > latestAllowedTimestamp) {
@@ -76,6 +71,9 @@ for (const plugin of index.plugins) {
         failures.push(`${label}: npm registry must be an https URL, got ${JSON.stringify(source.registry)}`);
       }
     }
+  }
+  for (const runtime of uncoveredDshVersions(plugin.versions, dshVersions)) {
+    failures.push(`${plugin.name}: no catalog version declares support for DSH ${runtime}`);
   }
 }
 

@@ -40,7 +40,11 @@ AgentLineage 和 SkillOpt 部分 peer 依赖固定在 rc.2；DSH 安装器提示
 
 ## 持续校验与复跑
 
-`.dsh-version` 对标 alpha.3；`.dsh-compatibility.json` 同时保留 rc.2 和 rc.5。`check:policy` 要求全部 16 个目录版本覆盖整个矩阵。CI 对每个版本安装官方市场解析器并校验，部署等待所有矩阵检查通过。此 CI 仅校验目录，不下载或执行第三方插件。
+`.dsh-version` 对标 alpha.3；`.dsh-compatibility.json` 同时保留 rc.2 和 rc.5。`check:policy` 要求每个插件对矩阵中的每个 DSH 至少提供一个范围匹配的目录版本，允许新旧插件版本分别支持新旧宿主。PR/Pages CI 对每个 DSH 安装官方市场解析器并校验，部署等待所有矩阵检查通过。这条发布 CI 仅校验目录，不下载或执行第三方插件。
+
+另设定时运行的[版本兼容监测](version-compatibility-monitor.md)，执行固定版本的 dt-verify 包来检查安装和宿主接口，业务结果不参与自动提 issue。它不替代本文的业务验收，也不自动调整市场支持矩阵。
+
+后续 dt-verify 自动合约试点中，rc.5 已能从 npm 完整安装并通过版本兼容检查；前文缺包说明记录的是较早检查时的状态。Windows rc.2 → rc.5、Windows/Linux rc.2 → alpha.3 均完成新旧各两轮，六项合约检查全部通过，未生成 issue。精确包和检测摘要见[试点证据](evidence/dt-verify-version-compatibility-2026-11-04.json)。
 
 运行宿主检查：`npm run smoke:runtime -- --anchor <dsh/package.json> --home <新的隔离目录> --packages <已准备的node_modules> --output <result.json>`。`--packages` 应含全部插件及依赖；脚本拒绝复用未经它创建的非空 home，不向模型发消息，不运行审计或优化，并关闭 Insight/SIFT 自动安装。Windows 应使用较短的隔离路径；长路径曾使 AgentLineage 附带运行环境就绪失败。
 

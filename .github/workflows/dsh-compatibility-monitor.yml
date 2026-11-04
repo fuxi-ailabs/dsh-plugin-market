@@ -1,0 +1,124 @@
+name: DSH version compatibility monitor
+on:
+  schedule:
+    - cron: '23 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      candidate:
+        description: 'Optional exact published DSH version; empty discovers new releases'
+        type: string
+        default: ''
+      publish_issues:
+        description: 'Publish confirmed version compatibility issues; business failures are excluded'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+concurrency:
+  group: dsh-compatibility-monitor
+  cancel-in-progress: false
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      versions: ${{ steps.plan.outputs.versions }}
+      has-work: ${{ steps.plan.outputs.has-work }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CANDIDATE: ${{ inputs.candidate }}
+        run: |
+          if [ -n "$CANDIDATE" ]; then
+            node scripts/compatibility/discover.mjs --candidate "$CANDIDATE"
+          else
+            node scripts/compatibility/discover.mjs
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: compatibility-plan
+          path: compatibility-plan.json
+
+  probe:
+    needs: discover
+    if: needs.discover.outputs.has-work == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        dsh: ${{ fromJSON(needs.discover.outputs.versions) }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Install the pinned profile package manager
+        run: npm install --global --ignore-scripts --no-audit --no-fund pnpm@11.7.0
+      - name: Run credential-free compatibility contracts
+        env:
+          CANDIDATE: ${{ matrix.dsh }}
+        run: node scripts/compatibility/run.mjs --candidate "$CANDIDATE" --work "$RUNNER_TEMP/dsh-compatibility" --output "compatibility-reports/$CANDIDATE.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compatibility-result-${{ matrix.dsh }}
+          path: compatibility-reports/*.json
+          if-no-files-found: warn
+
+  report:
+    needs: [discover, probe]
+    if: always() && needs.discover.result == 'success' && needs.discover.outputs.has-work == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - uses: actions/download-artifact@v4
+        with:
+          name: compatibility-plan
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: compatibility-result-*
+          path: compatibility-reports
+          merge-multiple: true
+      - name: Classify, deduplicate and publish version-only results
+        env:
+          GH_TOKEN: ${{ github.token }}
+          COMPAT_ISSUE_TOKEN: ${{ secrets.COMPAT_ISSUE_TOKEN }}
+          DRY_RUN: ${{ github.ref != 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && !inputs.publish_issues) }}
+        run: |
+          if [ "$DRY_RUN" = 'true' ]; then
+            node scripts/compatibility/publish.mjs --dry-run
+          else
+            node scripts/compatibility/publish.mjs
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: compatibility-summary
+          path: compatibility-summary.md
