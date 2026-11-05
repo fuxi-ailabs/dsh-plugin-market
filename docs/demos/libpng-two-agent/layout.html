@@ -1,0 +1,10 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>libpng：两个 Agent</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:3840px;height:2160px;background:#fff;font-family:Arial,"PingFang SC",sans-serif;color:#132e29}
+header{height:160px;padding:24px 54px;background:#102e27;color:#fff;display:flex;align-items:center;justify-content:space-between}
+h1{font-size:58px;line-height:1.25;margin:0 0 10px;font-weight:700}header p{font-size:32px;margin:0;color:#c2dfd3}.qualifier{font-size:30px;color:#c2dfd3}
+.row{display:grid;grid-template-columns:1920px 1920px;height:2000px}.pane{height:2000px}.label{height:80px;display:flex;align-items:center;gap:24px;padding:0 44px;font-size:38px;font-weight:600;background:#edf0f3;color:#354451;border-bottom:2px solid #d2dce1}.on .label{background:#e3f3e8;color:#17643c}.group{font-size:32px;padding:9px 18px;background:#d9e0e7;border-radius:8px}.on .group{background:#b9e5c9}.display{height:1920px;background:#fff}
+</style>
+<header><div><h1>libpng 接入：两个 Agent 复用构建经验</h1><p>真实三方库 · 两个独立工程 · CMake 构建与 PNG 读写测试</p></div><div class="qualifier">依次运行 · 按阶段并排回看 · 非同步计时</div></header>
+<div class="row"><section class="pane"><div class="label"><span class="group">形成经验</span>Agent A · 修复信息读取工具，记录来源</div><div class="display"></div></section><section class="pane on"><div class="label"><span class="group">复用经验</span>Agent B · 核对 A 的记录，验证图片读写</div><div class="display"></div></section></div>
+</html>

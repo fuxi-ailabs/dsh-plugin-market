@@ -2,7 +2,7 @@
   "slug": "agentlineage",
   "name": "AgentLineage",
   "version": "0.1.0-alpha.4",
-  "compatibility": "DSH 0.2.1-rc.2 · Windows x64 · 预览版",
+  "compatibility": "DSH 0.2.1-rc.2 · Windows x64",
   "description": "查看文件的修改记录，以及对应的会话、工具调用和回执。",
   "install": {
     "code": "dsh plugin --profile web add \"git+https://github.com/fuxi-ailabs/AgentLineage.git#211057da3b42eabbf92a7f723ce8c3fa46ce05ef&path:/integrations/dsh\"",
@@ -173,8 +173,8 @@
       "description": "未导入的会话、缺少成功回执的调用，以及 shell 脚本内部的文件操作，都可能没有完整记录。"
     },
     {
-      "title": "查到来源后，仍需验证结果",
-      "description": "来源和引用可以用来核对操作过程。代码是否正确、结论是否成立，还要结合测试和实际结果判断。"
+      "title": "结合来源与测试结果核对",
+      "description": "通过来源记录和引用核对操作过程，结合测试结果检查代码和结论。"
     }
   ],
   "quickstart": {
@@ -218,10 +218,6 @@
     {
       "label": "安装与使用文档 ↗",
       "url": "https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md"
-    },
-    {
-      "label": "查看插件源码 ↗",
-      "url": "https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh"
     }
   ],
   "faq": [
@@ -235,7 +231,7 @@
     },
     {
       "question": "所有文件操作都会有记录吗？",
-      "answer": "未导入的会话、缺少成功回执的调用，以及 shell 脚本内部的文件操作，都可能没有完整记录。查到来源后，代码和结论是否正确仍需要通过测试和实际结果验证。"
+      "answer": "可查询已导入会话中有成功回执的文件操作，并回查原生会话证据。未导入的会话、缺少成功回执的调用，以及 shell 脚本内部的文件操作，都可能没有完整记录。"
     },
     {
       "question": "运行环境损坏或安装失败了，怎么恢复？",

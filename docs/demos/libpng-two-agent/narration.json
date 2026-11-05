@@ -1,0 +1,63 @@
+{
+  "voice": "zh-CN-YunyangNeural",
+  "rate": "+0%",
+  "continuous": true,
+  "language": "zh-CN",
+  "type": "synthetic_narration",
+  "scenes": [
+    {
+      "id": "config_doc",
+      "view": "config_doc",
+      "label": "接入配置 · 端点与项目标识",
+      "speech": "先把适配器接上。这里是 DSH 的配置说明，把本机记忆服务的端点和项目名写进 Profile，Agent 就通过它读取和记录经验。"
+    },
+    {
+      "id": "config_loaded",
+      "view": "config_loaded",
+      "label": "DSH · 确认适配器已加载",
+      "speech": "回到 DSH，在插件列表里确认 CrowdMemory 已经加载，再开始任务。"
+    },
+    {
+      "id": "overview",
+      "view": "two_agents",
+      "label": "libpng 接入：两个 Agent 共享构建经验",
+      "speech": "这两个 Agent 分别在自己的工程里接入 libpng。左边先修一个读取图片信息的工具，右边再做图片读写。"
+    },
+    {
+      "id": "a_failure",
+      "view": "a_failure",
+      "label": "Agent A · 先复现构建失败",
+      "speech": "现在库找到了，程序却没编过。报错的这几个符号都来自 libpng。查一下链接命令，发现只加了头文件目录，没有把库链接进来。"
+    },
+    {
+      "id": "a_verified",
+      "view": "a_verified",
+      "label": "Agent A · 修复配置，验证读取结果",
+      "speech": "补上链接之后，又碰到一个本机问题：编译时用了旧头文件，加载的却是新版库。调整包含路径，重新编译，图片尺寸和首像素检查就通过了。"
+    },
+    {
+      "id": "a_note",
+      "view": "a_note",
+      "label": "Agent A · 把实际修法记下来",
+      "speech": "把这次排查记下来：报错是什么，改了哪几处，用的什么版本，怎么验证的。这条记录保存以后，别的 Agent 就能查到它。"
+    },
+    {
+      "id": "b_read",
+      "view": "b_read",
+      "label": "Agent B · 读取同一条来源记录",
+      "speech": "右边这个工程也报了链接错误。它读到的就是刚才那条记录。不过目标名不一样，不能原样照抄，还得看看本机有没有同样的旧头文件问题。"
+    },
+    {
+      "id": "b_verified",
+      "view": "b_verified",
+      "label": "Agent B · 在当前工程重新验证",
+      "speech": "核对过以后，修改配置，再把图片读进来、写出去、重新读取，比较前后的像素。现在构建和测试都通过了。"
+    },
+    {
+      "id": "closing",
+      "view": "two_agents",
+      "label": "一个 Agent 的经验，供后续 Agent 核对与复用",
+      "speech": "这样，一个工程里排查过的问题，另一个 Agent 就能接着用。来源和验证条件一起留下，接手时才知道该检查什么。"
+    }
+  ]
+}

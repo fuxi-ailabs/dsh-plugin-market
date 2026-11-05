@@ -1,25 +1,36 @@
 // Illustrative data for this page, not a live plugin connection.
 window.PLUGIN_DEMO = {
-  "title": "同一后端问题，四个 Agent",
-  "description": "GET 与 POST 共用一段 HTTP 处理代码，四个独立工作区遇到同类请求错误。上排先修复 GET，下排接手 POST。",
+  "title": "libpng：从信息读取到图片读写",
+  "description": "两个独立工程接入真实 libpng 1.6.59。A 先处理 PNG 信息读取工具的链接失败；B 接手另一个图片读写工程，核对 A 的经验后重新构建与测试。",
   "blocks": [
     {
       "type": "list",
       "items": [
-        "左上 A：独立定位和修复 GET，不写共享记忆。",
-        "左下 B：在新工作区接手 POST，独立排查并补接口测试。",
-        "右上 C：修复 GET 并测试后，用 memory_note 记录修法和适用条件。",
-        "右下 D：用 memory_search、memory_read 读取 C 的记录，核对公共 HTTP 层，再修改 POST 并测试。"
+        "左侧 A：实际构建，复现 png_image_* 未定义符号，核对 CMake 链接配置。",
+        "A：修复链接与本机头文件版本混用，运行测试，再用 memory_note 记录原因、条件和命令。",
+        "右侧 B：在新工作区复现另一个目标的失败，用 memory_search、memory_read 核对 A 的来源记录。",
+        "B：按当前目标调整配置，验证 PNG 解码、编码、重新读取后的像素一致性。"
       ]
     }
   ],
-  "note": "左列未安装记忆适配器，右列共享一个 Runtime。四个 Agent 的真实运行画面按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
+  "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
   "video": {
-    "title": "不共享 / 共享：四个 Agent 处理同类后端问题",
-    "description": "4K 四分屏，建议横屏全屏查看代码与来源。左侧独立排查，右侧记录并复用经验；Runtime 与适配器均为 0.1.1。每个 Agent 使用独立工作区，本演示在同一台机器上运行。",
-    "src": "assets/coding-agent-demo.mp4",
-    "poster": "assets/coding-agent-poster.jpg",
-    "captions": "assets/coding-agent-zh.vtt"
+    "title": "两个 Agent，一份可核对的 libpng 构建经验",
+    "description": "约 94 秒中文配音讲解：先看 DSH 适配器配置说明与实际加载状态，再看两个 Agent 复用 libpng 构建经验。默认 1080p，可切换 4K 查看代码细节；Runtime 与适配器均为 0.1.1。",
+    "src": "assets/coding-agent-demo-1080p.mp4",
+    "poster": "assets/coding-agent-preview.jpg",
+    "qualities": [
+      {
+        "label": "1080p · 流畅",
+        "src": "assets/coding-agent-demo-1080p.mp4"
+      },
+      {
+        "label": "4K · 原画",
+        "src": "assets/coding-agent-demo.mp4"
+      }
+    ],
+    "captions": "assets/coding-agent-zh.vtt",
+    "captionsBurnedIn": true
   },
-  "prompt": "在 CrowdMemory 的干净源码工作区中，检查 distributions/memory-runtime/src/crowdmemory_runtime/server.py：带协议头的 GET /v1/status 遇到 Content-Length: abc 时直接断连。先用真实 HTTP/Unix socket 测试复现，再修复为结构化 JSON 400，确认正常请求和过大请求的行为不回归。验证后记录实际经验；再让独立工作区的 Agent 读取记录，核对并修复 POST 入口，运行接口测试。确保 Python 3.11、pytest 和项目依赖已就绪，且实际导入当前工作区的源码。"
+  "prompt": "在 libpng 接入示例的独立工作区中，先构建 info 目标并复现失败，核对 CMake 依赖、头文件与二进制版本，修复后运行 PNG 信息读取测试；用 memory_note 记录实际原因、修法、验证和适用条件，scope=global，topic_key=libpng/cmake-link-target。再让另一个独立 Agent 处理 roundtrip 目标，先复现失败，再搜索和读取记忆，核对当前目标名与环境，修复后验证 PNG 解码、编码、重新读取的像素一致性。不要修改三方库或用硬编码输出代替测试。"
 };

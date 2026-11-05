@@ -16,7 +16,7 @@
     <span class="ver">v0.1.1</span>
     <button type="button" class="theme" aria-label="切换明暗">◐</button>
   </div>
-  <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html" class="on">快速开始</a><a href="adapters.html">Agent 接入</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
 </header>
 <div class="layout">
   <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html">介绍与安装</a><a href="versions.html">组件与版本</a><a href="configuration.html" class="on" aria-current="page">配置</a><a href="errors.html">错误码</a></div></aside>
@@ -32,11 +32,11 @@
 <p>插件在 DSH profile 中插入一行 <code>id: crowdmemory</code>。可配置的键：</p>
 <div class="table"><table><thead><tr><th>键</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody><tr><td><code>endpointFile</code></td><td>string</td><td>见上表</td><td><code>endpoint.json</code> 的绝对路径。为空时插件不加载；为相对路径时工具照常注册，但每次调用都返回 <code>endpoint_untrusted</code></td></tr><tr><td><code>project</code></td><td>string</td><td>工作目录名</td><td>项目名，最长 256 个字符</td></tr><tr><td><code>profile</code></td><td>string</td><td><code>session-default</code></td><td>记忆模板，可写 <code>id</code> 或 <code>id@revision</code>。工作流记忆用 <code>workflow-default</code></td></tr><tr><td><code>inject</code></td><td>boolean</td><td><code>true</code></td><td>为 <code>false</code> 时不推送</td></tr><tr><td><code>notes</code></td><td>boolean</td><td><code>true</code></td><td>为 <code>false</code> 时不提供 <code>memory_note</code></td></tr><tr><td><code>workflow</code></td><td>boolean</td><td><code>true</code></td><td>为 <code>false</code> 时不处理 DSH workflow 事件</td></tr><tr><td><code>sessionId</code></td><td>string</td><td>不设置</td><td>只服务指定的 DSH 会话</td></tr><tr><td><code>timeoutMs</code></td><td>object</td><td>见<a href="limits.html">上限与超时</a></td><td>按事件类型覆盖超时，单位毫秒</td></tr></tbody></table></div>
 <h2 id="override">修改插件配置<a class="hash" href="#override" aria-label="本节链接">#</a></h2>
-<p>在 DSH profile 的覆盖层 <code>~/.dsh/profiles/&lt;profile&gt;/cordis.patch.yml</code> 中重写整行：</p>
+<p>在 DSH profile 的覆盖层 <code>~/.dsh/profiles/&lt;profile&gt;/cordis.patch.yml</code> 中重写整行。将端点替换为自己的绝对路径；下面使用会话模板，按 workflow 采集时改为 <code>workflow-default</code>：</p>
 <div class="code"><div class="code-bar"><span>yaml</span><button type="button" class="copy">复制</button></div><pre><code>- id: crowdmemory
   config:
-    endpointFile: /var/lib/crowdmemory/state/endpoint.json
-    profile: workflow-default
+    endpointFile: /absolute/path/to/CMLocal/.runtime/crowdmemory/state/endpoint.json
+    profile: session-default
     project: my-repo
     inject: true
     notes: true

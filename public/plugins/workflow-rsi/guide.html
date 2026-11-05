@@ -49,7 +49,7 @@ Trial 记录 → 评估改进方法，按收益分配预算</code></pre></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>场景</th><th>得到什么</th></tr></thead><tbody><tr><td>同一个 Workflow 反复处理同类任务</td><td>改好一次，之后的任务都复用；真实缺陷持续沉淀为回归测试</td></tr><tr><td>模型只能通过 API 调用，拿不到权重</td><td>不训练模型，通过改进 Workflow 提升效果</td></tr><tr><td>要把 Workflow 换到另一个模型上运行</td><td>强模型在诊断和修复中的判断已经固化成 Workflow 代码和测试，换模型后直接复用</td></tr><tr><td>Workflow 由多个阶段、多个 Agent 组成，团队要求改动可审计、可回滚</td><td>每个改动都是带评测结论的 PR，合入由 Workflow 仓决定</td></tr></tbody></table></div>
-<p>只跑一次的任务，或者 Workflow 还没有接入 workflow-rsi 时，用处不大。接入一个 Workflow 需要它的适配器，用来读取 Run 的状态和停止记录。</p>
+<p>接入一个 Workflow 需要它的适配器，用来读取 Run 的状态和停止记录；适用于反复执行的多阶段开发任务。</p>
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>收益</th><th>说明</th></tr></thead><tbody><tr><td>一次修复，后续复用</td><td>改动落在 Workflow 上，之后所有适用的任务都受益</td></tr><tr><td>可审计、可回滚</td><td>每个改动都有证据、评测结论和 PR，合入后持续跟踪是否被保留或回退</td></tr><tr><td>缺陷沉淀为回归测试</td><td>修复候选带测试，测试先红后绿，证明改的是真问题</td></tr><tr><td>人从盯着跑转向审 PR</td><td>发现问题、提出改动、评测都由 workflow-rsi 完成，人负责准入规则和审 PR</td></tr></tbody></table></div>

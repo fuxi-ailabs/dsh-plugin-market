@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用：为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据，允许修复时修改生产代码并全量复测。">
+<meta name="description" content="鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用：为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据，允许修复时修改生产代码并复测。">
 <meta name="color-scheme" content="light">
 <title>鸿蒙代码验证器 · 使用文档 · Fuxi通用DSH组件市场</title>
 <link rel="stylesheet" href="docs.css">
@@ -14,7 +14,7 @@
   <div class="top-row">
     <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <nav class="crumb" aria-label="当前位置"><a class="crumb-market" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a><span class="crumb-page"><span aria-hidden="true">/</span><a href="index.html">鸿蒙代码验证器</a><span aria-hidden="true">/</span><a href="guide.html" aria-current="page">使用文档</a></span></nav>
-    <span class="ver">v0.1.0-dev.28</span>
+    <span class="ver">v0.1.0-dev.39</span>
   </div>
   <nav class="tabs" aria-label="文档分类"><a href="index.html">介绍</a><a href="guide.html" class="on">使用文档</a><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify">npm 包 ↗</a></nav>
 </header>
@@ -26,7 +26,7 @@
   <main class="main">
     <article class="doc">
       <h1>鸿蒙代码验证器使用文档</h1>
-<p>鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用的代码。它读取需求和工程源码，为每条需求编写 Harmony 单元测试和界面测试，写进工程的测试目录，在真机或模拟器上执行，然后逐条给出“满足、违反、未验证”的结论和证据。你允许修复时，它按失败修改生产代码，再用同一套测试全量复测，直到没有可以修复的失败为止。</p>
+<p>鸿蒙代码验证器（harmony-verify）在 DSH 里按需求文档验证鸿蒙应用的代码。它读取需求和工程源码，为每条需求编写 Harmony 单元测试和界面测试，写进工程的测试目录，在真机或模拟器上执行，然后逐条给出“满足、违反、未验证”的结论和证据。你允许修复时，它按失败修改生产代码，再用同一套测试复测（单元测试全部复测，界面测试复测上轮没通过的条目），直到没有可以修复的失败为止。</p>
 <p>它看得到代码：从源码找到页面、控件和状态，单元测试直接调用 ViewModel 核对内部结果，界面测试按源码里的文字和结构定位控件。只在界面上点一遍、看不到内部状态时容易漏掉的问题，也能测出来。</p>
 <p>适用于按需求生成的鸿蒙应用（应用生成场景），以及从 Android 迁移来的鸿蒙应用（迁移场景）。只用于鸿蒙 Stage 工程。</p>
 
@@ -65,7 +65,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 </ol>
 <div class="code"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy">复制</button></div><pre><code>/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。</code></pre></div>
 <ol start="3">
-<li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里全量复测。整个过程不需要确认。“收益”一节的 3 个应用，每个用时 71–90 分钟。</li>
+<li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里复测。整个过程不需要确认。“收益”一节的 3 个应用，每个用时 71–90 分钟。</li>
 <li>结束后，回复里给出运行目录、链式汇总的路径、每条需求的结论和修复的改动。按下一节读结果。</li>
 </ol>
 
@@ -88,7 +88,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <tr><td>每条需求都有结论</td><td>需求拆成带原文行号的验收要求，每条给出满足、违反或未验证，并附上截图、控件树和日志的位置</td></tr>
 <tr><td>测试写进工程</td><td>单元测试和界面测试都写在工程的 <code>ohosTest</code> 目录里，可以随代码提交，以后再跑</td></tr>
 <tr><td>先审计划，再执行</td><td>写好的测试由没有参与编写的审查者逐条接受或拒绝，接受的用例冻结以后才上设备执行</td></tr>
-<tr><td>发现问题后修复</td><td>只改生产代码，不改测试；修复后用同一套测试全量复测，最多 5 轮</td></tr>
+<tr><td>发现问题后修复</td><td>只改生产代码，不改测试；修复后用同一套测试复测（单元测试全部复测，界面测试复测上轮没通过的条目），最多 5 轮</td></tr>
 <tr><td>结论可以回查</td><td>每次执行单独留档，汇总时再按原始证据复核；执行受阻或证据不够的要求记为未验证，不算通过</td></tr>
 </tbody></table></div>
 
@@ -97,7 +97,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <div class="flow">
 <svg viewBox="0 0 760 740" role="img" aria-labelledby="flow-title flow-desc">
 <title id="flow-title">鸿蒙代码验证器的验证与修复流程</title>
-<desc id="flow-desc">输入需求文档、工程源码和可选的 Android 工程；依次冻结来源、整理验收项、编写测试、独立审查、设备执行、汇总结论。有违反且允许修复时，修复生产代码，派生新运行全量复测，回到设备执行，最多 5 轮；否则交付链式汇总。</desc>
+<desc id="flow-desc">输入需求文档、工程源码和可选的 Android 工程；依次冻结来源、整理验收项、编写测试、独立审查、设备执行、汇总结论。有违反且允许修复时，修复生产代码，派生新运行复测，回到设备执行，最多 5 轮；否则交付链式汇总。</desc>
 <defs>
 <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fl-m"/></marker>
 <marker id="ahl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="fl-m loop"/></marker>
@@ -125,7 +125,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <path class="fl-a loop" d="M375 614H518" marker-end="url(#ahl)"/><text class="fl-l" x="440" y="606" text-anchor="middle">是</text>
 <rect class="fl-loop" x="520" y="578" width="220" height="72" rx="8"/><text class="fl-n" x="538" y="602">7</text><text class="fl-t" x="560" y="602">修复</text><text class="fl-d" x="560" y="622">按失败包只改生产代码，</text><text class="fl-d" x="560" y="640">测试有问题走申诉</text>
 <path class="fl-a loop" d="M630 578V486" marker-end="url(#ahl)"/><text class="fl-l" x="642" y="536">最多 5 轮</text>
-<rect class="fl-loop" x="520" y="412" width="220" height="72" rx="8"/><text class="fl-n" x="538" y="436">8</text><text class="fl-t" x="560" y="436">派生运行</text><text class="fl-d" x="560" y="456">修复后的代码重新构建，</text><text class="fl-d" x="560" y="474">用同一套测试全量复测</text>
+<rect class="fl-loop" x="520" y="412" width="220" height="72" rx="8"/><text class="fl-n" x="538" y="436">8</text><text class="fl-t" x="560" y="436">派生运行</text><text class="fl-d" x="560" y="456">修复后的代码重新构建，</text><text class="fl-d" x="560" y="474">用同一套测试复测</text>
 <path class="fl-a loop" d="M520 450H472" marker-end="url(#ahl)"/>
 </svg>
 </div>
@@ -135,7 +135,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <tr><td>状态刷新单独成类</td><td>页面已经打开时数据变化，页面还显示旧值；重新进入页面才正确的问题</td><td>购物车页开着时再加一次同一商品，条目数量仍是 1，底部合计已经是 2 件</td></tr>
 <tr><td>单元测试直接调用业务代码</td><td>界面上不容易触发的逻辑分支</td><td>直接调用 <code>UserViewModel.login</code>，未注册账号应返回 <code>false</code></td></tr>
 <tr><td>修复时不能改测试</td><td>为了通过而放宽断言、改测试</td><td>测试本身有问题时提出申诉，重新审查通过后才换用修订的用例</td></tr>
-<tr><td>每轮全量复测</td><td>修好一处、改坏另一处</td><td>修好登录后，一条“不注册直接登录成功”的旧单元测试失败，被识别为测试问题并修订</td></tr>
+<tr><td>每轮全部单元测试复测</td><td>修好一处、改坏另一处</td><td>修好登录后，一条“不注册直接登录成功”的旧单元测试失败，被识别为测试问题并修订</td></tr>
 </tbody></table></div>
 
 <h2 id="when">什么时候用<a class="hash" href="#when" aria-label="本节链接">#</a></h2>
@@ -156,7 +156,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <tr><td>端侧 AI 能力，例如 AI 字幕</td><td>接口不可用，没有回调，记为未验证</td><td>设备支持时可用，需要在真机上运行验证</td></tr>
 <tr><td>碰一碰、发送到其他设备</td><td>不支持</td><td>需要两台真机，人工测试</td></tr>
 </tbody></table></div>
-<p>在真机上运行时，设备要开启开发者模式，并能用 <code>hdc list targets</code> 看到；工程要配好签名，可以用 DevEco Studio 的自动签名。验证器在真机上的完整运行还没有验收。</p>
+<p>在真机上运行时，设备要开启开发者模式，并能用 <code>hdc list targets</code> 看到；工程要配好签名，可以用 DevEco Studio 的自动签名。真机完整运行验收待完成。</p>
 <p><strong>真机上也测不了</strong></p>
 <div class="table"><table><thead><tr><th>情况</th><th>结果</th></tr></thead><tbody>
 <tr><td>Canvas 绘制的内容，以及没有文字和 id 的图片、开关</td><td>定位不到，记为未验证</td></tr>
@@ -169,6 +169,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <div class="table"><table><thead><tr><th>情况</th><th>说明</th></tr></thead><tbody>
 <tr><td>运行时间</td><td>一个应用通常要 20–120 分钟，期间独占一台设备；同一个应用不要在同一台设备上同时跑两次</td></tr>
 <tr><td>修复会改生产代码</td><td>建议在单独的分支上运行，结束后检查改动再合入</td></tr>
+<tr><td>修复后的复测范围</td><td>单元测试每轮全部复测；界面测试只复测上轮没通过的条目，通过的条目沿用上轮结果。修复改坏已通过的界面功能时发现不了，结束后建议手动回归</td></tr>
 </tbody></table></div>
 
 <h2 id="benefit">用上后的收益<a class="hash" href="#benefit" aria-label="本节链接">#</a></h2>
@@ -184,7 +185,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 </tbody></table></div>
 <p><strong>实验设置</strong></p>
 <div class="table"><table><thead><tr><th>项</th><th>设置</th></tr></thead><tbody>
-<tr><td>插件</td><td>0.1.0-dev.28，与本页安装的 DSH 版本是同一套 Skill，在 DevEco Code 命令行中无人值守运行</td></tr>
+<tr><td>插件</td><td>0.1.0-dev.28 的 Skill（本页现在安装的是 0.1.0-dev.39），在 DevEco Code 命令行中无人值守运行</td></tr>
 <tr><td>模型</td><td>deepseek-flash，推理强度 high</td></tr>
 <tr><td>输入</td><td>只给工程目录和需求文档，不给人工验收清单；提问要求验证并修复，中途不提问</td></tr>
 <tr><td>设备</td><td>运行时用 nova 16 模拟器；修复后的确认在真机或模拟器上进行</td></tr>
@@ -235,7 +236,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <title id="c2-title">迁移场景：修复后变为可用的功能点占比</title>
 <desc id="c2-desc">Cofi 界面测试修复 10.1%；AntennaPod 界面测试修复直接修复 6.0%，加上入口恢复共 27.9%；AntennaPod 单元测试修复 6.2%。</desc>
 <rect class="vz-1" x="4" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="22" y="19">直接修复后变为可用</text>
-<rect class="vz-2" x="180" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="198" y="19">入口恢复后能进入（功能本身未逐项验证）</text>
+<rect class="vz-2" x="180" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="198" y="19">入口恢复后能进入（按入口可达性计数）</text>
 <line class="vz-grid" x1="200.0" y1="38" x2="200.0" y2="156"/><text class="vz-tick" x="200.0" y="176" text-anchor="middle">0%</text>
 <line class="vz-grid" x1="346.7" y1="38" x2="346.7" y2="156"/><text class="vz-tick" x="346.7" y="176" text-anchor="middle">10%</text>
 <line class="vz-grid" x1="493.3" y1="38" x2="493.3" y2="156"/><text class="vz-tick" x="493.3" y="176" text-anchor="middle">20%</text>

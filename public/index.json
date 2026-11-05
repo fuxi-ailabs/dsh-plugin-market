@@ -40,14 +40,6 @@
           "zh": "验证与验收"
         }
       }
-    },
-    "labels": {
-      "preview": {
-        "title": {
-          "en": "Preview",
-          "zh": "预览版"
-        }
-      }
     }
   },
   "plugins": [
@@ -64,15 +56,8 @@
       "icon": "icons/agentlineage.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/",
-      "repository": {
-        "url": "https://github.com/fuxi-ailabs/AgentLineage",
-        "directory": "integrations/dsh"
-      },
       "metadata": {
         "category": "evidence",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "AgentLineage",
           "lineage",
@@ -113,9 +98,6 @@
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/",
       "metadata": {
         "category": "memory",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "Crowd Memory",
           "memory",
@@ -153,9 +135,6 @@
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/",
       "metadata": {
         "category": "workflow",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "workflow-rsi",
           "workflow",
@@ -192,15 +171,8 @@
       "icon": "icons/ecat.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/ecat/",
-      "repository": {
-        "url": "https://github.com/fuxi-ailabs/ECAT",
-        "directory": "integrations/dsh"
-      },
       "metadata": {
         "category": "refactoring",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "ECAT",
           "entropy",
@@ -231,17 +203,14 @@
         "zh": "鸿蒙代码验证器"
       },
       "description": {
-        "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-runs all tests. HarmonyOS Stage projects only.",
-        "zh": "读取需求文档和源码，为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。只用于鸿蒙 Stage 工程。"
+        "en": "Reads the Spec and source code, writes Harmony unit and UI tests for every requirement, runs them on a device, and reports each requirement with evidence; with your permission it fixes production code and re-tests. HarmonyOS Stage projects only.",
+        "zh": "读取需求文档和源码，为每条需求编写单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并复测。只用于鸿蒙 Stage 工程。"
       },
       "icon": "icons/dt-verify.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/",
       "metadata": {
         "category": "verification",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "dt-verify",
           "verification",
@@ -289,6 +258,17 @@
           "engines": {
             "dsh": "^0.2.1-rc.2"
           }
+        },
+        {
+          "version": "0.1.0-dev.39",
+          "publishTimestamp": 1793795337,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
+          },
+          "engines": {
+            "dsh": "^0.2.1-rc.2"
+          }
         }
       ]
     },
@@ -305,15 +285,8 @@
       "icon": "icons/insight.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/",
-      "repository": {
-        "url": "https://github.com/guixu-labs/dsh-plugin",
-        "directory": "bundles/dsh-insight-bundle"
-      },
       "metadata": {
         "category": "workflow",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "Insight",
           "session import",
@@ -350,15 +323,8 @@
       "icon": "icons/audit.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/",
-      "repository": {
-        "url": "https://github.com/guixu-labs/dsh-plugin",
-        "directory": "bundles/dsh-audit-bundle"
-      },
       "metadata": {
         "category": "evidence",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "Session Audit",
           "SIFT",
@@ -405,15 +371,8 @@
       "icon": "icons/static-check.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/static-check/",
-      "repository": {
-        "url": "https://github.com/guixu-labs/dsh-plugin",
-        "directory": "bundles/dsh-static-check-bundle"
-      },
       "metadata": {
         "category": "verification",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "Static Check",
           "Skill",
@@ -459,15 +418,8 @@
       "icon": "icons/skill-eval.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/",
-      "repository": {
-        "url": "https://github.com/guixu-labs/dsh-plugin",
-        "directory": "bundles/dsh-eval-bundle"
-      },
       "metadata": {
         "category": "verification",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "Skill Eval",
           "SIFT",
@@ -517,20 +469,14 @@
         "zh": "SkillOpt · 业务技能自优化"
       },
       "description": {
-        "en": "Evaluate and improve existing text-based business skills with native DSH agents, generated suites and project version rollback. Preview; stable business gains are not yet demonstrated.",
-        "zh": "针对自己的文本业务 skill 自动分析、出题、评测与候选优化，支持项目应用和回退。预览版，尚未证明稳定业务增益。"
+        "en": "Analyze, evaluate and improve existing text-based business skills with native DSH agents, generated test suites, independent candidate checks and project version rollback.",
+        "zh": "针对自己的文本业务 skill 自动分析、出题、评测与候选优化，支持独立复测、项目应用和版本回退。"
       },
       "icon": "icons/skillopt.svg",
       "author": "Fuxi AI Labs",
       "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skillopt/",
-      "repository": {
-        "url": "https://github.com/fuxi-ailabs/dsh-skillopt-dist"
-      },
       "metadata": {
         "category": "workflow",
-        "labels": [
-          "preview"
-        ],
         "keywords": [
           "skill",
           "skills",

@@ -19,7 +19,7 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.1` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
-| 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.28` | `^0.2.1-rc.2` |
+| 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.39` | `^0.2.1-rc.2` |
 | Insight · 会话导入与评分 | `1.1.1` | `^0.2.1-rc.2` |
 | Session Audit · 会话审计 | `1.1.1` | `^0.2.1-rc.2` |
 | Static Check · Skill 静态检查 | `1.1.2` | `^0.2.1-rc.2` |
@@ -27,7 +27,7 @@ Fuxi 团队插件目录
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
-Crowd Memory 是面向 DSH coding Agent 的群体记忆：把代码修复、构建排错和接口测试中的经验提供给后续 Agent，附带来源、适用条件和验证结果。面向使用 coding Agent 的开发者，以及开发 workflow 的集成与维护者；采用已有修法后，仍需在当前项目运行测试。本机共享与开发 workflow 可用，跨机器开发协作仍为内部预览；公开示例与评测聚焦开发任务，其他业务场景的适用性尚未验证。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)；各轮评测结果、数据来源和适用范围见[评测页](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html)。
+Crowd Memory 是面向 DSH coding Agent 的群体记忆：把代码修复、构建排错和接口测试中的经验提供给后续 Agent，附带来源、适用条件和验证结果。面向使用 coding Agent 的开发者，以及开发 workflow 的集成与维护者，支持本机共享与开发 workflow；跨机器开发协作为内部预览。Agent 可核对已有修法，在当前项目构建并运行测试。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)；各轮评测结果、数据来源和适用范围见[评测页](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html)。
 workflow-rsi 让 ToD（to Developer，面向开发者）的静态工作流递归自我改进。静态工作流指阶段、节点、交接、分支与门禁随版本固定、每个输入按同一张结构图执行的多阶段 Workflow，例如需求、分析、设计、计划、实现、构建、验证；运行时按输入临时编排步骤的动态工作流和面向 ToB、ToC 业务的工作流不在范围内。它不改模型权重，用真实运行结果持续搜索、评测并发布更好的 Workflow 结构，并评估和改进自己的改进方法。改进来自闭环、Memory 共性、请求、工作计划与假设驱动，结构用已审批的算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进，全部在整个 Workflow 上分级评测，以 PR 交付；评分规则与发布标准只由人准入。市场收录的是 DSH 操作台，使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
 Insight 把当前 DSH 会话导入 Context-Insight，查看 Workflow、Subagent 与工具调用，并在 DSH 中读取评分卡。插件会自动准备运行时，并在配置页检查 Provider Auth、CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。
@@ -38,7 +38,7 @@ Static Check 在 DSH 工作台中检查 Skill 和 Agent 声明，组合 SIFT 的
 
 Skill Eval 在 DSH 工作台中构建 Skill 评测题集、检查覆盖率与基线，运行 Eval/Trigger 和真实任务，并生成 Gate 与 HTML 报告。参见 [Skill Eval 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/)。
 
-鸿蒙代码验证器（harmony-verify）读取需求文档和源码，为每条需求编写 Harmony 单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并全量复测。适用于按需求生成和从 Android 迁移来的鸿蒙应用，只用于鸿蒙 Stage 工程。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)，安装、使用说明与两个场景的实验数据见 [使用文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.28 起，插件、委派工具和子 Agent 角色在 DSH 中显示为“鸿蒙代码验证器”，并新增计划审查角色。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装旧版本的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.28；或先退出 DSH，执行 `npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.28` 再启动。
+鸿蒙代码验证器（harmony-verify）读取需求文档和源码，为每条需求编写 Harmony 单元测试和界面测试并在设备上执行，逐条给出结论和证据；允许修复时修改生产代码并复测。适用于按需求生成和从 Android 迁移来的鸿蒙应用，只用于鸿蒙 Stage 工程。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/)，安装、使用说明与两个场景的实验数据见 [使用文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/guide.html)。包发布在 npm：[@fuxi-ailabs/dsh-dt-verify](https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify)。0.1.0-dev.28 起，插件、委派工具和子 Agent 角色在 DSH 中显示为“鸿蒙代码验证器”，并新增计划审查角色。自定义插件市场只把可用更新显示为状态、不提供升级按钮：已装旧版本的用户在插件页移除 `@fuxi-ailabs/dsh-dt-verify` 后，从「发现」重新安装即得到 dev.39；或先退出 DSH，执行 `npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-dt-verify@0.1.0-dev.39` 再启动。
 
 ## 版本与兼容性
 

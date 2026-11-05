@@ -3,76 +3,115 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Agent framework 接入 | Crowd Memory</title>
+<title>Agent 接入指南 | Crowd Memory 文档</title>
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="docs.css">
+<script src="docs.js" defer></script>
+<style>
+.top-row{height:auto;min-height:60px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+:root{--accent:#087456;--accent-bg:#e6f3ee}
+@media(max-width:600px){:root{--top-h:60px}.top-row{min-height:60px}}
+@media(max-width:360px){:root{--top-h:96px}.top-row{min-height:96px}}
+</style>
 </head>
 <body>
 <header class="top">
-  <div class="top-row" style="display:flex;flex-wrap:wrap;gap:12px;height:auto;min-height:60px;padding-top:12px;padding-bottom:12px">
+  <div class="top-row">
+    <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <a class="brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a>
     <span aria-hidden="true">/</span><a class="brand" href="index.html">Crowd Memory</a>
-    <span class="ver" style="display:inline-flex">v0.1.1</span>
+    <span class="ver">v0.1.1</span>
   </div>
+  <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="adapters.html" class="on" aria-current="page">Agent 接入</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">评测</a></nav>
 </header>
-<main class="main" style="display:block;max-width:900px;margin:auto;padding:28px 20px">
-  <article class="doc">
-    <h1>接入你的 Agent framework</h1>
-    <p>Adapter 把宿主的事件和调用转换为 CrowdMemory 接入协议，并把查询结果送回 Agent。更换 framework 时，替换对应 adapter；任务阶段和失败判定继续由自己的工作流提供。</p>
-    <h2 id="support">支持状态</h2>
-    <div class="table"><table><thead><tr><th>宿主</th><th>状态</th><th>接入范围</th></tr></thead><tbody>
-      <tr><td>DSH</td><td>npm 0.1.1 已发布</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件，推送与三个记忆工具。<a href="configuration.html">连接与配置</a></td></tr>
-      <tr><td>OpenClaude</td><td>npm 0.1.1 已发布</td><td>Node.js 插件，hooks + MCP；会话、工具结果、压缩、子代理、推送及 memory_search / memory_read / memory_note。没有 L2 workflow / goal 事件。</td></tr>
-      <tr><td>opencode</td><td>npm 0.1.1 已发布</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-opencode/README.md">同包支持 1.x / 2.x 的适配器</a>；提供会话、工具结果、压缩、子代理、推送与三个记忆工具，没有 L2 workflow / goal 事件。</td></tr>
-      <tr><td>Codex</td><td>npm 0.1.1 已发布</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-codex/README.md">hooks + MCP 插件</a>；会话、子会话、工具输出检索与三个记忆工具。CLI 0.164.0 不提供 shell 退出码，不据 stdout 生成成败统计；没有压缩摘要或 L2 事件采集。</td></tr>
-      <tr><td>openJiuwen</td><td>接入设计已合入</td><td><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapter-openjiuwen-design.md">设计稿</a>，尚无可安装实现，不列为已发布支持。</td></tr>
-    </tbody></table></div>
-    <p>OpenClaude 插件要求 Node.js ≥ 22.18，仓库记录的宿主验证版本为 OpenClaude 0.12.0、0.31.0。它连接同用户的 Runtime，不依赖 DSH、MigBot-Air 或独立 Python adapter；Runtime 仍可使用 npm 0.1.1。Claude Code 兼容性不作已验收承诺。</p>
-    <h2 id="openclaude">在独立目录试用 OpenClaude 插件</h2>
-    <p>从 npm 下载 <code>@fuxi-ailabs/crowdmemory-openclaude-plugin@0.1.1</code> 并解包使用，无需全局安装插件或克隆源码。先按<a href="configuration.html">配置文档</a>启动 Runtime，再将下方端点路径和项目名替换为自己的值。</p>
-    <div class="code"><pre><code>mkdir CMLocalOpenClaude
-cd CMLocalOpenClaude
-npm pack @fuxi-ailabs/crowdmemory-openclaude-plugin@0.1.1 --registry=https://registry.npmjs.org
-mkdir -p plugin
-tar -xzf fuxi-ailabs-crowdmemory-openclaude-plugin-0.1.1.tgz -C plugin
-CROWDMEMORY_ENDPOINT_FILE="/absolute/path/to/runtime/state/endpoint.json" \
-CROWDMEMORY_PROJECT="my-repository" \
-CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 \
-openclaude --plugin-dir "$PWD/plugin/package"</code></pre></div>
-    <p>会话初始化应显示 MCP 服务 <code>plugin:crowdmemory:memory</code> 已连接，Agent 可调用三个记忆工具。让会话 A 写入 <code>memory_note</code> 并结束，再在会话 B 用 <code>memory_search</code>、<code>memory_read</code> 核对来源。不加 <code>--bare</code>，该选项会跳过插件。持久安装方式和环境变量见<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-openclaude/README.md">OpenClaude 插件指南</a>。</p>
-    <h2 id="codex">在独立目录安装 Codex 插件</h2>
-    <p>Node.js ≥ 22.18，已验证 Codex CLI 0.164.0。Runtime 仍使用 0.1.1；插件不依赖其它 Agent framework。以下使用独立的 Codex 配置目录：</p>
-    <div class="code"><pre><code>mkdir CMLocalCodex
-cd CMLocalCodex
-npm pack @fuxi-ailabs/crowdmemory-codex-plugin@0.1.1 --registry=https://registry.npmjs.org
-mkdir -p plugin
-tar -xzf fuxi-ailabs-crowdmemory-codex-plugin-0.1.1.tgz -C plugin
+<div class="layout">
+  <aside class="side" aria-label="文档目录"><div class="side-group"><div class="side-title">快速开始</div><a href="index.html">介绍与安装</a><a href="adapters.html" class="on" aria-current="page">Agent 接入</a><a href="configuration.html">DSH 配置</a><a href="runtime.html">Runtime 命令</a><a href="tools.html">记忆工具</a><a href="errors.html">错误码</a></div></aside>
+  <main class="main">
+    <article class="doc">
+      <h1>接入你的 Agent</h1>
+      <p>先启动本机 Runtime，再选择正在使用的 Agent 安装适配器。适配器负责采集执行事件、交付相关经验，并提供 <code>memory_note</code>、<code>memory_search</code>、<code>memory_read</code> 三个工具。</p>
+      <p><a href="#dsh">DSH</a> · <a href="#openclaude">OpenClaude</a> · <a href="#opencode">opencode</a> · <a href="#codex">Codex</a></p>
+
+      <h2 id="runtime">1. 启动共用 Runtime</h2>
+      <p>需要 Node.js ≥ 22.18、带 venv 的 Python ≥ 3.10，以及 macOS 或 Linux。以下命令使用独立目录，无需全局安装 Runtime。</p>
+      <div class="code"><div class="code-bar"><span>终端 A</span><button type="button" class="copy">复制</button></div><pre><code>mkdir -p CMLocal
+cd CMLocal
+npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1
+npx --no-install crowdmemory-runtime install --prefix "$PWD/.runtime/crowdmemory"
+npx --no-install crowdmemory-runtime start --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
+      <p>保持终端 A 运行。在另一个终端进入同一 <code>CMLocal</code> 目录，设置连接信息，再执行下面所选宿主的安装步骤：</p>
+      <div class="code"><div class="code-bar"><span>终端 B · CMLocal</span><button type="button" class="copy">复制</button></div><pre><code>export CROWDMEMORY_ENDPOINT_FILE="$PWD/.runtime/crowdmemory/state/endpoint.json"
+export CROWDMEMORY_PROJECT="my-repository"</code></pre></div>
+      <p>多个 Agent 要复用同一批本机记忆，应连接同一 Runtime，并使用稳定的项目标识；跨项目记录还需要合适的 project/global 范围。Runtime 和宿主应以同一个系统用户运行。<a href="runtime.html">Runtime 命令参考</a></p>
+
+      <h2 id="dsh">2. 接入 DSH</h2>
+      <p>适用于 DSH 0.1.6-alpha.2 或 0.2.0-rc.2 及以后的 0.2.x。宿主已安装后，在终端 B 执行；<code>web</code> 换成实际使用的 Profile：</p>
+      <div class="code"><div class="code-bar"><span>终端 B · DSH</span><button type="button" class="copy">复制</button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1
+dsh --profile web</code></pre></div>
+      <p>在插件列表确认 CrowdMemory 适配器已加载，再检查 Agent 是否提供三个记忆工具。需要固定端点路径、控制推送或启用 workflow 模板时，见<a href="configuration.html#override">DSH 插件配置</a>。从程序坞启动桌面版时，按<a href="configuration.html#desktop">桌面版配置</a>传入端点。</p>
+      <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-dsh-adapter">DSH 适配器使用说明</a></p>
+
+      <h2 id="openclaude">2. 接入 OpenClaude</h2>
+      <p>适用于 OpenClaude 0.12.0、0.31.0。以下仍在同一 CMLocal 目录执行，下载插件到当前目录后启动宿主：</p>
+      <div class="code"><div class="code-bar"><span>终端 B · OpenClaude</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-openclaude-plugin@0.1.1 --registry=https://registry.npmjs.org
+mkdir -p plugin-openclaude
+tar -xzf fuxi-ailabs-crowdmemory-openclaude-plugin-0.1.1.tgz -C plugin-openclaude
+CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 openclaude --plugin-dir "$PWD/plugin-openclaude/package"</code></pre></div>
+      <p>初始化后应看到 MCP 服务 <code>plugin:crowdmemory:memory</code> 已连接，并提供三个记忆工具。不加 <code>--bare</code>，该选项会跳过插件。此安装方式面向 OpenClaude；Claude Code 的兼容范围请另行确认。</p>
+      <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-openclaude-plugin">OpenClaude 插件使用说明</a></p>
+
+      <h2 id="opencode">2. 接入 opencode</h2>
+      <p>同一个 npm 0.1.1 适配器支持 opencode 1.x 和 2.x。按正在使用的主版本，将配置合并进项目的 <code>opencode.json</code>；不要覆盖已有配置。</p>
+      <div class="code"><div class="code-bar"><span>opencode 1.x</span><button type="button" class="copy">复制</button></div><pre><code>{
+  "plugin": [["@fuxi-ailabs/crowdmemory-opencode-adapter@0.1.1", {
+    "project": "my-repository"
+  }]]
+}</code></pre></div>
+      <div class="code"><div class="code-bar"><span>opencode 2.x</span><button type="button" class="copy">复制</button></div><pre><code>{
+  "plugins": [{
+    "package": "@fuxi-ailabs/crowdmemory-opencode-adapter@0.1.1",
+    "options": { "project": "my-repository" }
+  }]
+}</code></pre></div>
+      <p>从已设置端点变量的终端启动 opencode。1.x 使用 <code>plugin</code>，2.x 使用 <code>plugins</code>；端点也可通过插件选项 <code>endpointFile</code> 指定绝对路径。</p>
+      <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-opencode-adapter">opencode 适配器使用说明</a></p>
+
+      <h2 id="codex">2. 接入 Codex</h2>
+      <p>适用于 Codex CLI 0.164.0。以下使用独立的 Codex 配置目录，仍在 CMLocal 中执行：</p>
+      <div class="code"><div class="code-bar"><span>终端 B · Codex</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-codex-plugin@0.1.1 --registry=https://registry.npmjs.org
+mkdir -p plugin-codex
+tar -xzf fuxi-ailabs-crowdmemory-codex-plugin-0.1.1.tgz -C plugin-codex
 export CODEX_HOME="$PWD/.codex-crowdmemory"
-codex plugin marketplace add "$PWD/plugin/package" --json
+codex plugin marketplace add "$PWD/plugin-codex/package" --json
 codex plugin add crowdmemory@crowdmemory-codex --json
 codex login
-export CROWDMEMORY_ENDPOINT_FILE="/absolute/path/to/runtime/state/endpoint.json"
-export CROWDMEMORY_PROJECT="my-repository"
 codex</code></pre></div>
-    <p>先启动 Runtime。安装后按 Codex 提示检查并信任插件 hooks；安装不等于信任，不需要绕过 hook 信任或沙箱。MCP 工具审批仍由 Codex 控制。会话 A 写入笔记后，在会话 B 查找、读取并核对来源；shell 输出也可触发引用资料投递，但不会被推断为测试成败。桌面端和云编排的支持范围见包指南。</p>
-    <h2 id="opencode">接入 opencode</h2>
-    <p>使用 <code>@fuxi-ailabs/crowdmemory-opencode-adapter@0.1.1</code>。1.x 在 <code>opencode.json</code> 的 <code>plugin</code> 字段配置，2.x 使用 <code>plugins</code> 字段，两者可用同一 npm 包；不要套用 Codex 或 OpenClaude 的插件注册命令。完整配置与限制见上方 opencode 接入指南。</p>
-    <h2 id="boundaries">代码放在哪里</h2>
-    <ul>
-      <li>CrowdMemory 仓库维护各 framework adapter；DSH、OpenClaude、opencode 与 Codex 共用适配器核心，包括 Runtime 客户端、错误签名、脱敏、推送包装、记忆工具与协议快照。</li>
-      <li>使用方保留自己的任务、阶段、失败事实和门禁。MigBot-Air 是使用方，通用插件不依赖其代码或迁移流程。</li>
-      <li>Runtime 管理记忆存储、召回、来源与信任。Adapter 不替使用方判断任务成功。</li>
-    </ul>
-    <h2 id="guides">源码与开发指南</h2>
-    <p>公共核心是仓库内的唯一源码，由同步脚本拷入各 adapter 再独立构建；不作为额外运行时依赖发布。新增 adapter 只实现宿主事件到规范事件的转换。</p>
-    <ul>
-      <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/docs/crowdmemory/adapters.md">Framework adapter 开发指南</a>：协议、事件映射、职责与验收要求。</li>
-      <li><a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/blob/main/distributions/memory-adapter-core/README.md">适配器公共核心</a>：在该目录用 <code>npm run update</code> 下发公共改动并测试；用 <code>npm run adopt -- &lt;adapter&gt;</code> 收回副本修改。脚本不提交、不发布。</li>
-    </ul>
-    <p>已合入：<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/8">#8 OpenClaude 插件</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/9">#9 opencode 适配器与 openJiuwen 设计</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/10">#10 公共核心</a>、<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/11">#11 Codex 插件</a>。四个 adapter 均提供独立 npm 0.1.1 包；公共核心随插件打包，不需要另装。</p>
-    <p>仓库记录了真实 OpenClaude CLI 的 L0 e2e，覆盖脚本化模型、真实 Runtime、跨会话召回、子代理、压缩和异常降级，并有真实模型一轮验证；这不等同于生产设备验收或普遍的收益证明。评测数据与适配器验收分别见<a href="evaluation.html">评测与公开数据</a>和上述源码指南。</p>
-    <p><a href="index.html">返回 Crowd Memory 介绍与安装</a></p>
-  </article>
-</main>
+      <p>按 Codex 提示检查并信任插件 hooks，MCP 工具审批继续由宿主控制。插件应提供三个记忆工具；桌面端和云端的支持范围见插件说明。</p>
+      <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-codex-plugin">Codex 插件使用说明</a></p>
+
+      <h2 id="verify">3. 检查连接与记忆读取</h2>
+      <div class="code"><div class="code-bar"><span>终端 B · CMLocal</span><button type="button" class="copy">复制</button></div><pre><code>npx --no-install crowdmemory-runtime status --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
+      <p>状态应显示 Runtime 运行中。然后在 Agent 中确认三个记忆工具可用；让一个 Agent 写入明确标为测试的记录，再启动另一个 Agent，用 <code>memory_search</code>、<code>memory_read</code> 查找并核对来源。</p>
+      <ul>
+        <li>没有记忆工具：检查宿主是否加载了正确的插件或 Profile。</li>
+        <li>工具提示记忆暂不可用：检查端点文件是否存在、是否为绝对路径，以及 Runtime 是否仍在运行。</li>
+        <li>读不到另一条记录：检查是否连接同一 Runtime，以及项目标识和记录的 project/global 范围。</li>
+      </ul>
+      <p><a href="tools.html">记忆工具参考</a> · <a href="errors.html">错误码与排查</a> · <a href="index.html#recording">查看 libpng 演示</a></p>
+
+      <h2 id="support">已发布适配器与能力边界</h2>
+      <div class="table"><table><thead><tr><th>宿主</th><th>npm 版本</th><th>接入范围</th></tr></thead><tbody>
+        <tr><td><a href="#dsh">DSH</a></td><td>0.1.1</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件、推送及三个记忆工具。</td></tr>
+        <tr><td><a href="#openclaude">OpenClaude</a></td><td>0.1.1</td><td>会话、工具结果、压缩、子代理、推送及三个记忆工具；不采集 L2 workflow / goal 事件。</td></tr>
+        <tr><td><a href="#opencode">opencode</a></td><td>0.1.1</td><td>支持 1.x / 2.x；会话、工具结果、压缩、子代理、推送及三个记忆工具，不采集 L2 事件。</td></tr>
+        <tr><td><a href="#codex">Codex</a></td><td>0.1.1</td><td>会话、子会话、工具输出检索及三个记忆工具。CLI 0.164.0 不提供 shell 退出码，不据 stdout 推断测试成败；不采集压缩摘要或 L2 事件。</td></tr>
+      </tbody></table></div>
+      <p>适配器负责连接宿主和记忆服务，任务是否成功仍需由实际测试和工作流判定。各适配器共用本机 Runtime；跨机器共享的使用范围见<a href="team.html">团队记忆</a>。</p>
+      <nav class="pager" aria-label="翻页"><a class="pg prev" href="index.html"><span>上一页</span>介绍与安装</a><a class="pg next" href="configuration.html"><span>下一页</span>DSH 配置</a></nav>
+    </article>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#runtime">启动 Runtime</a><a href="#dsh">DSH</a><a href="#openclaude">OpenClaude</a><a href="#opencode">opencode</a><a href="#codex">Codex</a><a href="#verify">检查连接</a><a href="#support">能力边界</a></nav>
+  </main>
+</div>
+<footer class="foot"><a href="index.html">Crowd Memory 介绍与安装</a> · <a href="configuration.html">DSH 配置</a> · <a href="tools.html">记忆工具</a></footer>
 </body>
 </html>

@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(png_info_demo C)
+find_package(PNG REQUIRED)
+add_executable(png_info main.c)
+target_include_directories(png_info PRIVATE ${PNG_INCLUDE_DIRS})
+enable_testing()
+add_test(NAME png_info_reads_fixture COMMAND png_info ${CMAKE_CURRENT_SOURCE_DIR}/../fixtures/sample.png)
