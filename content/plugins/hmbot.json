@@ -5,7 +5,7 @@
   "compatibility": "DSH 0.2.1（rc.2 起）/ 0.2.2 · Bundle 0.1.0",
   "description": "从安卓源码启动鸿蒙迁移，在 DSH 原生侧栏查看知识查询、并发调度、开发进度与设备画面。",
   "install": {
-    "code": "dsh plugin --profile web add --save-exact @fuxi-ailabs/hmbot@0.1.0",
+    "code": "npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/hmbot@0.1.0",
     "codeLabel": "终端 · npm 安装",
     "note": "桌面用户在插件 → 添加插件中填写 @fuxi-ailabs/hmbot@0.1.0，启用后点击详情顶部的「检查环境」。终端示例用于 Web profile；桌面 CLI 请使用随应用提供的版本。"
   },
@@ -126,7 +126,7 @@
       {
         "title": "安装 Bundle",
         "description": "从 npm 安装 @fuxi-ailabs/hmbot；桌面用户在插件管理器填写完整包名和版本，本地验证也可添加预构建包的绝对路径。",
-        "code": "dsh plugin --profile web add --save-exact @fuxi-ailabs/hmbot@0.1.0",
+        "code": "npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/hmbot@0.1.0",
         "codeLabel": "终端",
         "expected": "出现 HMBot · 鸿蒙迁移，版本 0.1.0。"
       },
