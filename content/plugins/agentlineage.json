@@ -2,7 +2,7 @@
   "slug": "agentlineage",
   "name": "AgentLineage",
   "version": "0.1.0-alpha.4",
-  "compatibility": "DSH 0.2.1-rc.2 · Windows x64 · 预览版",
+  "compatibility": "DSH 0.2.1-rc.2 · Windows x64",
   "description": "查看文件的修改记录，以及对应的会话、工具调用和回执。",
   "install": {
     "code": "dsh plugin --profile web add \"git+https://github.com/fuxi-ailabs/AgentLineage.git#211057da3b42eabbf92a7f723ce8c3fa46ce05ef&path:/integrations/dsh\"",
@@ -218,10 +218,6 @@
     {
       "label": "安装与使用文档 ↗",
       "url": "https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md"
-    },
-    {
-      "label": "查看插件源码 ↗",
-      "url": "https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh"
     }
   ],
   "faq": [
