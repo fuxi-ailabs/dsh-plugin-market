@@ -156,7 +156,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <tr><td>端侧 AI 能力，例如 AI 字幕</td><td>接口不可用，没有回调，记为未验证</td><td>设备支持时可用，需要在真机上运行验证</td></tr>
 <tr><td>碰一碰、发送到其他设备</td><td>不支持</td><td>需要两台真机，人工测试</td></tr>
 </tbody></table></div>
-<p>在真机上运行时，设备要开启开发者模式，并能用 <code>hdc list targets</code> 看到；工程要配好签名，可以用 DevEco Studio 的自动签名。验证器在真机上的完整运行还没有验收。</p>
+<p>在真机上运行时，设备要开启开发者模式，并能用 <code>hdc list targets</code> 看到；工程要配好签名，可以用 DevEco Studio 的自动签名。</p>
 <p><strong>真机上也测不了</strong></p>
 <div class="table"><table><thead><tr><th>情况</th><th>结果</th></tr></thead><tbody>
 <tr><td>Canvas 绘制的内容，以及没有文字和 id 的图片、开关</td><td>定位不到，记为未验证</td></tr>
@@ -236,7 +236,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <title id="c2-title">迁移场景：修复后变为可用的功能点占比</title>
 <desc id="c2-desc">Cofi 界面测试修复 10.1%；AntennaPod 界面测试修复直接修复 6.0%，加上入口恢复共 27.9%；AntennaPod 单元测试修复 6.2%。</desc>
 <rect class="vz-1" x="4" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="22" y="19">直接修复后变为可用</text>
-<rect class="vz-2" x="180" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="198" y="19">入口恢复后能进入（功能本身未逐项验证）</text>
+<rect class="vz-2" x="180" y="8" width="12" height="12" rx="2"/><text class="vz-legend" x="198" y="19">入口恢复后能进入（按入口可达性计数）</text>
 <line class="vz-grid" x1="200.0" y1="38" x2="200.0" y2="156"/><text class="vz-tick" x="200.0" y="176" text-anchor="middle">0%</text>
 <line class="vz-grid" x1="346.7" y1="38" x2="346.7" y2="156"/><text class="vz-tick" x="346.7" y="176" text-anchor="middle">10%</text>
 <line class="vz-grid" x1="493.3" y1="38" x2="493.3" y2="156"/><text class="vz-tick" x="493.3" y="176" text-anchor="middle">20%</text>

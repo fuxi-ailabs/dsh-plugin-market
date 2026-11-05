@@ -67,7 +67,7 @@
     "description": "截图取自上面两个 Agent 的真实工具结果：A 首次构建遇到链接失败；B 读取经验、核对当前配置后，通过另一个目标的构建与图片读写测试。",
     "before": {"title":"A：首次接入，链接失败","description":"CMake 找到了 libpng，但可执行目标未链接库，png_image_* 符号无法解析。","image":"assets/libpng-before.jpg","alt":"Agent A 真实构建输出：png_image_* undefined symbols，链接失败。"},
     "after": {"title":"B：核对经验后，图片读写通过","description":"按自己的目标配置链接与头文件路径后，PNG 解码、编码、重新读取的像素一致性测试通过。","image":"assets/libpng-after.jpg","alt":"Agent B 在独立工程的真实 CTest 和 PNG 读写测试通过输出。"},
-    "takeaways": ["记录有来源，Agent 可以核对当时的问题和实际修法。","采用后仍需测试；截图不代表时间或工具调用减少。","公开 E1 的 120 对受控合成任务：关记忆 45/120，开记忆 104/120。数据和限制见评测页；不能据此推断 PR4 收益或真实业务效果。"]
+    "takeaways": ["记录有来源，Agent 可以核对当时的问题和实际修法。","后续 Agent 可读取来源记录，按当前工程调整配置，并运行构建与测试。","公开 E1 的 120 对受控合成任务：关记忆 45/120，开记忆 104/120。任务设置、数据和复算方法见评测页。"]
   },
   "requirements": {
     "summary": "本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10",
@@ -78,7 +78,7 @@
     ]
   },
   "boundaries": [
-    {"title":"开发任务范围","description":"本页示例与评测面向 coding Agent 的代码修复、构建排错、接口测试和开发 workflow，其他业务场景的适用性未经本页验证。本机共享与 workflow 可用，跨机器开发协作仍为内部预览；跨项目复用需核对 project/global 范围。"},
+    {"title":"开发任务范围","description":"面向 coding Agent 的代码修复、构建排错、接口测试和开发 workflow，支持本机 Agent 共享经验与 workflow 阶段间传递记录。跨机器开发协作为内部预览；跨项目复用按 project/global 范围配置。"},
     {"title":"在当前项目重新验证","description":"代码、依赖和运行环境变化后，原来的修法可能不再适用。Agent 采用前应核对条件，采用后运行当前项目的测试。记忆服务不可用时，开发会话继续执行，但这一步不带记忆。"},
     {"title":"配置与验证","description":"DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。"}
   ],
@@ -98,7 +98,7 @@
     {"question":"已经有 session-default，为什么还要 DSH Profile？","answer":"DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。"},
     {"question":"必须全局安装吗？Node.js 18 可以吗？","answer":"不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。"},
     {"question":"为什么另一个 Agent 没有收到记录？","answer":"检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。"},
-    {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。历史测试通过不保证当前修改正确。libpng 接入录像与受控评测的范围及原始依据见评测与运行依据链接。"}
+    {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。libpng 接入录像与受控评测的任务设置、数据及原始依据见评测与运行依据链接。"}
   ],
   "links":[
     {"label":"Agent 接入文档 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},

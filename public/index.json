@@ -528,8 +528,8 @@
         "zh": "SkillOpt · 业务技能自优化"
       },
       "description": {
-        "en": "Evaluate and improve existing text-based business skills with native DSH agents, generated suites and project version rollback. Preview; stable business gains are not yet demonstrated.",
-        "zh": "针对自己的文本业务 skill 自动分析、出题、评测与候选优化，支持项目应用和回退。预览版，尚未证明稳定业务增益。"
+        "en": "Analyze, evaluate and improve existing text-based business skills with native DSH agents, generated test suites, independent candidate checks and project version rollback.",
+        "zh": "针对自己的文本业务 skill 自动分析、出题、评测与候选优化，支持独立复测、项目应用和版本回退。"
       },
       "icon": "icons/skillopt.svg",
       "author": "Fuxi AI Labs",
