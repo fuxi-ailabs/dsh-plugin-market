@@ -581,6 +581,43 @@
           }
         }
       ]
+    },
+    {
+      "name": "@fuxi-ailabs/hmbot",
+      "title": {
+        "en": "HMBot",
+        "zh": "HMBot · 鸿蒙迁移"
+      },
+      "description": {
+        "en": "Android to HarmonyOS migration with native knowledge, workflow and device views.",
+        "zh": "从安卓源码启动鸿蒙迁移，在原生侧栏查看知识查询、并发任务、开发进度与设备画面。"
+      },
+      "icon": "icons/hmbot.svg",
+      "author": "Snowball-Di",
+      "homepage": "https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/hmbot/",
+      "metadata": {
+        "category": "workflow",
+        "keywords": [
+          "HarmonyOS",
+          "Android",
+          "migration",
+          "workflow",
+          "鸿蒙",
+          "迁移"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1793883617,
+          "source": {
+            "type": "npm"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-rc.2 <0.3.0"
+          }
+        }
+      ]
     }
   ]
 }

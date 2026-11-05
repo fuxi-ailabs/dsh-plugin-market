@@ -139,6 +139,10 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/#recording',
 ])]]);
+// HMBot reviewed resources begin
+publicPages.set("plugins/hmbot", new Set(["index.html","styles.css","page.js","demo-data.js","assets/workflow.jpg","assets/conversation.jpg","assets/knowledge.jpg","assets/device.jpg"]));
+publicLinks.set("plugins/hmbot", new Set(["https://fuxi-ailabs.github.io/dsh-plugin-market/","https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/hmbot/","https://www.npmjs.com/package/@fuxi-ailabs/hmbot","https://github.com/deepseek-ai/deepseek-harness"]));
+// HMBot reviewed resources end
 for (const root of pageRoots) {
   for (const entry of await readdir(`public/${root}`, { withFileTypes:true })) {
     if (!entry.isDirectory() || !publicPages.has(`${root}/${entry.name}`)) {
