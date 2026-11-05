@@ -1,7 +1,7 @@
 {
   "slug": "dog",
   "name": "DoG · DAG of Goals 价值判断器",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-alpha.2",
   "compatibility": "DSH 0.2.1-rc.2 / 0.2.2-rc.1",
   "description": "DoG 是一个把非形式化目标拆成 DAG、交给隔离上下文的 Agent 逐条判定的价值判断器。「文章好不好」这种目标没有形式化标准，并且具体意图也取决于具体某个人的偏好。DoG 把这类目标拆成一张有向无环图（DAG）：根节点是用户的原始目标，按「经院哲学」式的风格进行详尽的内涵展开，保证完备性、不遗漏、抽象层合理，在展开的过程中帮助用户明确自己的目标，发现内涵中新的外延。最终下层拆成原子目标，由 Agent 判断。你把你的（或者 Agent 的）产物给了 DoG ，一系列 Agents 在隔离上下文判断产物是否达标，最终总的价值判断的质量相比只喂给 Agent 「这篇文章好不好」会大幅提高。产物可以是文章、PPT、代码仓、项目，或者一天的生活。我们做高质量的判定器。",
   "headline": [
@@ -10,7 +10,7 @@
   ],
   "promise": "和你拆目标 → 逐层确认 → 隔离判定 → 逐条证据",
   "install": {
-    "code": "dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1",
+    "code": "dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.2",
     "codeLabel": "终端",
     "note": "把 web 换成你实际在用的 profile 名；默认不需要配置：被检查的文件按当前会话的目录找，判定沿用当前会话的模型。"
   },
@@ -94,7 +94,7 @@
       {
         "title": "装插件",
         "description": "把命令里的 web 换成你实际在用的 profile 名。",
-        "code": "dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.1",
+        "code": "dsh plugin --profile web add @fuxi-ailabs/dsh-dog@2.0.0-alpha.2",
         "codeLabel": "终端",
         "expected": "插件写进该 profile 的依赖，重启这个 profile（或重开 DSH）后面板上多出 DoG 区域。"
       },

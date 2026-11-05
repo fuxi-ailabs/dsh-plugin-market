@@ -543,6 +543,17 @@
           "engines": {
             "dsh": ">=0.2.1-0 <0.3.0-0"
           }
+        },
+        {
+          "version": "2.0.0-alpha.2",
+          "publishTimestamp": 1793848502,
+          "source": {
+            "type": "npm",
+            "registry": "https://registry.npmjs.org/"
+          },
+          "engines": {
+            "dsh": ">=0.2.1-0 <0.3.0-0"
+          }
         }
       ]
     }
