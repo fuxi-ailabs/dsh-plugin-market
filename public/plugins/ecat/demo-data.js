@@ -85,5 +85,22 @@ window.PLUGIN_DEMO = {
         "resultRef": ".ecat/runs_*/ 保留"
       }
     ]
+  },
+  "video": {
+    "title": "用右侧栏面板跑一轮 ECAT",
+    "description": "约 64 秒演示：/ecat-setup 访谈 → 环境自检 → /ecat-refine ui 打开右侧栏面板 → 开始 / 停止、实时看生成器与判别器在做什么 → 6 轮 H 从 0.8250 收敛到 0.0000 → 装到模拟器验收。",
+    "src": "assets/ecat-demo-1080p.mp4",
+    "poster": "assets/ecat-demo-poster.jpg",
+    "qualities": [
+      {
+        "label": "1080p · 流畅",
+        "src": "assets/ecat-demo-1080p.mp4"
+      },
+      {
+        "label": "720p · 省流",
+        "src": "assets/ecat-demo-720p.mp4"
+      }
+    ],
+    "captions": "assets/ecat-demo-zh.vtt"
   }
 };
