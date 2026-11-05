@@ -97,7 +97,6 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
   'https://github.com/fuxi-ailabs/AgentLineage/blob/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh/README.md',
-  'https://github.com/fuxi-ailabs/AgentLineage/tree/211057da3b42eabbf92a7f723ce8c3fa46ce05ef/integrations/dsh',
 ])], ['plugins/ecat', new Set([
   'https://github.com/fuxi-ailabs/ECAT',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
@@ -107,24 +106,20 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://www.npmjs.com/package/context-insight',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
-  'https://github.com/guixu-labs/dsh-plugin',
 ])], ['plugins/audit', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
-  'https://github.com/guixu-labs/dsh-plugin',
 ])], ['plugins/static-check', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-static-check-bundle',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
-  'https://github.com/guixu-labs/dsh-plugin',
 ])], ['plugins/skill-eval', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
-  'https://github.com/guixu-labs/dsh-plugin',
 ])], ['plugins/dt-verify', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/',

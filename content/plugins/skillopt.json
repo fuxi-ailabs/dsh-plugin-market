@@ -2,7 +2,7 @@
   "slug": "skillopt",
   "name": "SkillOpt",
   "version": "0.2.0-alpha.1",
-  "compatibility": "DSH 0.2.1-rc.2 实测 · SkillOpt 0.2.0-alpha.1 预览版",
+  "compatibility": "DSH 0.2.1-rc.2 实测 · SkillOpt 0.2.0-alpha.1",
   "description": "为你已有的业务 skill 自动生成验收、复现问题、提出候选并复测。合格候选可应用到项目，也能回退。",
   "install": {
     "code": "dsh plugin --profile web add \"git+https://github.com/fuxi-ailabs/dsh-skillopt-dist.git#7f901e565f0b34976b87fc7c85f538b441b69aaf\"",
