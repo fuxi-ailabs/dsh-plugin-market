@@ -49,6 +49,7 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
 ])], ['plugins/ecat', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-without-plugin.jpg', 'assets/after-with-plugin.jpg', 'assets/hero-loop.jpg',
+  'media-controls.js', 'media-controls.css', 'assets/ecat-demo-1080p.mp4', 'assets/ecat-demo-720p.mp4', 'assets/ecat-demo-poster.jpg', 'assets/ecat-demo-zh.vtt',
 ])], ['plugins/dog', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'assets/before-chat.jpg', 'assets/after-debugger.jpg', 'assets/hero-debugger.jpg',
@@ -56,10 +57,16 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
   'index.html', 'styles.css', 'page.js', 'demo-data.js', 'guide.html', 'docs.css', 'docs.js',
   'assets/verify-flow.jpg', 'assets/fix-before.jpg', 'assets/fix-after.jpg',
   'assets/dsh-install-demo.mp4', 'assets/dsh-install-demo-poster.jpg', 'assets/dsh-install-demo-zh.vtt',
-])], ['plugins/insight', new Set([
+])], ['plugins/observe', new Set([
   'index.html', 'styles.css', 'page.js', 'assets/icon.svg',
-  'assets/insight-runtime-preparing.jpg', 'assets/insight-imported-session.jpg', 'assets/insight-score-page.jpg',
-  'assets/insight-dsh-score.jpg', 'assets/insight-environment-check.jpg',
+  'assets/observe-session.png', 'assets/observe-actions.png',
+  'assets/observe-environment.jpg', 'assets/observe-runtime.jpg',
+  'assets/observe-demo.webm', 'assets/observe-demo-poster.png', 'assets/observe-demo-zh.vtt',
+])], ['plugins/score', new Set([
+  'index.html', 'styles.css', 'page.js', 'assets/icon.svg',
+  'assets/score-detail.png', 'assets/score-dial-hover.png', 'assets/score-actions.png',
+  'assets/score-page.jpg',
+  'assets/score-demo.webm', 'assets/score-demo-poster.png', 'assets/score-demo-zh.vtt',
 ])], ['plugins/audit', new Set([
   'index.html', 'styles.css', 'page.js', 'assets/icon.svg', 'assets/audit-workbench.jpg', 'assets/audit-flyout.jpg',
   'assets/audit-demo.mp4', 'assets/audit-demo-zh.vtt',
@@ -109,25 +116,25 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dog/',
   'https://github.com/Fun10165/dsh-dog',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-dog',
-])], ['plugins/insight', new Set([
+])], ['plugins/observe', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://www.npmjs.com/package/context-insight',
-  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-insight-bundle',
-  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
+  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-observe-bundle',
+])], ['plugins/score', new Set([
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/',
+  'https://www.npmjs.com/package/context-insight',
+  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-score-bundle',
 ])], ['plugins/audit', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-audit-bundle',
-  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
 ])], ['plugins/static-check', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-static-check-bundle',
-  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
 ])], ['plugins/skill-eval', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/skill-eval/',
   'https://www.npmjs.com/package/@fuxi-ailabs/dsh-eval-bundle',
-  'https://www.npmjs.com/package/@fuxi-ailabs/dsh-runtime-bundle',
 ])], ['plugins/dt-verify', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/dt-verify/',
@@ -140,6 +147,10 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/#recording',
 ])]]);
+// HMBot reviewed resources begin
+publicPages.set("plugins/hmbot", new Set(["index.html","styles.css","page.js","demo-data.js","assets/workflow.jpg","assets/conversation.jpg","assets/knowledge.jpg","assets/device.jpg"]));
+publicLinks.set("plugins/hmbot", new Set(["https://fuxi-ailabs.github.io/dsh-plugin-market/","https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/hmbot/","https://www.npmjs.com/package/@fuxi-ailabs/hmbot","https://github.com/deepseek-ai/deepseek-harness"]));
+// HMBot reviewed resources end
 for (const root of pageRoots) {
   for (const entry of await readdir(`public/${root}`, { withFileTypes:true })) {
     if (!entry.isDirectory() || !publicPages.has(`${root}/${entry.name}`)) {

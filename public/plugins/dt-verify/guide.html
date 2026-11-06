@@ -14,7 +14,7 @@
   <div class="top-row">
     <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <nav class="crumb" aria-label="当前位置"><a class="crumb-market" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a><span class="crumb-page"><span aria-hidden="true">/</span><a href="index.html">鸿蒙代码验证器</a><span aria-hidden="true">/</span><a href="guide.html" aria-current="page">使用文档</a></span></nav>
-    <span class="ver">v0.1.0-dev.39</span>
+    <span class="ver">v0.1.0-dev.40</span>
   </div>
   <nav class="tabs" aria-label="文档分类"><a href="index.html">介绍</a><a href="guide.html" class="on">使用文档</a><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-dt-verify">npm 包 ↗</a></nav>
 </header>
@@ -32,17 +32,22 @@
 
 <h2 id="prepare">使用前准备<a class="hash" href="#prepare" aria-label="本节链接">#</a></h2>
 <div class="table"><table><thead><tr><th>项</th><th>要求</th></tr></thead><tbody>
+<tr><td>系统</td><td>macOS 或 Windows；Windows 上的验证范围见<a href="#limits">限制</a></td></tr>
 <tr><td>DSH</td><td><code>^0.2.1-rc.2</code></td></tr>
 <tr><td>工程</td><td>鸿蒙 Stage 工程根目录：有 <code>build-profile.json5</code>，至少一个模块有 <code>src/main/module.json5</code></td></tr>
 <tr><td>需求文档</td><td>文本格式的需求说明，例如 <code>spec/spec.md</code>；可以另给 Android 工程作为行为参照</td></tr>
-<tr><td>鸿蒙工具链</td><td>DevEco Studio 自带的 SDK、hvigor、ohpm 和 hdc</td></tr>
+<tr><td>鸿蒙工具链</td><td>DevEco Studio 自带的 SDK、hvigor、ohpm 和 hdc；Windows 上 DevEco Studio 不在默认位置时，把 <code>DEVECO_HOME</code> 设为安装目录</td></tr>
 <tr><td>设备</td><td>一台真机或模拟器，<code>hdc list targets</code> 能看到</td></tr>
+<tr><td>权限</td><td>验证要启动 hvigor、hdc 和 Python，并写用户目录下的缓存，DSH 默认的文件沙箱会拦下这些操作。可以逐条批准，也可以启动 DSH 前设置 <code>DSH_PERMISSION_MODE=danger-full-access</code>（关闭文件沙箱和审批，只在信任当前工程时使用）</td></tr>
 <tr><td>Node.js</td><td>22.22 或更高</td></tr>
 <tr><td>Python</td><td>3.11 或更高，界面测试使用，需要能导入 hypium 6.1.0.210 和 xdevice；启动 DSH 前把 <code>DT_VERIFY_PYTHON</code> 设为这个解释器的绝对路径</td></tr>
 </tbody></table></div>
 
 <p><strong>安装并启动 DSH。</strong>DSH 通过 npm 运行，装好 Node.js 后不需要单独安装。在终端里先把界面测试用的 Python 告诉 DSH，再启动 DSH 网页版：</p>
 <div class="code"><div class="code-bar"><span>bash</span><button type="button" class="copy">复制</button></div><pre><code>export DT_VERIFY_PYTHON=/absolute/path/to/python3
+npx @deepseek-ai/dsh web</code></pre></div>
+<p>Windows 上用 PowerShell：</p>
+<div class="code"><div class="code-bar"><span>PowerShell</span><button type="button" class="copy">复制</button></div><pre><code>$env:DT_VERIFY_PYTHON = '&lt;python.exe 的绝对路径&gt;'
 npx @deepseek-ai/dsh web</code></pre></div>
 <p>第一行换成你的 Python 解释器的绝对路径。DSH 默认在 <code>http://127.0.0.1:3080</code> 启动，并用默认浏览器打开页面；加 <code>--no-open</code> 只启动服务、不打开浏览器，端口被占用时加 <code>--port &lt;端口&gt;</code>。第一次使用时，打开「设置」→「模型」，填入 DeepSeek API 密钥并保存。</p>
 
@@ -65,7 +70,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 </ol>
 <div class="code"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy">复制</button></div><pre><code>/dt-verify 验证当前鸿蒙工程并修复发现的问题。需求文档是 spec/spec.md，设备只用 127.0.0.1:5557。中途不用问我，跑完后告诉我运行目录、每条需求的结论、修复了什么和证据位置。</code></pre></div>
 <ol start="3">
-<li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里复测。整个过程不需要确认。“收益”一节的 3 个应用，每个用时 71–90 分钟。</li>
+<li>验证器依次整理验收项、派子 Agent 编写测试、审查计划、上设备执行；有失败时生成失败包，修复后在新的运行里复测。放开文件沙箱后，整个过程不需要确认。“收益”一节的 3 个应用，每个用时 71–90 分钟。</li>
 <li>结束后，回复里给出运行目录、链式汇总的路径、每条需求的结论和修复的改动。按下一节读结果。</li>
 </ol>
 
@@ -169,6 +174,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 <div class="table"><table><thead><tr><th>情况</th><th>说明</th></tr></thead><tbody>
 <tr><td>运行时间</td><td>一个应用通常要 20–120 分钟，期间独占一台设备；同一个应用不要在同一台设备上同时跑两次</td></tr>
 <tr><td>修复会改生产代码</td><td>建议在单独的分支上运行，结束后检查改动再合入</td></tr>
+<tr><td>Windows 上的验证范围</td><td>用一个工程和模拟器验证过：单元测试和修复在上一版 0.1.0-dev.39 上跑通，界面测试在本版的候选包上跑通。Hypium 原生操作、超时清理和真机还没有在 Windows 上实测；超时清理弱于 macOS，中间进程已退出的孤儿进程清理不到。Hypium 直接调用 <code>hdc.exe</code>，不经过只放行目标设备的守卫</td></tr>
 <tr><td>修复后的复测范围</td><td>单元测试每轮全部复测；界面测试只复测上轮没通过的条目，通过的条目沿用上轮结果。修复改坏已通过的界面功能时发现不了，结束后建议手动回归</td></tr>
 </tbody></table></div>
 
@@ -185,7 +191,7 @@ npx @deepseek-ai/dsh web</code></pre></div>
 </tbody></table></div>
 <p><strong>实验设置</strong></p>
 <div class="table"><table><thead><tr><th>项</th><th>设置</th></tr></thead><tbody>
-<tr><td>插件</td><td>0.1.0-dev.28 的 Skill（本页现在安装的是 0.1.0-dev.39），在 DevEco Code 命令行中无人值守运行</td></tr>
+<tr><td>插件</td><td>0.1.0-dev.28 的 Skill（本页现在安装的是 0.1.0-dev.40），在 DevEco Code 命令行中无人值守运行</td></tr>
 <tr><td>模型</td><td>deepseek-flash，推理强度 high</td></tr>
 <tr><td>输入</td><td>只给工程目录和需求文档，不给人工验收清单；提问要求验证并修复，中途不提问</td></tr>
 <tr><td>设备</td><td>运行时用 nova 16 模拟器；修复后的确认在真机或模拟器上进行</td></tr>

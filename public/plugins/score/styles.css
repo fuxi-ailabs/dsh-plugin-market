@@ -1,4 +1,4 @@
-/* Insight plugin introduction — aligned with the AgentLineage market-page language. */
+/* Score plugin introduction — split from the legacy Insight market page. */
 :root {
   color-scheme: light;
   --bg: #f7f9fb;
@@ -9,10 +9,10 @@
   --text: #1c2b35;
   --muted: #52616d;
   --subtle: #687681;
-  --accent: #17634d;
-  --accent-hover: #114c3b;
-  --accent-soft: #edf7f2;
-  --accent-line: #b6d4c7;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #eff6ff;
+  --accent-line: #bfdbfe;
   --code-bg: #f8fafc;
   --shadow: 0 12px 40px rgb(38 61 82 / 5%);
   --site-header-height: 69px;
@@ -25,6 +25,40 @@
   font-synthesis: none;
   scroll-behavior: smooth;
   scroll-padding-top: 126px;
+}
+
+/* Score-specific content */
+.feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 22px; }
+.feature-grid article { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.feature-index { display: inline-flex; margin-bottom: 12px; color: var(--accent); font: 600 .6875rem/1.5 var(--mono); letter-spacing: .08em; }
+.feature-grid h3 { margin: 0 0 8px; font-size: 1.0625rem; }
+.feature-grid p { margin: 0; font-size: .9375rem; line-height: 1.75; }
+.comparison-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.comparison-card { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.comparison-card.after { border-color: var(--accent-line); }
+.comparison-card h3 { margin: 0 0 12px; font-size: 1.0625rem; }
+.comparison-card ul { margin: 0; padding-left: 20px; color: var(--muted); font-size: .9375rem; }
+.comparison-card li + li { margin-top: 7px; }
+.dial-closeup { width: min(100%, 320px); margin: 20px auto 0; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: var(--shadow); }
+.dial-closeup img { display: block; width: 100%; height: auto; border-radius: 7px; }
+.dial-closeup figcaption { margin-top: 10px; color: var(--muted); font-size: .875rem; text-align: center; }
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list summary { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; min-height: 44px; padding: 16px 0; font-size: 1.0625rem; }
+.faq-list summary > span { flex: none; color: var(--accent); }
+.faq-list details[open] summary > span { transform: rotate(45deg); }
+.faq-list p { margin: 0 28px 20px 0; color: var(--muted); }
+.video-demo { margin: 22px 0 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); }
+.video-demo video { display: block; width: 100%; height: auto; background: #0f1720; }
+.video-demo figcaption { padding: 18px 20px; color: var(--muted); font-size: .9375rem; }
+.video-demo figcaption strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 1.0625rem; }
+@media (max-width: 920px) {
+  .feature-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature-grid article:last-child { grid-column: 1 / -1; }
+  .comparison-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .feature-grid { grid-template-columns: 1fr; }
+  .feature-grid article:last-child { grid-column: auto; }
 }
 
 * { box-sizing: border-box; }

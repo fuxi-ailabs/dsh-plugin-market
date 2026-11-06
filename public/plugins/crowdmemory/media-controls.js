@@ -9,7 +9,21 @@
     let switching = false;
     let resume = false;
     let failed = false;
-    const showError = () => { failed = true; status.textContent = '视频加载失败，请重试或选择 1080p。'; button.textContent = '重试播放'; };
+    const qualityHeight = option => { const m = /(\d{3,4})p/i.exec(option.textContent); return m ? Number(m[1]) : Infinity; };
+    const lowerQuality = () => {
+      const current = quality.selectedOptions[0];
+      const currentHeight = current ? qualityHeight(current) : Infinity;
+      const lower = [...quality.options]
+        .filter(option => option.value && option !== current && qualityHeight(option) < currentHeight)
+        .sort((a, b) => qualityHeight(a) - qualityHeight(b))[0];
+      return lower ? `${qualityHeight(lower)}p` : null;
+    };
+    const showError = () => {
+      failed = true;
+      const lower = lowerQuality();
+      status.textContent = `视频加载失败，请重试${lower ? `或选择 ${lower}` : ''}。`;
+      button.textContent = '重试播放';
+    };
     const play = () => video.play().catch(error => {
       if (error.name === 'AbortError') return;
       if (failed || video.error) showError();
@@ -30,7 +44,10 @@
         play();
       } else video.pause();
     });
-    video.addEventListener('waiting', () => { status.textContent = '正在缓冲，可选择 1080p 减少等待。'; });
+    video.addEventListener('waiting', () => {
+      const lower = lowerQuality();
+      status.textContent = lower ? `正在缓冲，可选择 ${lower} 减少等待。` : '正在缓冲，请稍候。';
+    });
     video.addEventListener('playing', () => { failed = false; status.textContent = ''; button.textContent = '暂停'; });
     video.addEventListener('pause', () => { if (!switching && !failed) button.textContent = '继续播放'; });
     video.addEventListener('ended', () => { status.textContent = ''; button.textContent = '重新播放'; });

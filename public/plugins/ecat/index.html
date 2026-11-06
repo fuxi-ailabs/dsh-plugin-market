@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="长程任务里，模型经常不按你的要求做，或者改了几处就自我感觉良好。这个插件把生成器和判别器拆成两个独立会话：判别器按你定的判据找问题，把问题清单交给生成器继续改，一轮轮对抗重复直到达标。适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移。在鸿蒙代码仓迁移场景里，迁移质量从 46.4% 提升到 74.7%。">
+  <meta name="description" content="长程任务里，模型经常不按你的要求做，或者改了几处就自我感觉良好。这个插件把生成器和判别器拆成两个独立会话：判别器按你定的判据找问题，把问题清单交给生成器继续改，一轮轮对抗重复直到达标。适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移。在鸿蒙代码仓迁移场景里，迁移质量从 46.4% 提升到 74.7%。新版把运行监控搬进 DSH 右侧栏：/ecat-refine ui 打开面板，可开始/停止、实时看生成器与判别器在做什么，并回看每轮工单与 stream 明细。">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f7f9fb">
   <title>ECAT 熵减对抗优化器 · Fuxi通用DSH组件市场</title>
   <link rel="stylesheet" href="styles.css">
   <script src="demo-data.js" defer></script>
   <script src="page.js" defer></script>
+  <link rel="stylesheet" href="media-controls.css">
+  <script src="media-controls.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">跳到主要内容</a>
@@ -20,10 +22,10 @@
   <main>
     <section id="overview" class="wrap hero" aria-labelledby="page-title">
       <div class="hero-copy">
-        <div class="plugin-name">ECAT 熵减对抗优化器 <span class="version">v0.1.0-alpha.1</span></div>
+        <div class="plugin-name">ECAT 熵减对抗优化器 <span class="version">v0.1.0-alpha.5</span></div>
         <h1 id="page-title"><span>模型自己说「做完了」就行？</span><span class="accent">这个优化器让它改到判别器认为达标为止。</span></h1>
-        <p class="lede">长程任务里，模型经常不按你的要求做，或者改了几处就自我感觉良好。这个插件把生成器和判别器拆成两个独立会话：判别器按你定的判据找问题，把问题清单交给生成器继续改，一轮轮对抗重复直到达标。适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移。在鸿蒙代码仓迁移场景里，迁移质量从 46.4% 提升到 74.7%。</p>
-        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装熵减对抗优化器</span><button type="button" class="copy-button" data-copy="npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-ecat@0.1.0-alpha.1" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-ecat@0.1.0-alpha.1</code></pre></div><p>先退出 DSH，把 web 换成你使用的 Profile；需要 PATH 上能找到 pnpm。 <a href="#quickstart">安装步骤 ↓</a></p></div>
+        <p class="lede">长程任务里，模型经常不按你的要求做，或者改了几处就自我感觉良好。这个插件把生成器和判别器拆成两个独立会话：判别器按你定的判据找问题，把问题清单交给生成器继续改，一轮轮对抗重复直到达标。适用于有明确验收目标的长程任务，比如大规模代码仓跨端迁移。在鸿蒙代码仓迁移场景里，迁移质量从 46.4% 提升到 74.7%。新版把运行监控搬进 DSH 右侧栏：/ecat-refine ui 打开面板，可开始/停止、实时看生成器与判别器在做什么，并回看每轮工单与 stream 明细。</p>
+        <div class="hero-install" aria-label="安装命令"><div class="code-block"><div class="code-bar"><span>终端 · 安装熵减对抗优化器</span><button type="button" class="copy-button" data-copy="npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-ecat@0.1.0-alpha.5" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>npx @deepseek-ai/dsh plugin --profile web add --save-exact @fuxi-ailabs/dsh-ecat@0.1.0-alpha.5</code></pre></div><p>先退出 DSH，把 web 换成你使用的 Profile；需要 PATH 上能找到 pnpm。 <a href="#quickstart">安装步骤 ↓</a></p></div>
         <div class="actions"><a class="button primary" href="#example">功能演示</a><a class="button secondary" href="#quickstart">安装使用</a></div>
         <p class="compatibility">DSH 0.2.1-rc.2</p>
         <p class="requirements-link">需要 Python 3.11+；建议装 uv（没有则回退到 pip）。 <a href="#details">使用条件 ↓</a></p>
@@ -55,7 +57,7 @@
       </div>
 
       <p class="media-note">交互使用固定示意数据，不读取你的工程；下方对比图是两种做法的差别示意。</p>
-
+      <figure id="recording" class="video-demo"><figcaption><strong>用右侧栏面板跑一轮 ECAT</strong><p>约 64 秒演示：/ecat-setup 访谈 → 环境自检 → /ecat-refine ui 打开右侧栏面板 → 开始 / 停止、实时看生成器与判别器在做什么 → 6 轮 H 从 0.8250 收敛到 0.0000 → 装到模拟器验收。</p><div class="media-toolbar" hidden><button type="button" class="button secondary" data-video-play>播放演示</button><label>清晰度 <select data-video-quality><option value="assets/ecat-demo-1080p.mp4">1080p · 流畅</option><option value="assets/ecat-demo-720p.mp4">720p · 省流</option></select></label><span data-video-status role="status" aria-live="polite"></span></div><noscript><p><a href="assets/ecat-demo-1080p.mp4">1080p · 流畅</a> · <a href="assets/ecat-demo-720p.mp4">720p · 省流</a></p></noscript></figcaption><video controls playsinline preload="none" poster="assets/ecat-demo-poster.jpg" aria-label="用右侧栏面板跑一轮 ECAT"><source src="assets/ecat-demo-1080p.mp4" type="video/mp4"><track kind="captions" src="assets/ecat-demo-zh.vtt" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video></figure>
       <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在 DSH 中复现</span><span aria-hidden="true">＋</span></summary><div><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>/ecat-setup 把安卓工程 ./android 迁移到鸿蒙工程 ./harmony，编译必须通过</code></pre></div></div></details>
       <noscript><p class="noscript-note">启用 JavaScript 后可切换演示步骤。</p></noscript>
     </section>
@@ -63,22 +65,22 @@
     <section id="comparison" class="wrap section" aria-labelledby="comparison-title">
       <div class="section-heading"><h2 id="comparison-title">用与不用，过程中的差别</h2><p class="section-description">同一件事，左边是只靠一个会话自己改自己判，右边是拆成生成器与判别器两个会话。</p></div>
       <div class="comparison-grid"><article class="comparison-card before"><div class="comparison-copy"><h3>不使用：一个会话自己改、自己判</h3><p>判据留在对话里，越往后越模糊；没有可比分数，停在“感觉良好”。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/before-without-plugin.jpg" data-title="不使用：一个会话自己改、自己判" aria-label="放大查看：不使用：一个会话自己改、自己判"><img src="assets/before-without-plugin.jpg" width="1280" height="720" alt="示意图：单个会话连续修改并自我判断，没有分数，同类问题反复出现。" loading="lazy"><span>示意 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article><article class="comparison-card after"><div class="comparison-copy"><h3>使用：生成器与判别器分开，每轮打分</h3><p>判别器按固定判据找问题，生成器只改未通过项；每轮都有分数与剩余差异。</p></div><button type="button" class="screenshot-button" data-screenshot="assets/after-with-plugin.jpg" data-title="使用：生成器与判别器分开，每轮打分" aria-label="放大查看：使用：生成器与判别器分开，每轮打分"><img src="assets/after-with-plugin.jpg" width="1280" height="720" alt="示意图：生成器会话与判别器会话分离，中间每轮重新打分，H 由 0.42 降到 0.18。" loading="lazy"><span>示意 · 点击放大 <span aria-hidden="true">⤢</span></span></button></article></div>
-      <div class="takeaways"><p><span aria-hidden="true">↳</span> 判据固定，跨轮次不变</p><p><span aria-hidden="true">↳</span> 每轮有可比分数，不再靠感觉</p><p><span aria-hidden="true">↳</span> 鸿蒙迁移一个实例：46.4% → 74.7%</p></div>
+      <div class="takeaways"><p><span aria-hidden="true">↳</span> 判据固定，跨轮次不变</p><p><span aria-hidden="true">↳</span> 每轮有可比分数，不再靠感觉</p><p><span aria-hidden="true">↳</span> 鸿蒙迁移一个实例：46.4% → 74.7%</p><p><span aria-hidden="true">↳</span> 右侧栏面板：开始/停止、实时角色与 stream 明细</p></div>
     </section>
 
     <section id="quickstart" class="wrap section" aria-labelledby="start-title">
       <div class="section-heading"><h2 id="start-title">装好插件，跑出第一轮</h2><p class="section-description">前两步装插件，后三步跑完第一轮迭代。</p></div>
       <div id="details" class="install-requirements">
-        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>DSH 版本</dt><dd>0.2.1-rc.2；插件版本 0.1.0-alpha.1。</dd></div><div><dt>本机依赖</dt><dd>Python 3.11+（python3 / python / py 启动器任一可用）；uv 可选，装了会快很多。</dd></div><div><dt>网络</dt><dd>首次运行需要联网从 PyPI 解析依赖；之后可离线跑循环。</dd></div><div><dt>工作范围</dt><dd>只改 ecat.config.yaml 里 paths.target 指向的目录；目录之外不动。</dd></div></dl></div>
+        <div class="requirements-row"><strong>使用条件</strong><dl><div><dt>DSH 版本</dt><dd>0.2.1-rc.2；插件版本 0.1.0-alpha.5。</dd></div><div><dt>本机依赖</dt><dd>Python 3.11+（python3 / python / py 启动器任一可用）；uv 可选，装了会快很多。</dd></div><div><dt>网络</dt><dd>首次运行需要联网从 PyPI 解析依赖；之后可离线跑循环。</dd></div><div><dt>工作范围</dt><dd>只改 ecat.config.yaml 里 paths.target 指向的目录；目录之外不动。</dd></div></dl></div>
         <p>插件自带 ECAT 的 wheel 与两个技能，不需要预先安装 ECAT。首次运行会建一个隔离环境并从网络拉取 13 个依赖。</p>
         <details class="install-boundaries"><summary>适用范围和限制 <span aria-hidden="true">＋</span></summary><div><div><strong>不判断业务正确性</strong><p>熵下降只说明在这组判据上更整齐。判据本身设计错了，循环会高效地朝错误方向优化，所以判据要你自己定、自己复核。</p></div><div><strong>会自动停，但上限由你定</strong><p>总分连续 stable_iters_to_stop 轮（默认 2）低于 entropy_threshold 时提前结束；否则跑到 max_iterations（默认 100 轮）为止。想中途收手用 /ecat-refine stop，已跑完的产物都保留。</p></div><div><strong>只覆盖你配置的目录</strong><p>paths.target 之外的改动不会被处理；跨仓库的约束要写成一条显式检查命令，否则循环感知不到。</p></div><div><strong>已有环境不会自动升级</strong><p>~/.dsh/ecat-venv 存在即复用，不校验版本。插件升级后需手动删掉该目录，再跑一次 /ecat-setup。</p></div></div></details>
       </div>
-      <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>在 DSH 安装插件</strong> 打开「插件」→「实验性插件」旁的「更多」，启用「自定义插件市场」。在「发现」→「添加索引源」填入下方地址，然后安装 ECAT 0.1.0-alpha.1。 <span class="command-context">插件市场索引</span></p><div class="install-command" aria-label="插件市场索引"><pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre><button type="button" class="copy-button" data-copy="https://fuxi-ailabs.github.io/dsh-plugin-market/index.json" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-2"><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>确认 Python 可用</strong> 插件需要一个 3.11+ 的解释器。装了 uv 的话下面这步会快很多；没有也能跑，会回退到 python -m venv + pip。 Windows 上也可以用 py -3.11 --version 确认。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>python --version
+      <ol class="steps"><li id="step-1"><span class="step-index" aria-hidden="true">1</span><div><p class="step-description"><strong>在 DSH 安装插件</strong> 打开「插件」→「实验性插件」旁的「更多」，启用「自定义插件市场」。在「发现」→「添加索引源」填入下方地址，然后安装 ECAT 0.1.0-alpha.5。 <span class="command-context">插件市场索引</span></p><div class="install-command" aria-label="插件市场索引"><pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre><button type="button" class="copy-button" data-copy="https://fuxi-ailabs.github.io/dsh-plugin-market/index.json" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-2"><span class="step-index" aria-hidden="true">2</span><div><p class="step-description"><strong>确认 Python 可用</strong> 插件需要一个 3.11+ 的解释器。装了 uv 的话下面这步会快很多；没有也能跑，会回退到 python -m venv + pip。 Windows 上也可以用 py -3.11 --version 确认。 <span class="command-context">终端</span></p><div class="install-command" aria-label="终端"><pre><code>python --version
 uv --version</code></pre><button type="button" class="copy-button" data-copy="python --version
 uv --version" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-3"><span class="step-index" aria-hidden="true">3</span><div><p class="step-description"><strong>创建托管环境</strong> 发送不带参数的 /ecat-setup。它会先建 ~/.dsh/ecat-venv 并安装自带 wheel 与 13 个依赖，装好之后才开始访谈。 环境装不起来时这一步直接失败并报出 uv / pip 的错误，不会进入访谈。 <span class="command-context">发送给 DSH</span></p><div class="install-command" aria-label="发送给 DSH"><pre><code>/ecat-setup</code></pre><button type="button" class="copy-button" data-copy="/ecat-setup" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-4"><span class="step-index" aria-hidden="true">4</span><div><p class="step-description"><strong>核对环境</strong> 再发一次 help，逐项确认依赖可用。注意 help 本身不创建环境，环境没装好时它只会报 NOT ready。 <span class="command-context">发送给 DSH</span></p><div class="install-command" aria-label="发送给 DSH"><pre><code>/ecat-setup help</code></pre><button type="button" class="copy-button" data-copy="/ecat-setup help" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li><li id="step-5"><span class="step-index" aria-hidden="true">5</span><div><p class="step-description"><strong>跑第一轮</strong> 在目标工程目录下完成访谈，然后启动循环，再用 status 看熵值和最差维度。 一轮从几分钟到几十分钟不等，循环在后台跑；随时用 /ecat-refine stop 停止。 <span class="command-context">发送给 DSH</span></p><div class="install-command" aria-label="发送给 DSH"><pre><code>/ecat-refine start
 /ecat-refine status</code></pre><button type="button" class="copy-button" data-copy="/ecat-refine start
 /ecat-refine status" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div></div></li></ol>
-      <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>在 DSH 安装插件</strong><p>ECAT 0.1.0-alpha.1 出现在已安装插件中。</p></li><li><strong>确认 Python 可用</strong><p>Python 版本号 ≥ 3.11；uv 有输出版本号，或明确没有安装。</p></li><li><strong>创建托管环境</strong><p>命令回执显示 Created ~/.dsh/ecat-venv（或 Using，表示已有环境）。</p></li><li><strong>核对环境</strong><p>输出 environment: ready，后面逐行列出 13 个包名与版本。</p></li><li><strong>跑第一轮</strong><p>start 返回运行目录；status 给出当前 H、迭代次数和最差维度。</p></li></ol></details>
+      <details class="install-checks"><summary>检查结果 <span aria-hidden="true">＋</span></summary><ol><li><strong>在 DSH 安装插件</strong><p>ECAT 0.1.0-alpha.5 出现在已安装插件中。</p></li><li><strong>确认 Python 可用</strong><p>Python 版本号 ≥ 3.11；uv 有输出版本号，或明确没有安装。</p></li><li><strong>创建托管环境</strong><p>命令回执显示 Created ~/.dsh/ecat-venv（或 Using，表示已有环境）。</p></li><li><strong>核对环境</strong><p>输出 environment: ready，后面逐行列出 13 个包名与版本。</p></li><li><strong>跑第一轮</strong><p>start 返回运行目录；status 给出当前 H、迭代次数和最差维度。</p></li></ol></details>
       <p class="help-link"><a href="https://github.com/fuxi-ailabs/ECAT">安装与使用文档 ↗</a></p>
     </section>
 

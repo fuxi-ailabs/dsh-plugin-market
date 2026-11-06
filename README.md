@@ -19,18 +19,20 @@ Fuxi 团队插件目录
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
 | Crowd Memory · 群体记忆 | `0.1.1` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
-| 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.39` | `^0.2.1-rc.2` |
-| Insight · 会话导入与评分 | `1.1.1` | `^0.2.1-rc.2` |
-| Session Audit · 会话审计 | `1.1.1` | `^0.2.1-rc.2` |
-| Static Check · Skill 静态检查 | `1.1.2` | `^0.2.1-rc.2` |
-| Skill Eval · Skill 评测 | `1.1.3` | `^0.2.1-rc.2` |
+| 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.40` | `^0.2.1-rc.2` |
+| Observe · DSH 会话观测 | `1.2.0` | `^0.2.1-rc.2` |
+| Score · DSH 会话评分 | `1.2.0` | `^0.2.1-rc.2` |
+| Session Audit · 会话审计 | `1.2.0` | `^0.2.1-rc.2` |
+| Static Check · Skill 静态检查 | `1.2.0` | `^0.2.1-rc.2` |
+| Skill Eval · Skill 评测 | `1.2.0` | `^0.2.1-rc.2` |
+| HMBot · 鸿蒙迁移 | `0.1.0` | `>=0.2.1-rc.2 <0.3.0` |
 
 AgentLineage 支持追溯文件改动来源、查询原生会话证据和打开溯源视图。参见 [插件介绍与效果对比](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/)。Windows x64 随插件提供完整运行环境，安装后自动启动。参见 [AgentLineage 安装与使用说明](https://github.com/fuxi-ailabs/AgentLineage/blob/dsh-agentlineage-v0.1.0-alpha.4/integrations/dsh/README.md)。
 
 Crowd Memory 是面向 DSH coding Agent 的群体记忆：把代码修复、构建排错和接口测试中的经验提供给后续 Agent，附带来源、适用条件和验证结果。面向使用 coding Agent 的开发者，以及开发 workflow 的集成与维护者，支持本机共享与开发 workflow；跨机器开发协作为内部预览。Agent 可核对已有修法，在当前项目构建并运行测试。使用前需要安装本机记忆服务 `@fuxi-ailabs/crowdmemory-runtime`。参见 [Crowd Memory 介绍与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/)；各轮评测结果、数据来源和适用范围见[评测页](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html)。
 workflow-rsi 让 ToD（to Developer，面向开发者）的静态工作流递归自我改进。静态工作流指阶段、节点、交接、分支与门禁随版本固定、每个输入按同一张结构图执行的多阶段 Workflow，例如需求、分析、设计、计划、实现、构建、验证；运行时按输入临时编排步骤的动态工作流和面向 ToB、ToC 业务的工作流不在范围内。它不改模型权重，用真实运行结果持续搜索、评测并发布更好的 Workflow 结构，并评估和改进自己的改进方法。改进来自闭环、Memory 共性、请求、工作计划与假设驱动，结构用已审批的算子和受约束搜索生成，节点内容经 skill / agent RSI 接口改进，全部在整个 Workflow 上分级评测，以 PR 交付；评分规则与发布标准只由人准入。市场收录的是 DSH 操作台，使用前需要安装并启动 `@fuxi-ailabs/workflow-rsi` 提供的 `wrsi-server`。参见 [workflow-rsi 介绍、例子与安装说明](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/)。
 
-Insight 把当前 DSH 会话导入 Context-Insight，查看 Workflow、Subagent 与工具调用，并在 DSH 中读取评分卡。插件会自动准备运行时，并在配置页检查 Provider Auth、CLI 与服务状态。参见 [Insight 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/insight/)。
+Observe 和 Score 是 Context-Insight 拆分后的两个独立 Bundle。Observe 负责导入和会话观测，进入 Context-Insight 查看 Workflow、Subagent、Turn、工具调用和文件；Score 负责导入和评分，在 DSH 内提供六维评分圆盘、维度详情、重算与语义评审。两者同时安装时共享 `dsh-env-health` 和同一个 Context-Insight 服务。参见 [Observe 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/observe/) 与 [Score 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/score/)。
 
 Session Audit 用 SIFT 审计真实 DSH 会话执行轨迹，在工作台和历史记录中查看 finding、证据与 turn 引用，可从 turn 引用反向定位到 Trajectory 中的对应记录，并在右侧报告面板中打开完整审计报告。参见 [Session Audit 文档](https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/audit/)。
 

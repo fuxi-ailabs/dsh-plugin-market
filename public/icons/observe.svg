@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Observe</title>
+  <defs>
+    <linearGradient id="bg" x1="16" y1="10" x2="112" y2="118" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#071b24"/>
+      <stop offset="1" stop-color="#0d3b42"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="28" y1="92" x2="100" y2="30" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#60a5fa"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="url(#bg)"/>
+  <circle cx="64" cy="64" r="41" fill="#08242c" stroke="#1d5962" stroke-width="3"/>
+  <circle cx="64" cy="64" r="28" fill="none" stroke="#2a6d76" stroke-width="2" stroke-dasharray="4 8"/>
+  <path d="M29 64c8-15 20-23 35-23s27 8 35 23c-8 15-20 23-35 23S37 79 29 64Z" fill="#07111f" stroke="url(#accent)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="12" fill="url(#accent)"/>
+  <circle cx="64" cy="64" r="4" fill="#07111f"/>
+  <circle cx="98" cy="34" r="7" fill="#0f766e" stroke="#99f6e4" stroke-width="2"/>
+  <path d="M25 91h19M31 99h29" stroke="#60a5fa" stroke-width="4" stroke-linecap="round"/>
+</svg>

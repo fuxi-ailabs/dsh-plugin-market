@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Observe 是 DSH 的独立会话观测 Bundle：把当前 DSH 会话导入 Context-Insight，查看轮次、工具调用、Skill、Subagent 与执行轨迹。">
+  <meta name="color-scheme" content="light">
+  <title>Observe · DSH 会话观测</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#relationship">跳到主要内容</a>
+  <header class="site-header">
+    <div class="market-banner">
+      <div class="wrap header-inner">
+        <nav class="market-breadcrumb" aria-label="当前位置">
+          <a class="market-brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a>
+          <span class="market-location"><span class="market-separator" aria-hidden="true">/</span><a class="market-current" href="#top" aria-current="page">Observe</a></span>
+        </nav>
+        <nav class="section-nav" aria-label="文档导航">
+          <a href="#relationship">概览</a>
+          <a href="#requirements">快速开始</a>
+          <a href="#observe-command">使用 CLI</a>
+          <a href="#faq">FAQ</a>
+          <a class="nav-npm" href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-observe-bundle">npm ↗</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <header class="wrap hero" id="top">
+      <div class="hero-copy">
+        <div class="hero-title">
+          <img src="assets/icon.svg" alt="" width="64" height="64">
+          <div>
+            <p class="eyebrow">DSH BUNDLE · dsh-observe-bundle · v1.2.0</p>
+            <h1>Observe</h1>
+          </div>
+        </div>
+        <p class="lede"><strong>Observe</strong> 是一个观测插件。它负责“导入 + 观测”：一键把当前 DSH 会话送入 Context-Insight，查看 Turn、Tool Call、Skill、Subagent、文件变更和父子执行链路。</p>
+        <dl class="meta">
+          <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
+          <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
+          <div><dt>Observe Bundle</dt><dd><code>dsh-observe-bundle@1.2.0</code></dd></div>
+          <div><dt>Context-Insight</dt><dd><code>0.2.41</code></dd></div>
+        </dl>
+      </div>
+      <figure class="hero-visual hero-carousel" data-carousel aria-label="Observe 功能截图轮播">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="observe-carousel-track" data-carousel-track>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/observe-session.png" width="1280" height="800" alt="Context-Insight 中已导入的 DSH 会话，显示 Token、工具调用、Skill 和 Agent Swimlane。">
+              <figcaption>导入后可查看会话概览、Turn、工具调用、Skill 与执行泳道。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/observe-actions.png" width="1280" height="800" alt="DSH 会话页顶部显示观测和打分两个独立入口。">
+              <figcaption>Observe 安装后提供独立的“观测”入口；评分入口由 Score Bundle 单独提供。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/observe-environment.jpg" width="1280" height="800" alt="旧版 Insight 环境检查页，显示 Context-Insight Runtime、服务状态与 Provider Auth。">
+              <figcaption>旧版 Insight 环境检查界面（示意）。Observe 仅需确认 Context-Insight Runtime 和服务状态，不包含 Provider Auth 检查。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/observe-runtime.jpg" width="1280" height="800" alt="当前 Observe 演示中首次点击“观测”后显示正在准备 Insight 运行时。">
+              <figcaption>当前 Observe 首次使用时会准备运行时并显示进度，不需要手动安装 Context-Insight CLI。</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-pressed="false" aria-controls="observe-carousel-track">暂停轮播</button>
+        </div>
+      </figure>
+    </header>
+
+    <div class="layout wrap">
+      <article class="doc">
+        <div class="tabbar" role="tablist" aria-label="Observe 文档章节">
+          <button type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" data-tab="overview">概览</button>
+          <button type="button" role="tab" id="tab-quick-start" aria-controls="panel-quick-start" aria-selected="false" tabindex="-1" data-tab="quick-start">快速开始</button>
+          <button type="button" role="tab" id="tab-usage" aria-controls="panel-usage" aria-selected="false" tabindex="-1" data-tab="usage">使用 CLI</button>
+          <button type="button" role="tab" id="tab-help" aria-controls="panel-help" aria-selected="false" tabindex="-1" data-tab="help">FAQ</button>
+        </div>
+
+        <div class="tab-panels">
+          <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" data-panel="overview">
+            <section id="relationship">
+              <h2>主要组成</h2>
+              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-observe-bundle@1.2.0</code>，即可获得完整的会话观测能力。</p>
+              <table class="relationship-table">
+                <thead><tr><th>组成</th><th>版本</th><th>作用</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Observe Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.0</code></td><td>一次安装完整的观测能力，自带 env-health、Host 和 UX。</td></tr>
+                  <tr><td><strong>dsh-observe</strong><small>Host 插件</small></td><td><code class="version-short">1.2.0</code></td><td>注册 <code>/observe</code>，导出会话、调用 Insight 导入 API，并负责运行时检查与启动。</td></tr>
+                  <tr><td><strong>dsh-observe-ux</strong><small>Web UX 插件</small></td><td><code class="version-short">1.2.0</code></td><td>在会话页提供“观测”入口、准备状态、错误反馈和 Context-Insight 页面跳转。</td></tr>
+                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.0</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Score 同时安装时复用同一实例。</td></tr>
+                  <tr><td><strong>Context-Insight</strong><small>外部分析运行时</small></td><td><code class="version-short">0.2.41</code></td><td>本地会话分析与观测服务，提供 Turn、Trace、Context、Skill、File 等页面。</td></tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="features">
+              <h2>能观测什么</h2>
+              <div class="feature-grid">
+                <article><span class="feature-index">01 · TRAJECTORY</span><h3>Turn 与 Tool Call</h3><p>按时间查看用户请求、模型决策、工具调用、文件操作、错误和重试过程。</p></article>
+                <article><span class="feature-index">02 · LINEAGE</span><h3>Subagent 与 Workflow</h3><p>查看主 Agent 如何拆解任务、派发子代理，以及父子会话之间的执行对应关系。</p></article>
+                <article><span class="feature-index">03 · SKILLS</span><h3>Skill 与文件上下文</h3><p>检查 Skill 是否被触发、调用了哪些文件与工具，以及任务要求是否真正进入执行链路。</p></article>
+                <article><span class="feature-index">04 · SESSION</span><h3>会话统计</h3><p>查看 Token、Wall Clock、LLM Calls、Tool Calls、Skills 和 Subagents 等会话级指标。</p></article>
+              </div>
+            </section>
+
+            <section id="scenarios">
+              <h2>适合哪些场景</h2>
+              <ul class="scenario-list">
+                <li><strong>长链路任务复盘：</strong>定位 Agent 在哪个 Turn 偏离目标、重复试错或漏执行步骤。</li>
+                <li><strong>Subagent 协作检查：</strong>确认任务是否被正确拆分、并行执行，以及子代理结果是否回收到主链路。</li>
+                <li><strong>Skill 调试：</strong>检查 Skill 是否触发、读取了哪些文件、修改了哪些产物。</li>
+                <li><strong>问题证据留存：</strong>把真实 DSH 会话导入本地 Context-Insight，作为后续审计与评分的基础数据。</li>
+              </ul>
+            </section>
+
+            <section id="comparison">
+              <h2>使用前后对比</h2>
+              <div class="comparison-grid">
+                <article class="comparison-card before"><h3>拆分前 / 手动操作</h3><ul><li>需要同时使用导出、导入、观测和评分等混合能力。</li><li>定位会话文件、调用导入接口和打开页面的步骤分散。</li><li>观测结果与评分命令耦合在同一个入口里。</li></ul></article>
+                <article class="comparison-card after"><h3>使用 Observe 后</h3><ul><li>点击一次“观测”即可刷新导入并打开会话页面。</li><li>运行时准备、服务启动和导入状态在 DSH 内统一展示。</li><li>只安装观测能力，不携带评分命令和评分 UX。</li></ul></article>
+              </div>
+            </section>
+
+            <section id="boundaries">
+              <h2>边界</h2>
+              <p>Observe 负责导入和观测，不读取评分卡，也不注册 <code>/score</code>。评分能力由独立 Score Bundle 提供；两者都安装时，只共享一次 <code>dsh-env-health</code> 和同一个 Context-Insight 服务。</p>
+              <p>Context-Insight 是任务执行后的分析工具，不实时介入 Agent 决策。</p>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-quick-start" role="tabpanel" aria-labelledby="tab-quick-start" data-panel="quick-start" hidden>
+            <section id="requirements">
+              <h2>1. 准备运行环境</h2>
+              <table class="quick-facts"><tbody>
+                <tr><th>DSH</th><td><code>^0.2.1-rc.2</code>。</td></tr>
+                <tr><th>Node.js</th><td><code>&gt;=24</code>。</td></tr>
+                <tr><th>npm</th><td>首次下载 Context-Insight 运行时需要 npm 和网络。</td></tr>
+              </tbody></table>
+            </section>
+
+            <section id="install">
+              <h2>2. 安装 Observe Bundle</h2>
+              <div class="install-command" aria-label="终端安装命令">
+                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.0</code></pre>
+                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.0" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+              </div>
+              <p class="profile-note">如果目标不是 <code>web</code> profile，请替换命令中的 profile 名。</p>
+              <p>DSH 市场中也可以搜索 <strong>Observe · DSH 会话观测</strong> 进行安装：</p>
+              <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+              <div class="npm-callout">
+                <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-observe-bundle</code></div>
+                <div><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-observe-bundle">查看 Observe Bundle npm 页面 ↗</a><a href="https://www.npmjs.com/package/context-insight">查看 Context-Insight npm 页面 ↗</a></div>
+              </div>
+            </section>
+
+            <section id="first-session">
+              <h2>3. 导入第一个会话</h2>
+              <h3 id="start-dsh">3.1 启动 DSH</h3>
+              <pre><code>dsh web</code></pre>
+              <h3 id="choose-session">3.2 打开一个会话</h3>
+              <p>会话页顶部会出现独立的“观测”按钮。</p>
+              <figure class="shot"><img src="assets/observe-actions.png" alt="DSH 会话页中的观测与打分入口。" loading="lazy"><figcaption>“观测”由 Observe Bundle 提供；“打分”只在安装 Score Bundle 后出现。</figcaption></figure>
+              <h3 id="click-observe">3.3 点击“观测”</h3>
+              <p>首次使用会检查并准备 <code>context-insight@0.2.41</code>。准备完成后，当前会话会被导出、导入并打开 Context-Insight 会话页。</p>
+              <figure class="shot"><img src="assets/observe-runtime.jpg" alt="当前 Observe 演示中 DSH 页面显示正在准备 Insight 运行时。" loading="lazy"><figcaption>当前 Observe 首次点击时显示运行时准备进度，后续会复用本地安装。</figcaption></figure>
+              <h3 id="verify">3.4 验证观测结果</h3>
+              <figure class="shot"><img src="assets/observe-session.png" alt="Context-Insight 中的 DSH 会话观测页面。" loading="lazy"><figcaption>确认 Session 标题、Turn 数量、Tool Calls、Skills 和 Agent Swimlane 均正常显示。</figcaption></figure>
+              <figure class="shot"><img src="assets/observe-environment.jpg" alt="Bundle 环境检查页。" loading="lazy"><figcaption>如果导入失败，在 DSH 插件配置页检查 Runtime 和 Service 状态。</figcaption></figure>
+            </section>
+            <section id="demo">
+              <h2>4. 功能演示</h2>
+              <figure class="video-demo">
+                <video controls muted playsinline preload="metadata" poster="assets/observe-demo-poster.png" aria-label="Observe 从 DSH 会话导入并打开 Context-Insight 的演示">
+                  <source src="assets/observe-demo.webm" type="video/webm">
+                  <track kind="captions" src="assets/observe-demo-zh.vtt" srclang="zh" label="中文字幕" default>
+                  当前浏览器不支持 WebM 视频。
+                </video>
+              </figure>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-usage" role="tabpanel" aria-labelledby="tab-usage" data-panel="usage" hidden>
+            <section id="observe-command">
+              <h2><code>/observe</code> 命令</h2>
+              <p>命令与页面上的“观测”按钮等价，不经过模型，也不占用模型 token。</p>
+              <p>以下命令在 DSH 的会话输入框中发送，不是在系统终端执行。</p>
+              <pre><code>/observe
+/observe &lt;sid&gt;[,&lt;sid&gt;...]
+/observe --no-subagents
+/observe --no-open
+/observe --status</code></pre>
+              <table class="command-table"><thead><tr><th>参数</th><th>用途</th></tr></thead><tbody>
+                <tr><td><code>&lt;sid&gt;</code></td><td>导入指定会话；不填时使用当前会话。</td></tr>
+                <tr><td><code>--out &lt;dir&gt;</code></td><td>覆盖本次导出目录。</td></tr>
+                <tr><td><code>--no-subagents</code></td><td>本次只导入根会话。</td></tr>
+                <tr><td><code>--no-open</code></td><td>只导入，不打开浏览器。</td></tr>
+                <tr><td><code>--base &lt;url&gt;</code></td><td>指定 Context-Insight 地址。</td></tr>
+                <tr><td><code>--force</code></td><td>服务不可用时仍导出会话文件。</td></tr>
+                <tr><td><code>--status</code></td><td>只检查 Context-Insight 是否可访问。</td></tr>
+              </tbody></table>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-help" role="tabpanel" aria-labelledby="tab-help" data-panel="help" hidden>
+            <section id="faq">
+              <h2>FAQ</h2>
+              <div class="faq-list">
+                <details><summary>Observe 和 Score 必须一起安装吗？<span>+</span></summary><p>不需要。两个 Bundle 完全独立；只安装 Observe 也能导入和观测会话。同时安装时共享 env-health 和 Context-Insight 服务。</p></details>
+                <details><summary>以前装过 Insight，安装前要移除旧包吗？<span>+</span></summary><p>要。Insight 已拆分为 Observe 和 Score，不再提供 <code>@fuxi-ailabs/dsh-insight-bundle</code>。如果当前 profile 还显示已安装的 Insight Bundle，请先在 DSH「插件」页移除旧包。若同时装有 1.1.x 的 Session Audit、Skill Eval 或 Static Check，请先一并升级到 1.2 Bundle；否则不要先删除共享 Runtime Bundle，因为这些旧插件仍依赖它。确认没有其他旧消费者后，再执行 <code>dsh plugin --profile web remove @fuxi-ailabs/dsh-runtime-bundle</code>，并安装当前 Bundle。</p></details>
+                <details><summary>为什么只看到“观测”，没有“打分”？<span>+</span></summary><p>当前 profile 只安装了 Observe Bundle。评分入口由 Score Bundle 的 dsh-score-ux 提供。</p></details>
+                <details><summary>首次点击较慢是正常的吗？<span>+</span></summary><p>首次使用需要下载 Context-Insight 运行时并启动服务，耗时取决于网络和机器；后续会复用本地运行时。</p></details>
+                <details><summary>导入失败应该先检查什么？<span>+</span></summary><p>依次检查 npm、网络、Context-Insight Runtime 和服务状态，再查看 <code>~/.dsh-insight/runtime/install.log</code> 与 <code>start.log</code>。</p></details>
+                <details><summary>Observe 会把数据上传到云端吗？<span>+</span></summary><p>Observe 将 DSH 会话发送给本机 Context-Insight 服务；实际存储位置由 Context-Insight 配置决定。</p></details>
+              </div>
+            </section>
+            <section id="limits">
+              <h2>使用条件与限制</h2>
+              <ul><li>首次准备运行时需要 npm 和网络。</li><li>Context-Insight 是任务后的观测工具，不实时介入 Agent 执行。</li><li>观测结果受会话导出完整度和 Context-Insight 版本影响。</li></ul>
+            </section>
+            <section id="links">
+              <h2>相关链接</h2>
+              <ul class="links">
+                <li><a href="https://www.npmjs.com/package/context-insight">Context-Insight npm 页面与 README ↗</a></li>
+                <li><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-observe-bundle">Observe Bundle npm 包与 README ↗</a></li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <aside class="toc" aria-label="本页目录">
+        <div data-toc="overview"><strong>概览</strong><a href="#relationship">主要组成</a><a href="#features">能观测什么</a><a href="#scenarios">适用场景</a><a href="#comparison">前后对比</a><a href="#boundaries">边界</a></div>
+        <div data-toc="quick-start" hidden><strong>快速开始</strong><a href="#requirements">准备环境</a><a href="#install">安装 Bundle</a><a href="#first-session">导入会话</a><a href="#verify">验证结果</a><a href="#demo">功能演示</a></div>
+        <div data-toc="usage" hidden><strong>使用 CLI</strong><a href="#observe-command">/observe</a></div>
+        <div data-toc="help" hidden><strong>FAQ</strong><a href="#faq">常见问题</a><a href="#limits">使用限制</a><a href="#links">相关链接</a></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer wrap"><span>Fuxi AI Labs · dsh-observe-bundle · Context-Insight</span><a href="#top">回到顶部 ↑</a></footer>
+  <span id="copy-status" class="sr-only" aria-live="polite"></span>
+  <script src="page.js" defer></script>
+</body>
+</html>

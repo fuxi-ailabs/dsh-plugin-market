@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Score 是 DSH 的独立评分 Bundle：导入当前会话，提供六维确定性评分、维度详情、重算与语义评审，不包含观测页面。">
+  <meta name="color-scheme" content="light">
+  <title>Score · DSH 会话评分</title>
+  <link rel="stylesheet" href="styles.css">
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#relationship">跳到主要内容</a>
+  <header class="site-header">
+    <div class="market-banner">
+      <div class="wrap header-inner">
+        <nav class="market-breadcrumb" aria-label="当前位置">
+          <a class="market-brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a>
+          <span class="market-location"><span class="market-separator" aria-hidden="true">/</span><a class="market-current" href="#top" aria-current="page">Score</a></span>
+        </nav>
+        <nav class="section-nav" aria-label="文档导航">
+          <a href="#relationship">概览</a>
+          <a href="#requirements">快速开始</a>
+          <a href="#score-command">使用 CLI</a>
+          <a href="#faq">FAQ</a>
+          <a class="nav-npm" href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-score-bundle">npm ↗</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <header class="wrap hero" id="top">
+      <div class="hero-copy">
+        <div class="hero-title">
+          <img src="assets/icon.svg" alt="" width="64" height="64">
+          <div>
+            <p class="eyebrow">DSH BUNDLE · dsh-score-bundle · v1.2.0</p>
+            <h1>Score</h1>
+          </div>
+        </div>
+        <p class="lede"><strong>Score</strong> 是对会话打分的插件。它负责“导入 + 打分”：在 DSH 会话页展示六维评分圆盘、维度详情、覆盖度、重算按钮和语义评审入口。默认确定性评分不调用 LLM；只有用户主动使用才会请求大模型。</p>
+        <dl class="meta">
+          <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
+          <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
+          <div><dt>Score Bundle</dt><dd><code>dsh-score-bundle@1.2.0</code></dd></div>
+          <div><dt>Context-Insight</dt><dd><code>0.2.41</code></dd></div>
+        </dl>
+      </div>
+      <figure class="hero-visual hero-carousel" data-carousel aria-label="Score 功能截图轮播">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="score-carousel-track" data-carousel-track>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/score-detail.png" width="1280" height="800" alt="新版 DSH Score 圆盘与六维详情面板，包含总分、覆盖度、维度分、子项和重算/语义评审入口。">
+              <figcaption>新版 Score 在 DSH 内显示六维圆盘和维度详情，无需离开会话页。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/score-page.jpg" width="1280" height="800" alt="Context-Insight 的完整评分页面。">
+              <figcaption>需要完整的评分页面、证据和覆盖度信息时，可继续打开 Context-Insight Score 页面。</figcaption>
+            </figure>
+            <figure class="carousel-slide" data-carousel-slide>
+              <img src="assets/score-actions.png" width="1280" height="800" alt="DSH 会话页中的观测与打分入口。">
+              <figcaption>“打分”由 Score Bundle 独立提供；没有安装 Observe 也可以只使用评分。</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button type="button" class="carousel-toggle" data-carousel-toggle aria-pressed="false" aria-controls="score-carousel-track">暂停轮播</button>
+        </div>
+      </figure>
+    </header>
+
+    <div class="layout wrap">
+      <article class="doc">
+        <div class="tabbar" role="tablist" aria-label="Score 文档章节">
+          <button type="button" role="tab" id="tab-overview" aria-controls="panel-overview" aria-selected="true" data-tab="overview">概览</button>
+          <button type="button" role="tab" id="tab-quick-start" aria-controls="panel-quick-start" aria-selected="false" tabindex="-1" data-tab="quick-start">快速开始</button>
+          <button type="button" role="tab" id="tab-usage" aria-controls="panel-usage" aria-selected="false" tabindex="-1" data-tab="usage">使用 CLI</button>
+          <button type="button" role="tab" id="tab-help" aria-controls="panel-help" aria-selected="false" tabindex="-1" data-tab="help">FAQ</button>
+        </div>
+
+        <div class="tab-panels">
+          <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" data-panel="overview">
+            <section id="relationship">
+              <h2>主要组成</h2>
+              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-score-bundle@1.2.0</code>，即可获得完整的会话评分能力。</p>
+              <table class="relationship-table">
+                <thead><tr><th>组成</th><th>版本</th><th>作用</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Score Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.0</code></td><td>一次安装完整的评分能力，自带 provider-auth、env-health、Host 和 UX。</td></tr>
+                  <tr><td><strong>dsh-score</strong><small>Host 插件</small></td><td><code class="version-short">1.2.0</code></td><td>注册 <code>/score</code>，负责导入、读卡、重算、语义评审和覆盖度对账。</td></tr>
+                  <tr><td><strong>dsh-score-ux</strong><small>Web UX 插件</small></td><td><code class="version-short">1.2.0</code></td><td>渲染六维评分圆盘、维度详情、重算按钮和语义评审入口。</td></tr>
+                  <tr><td><strong>dsh-provider-auth</strong><small>共享认证</small></td><td><code class="version-short">1.1.0</code></td><td>解析显式配置、环境变量或 DSH credentials，供语义评审借用模型连接。</td></tr>
+                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.0</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Observe 同时安装时复用同一实例。</td></tr>
+                  <tr><td><strong>Context-Insight</strong><small>评分运行时</small></td><td><code class="version-short">0.2.41</code></td><td>提供六维评分卡、覆盖度、证据与服务端评分页面。</td></tr>
+                </tbody>
+              </table>
+            </section>
+
+            <section id="features">
+              <h2>新版评分体验</h2>
+              <div class="feature-grid">
+                <article><span class="feature-index">01 · RADIAL</span><h3>六维评分圆盘</h3><p>六个扇区对应完成度、行为可信、完成质量、完成效率、冗余度和自主性；中心显示总分。</p></article>
+                <article><span class="feature-index">02 · DETAIL</span><h3>维度详情</h3><p>点击扇区打开详情面板，查看权重、子项、证据、基线、计算口径和未覆盖项。</p></article>
+                <article><span class="feature-index">03 · RECALC</span><h3>确定性重算</h3><p>点击圆形箭头重新运行确定性评分，不调用大模型，不消耗评审 token。</p></article>
+                <article><span class="feature-index">04 · SEMANTIC</span><h3>语义评审</h3><p>点击圆盘中心下方的语义评审图标；悬浮会立即显示“语义评审”，执行前先探测 Provider。</p></article>
+              </div>
+            </section>
+
+            <section id="scenarios">
+              <h2>适合哪些场景</h2>
+              <ul class="scenario-list">
+                <li><strong>任务质量复盘：</strong>快速判断一次会话在六个维度上的强项与主要失分点。</li>
+                <li><strong>Prompt / Skill 前后对比：</strong>保持同一评分口径，对比修改前后的总分、覆盖度和维度变化。</li>
+                <li><strong>问题定位：</strong>展开低分维度，查看具体子项、证据、轮次和计算口径。</li>
+                <li><strong>语义复核：</strong>对确定性评分无法判断的质量问题，按需启动 LLM 语义评审。</li>
+              </ul>
+            </section>
+
+            <section id="comparison">
+              <h2>使用前后对比</h2>
+              <div class="comparison-grid">
+                <article class="comparison-card before"><h3>没有 Score</h3><ul><li>会话结束后只能凭经验判断完成质量，缺少统一的六维判断口径。</li><li>需要人工翻阅 Turn、工具调用和长文本输出，才能寻找质量问题的证据。</li><li>Prompt 或 Skill 调整后，难以用同一套指标比较前后变化。</li></ul></article>
+                <article class="comparison-card after"><h3>使用 Score 后</h3><ul><li>同一会话点击“打分”即可获得总分、覆盖度和六维结果。示例会话为 5.7 分、覆盖 59%。</li><li>展开 D4 完成效率（示例 8.2 分）可直接查看 token、LLM 时长、工具时长、并行度、轮次和压缩次数等证据。</li><li>需要复核时先执行零 LLM 的确定性重算，只有主动使用语义评审才调用模型。</li></ul></article>
+              </div>
+            </section>
+
+            <section id="boundaries">
+              <h2>边界与成本</h2>
+              <p>默认评分和重算使用确定性规则，不调用 LLM。语义评审和 <code>/score --semantic</code> 会调用配置的 Provider，并可能产生模型费用。</p>
+              <p>Score 不提供 Turn、Trace、Subagent 等观测页面；需要观测时请安装 Observe Bundle。两个 Bundle 同时安装不会重复下载 Insight，也不会重复挂载 env-health。</p>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-quick-start" role="tabpanel" aria-labelledby="tab-quick-start" data-panel="quick-start" hidden>
+            <section id="requirements">
+              <h2>1. 准备运行环境</h2>
+              <table class="quick-facts"><tbody>
+                <tr><th>DSH</th><td><code>^0.2.1-rc.2</code>。</td></tr>
+                <tr><th>Node.js</th><td><code>&gt;=24</code>。</td></tr>
+                <tr><th>npm</th><td>首次下载 Context-Insight 运行时需要 npm 和网络。</td></tr>
+                <tr><th>Provider</th><td>确定性评分不需要；语义评审需要 Provider 配置、环境变量或 DSH credentials。</td></tr>
+              </tbody></table>
+            </section>
+
+            <section id="install">
+              <h2>2. 安装 Score Bundle</h2>
+              <div class="install-command" aria-label="终端安装命令">
+                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.0</code></pre>
+                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.0" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+              </div>
+              <p class="profile-note">如果目标不是 <code>web</code> profile，请替换命令中的 profile 名。</p>
+              <p>DSH 市场中也可以搜索 <strong>Score · DSH 会话评分</strong> 进行安装：</p>
+              <pre><code>https://fuxi-ailabs.github.io/dsh-plugin-market/index.json</code></pre>
+              <div class="npm-callout">
+                <div><strong>npm 包</strong><code>@fuxi-ailabs/dsh-score-bundle</code></div>
+                <div><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-score-bundle">查看 Score Bundle npm 页面 ↗</a><a href="https://www.npmjs.com/package/context-insight">查看 Context-Insight npm 页面 ↗</a></div>
+              </div>
+            </section>
+
+            <section id="first-score">
+              <h2>3. 完成第一次评分</h2>
+              <h3 id="start-dsh">3.1 启动 DSH</h3>
+              <pre><code>dsh web</code></pre>
+              <h3 id="choose-session">3.2 打开一个会话</h3>
+              <p>完成或打开一个已有会话后，页面顶部会出现独立的“打分”入口。</p>
+              <figure class="shot"><img src="assets/score-actions.png" alt="DSH 会话页中的观测与打分入口。" loading="lazy"><figcaption>“打分”由 Score Bundle 提供；只有安装 Observe 时才会同时出现“观测”。</figcaption></figure>
+              <h3 id="click-score">3.3 点击“打分”</h3>
+              <p>Score 会刷新导入当前会话并读取评分卡。默认执行确定性评分，不调用大模型。</p>
+              <figure class="shot"><img src="assets/score-detail.png" alt="新版 Score 六维圆盘与维度详情面板。" loading="lazy"><figcaption>圆盘展示六维分数和总分；点击某一维度可查看子项、证据与计算口径。</figcaption></figure>
+              <h3 id="semantic-review">3.4 使用语义评审</h3>
+              <p>点击圆盘中心下方的语义评审图标。鼠标悬浮会显示“语义评审”；点击后先探测 Provider，再执行模型评审。</p>
+              <h3 id="verify">3.5 验证结果</h3>
+              <p>检查总分、六个维度、覆盖度与证据是否加载。若显示未覆盖项，可重新导入会话后再重算。</p>
+              <figure class="shot"><img src="assets/score-page.jpg" alt="Context-Insight 完整评分页面，显示总分、覆盖度、六维分数和维度证据。" loading="lazy"><figcaption>在评分页核对总分、覆盖度、六维分数和证据；若语义评审失败，再到插件环境检查页确认 Provider 配置与 Context-Insight Service 状态。</figcaption></figure>
+            </section>
+            <section id="demo">
+              <h2>4. 功能演示</h2>
+              <figure class="video-demo">
+                <video controls muted playsinline preload="metadata" poster="assets/score-demo-poster.png" aria-label="新版 Score 六维圆盘、维度详情和语义评审入口演示">
+                  <source src="assets/score-demo.webm" type="video/webm">
+                  <track kind="captions" src="assets/score-demo-zh.vtt" srclang="zh" label="中文字幕" default>
+                  当前浏览器不支持 WebM 视频。
+                </video>
+              </figure>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-usage" role="tabpanel" aria-labelledby="tab-usage" data-panel="usage" hidden>
+            <section id="score-command">
+              <h2><code>/score</code> 命令</h2>
+              <p>命令与页面上的“打分”入口等价；默认刷新导入后读取评分卡，没有缓存时计算确定性层。</p>
+              <p>以下命令在 DSH 的会话输入框中发送，不是在系统终端执行。</p>
+              <pre><code>/score
+/score --sid &lt;sid&gt;
+/score --no-import
+/score --recalc
+/score --semantic
+/score --probe-provider
+/score --status</code></pre>
+              <table class="command-table"><thead><tr><th>参数</th><th>用途</th></tr></thead><tbody>
+                <tr><td><code>--sid &lt;sid&gt;</code></td><td>读取指定会话的评分卡。</td></tr>
+                <tr><td><code>--no-import</code></td><td>跳过导入，只读已有评分卡。</td></tr>
+                <tr><td><code>--recalc</code></td><td>强制重算确定性层，不调用 LLM。</td></tr>
+                <tr><td><code>--semantic</code></td><td>执行语义评审，会调用 Provider 并消耗 token。</td></tr>
+                <tr><td><code>--probe-provider</code></td><td>只探测语义评审 Provider 连通性。</td></tr>
+                <tr><td><code>--confirm &lt;item&gt;=fine|problem</code></td><td>人工确认某个疑似项。</td></tr>
+                <tr><td><code>--bench &lt;0-100&gt;</code></td><td>写入外部基准分数。</td></tr>
+                <tr><td><code>--open</code> / <code>--json</code></td><td>打开完整评分页，或保存完整评分卡 JSON。</td></tr>
+                <tr><td><code>--base &lt;url&gt;</code> / <code>--status</code></td><td>指定服务地址，或只检查服务状态。</td></tr>
+              </tbody></table>
+            </section>
+          </div>
+
+          <div class="tab-panel" id="panel-help" role="tabpanel" aria-labelledby="tab-help" data-panel="help" hidden>
+            <section id="faq">
+              <h2>FAQ</h2>
+              <div class="faq-list">
+                <details><summary>Score 和 Observe 必须一起安装吗？<span>+</span></summary><p>不需要。Score Bundle 自带导入和评分能力，可以在没有 Observe 的情况下单独使用；同时安装时会共享 env-health 和 Context-Insight 服务。</p></details>
+                <details><summary>以前装过 Insight，安装前要移除旧包吗？<span>+</span></summary><p>要。Insight 已拆分为 Observe 和 Score，不再提供 <code>@fuxi-ailabs/dsh-insight-bundle</code>。如果当前 profile 还显示已安装的 Insight Bundle，请先在 DSH「插件」页移除旧包。若同时装有 1.1.x 的 Session Audit、Skill Eval 或 Static Check，请先一并升级到 1.2 Bundle；否则不要先删除共享 Runtime Bundle，因为这些旧插件仍依赖它。确认没有其他旧消费者后，再执行 <code>dsh plugin --profile web remove @fuxi-ailabs/dsh-runtime-bundle</code>，并安装当前 Bundle。</p></details>
+                <details><summary>默认评分会调用大模型吗？<span>+</span></summary><p>不会。默认读卡和重算都是确定性路径。只有主动使用语义评审或显式执行 <code>--semantic</code> 才会调用 Provider。</p></details>
+                <details><summary>为什么某些维度显示“—”？<span>+</span></summary><p>通常表示证据不足、数据未覆盖，或该维度依赖语义评审。展开维度详情可以查看具体原因。</p></details>
+                <details><summary>为什么有覆盖度不足提示？<span>+</span></summary><p>可能是子代理或最新轮次尚未导入。重新导入当前会话后，再点击重算。</p></details>
+                <details><summary>重算和语义评审有什么区别？<span>+</span></summary><p>重算只运行确定性规则，速度快且不产生模型费用；语义评审会调用模型，用于判断需要语义理解的质量问题。</p></details>
+                <details><summary>没有观测页面就不能定位评分证据吗？<span>+</span></summary><p>Score 详情面板会展示子项、证据和计算口径；需要查看完整 Turn、Trace 或 Subagent 链路时，请安装 Observe Bundle。</p></details>
+              </div>
+            </section>
+            <section id="limits">
+              <h2>使用条件与限制</h2>
+              <ul><li>首次准备运行时需要 npm 和网络。</li><li>语义评审需要可用 Provider，并可能产生 token 费用。</li><li>评分结果受导入覆盖度、Context-Insight 版本和评分档案影响。</li><li>重算不会自动修复缺失数据；覆盖度不足时应重新导入。</li></ul>
+            </section>
+            <section id="links">
+              <h2>相关链接</h2>
+              <ul class="links">
+                <li><a href="https://www.npmjs.com/package/context-insight">Context-Insight npm 页面与 README ↗</a></li>
+                <li><a href="https://www.npmjs.com/package/@fuxi-ailabs/dsh-score-bundle">Score Bundle npm 包与 README ↗</a></li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </article>
+
+      <aside class="toc" aria-label="本页目录">
+        <div data-toc="overview"><strong>概览</strong><a href="#relationship">主要组成</a><a href="#features">新版评分体验</a><a href="#scenarios">适用场景</a><a href="#comparison">使用前后对比</a><a href="#boundaries">边界与成本</a></div>
+        <div data-toc="quick-start" hidden><strong>快速开始</strong><a href="#requirements">准备环境</a><a href="#install">安装 Bundle</a><a href="#first-score">完成评分</a><a href="#semantic-review">语义评审</a><a href="#demo">功能演示</a></div>
+        <div data-toc="usage" hidden><strong>使用 CLI</strong><a href="#score-command">/score</a></div>
+        <div data-toc="help" hidden><strong>FAQ</strong><a href="#faq">常见问题</a><a href="#limits">使用限制</a><a href="#links">相关链接</a></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer wrap"><span>Fuxi AI Labs · dsh-score-bundle · Context-Insight</span><a href="#top">回到顶部 ↑</a></footer>
+  <span id="copy-status" class="sr-only" aria-live="polite"></span>
+  <script src="page.js" defer></script>
+</body>
+</html>
