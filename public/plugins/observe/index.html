@@ -35,7 +35,7 @@
         <div class="hero-title">
           <img src="assets/icon.svg" alt="" width="64" height="64">
           <div>
-            <p class="eyebrow">DSH BUNDLE · dsh-observe-bundle · v1.2.0</p>
+            <p class="eyebrow">DSH BUNDLE · dsh-observe-bundle · v1.2.1</p>
             <h1>Observe</h1>
           </div>
         </div>
@@ -43,7 +43,7 @@
         <dl class="meta">
           <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
           <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
-          <div><dt>Observe Bundle</dt><dd><code>dsh-observe-bundle@1.2.0</code></dd></div>
+          <div><dt>Observe Bundle</dt><dd><code>dsh-observe-bundle@1.2.1</code></dd></div>
           <div><dt>Context-Insight</dt><dd><code>0.2.41</code></dd></div>
         </dl>
       </div>
@@ -87,14 +87,14 @@
           <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" data-panel="overview">
             <section id="relationship">
               <h2>主要组成</h2>
-              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-observe-bundle@1.2.0</code>，即可获得完整的会话观测能力。</p>
+              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-observe-bundle@1.2.1</code>，即可获得完整的会话观测能力。</p>
               <table class="relationship-table">
                 <thead><tr><th>组成</th><th>版本</th><th>作用</th></tr></thead>
                 <tbody>
-                  <tr><td><strong>Observe Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.0</code></td><td>一次安装完整的观测能力，自带 env-health、Host 和 UX。</td></tr>
-                  <tr><td><strong>dsh-observe</strong><small>Host 插件</small></td><td><code class="version-short">1.2.0</code></td><td>注册 <code>/observe</code>，导出会话、调用 Insight 导入 API，并负责运行时检查与启动。</td></tr>
+                  <tr><td><strong>Observe Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.1</code></td><td>一次安装完整的观测能力，自带 env-health、Host 和 UX。</td></tr>
+                  <tr><td><strong>dsh-observe</strong><small>Host 插件</small></td><td><code class="version-short">1.2.1</code></td><td>注册 <code>/observe</code>，导出会话、调用 Insight 导入 API，并负责运行时检查与启动。</td></tr>
                   <tr><td><strong>dsh-observe-ux</strong><small>Web UX 插件</small></td><td><code class="version-short">1.2.0</code></td><td>在会话页提供“观测”入口、准备状态、错误反馈和 Context-Insight 页面跳转。</td></tr>
-                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.0</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Score 同时安装时复用同一实例。</td></tr>
+                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.1</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Score 同时安装时复用同一实例。</td></tr>
                   <tr><td><strong>Context-Insight</strong><small>外部分析运行时</small></td><td><code class="version-short">0.2.41</code></td><td>本地会话分析与观测服务，提供 Turn、Trace、Context、Skill、File 等页面。</td></tr>
                 </tbody>
               </table>
@@ -147,9 +147,10 @@
 
             <section id="install">
               <h2>2. 安装 Observe Bundle</h2>
+              <p><strong>从 1.2.0 升级：</strong>DSH 市场只会提示更新，不能直接升级已安装插件。请先移除旧 Bundle：<code>dsh plugin --profile web remove @fuxi-ailabs/dsh-observe-bundle</code>，再执行下方 <code>add</code> 命令安装 1.2.1。</p>
               <div class="install-command" aria-label="终端安装命令">
-                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.0</code></pre>
-                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.0" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.1</code></pre>
+                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-observe-bundle@1.2.1" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
               </div>
               <p class="profile-note">如果目标不是 <code>web</code> profile，请替换命令中的 profile 名。</p>
               <p>DSH 市场中也可以搜索 <strong>Observe · DSH 会话观测</strong> 进行安装：</p>
