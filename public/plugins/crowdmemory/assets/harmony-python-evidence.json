@@ -1,12 +1,12 @@
 {
-  "schema": "crowdmemory-memory-card-demo/v1",
+  "schema": "crowdmemory-org-sharing-demo/v1",
   "recorded_at": "2026-11-09",
   "environment": {
     "platform": "macOS arm64",
+    "topology": "Two independent Runtime processes and databases on one machine; loopback Git transport.",
     "dsh": "0.1.6-alpha.2",
     "runtime": "0.1.1",
     "adapter": "0.1.1",
-    "profile": "session-default@3",
     "model_requested": "claude-sonnet-4-6",
     "provider_identity_independently_verified": false
   },
@@ -43,102 +43,107 @@
     ]
   },
   "task_scope": {
-    "case": "Historical HarmonyOS PC apriltag-python and nerdd-module/RDKit loader-path records.",
-    "fixture": "Locally constructed launcher task derived from the recorded process-environment requirement.",
+    "case": "Historical HarmonyOS PC apriltag-python and nerdd-module/RDKit native-loader records.",
+    "fixture": "Locally constructed launcher task derived from the recorded environment requirement.",
     "current_tests": "Three tests of child-process LD_LIBRARY_PATH propagation, inherited paths and empty-component handling.",
-    "center_execution": "Installed Crowd Memory Center form_candidates and validate_candidate over Runtime-sealed Raw and draft.",
-    "center_status": {
-      "support_tier": "single_source",
-      "recommendation": "needs_human"
+    "center_service": "Demonstration supervisor running the existing Git transport and installed Center APIs.",
+    "review_path": "Single-source candidate, explicit task-owner approval for isolated sharing group, reviewed Release.",
+    "replay_mode": "draft_evidence; business_replay not_applicable"
+  },
+  "organization": {
+    "sharing_group": "org-python-adaptation",
+    "origin_host": "node-a",
+    "consumer_host": "node-b",
+    "raw_transport": "git://127.0.0.1:9427/raw.git",
+    "release_transport": "git://127.0.0.1:9427/release.git",
+    "independent_local_stores": true,
+    "release": {
+      "approval": "explicit task-owner approval",
+      "candidate_id": "problem-28146fad118c85672e451fcf2f30c9cb",
+      "epoch_id": "release-org-python-adaptation-20261109-1",
+      "origin_host": "node-a",
+      "record_ref": "rr_problem-28146fad118c85672e451fcf2f30c9cb",
+      "records": 1,
+      "release_commit": "c384bd338dd7234d6dab5a84dbafb1e01f928e13",
+      "review_commit": "d6ca5ebb3bda9fc8750b88dd3f783e1e72543cb9",
+      "sharing_group": {
+        "id": "org-python-adaptation",
+        "revision": "1"
+      },
+      "status": "published",
+      "trust_profile": "production/v1"
+    }
+  },
+  "processing": {
+    "implementation_commit": "0e969cbb87ccd71090bf54352da7326167a8ff6e",
+    "candidate_id": "problem-28146fad118c85672e451fcf2f30c9cb",
+    "draft_revision": "rev-8a1d61447ada3ec806ce1536",
+    "support_tier": "single_source",
+    "recommendation": "needs_human",
+    "decision": {
+      "candidate_id": "problem-28146fad118c85672e451fcf2f30c9cb",
+      "content_digest": "sha256:fcb54db2c6fc9993d5726602ac665c8f856c91972d5ca844e8bf6bafe3535323",
+      "decision": "approved",
+      "draft_revision": "rev-8a1d61447ada3ec806ce1536",
+      "required_reviewers": [
+        "task-owner"
+      ],
+      "review_commit": "d6ca5ebb3bda9fc8750b88dd3f783e1e72543cb9",
+      "reviewers": [
+        "task-owner"
+      ],
+      "schema": "guizang-review-decision/v1",
+      "single_source_acknowledged": true
     },
-    "consumed_memory": "Local Runtime card revision 2.",
-    "capture_input": "Historical notes explicitly supplied to Agent 1; Agent 2 receives task/context files and automatic plugin injection."
+    "source_local_card": "lr_01a1bf3a299479fbbcebc9b447798c29"
   },
   "actors": [
     {
       "agent": "agent-1",
-      "session_ref": "session-1b416eda-92fa-4c5c-808f-66b521dac437",
-      "library": "apriltag-python 3.4.5",
-      "direct_test_exit_code": 0,
+      "host": "node-a",
+      "session_ref": "session-5b7fd874-ac8f-42b3-89d2-7554e2786544",
+      "test_command": "python3 test-launch.py",
+      "test_outputs": [
+        "Validation scope: launcher child-process environment\nLibrary: apriltag-python 3.4.5 Native directory: venv/lib/python3.12/site-packages/apriltag\n[stderr]\ntest_existing_directories_are_preserved (__main__.LaunchEnvironmentTest) ... FAIL\ntest_native_directory_reaches_child (__main__.LaunchEnvironmentTest) ... FAIL\ntest_no_empty_search_path_component (__main__.LaunchEnvironmentTest) ... FAIL\n\n======================================================================\nFAIL: test_existing_directories_are_preserved (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-1/test-launch.py\", line 29, in test_existing_directories_are_preserved\n    self.assertEqual(self.observe(\"/opt/native/lib\"), str(NATIVE_DIR) + \":/opt/native/lib\")\nAssertionError: '/opt/native/lib' != '/Users/wjm/.local/state/crowdmemory-org-de[85 chars]/lib'\n- /opt/native/lib\n+ /Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-1/venv/lib/python3.12/site-packages/apriltag:/opt/native/lib\n\n\n======================================================================\nFAIL: test_native_directory_reaches_child (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-1/test-launch.py\", line 26, in test_native_directory_reaches_child\n    self.assertEqual(self.observe(), str(NATIVE_DIR))\nAssertionError: '' != '/Users/wjm/.local/state/crowdmemory-org-d[70 chars]ltag'\n+ /Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-1/venv/lib/python3.12/site-packages/apriltag\n\n======================================================================\nFAIL: test_no_empty_search_path_component (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-1/test-launch.py\", line 32, in test_no_empty_search_path_component\n    self.assertNotIn(\"\", self.observe().split(\":\"))\nAssertionError: '' unexpectedly found in ['']\n\n----------------------------------------------------------------------\nRan 3 tests in 0.175s\n\nFAILED (failures=3)\n[exit code: 1]",
+        "Validation scope: launcher child-process environment\nLibrary: apriltag-python 3.4.5 Native directory: venv/lib/python3.12/site-packages/apriltag\n[stderr]\ntest_existing_directories_are_preserved (__main__.LaunchEnvironmentTest) ... ok\ntest_native_directory_reaches_child (__main__.LaunchEnvironmentTest) ... ok\ntest_no_empty_search_path_component (__main__.LaunchEnvironmentTest) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.172s\n\nOK\n"
+      ],
+      "before_exit_code": 1,
+      "after_exit_code": 0,
       "tests_passed": 3
     },
     {
       "agent": "agent-2",
-      "session_ref": "session-80105e90-0cf8-4f49-a726-0596b73e8275",
-      "library": "nerdd-module / RDKit",
+      "host": "node-b",
+      "session_ref": "session-31b5c591-9e89-43d6-9d4b-856fd5673a0c",
       "test_command": "python3 test-launch.py",
-      "test_process_before_exit_code": 1,
-      "test_process_after_exit_code": 0,
-      "bash_wrapper_exit_codes": [
-        0,
-        0
+      "test_outputs": [
+        "Validation scope: launcher child-process environment\nLibrary: nerdd-module / RDKit Native directory: venv/lib/python3.12/site-packages/rdkit/.libs\n[stderr]\ntest_existing_directories_are_preserved (__main__.LaunchEnvironmentTest) ... FAIL\ntest_native_directory_reaches_child (__main__.LaunchEnvironmentTest) ... FAIL\ntest_no_empty_search_path_component (__main__.LaunchEnvironmentTest) ... FAIL\n\n======================================================================\nFAIL: test_existing_directories_are_preserved (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-2/test-launch.py\", line 29, in test_existing_directories_are_preserved\n    self.assertEqual(self.observe(\"/opt/native/lib\"), str(NATIVE_DIR) + \":/opt/native/lib\")\nAssertionError: '/opt/native/lib' != '/Users/wjm/.local/state/crowdmemory-org-de[88 chars]/lib'\n- /opt/native/lib\n+ /Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-2/venv/lib/python3.12/site-packages/rdkit/.libs:/opt/native/lib\n\n\n======================================================================\nFAIL: test_native_directory_reaches_child (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-2/test-launch.py\", line 26, in test_native_directory_reaches_child\n    self.assertEqual(self.observe(), str(NATIVE_DIR))\nAssertionError: '' != '/Users/wjm/.local/state/crowdmemory-org-d[73 chars]libs'\n+ /Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-2/venv/lib/python3.12/site-packages/rdkit/.libs\n\n======================================================================\nFAIL: test_no_empty_search_path_component (__main__.LaunchEnvironmentTest)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/Users/wjm/.local/state/crowdmemory-org-demo-20261109/workspaces/agent-2/test-launch.py\", line 32, in test_no_empty_search_path_component\n    self.assertNotIn(\"\", self.observe().split(\":\"))\nAssertionError: '' unexpectedly found in ['']\n\n----------------------------------------------------------------------\nRan 3 tests in 0.157s\n\nFAILED (failures=3)\n[exit code: 1]",
+        "Validation scope: launcher child-process environment\nLibrary: nerdd-module / RDKit Native directory: venv/lib/python3.12/site-packages/rdkit/.libs\n[stderr]\ntest_existing_directories_are_preserved (__main__.LaunchEnvironmentTest) ... ok\ntest_native_directory_reaches_child (__main__.LaunchEnvironmentTest) ... ok\ntest_no_empty_search_path_component (__main__.LaunchEnvironmentTest) ... ok\n\n----------------------------------------------------------------------\nRan 3 tests in 0.159s\n\nOK\n"
       ],
-      "exit_code_capture": "python3 test-launch.py; echo [exit code: $?]",
-      "tests_passed": 3,
-      "query_tool_calls": 0,
-      "modified_files": [
-        "launch-verification.sh"
-      ]
+      "before_exit_code": 1,
+      "after_exit_code": 0,
+      "tests_passed": 3
     }
   ],
   "memory": {
-    "record_ref": "lr_01a1bec35c267fd68370ff34663f6058",
-    "revision": 2,
-    "topic_key": "harmony/native-loader-launch",
-    "trust": "local_auto",
-    "pushed": 1,
-    "applied": 1,
-    "applied_via": "fix_path",
-    "applied_paths": [
-      "launch-verification.sh"
-    ],
-    "agent_2_task_id": "task_dbb73de20c45d42f96e47702",
-    "receipts": [
+    "record_ref": "rr_problem-28146fad118c85672e451fcf2f30c9cb",
+    "trust": "reviewed",
+    "pushed": 2,
+    "read": 1,
+    "cited": 1,
+    "applied_receipt_count": 0,
+    "adoption_evidence": "DSH memory_read, one-line launch script edit, identical command passes three tests, memory_note related citation.",
+    "sources": [
       {
-        "receipt_id": "01a1bedb-1dca-7c27-a38f-0cec7d9a0bf5",
-        "kind": "view_exposure",
-        "exposure_kind": "pushed",
-        "revision": 2,
-        "payload": {
-          "dedupe_key": "pushed:session_start",
-          "overrides": {},
-          "policy": {
-            "enabled": true,
-            "max_chars": 4000,
-            "max_items": 3,
-            "min_score": 0.0,
-            "require": []
-          },
-          "profile": {
-            "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-            "id": "session-default",
-            "revision": "3"
-          },
-          "repeat": false,
-          "trigger": "session_start"
-        }
-      },
-      {
-        "receipt_id": "01a1bedb-4dee-7011-bde8-917b8b1aea9e",
-        "kind": "record_usage",
-        "exposure_kind": "applied",
-        "revision": 2,
-        "payload": {
-          "path": "launch-verification.sh",
-          "profile": {
-            "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-            "id": "session-default",
-            "revision": "3"
-          },
-          "via": "fix_path"
-        }
+        "record_ref": "rr_problem-28146fad118c85672e451fcf2f30c9cb",
+        "host_id": "node-a",
+        "local_ref": "lr_01a1bf3a299479fbbcebc9b447798c29"
       }
     ],
-    "injection_before_edit": [
+    "execution_order": [
       {
         "event": "card_injection",
         "seq": 10,
-        "time_ms": 1794203393504,
         "source": {
           "kind": "plugin",
           "plugin": "crowdmemory-dsh-adapter",
@@ -147,105 +152,101 @@
       },
       {
         "event": "tool_call",
-        "seq": 34,
-        "time_ms": 1794203401527,
-        "name": "bash",
+        "seq": 16,
+        "name": "memory_read",
         "arguments": {
-          "command": "python3 test-launch.py; echo \"[exit code: $?]\"",
-          "description": "Reproduce launcher failure"
+          "ref": "rr_problem-28146fad118c85672e451fcf2f30c9cb"
         }
       },
       {
         "event": "tool_call",
+        "seq": 37,
+        "name": "bash",
+        "arguments": {
+          "command": "python3 test-launch.py",
+          "description": "Reproduce launch verification failure",
+          "workdir": "<demo-root>/workspaces/agent-2"
+        }
+      },
+      {
+        "event": "card_injection",
         "seq": 41,
-        "time_ms": 1794203405747,
+        "source": {
+          "kind": "plugin",
+          "plugin": "crowdmemory-dsh-adapter",
+          "form": "recall"
+        }
+      },
+      {
+        "event": "tool_call",
+        "seq": 43,
         "name": "edit",
         "arguments": {
-          "file_path": "<demo-root>/workspaces/agent-2-final/launch-verification.sh",
+          "file_path": "<demo-root>/workspaces/agent-2/launch-verification.sh",
           "old_string": "native_dir=$1\nshift\nexec \"$@\"",
           "new_string": "native_dir=$1\nshift\nexport LD_LIBRARY_PATH=\"$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec \"$@\""
         }
       },
       {
         "event": "tool_call",
-        "seq": 46,
-        "time_ms": 1794203407505,
+        "seq": 48,
         "name": "bash",
         "arguments": {
-          "command": "python3 test-launch.py; echo \"[exit code: $?]\"",
-          "description": "Rerun identical launcher tests"
+          "command": "python3 test-launch.py",
+          "description": "Rerun identical test command after fix",
+          "workdir": "<demo-root>/workspaces/agent-2"
+        }
+      },
+      {
+        "event": "tool_call",
+        "seq": 58,
+        "name": "memory_note",
+        "arguments": {
+          "title": "RDKit 原生库加载失败：启动脚本未导出 LD_LIBRARY_PATH（跨库采用 org-python-adaptation 经验）",
+          "type": "bugfix",
+          "scope": "project",
+          "topic_key": "harmony/rdkit-native-loader",
+          "content": {
+            "what": "本工作区 launch-verification.sh 只接收原生库目录参数却未导出给子进程，rdkit/.libs 下的伴生库 libRDKitRDBoost.so.1 不在链接器搜索路径；rdBase.so 的 RUNPATH 仅 $ORIGIN，导入前子进程拿到的 LD_LIBRARY_PATH 为空，三项启动脚本测试全部失败。",
+            "why": "对照组织共享卡 rr_problem-28146fad118c85672e451fcf2f30c9cb（原为 apriltag-python 3.4.5 归档）的失败签名，删除继承值后子进程环境变量为空，与本库现象一致，故跨库直接采用其做法：exec 前把 native_dir 前置导出。",
+            "where": "launch-verification.sh（与本节点 context.json 的 venv/lib/python3.12/site-packages/rdkit/.libs 配合）；原始 RDKit 档案编号 am-9eca62129bbb8880a8aaf78a（migbot-experience-raw，固定提交 343c60fd2309dbf1edf6d3169b80838c54e1f1cd）。",
+            "learned": "此卡适用于当前 RDKit 目录：native_dir 指向新库 site-packages/rdkit/.libs 即可复用，无需改测试文件。修复后三项启动脚本测试（原生目录抵达子进程、既有目录保留、无空搜索路径分量）全部通过。"
+          },
+          "relates_to": [
+            {
+              "record_ref": "rr_problem-28146fad118c85672e451fcf2f30c9cb",
+              "relation": "related"
+            }
+          ],
+          "fix": {
+            "kind": "diff",
+            "diff": "--- a/launch-verification.sh\n+++ b/launch-verification.sh\n@@ -2,4 +2,5 @@\n set -euo pipefail\n native_dir=$1\n shift\n+export LD_LIBRARY_PATH=\"$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\n exec \"$@\""
+          },
+          "evidence_refs": [
+            "rr_problem-28146fad118c85672e451fcf2f30c9cb",
+            "am-9eca62129bbb8880a8aaf78a"
+          ]
         }
       }
     ]
   },
-  "processing": {
-    "implementation_commit": "0e969cbb87ccd71090bf54352da7326167a8ff6e",
-    "summary": {
-      "raw_envelopes": 2,
-      "draft_revision": 2,
-      "groups": 1,
-      "candidate_id": "problem-1c60b6f9028320f6c6b619576444c9e3",
-      "record_ref": "lr_01a1bec35c267fd68370ff34663f6058",
-      "checks": {
-        "schema": "pass",
-        "provenance": "pass",
-        "content_invariants": "pass",
-        "semantic": "review",
-        "conflict": "pass",
-        "replay": "pass",
-        "security": "pass"
-      },
-      "support_tier": "single_source",
-      "recommendation": "needs_human"
-    },
-    "artifacts_sha256": {
-      "summary.json": "sha256:f8fe0293bf4894c43700b1fbb0852b403b0eef28463cfdc7c49cdf5303aec248",
-      "draft.json": "sha256:741030497b942ff77809527e37488b81b04b9bcef65912ce61e5eaa725e6c869",
-      "aggregation.json": "sha256:d3dd060cb38df2f0e595079549be324ffde836f051d1649bddaaeee0c223acbf",
-      "candidate.json": "sha256:66eebf03f7d219dea80bc0817bab6ac589096a0e22f531f213ea12105026e307",
-      "validation.json": "sha256:e07e681a458a8e2d4c5a16bc6fa16282a5b24b5a8b24f5fe88deaa2084521071"
-    },
-    "raw_inputs_sha256": {
-      "c45311a48319d3bc4c61de2c6976eea76086867997df87a8e2ed7a56459fa968.json": "sha256:2a8d2b3aab415d77c9cba614608257501d4e8e55e0309d04aeb9283de42037d1",
-      "63b02ed3758f4c7ef5ff29eeec64d394d78e30f630f0a9f0c2a7d41f2ac8c1dd.json": "sha256:39742cf427c255ce845a9ae3c7e0540e64c31cd5e7c4dc62192ecd8b1975d040"
-    }
-  },
   "operator_preparation": {
-    "refinement": "Agent 1 was asked to simplify its first fix and card into a one-line export diff, then rerun tests directly; revision 2 is the version consumed by Agent 2.",
-    "initial_agent_1_pipeline": "First test output was piped through tail and the shell pipeline returned zero; later direct test run preserved the original exit status.",
-    "receipt_view": "During preparation an outbox-based reporter was replaced with a read-only SQLite reporter. The filmed Agent 2 run uses the SQLite reporter in its original task.",
-    "ui_navigation": "Only isolated workspace navigation and browser text zoom adjusted for capture; persisted conversations and Runtime usage state retained."
+    "publication": "Task owner approved this candidate for the isolated demo sharing group. The center gate initially required human review.",
+    "service_recording": "Center and Runtime processes were restarted after the Agent runs, retaining their original databases and published evidence, to record startup commands.",
+    "ui": "Native DSH chat and PTY terminal, with browser text zoom and navigation for capture.",
+    "center_supervisor": "Demonstration deployment wrapper around Git daemon and existing Center collection APIs.",
+    "collector_fix": "Collection initially overwrote an approved proposal with pending materials. The collector was patched to preserve approval, and the committed approved proposal was restored before filming."
   },
   "run_logs": {
-    "agent-1-events.jsonl": {
-      "raw_sha256": "sha256:2c2d77a8cd6c106bd4279f01ca3888fd119ab13665583608698142f601357116",
-      "published_sha256": "sha256:6f22ad031f673c7fe8e1ee333b262a1308e15b6a7d07c63bb24f0f40b3ecb7bd",
-      "normalization": "Only absolute demo-root prefixes replaced."
+    "agent-1": {
+      "raw_sha256": "sha256:c279d7f6650e1bf0379d1993aa23ae0c564cc170cd52fbff6e823f9dd9d55ce7",
+      "published_sha256": "sha256:c4b63d94df1aa7b313bd3c96ea6aa8a9fdd707a40e627b30c960f08d2e476ba8",
+      "normalization": "Only absolute demo-root and dependency prefixes."
     },
-    "agent-1-pipeline-events.jsonl": {
-      "raw_sha256": "sha256:453520fb35f592f087796d58802d0419cbe22b447a808cbf7d6defb16420b8fd",
-      "published_sha256": "sha256:5681c79fec65422e280ce573005d0d6cc5f929beae6412150265a4b964c0f28d",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-1-refine-events.jsonl": {
-      "raw_sha256": "sha256:f875ad3039436d4f980d662304d1027b1b3105d68c6285d1a0610778edcb520e",
-      "published_sha256": "sha256:001e233bab6e65d524647ed9b64f767815366acf91d078a369fcee179cdb164e",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-events.jsonl": {
-      "raw_sha256": "sha256:edf623590ca9f751e81c3cd222cd832d57f2a1964a105b4eeef58216682adb88",
-      "published_sha256": "sha256:1201b523666f8b7d63c67c002cac6ec395670e9978cbac89dbc79be300648144",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-final-events.jsonl": {
-      "raw_sha256": "sha256:ab155722ad13e7d6f61f79810c37bf2da724ffd47293682c154c1bdd62994c6b",
-      "published_sha256": "sha256:f97703c8b163d5511caef7533e636b4b2d736f22f871418ca1ce16a0569fe343",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-receipt-events.jsonl": {
-      "raw_sha256": "sha256:cdd9610d7d398dae7501334cd9f0068e85063b84760d9970e21bfd5457e34444",
-      "published_sha256": "sha256:7c32a8fca72fd99cfffca54bfc4424ff06e5fe6ea8a0867785e79be6f2ea08da",
-      "normalization": "Only absolute demo-root prefixes replaced."
+    "agent-2": {
+      "raw_sha256": "sha256:fbb67c92fb0e01f59b1358d1aad766e009e3e778b49f2230e2c473ded2e4802f",
+      "published_sha256": "sha256:bc2731499a9ee72050b55ae8cfc61775944f3f51e3b9b42dc799419cf9745476",
+      "normalization": "Only absolute demo-root and dependency prefixes."
     }
   },
   "narration": {
@@ -254,27 +255,14 @@
     "continuous": true,
     "audio_splice_count": 0,
     "type": "synthetic_narration",
-    "script_sha256": "sha256:ce584657152af967a5600239fec7ab44567a1154dacc19b2ff2e68eeb1669d99",
-    "source_audio_sha256": "sha256:68da4782829c8b995586e0c3194df3bd588c4f880397968d483f8f71eca27de1",
-    "audio_analysis": {
-      "input_i": "-25.46",
-      "input_tp": "-1.47",
-      "input_lra": "4.30",
-      "input_thresh": "-35.88",
-      "output_i": "-18.70",
-      "output_tp": "-1.50",
-      "output_lra": "2.50",
-      "output_thresh": "-29.06",
-      "normalization_type": "dynamic",
-      "target_offset": "2.70",
-      "silences_at_least_1_2_seconds_at_minus_38_db": []
-    }
+    "script_sha256": "sha256:73f8fc61c851a0a7afb69cbe38505dcd598a094ded5abfca86df4e1dbe541193",
+    "source_audio_sha256": "sha256:7af5f571f1d9a01e33335e26b1aadd6e4a74b95287cb0f2706d680c1dcf94ad5"
   },
-  "reproduction": "https://github.com/fuxi-ailabs/dsh-plugin-market/tree/codex/crowdmemory-harmony-demo/docs/demos/harmony-python-history",
+  "reproduction": "docs/demos/harmony-python-history/README.md",
   "encoding": {
-    "duration_seconds": 133.367,
+    "duration_seconds": 169.967,
     "poster_time_seconds": 2,
-    "container_duration_seconds": 133.367,
+    "container_duration_seconds": 169.967,
     "fps": 30,
     "width": 3840,
     "height": 2160,
@@ -287,1022 +275,1172 @@
       "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"
     },
     "captions_burned_in": true,
-    "caption_count": 26,
+    "caption_count": 32,
     "captions": [
       {
         "scene": "intro",
         "start": 0.1,
-        "end": 3.942,
-        "text": "Crowd Memory 是面向 Agent 的组织级记忆组件。"
+        "end": 4.367,
+        "text": "Crowd Memory 是面向 coding Agent 的组织级记忆组件。"
       },
       {
         "scene": "intro",
-        "start": 3.975,
-        "end": 10.992,
-        "text": "开发任务留下的排查过程和修复经验，可以在后续 Agent 执行前进入它的上下文。"
+        "start": 4.4,
+        "end": 11.229,
+        "text": "任务轨迹和笔记形成经验，经中心审核发布后，供组织内其他节点的 Agent 使用。"
       },
       {
         "scene": "intro",
-        "start": 11.025,
-        "end": 19.667,
-        "text": "这里选鸿蒙 PC 的 Python 三方库适配，两个库遇到了相近的原生依赖问题，正好看经验怎样跨库使用。"
+        "start": 11.262,
+        "end": 18.754,
+        "text": "这里用鸿蒙 PC 的 Python 三方库适配，看 apriltag 的修法怎样用于 RDKit 的相关问题。"
+      },
+      {
+        "scene": "center",
+        "start": 18.787,
+        "end": 22.167,
+        "text": "先启动中心的 Git 服务和收集进程。"
+      },
+      {
+        "scene": "center",
+        "start": 22.2,
+        "end": 26.954,
+        "text": "Raw 接收各节点上报的数据，Release 分发审核后的经验。"
+      },
+      {
+        "scene": "center",
+        "start": 26.987,
+        "end": 30.842,
+        "text": "屏幕上能看到中心地址和演示共享组。"
+      },
+      {
+        "scene": "runtimes",
+        "start": 30.875,
+        "end": 34.767,
+        "text": "接着分别启动节点 A 和节点 B 的 Runtime。"
+      },
+      {
+        "scene": "runtimes",
+        "start": 34.8,
+        "end": 39.154,
+        "text": "两端使用各自的端点和数据库，连接同一个中心。"
+      },
+      {
+        "scene": "runtimes",
+        "start": 39.187,
+        "end": 44.317,
+        "text": "这里在本机运行两个独立节点，演示组织内的共享过程。"
       },
       {
         "scene": "config",
-        "start": 19.7,
-        "end": 25.117,
-        "text": "先在 DSH 的 Profile 里接上记忆服务，设置项目和采集模板。"
+        "start": 44.35,
+        "end": 50.792,
+        "text": "DSH 的 Profile 加载记忆适配器，设置本节点的端点、项目和采集模板。"
       },
       {
         "scene": "config",
-        "start": 25.15,
-        "end": 30.392,
-        "text": "加载适配器后，任务里的工具操作和笔记就可以进入处理链路。"
+        "start": 50.825,
+        "end": 57.742,
+        "text": "两端的共享配置使用不同的节点编号，指向相同的 Raw、Release 和共享组。"
       },
       {
         "scene": "a_fix",
-        "start": 30.425,
-        "end": 36.117,
-        "text": "Agent 一处理 apriltag-python，这个库用于识别 AprilTag 视觉标记。"
+        "start": 57.775,
+        "end": 63.217,
+        "text": "Agent 一处理 apriltag-python，它用于识别 AprilTag 视觉标记。"
       },
       {
         "scene": "a_fix",
-        "start": 36.15,
-        "end": 41.092,
-        "text": "适配记录里的原生库文件已经存在，验证进程却找不到。"
+        "start": 63.25,
+        "end": 67.279,
+        "text": "原生库文件已经存在，验证进程却找不到。"
       },
       {
         "scene": "a_fix",
-        "start": 41.125,
-        "end": 47.079,
-        "text": "它根据排查记录修正启动脚本，把库目录写入环境，再启动子进程。"
+        "start": 67.312,
+        "end": 74.067,
+        "text": "Agent 一先复现启动脚本问题，再把库目录写入环境，三项启动测试通过。"
       },
       {
         "scene": "pipeline",
-        "start": 47.112,
-        "end": 51.254,
-        "text": "任务结束以后，轨迹和笔记回流到记忆中心。"
+        "start": 74.1,
+        "end": 77.667,
+        "text": "轨迹和笔记从节点 A 回流到中心。"
       },
       {
         "scene": "pipeline",
-        "start": 51.287,
-        "end": 57.604,
-        "text": "中心把同一问题的证据聚合起来，形成候选，并核对结构、来源和证据。"
+        "start": 77.7,
+        "end": 84.429,
+        "text": "中心聚合同一问题的证据，形成 Candidate，核对结构、来源和回放结果。"
       },
       {
         "scene": "pipeline",
-        "start": 57.637,
-        "end": 61.792,
-        "text": "这里可以逐项打开 Raw、Candidate 和核验结果。"
+        "start": 84.462,
+        "end": 88.567,
+        "text": "这里只有一个来源，核验结果要求人工审核。"
       },
       {
         "scene": "card",
-        "start": 61.825,
-        "end": 65.142,
-        "text": "这就是 Agent 一生成的 Memory Card。"
+        "start": 88.6,
+        "end": 95.304,
+        "text": "这张 Memory Card 写明了触发条件、原因和修法，并保留原始适配记录的出处。"
       },
       {
         "scene": "card",
-        "start": 65.175,
-        "end": 69.692,
-        "text": "卡片写明了触发条件、原因、修复步骤和来源。"
+        "start": 95.337,
+        "end": 101.217,
+        "text": "关键动作是在启动进程之前导出原生库路径，同时保留已有路径。"
       },
       {
-        "scene": "card",
-        "start": 69.725,
-        "end": 74.967,
-        "text": "关键动作是先把原生库目录加入环境，再启动验证进程。"
+        "scene": "release",
+        "start": 101.25,
+        "end": 105.617,
+        "text": "审核人批准后，中心把卡片发布到演示共享组。"
       },
       {
-        "scene": "card",
-        "start": 75.0,
-        "end": 79.292,
-        "text": "换一个库时，需要重新确认它自己的依赖目录。"
+        "scene": "release",
+        "start": 105.65,
+        "end": 111.267,
+        "text": "节点 B 从 Release 同步到审核后的组织记录，来源仍指向节点 A。"
+      },
+      {
+        "scene": "release",
+        "start": 111.3,
+        "end": 116.629,
+        "text": "两个节点分别保存本地数据，交换的是共享组内发布的经验。"
       },
       {
         "scene": "b_injection",
-        "start": 79.325,
-        "end": 85.192,
-        "text": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库加载问题。"
+        "start": 116.662,
+        "end": 122.517,
+        "text": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库路径问题。"
       },
       {
         "scene": "b_injection",
-        "start": 85.225,
-        "end": 90.929,
-        "text": "开始下一步之前，Crowd Memory 把这张卡送进了 DSH 上下文。"
+        "start": 122.55,
+        "end": 128.004,
+        "text": "Crowd Memory 在执行前把组织卡片送入 DSH 上下文。"
       },
       {
         "scene": "b_injection",
-        "start": 90.962,
-        "end": 95.529,
-        "text": "展开这里，能看到卡片编号、来源和触发原因。"
+        "start": 128.037,
+        "end": 132.904,
+        "text": "展开这里，可以看到卡片编号、审核来源和匹配理由。"
       },
       {
         "scene": "b_apply",
-        "start": 95.562,
-        "end": 98.492,
-        "text": "接着看 Agent 二的代码修改。"
+        "start": 132.937,
+        "end": 138.167,
+        "text": "Agent 二打开卡片后，采用了先配置环境再启动进程的做法。"
       },
       {
         "scene": "b_apply",
-        "start": 98.525,
-        "end": 102.279,
-        "text": "它把环境变量设置放在启动进程之前。"
-      },
-      {
-        "scene": "b_apply",
-        "start": 102.312,
-        "end": 108.704,
-        "text": "这次传入的是 RDKit 的点 libs 目录，与 Agent 一处理的 apriltag 目录不同。"
+        "start": 138.2,
+        "end": 143.967,
+        "text": "这次使用 RDKit 的点 libs 目录，代码修改保留了原有的搜索路径。"
       },
       {
         "scene": "b_test",
-        "start": 108.737,
-        "end": 118.529,
-        "text": "用同一条命令重跑启动测试，检查原生库目录是否传入子进程、已有路径是否保留，以及空值会不会多出一项。"
+        "start": 144.0,
+        "end": 152.267,
+        "text": "用同一条命令重跑启动测试，检查目录是否传给子进程、已有路径是否保留，以及空值处理。"
       },
       {
         "scene": "b_test",
-        "start": 118.562,
-        "end": 120.467,
+        "start": 152.3,
+        "end": 154.204,
         "text": "这三项都通过了。"
       },
       {
         "scene": "usage",
-        "start": 120.5,
-        "end": 122.517,
-        "text": "最后看使用回执。"
+        "start": 154.237,
+        "end": 156.867,
+        "text": "最后核对节点 B 的使用记录。"
       },
       {
         "scene": "usage",
-        "start": 122.55,
-        "end": 129.367,
-        "text": "同一个卡片编号下，已经记录了注入和采用，采用的文件就是刚才修改的启动脚本。"
+        "start": 156.9,
+        "end": 162.954,
+        "text": "同一张组织卡片下，记录了自动注入、读取和引用，来源是节点 A。"
       },
       {
         "scene": "usage",
-        "start": 129.4,
-        "end": 133.275,
-        "text": "这条使用记录会回流，和这张卡一起保留。"
+        "start": 162.987,
+        "end": 169.875,
+        "text": "结合刚才的脚本修改与测试结果，可以看到这条经验怎样进入另一个节点的任务。"
       }
     ],
     "visual_editing": {
       "subtitle_position": "bottom",
-      "subtitle_bottom_margin_px": 28,
+      "subtitle_bottom_margin_px": 280,
       "callout_color": "#ff3030",
       "callout_stroke_px": 8,
       "callouts": [
         {
           "cue": 0,
-          "target": "Crowd Memory 组件名",
+          "target": "组织级记忆组件名称",
           "start": 0.1,
-          "end": 3.941666666666667,
+          "end": 4.366666666666667,
           "boxes": [
             [
-              36,
-              12,
-              1045,
+              35,
+              10,
+              1200,
               130
             ]
           ]
         },
         {
           "cue": 1,
-          "target": "Agent 1 的排查经验卡",
-          "start": 3.975,
-          "end": 7.343,
+          "target": "节点 A 的经验卡片",
+          "start": 4.4,
+          "end": 7.814333333333334,
           "boxes": [
             [
-              575,
-              375,
-              1250,
-              770
+              18,
+              380,
+              1860,
+              560
             ]
           ]
         },
         {
           "cue": 1,
-          "target": "后续 Agent 的代码修改",
-          "start": 7.343,
-          "end": 10.991666666666667,
+          "target": "节点 B 的代码修改与测试",
+          "start": 7.814333333333334,
+          "end": 11.228666666666667,
           "boxes": [
             [
-              2495,
-              370,
-              1250,
-              400
+              2520,
+              400,
+              1210,
+              930
             ]
           ]
         },
         {
           "cue": 2,
-          "target": "鸿蒙 PC Python 适配用例",
-          "start": 11.025,
-          "end": 14.049583333333333,
+          "target": "apriltag-python 案例",
+          "start": 11.262,
+          "end": 14.633249999999999,
           "boxes": [
             [
-              35,
-              90,
-              545,
-              58
+              18,
+              163,
+              1730,
+              70
             ]
           ]
         },
         {
           "cue": 2,
-          "target": "两个库与两个 Agent",
-          "start": 14.049583333333333,
-          "end": 19.666666666666664,
+          "target": "RDKit 案例和目录",
+          "start": 14.633249999999999,
+          "end": 18.753666666666664,
           "boxes": [
             [
-              24,
-              164,
-              885,
-              72
-            ],
-            [
-              1945,
-              164,
-              860,
-              72
-            ]
-          ]
-        },
-        {
-          "cue": 3,
-          "target": "DSH Profile 配置路径",
-          "start": 19.7,
-          "end": 21.43333333333333,
-          "boxes": [
-            [
-              1300,
-              650,
-              900,
-              76
-            ]
-          ]
-        },
-        {
-          "cue": 3,
-          "target": "记忆服务端点",
-          "start": 21.43333333333333,
-          "end": 23.05833333333333,
-          "boxes": [
-            [
-              970,
-              1055,
-              1660,
+              1960,
+              163,
+              1760,
               70
             ]
           ]
         },
         {
           "cue": 3,
-          "target": "项目标识",
-          "start": 23.05833333333333,
-          "end": 24.03333333333333,
+          "target": "中心启动命令",
+          "start": 18.787,
+          "end": 20.645816666666665,
           "boxes": [
             [
-              975,
-              1174,
-              355,
-              65
+              19,
+              418,
+              2062,
+              71
             ]
           ]
         },
         {
           "cue": 3,
-          "target": "采集模板",
-          "start": 24.03333333333333,
-          "end": 25.116666666666664,
+          "target": "Center 和 Git 进程",
+          "start": 20.645816666666665,
+          "end": 22.166666666666664,
           "boxes": [
             [
-              975,
-              1115,
-              540,
-              65
+              19,
+              578,
+              909,
+              103
             ]
           ]
         },
         {
           "cue": 4,
-          "target": "Crowd Memory 适配器",
-          "start": 25.15,
-          "end": 27.246666666666666,
+          "target": "Raw 接收地址",
+          "start": 22.2,
+          "end": 24.576833333333333,
           "boxes": [
             [
-              890,
-              935,
-              470,
-              68
+              15,
+              724,
+              1059,
+              56
             ]
           ]
         },
         {
           "cue": 4,
-          "target": "自动注入、笔记与 workflow 采集",
-          "start": 27.246666666666666,
-          "end": 30.391666666666666,
+          "target": "Release 分发地址",
+          "start": 24.576833333333333,
+          "end": 26.953666666666663,
           "boxes": [
             [
-              975,
-              1232,
-              395,
-              180
+              15,
+              778,
+              1153,
+              56
             ]
           ]
         },
         {
           "cue": 5,
-          "target": "Agent 1 与 apriltag-python",
-          "start": 30.425,
-          "end": 36.11666666666667,
+          "target": "中心传输地址",
+          "start": 26.987,
+          "end": 29.107066666666665,
           "boxes": [
             [
-              22,
-              750,
-              610,
-              150
+              15,
+              724,
+              1153,
+              109
+            ]
+          ]
+        },
+        {
+          "cue": 5,
+          "target": "演示共享组",
+          "start": 29.107066666666665,
+          "end": 30.841666666666665,
+          "boxes": [
+            [
+              15,
+              677,
+              853,
+              51
             ]
           ]
         },
         {
           "cue": 6,
-          "target": "卡片中的原生库加载失败条件",
-          "start": 36.15,
-          "end": 41.09166666666667,
+          "target": "节点 A 的 Runtime 启动命令",
+          "start": 30.875,
+          "end": 32.82083333333333,
           "boxes": [
             [
-              1235,
-              1515,
-              1875,
-              64
-            ]
-          ]
-        },
-        {
-          "cue": 7,
-          "target": "Agent 1 的 export 修复",
-          "start": 41.125,
-          "end": 43.62554,
-          "boxes": [
-            [
-              1235,
-              813,
-              1255,
-              66
-            ]
-          ]
-        },
-        {
-          "cue": 7,
-          "target": "先设置环境，再 exec 子进程",
-          "start": 43.62554,
-          "end": 47.07866666666667,
-          "boxes": [
-            [
-              1235,
-              813,
-              1255,
-              110
-            ]
-          ]
-        },
-        {
-          "cue": 8,
-          "target": "采集到的工具操作和 Agent 笔记",
-          "start": 47.112,
-          "end": 49.389916666666664,
-          "boxes": [
-            [
-              690,
-              665,
-              1840,
-              84
-            ]
-          ]
-        },
-        {
-          "cue": 8,
-          "target": "封存的 Raw 与 draft",
-          "start": 49.389916666666664,
-          "end": 51.25366666666667,
-          "boxes": [
-            [
-              690,
-              768,
-              1400,
-              84
-            ]
-          ]
-        },
-        {
-          "cue": 9,
-          "target": "按问题聚合证据",
-          "start": 51.287,
-          "end": 53.434666666666665,
-          "boxes": [
-            [
-              690,
-              870,
-              1610,
-              80
-            ]
-          ]
-        },
-        {
-          "cue": 9,
-          "target": "形成 Candidate",
-          "start": 53.434666666666665,
-          "end": 55.456,
-          "boxes": [
-            [
-              690,
-              973,
-              1850,
-              80
-            ]
-          ]
-        },
-        {
-          "cue": 9,
-          "target": "结构、来源和证据核验",
-          "start": 55.456,
-          "end": 57.60366666666667,
-          "boxes": [
-            [
-              690,
-              1075,
-              2890,
-              85
-            ]
-          ]
-        },
-        {
-          "cue": 10,
-          "target": "Raw 输入",
-          "start": 57.637,
-          "end": 58.92494666666667,
-          "boxes": [
-            [
-              1765,
-              768,
-              340,
-              84
-            ]
-          ]
-        },
-        {
-          "cue": 10,
-          "target": "Candidate 产物",
-          "start": 58.92494666666667,
-          "end": 60.33753333333334,
-          "boxes": [
-            [
-              1765,
-              973,
-              765,
-              80
-            ]
-          ]
-        },
-        {
-          "cue": 10,
-          "target": "核验结果",
-          "start": 60.33753333333334,
-          "end": 61.79166666666667,
-          "boxes": [
-            [
-              1765,
-              1075,
-              1815,
-              85
-            ]
-          ]
-        },
-        {
-          "cue": 11,
-          "target": "Agent 1 生成的 Memory Card 全文",
-          "start": 61.825,
-          "end": 65.14166666666667,
-          "boxes": [
-            [
-              1207,
-              420,
-              2067,
-              860
-            ]
-          ]
-        },
-        {
-          "cue": 12,
-          "target": "卡片触发条件",
-          "start": 65.175,
-          "end": 66.53,
-          "boxes": [
-            [
-              1240,
-              600,
-              1810,
-              69
-            ]
-          ]
-        },
-        {
-          "cue": 12,
-          "target": "卡片原因",
-          "start": 66.53,
-          "end": 67.56883333333333,
-          "boxes": [
-            [
-              1240,
-              672,
-              1950,
-              69
-            ]
-          ]
-        },
-        {
-          "cue": 12,
-          "target": "卡片代码修法",
-          "start": 67.56883333333333,
-          "end": 68.698,
-          "boxes": [
-            [
-              1250,
-              800,
-              2010,
-              300
-            ]
-          ]
-        },
-        {
-          "cue": 12,
-          "target": "卡片来源",
-          "start": 68.698,
-          "end": 69.69166666666666,
-          "boxes": [
-            [
-              1240,
-              1123,
-              1990,
-              74
-            ]
-          ]
-        },
-        {
-          "cue": 13,
-          "target": "原生库目录加入 LD_LIBRARY_PATH",
-          "start": 69.725,
-          "end": 72.76516666666666,
-          "boxes": [
-            [
-              1290,
-              958,
-              1200,
+              15,
+              416,
+              2325,
               62
             ]
           ]
         },
         {
-          "cue": 13,
-          "target": "随后 exec 启动验证进程",
-          "start": 72.76516666666666,
-          "end": 74.96666666666667,
+          "cue": 6,
+          "target": "节点 B 的 Runtime 启动命令",
+          "start": 32.82083333333333,
+          "end": 34.766666666666666,
           "boxes": [
             [
-              1290,
-              1018,
-              210,
-              58
+              15,
+              568,
+              2325,
+              64
+            ]
+          ]
+        },
+        {
+          "cue": 7,
+          "target": "各自的 Runtime 端点",
+          "start": 34.8,
+          "end": 36.75915,
+          "boxes": [
+            [
+              54,
+              934,
+              2531,
+              56
+            ],
+            [
+              54,
+              1344,
+              2531,
+              56
+            ]
+          ]
+        },
+        {
+          "cue": 7,
+          "target": "共同连接中心的双节点",
+          "start": 36.75915,
+          "end": 39.153666666666666,
+          "boxes": [
+            [
+              35,
+              163,
+              2900,
+              70
+            ]
+          ]
+        },
+        {
+          "cue": 8,
+          "target": "本机独立双节点说明",
+          "start": 39.187,
+          "end": 44.31666666666667,
+          "boxes": [
+            [
+              35,
+              163,
+              2900,
+              70
+            ]
+          ]
+        },
+        {
+          "cue": 9,
+          "target": "Profile 中加载适配器",
+          "start": 44.35,
+          "end": 47.57083333333334,
+          "boxes": [
+            [
+              15,
+              467,
+              1228,
+              159
+            ]
+          ]
+        },
+        {
+          "cue": 9,
+          "target": "端点、项目和采集模板",
+          "start": 47.57083333333334,
+          "end": 50.79166666666667,
+          "boxes": [
+            [
+              15,
+              622,
+              1462,
+              165
+            ]
+          ]
+        },
+        {
+          "cue": 10,
+          "target": "不同 host_id 和本地数据库",
+          "start": 50.825,
+          "end": 53.59166666666667,
+          "boxes": [
+            [
+              15,
+              930,
+              1988,
+              109
+            ],
+            [
+              15,
+              1241,
+              1988,
+              109
+            ]
+          ]
+        },
+        {
+          "cue": 10,
+          "target": "相同 Raw、Release 和共享组",
+          "start": 53.59166666666667,
+          "end": 57.74166666666667,
+          "boxes": [
+            [
+              15,
+              1035,
+              1669,
+              154
+            ],
+            [
+              15,
+              1344,
+              1669,
+              154
+            ]
+          ]
+        },
+        {
+          "cue": 11,
+          "target": "Agent 1 和 apriltag-python",
+          "start": 57.775,
+          "end": 63.21666666666667,
+          "boxes": [
+            [
+              35,
+              163,
+              2800,
+              70
+            ],
+            [
+              1294,
+              1419,
+              1509,
+              56
+            ]
+          ]
+        },
+        {
+          "cue": 12,
+          "target": "Agent 1 启动准备问题",
+          "start": 63.25,
+          "end": 67.27866666666667,
+          "boxes": [
+            [
+              35,
+              163,
+              2800,
+              70
+            ],
+            [
+              1275,
+              585,
+              1275,
+              238
+            ]
+          ]
+        },
+        {
+          "cue": 13,
+          "target": "进程启动前导出库目录",
+          "start": 67.312,
+          "end": 71.02706666666667,
+          "boxes": [
+            [
+              1273,
+              726,
+              1294,
+              101
+            ]
+          ]
+        },
+        {
+          "cue": 13,
+          "target": "同一命令的三项测试通过",
+          "start": 71.02706666666667,
+          "end": 74.06666666666666,
+          "boxes": [
+            [
+              1296,
+              1513,
+              1312,
+              135
             ]
           ]
         },
         {
           "cue": 14,
-          "target": "换库时重定位依赖目录的说明",
-          "start": 75.0,
-          "end": 79.29166666666667,
+          "target": "节点 A 回流的本地卡与 Raw",
+          "start": 74.1,
+          "end": 77.66666666666667,
           "boxes": [
             [
-              1460,
-              1018,
-              850,
-              58
+              15,
+              574,
+              2062,
+              156
             ]
           ]
         },
         {
           "cue": 15,
-          "target": "Agent 2 与 nerdd-module / RDKit",
-          "start": 79.325,
-          "end": 85.19166666666666,
+          "target": "证据聚合与 Candidate",
+          "start": 77.7,
+          "end": 79.85317333333333,
           "boxes": [
             [
-              21,
-              829,
-              613,
-              171
-            ],
+              15,
+              728,
+              1838,
+              152
+            ]
+          ]
+        },
+        {
+          "cue": 15,
+          "target": "结构、来源与证据回放核验",
+          "start": 79.85317333333333,
+          "end": 84.42866666666667,
+          "boxes": [
             [
-              726,
-              273,
-              500,
-              69
+              15,
+              1080,
+              1275,
+              366
             ]
           ]
         },
         {
           "cue": 16,
-          "target": "DSH 的适配器上下文注入入口",
-          "start": 85.225,
-          "end": 87.79165,
+          "target": "单一来源",
+          "start": 84.462,
+          "end": 86.3091,
           "boxes": [
             [
-              1215,
-              416,
-              810,
-              72
+              15,
+              879,
+              1200,
+              56
             ]
           ]
         },
         {
           "cue": 16,
-          "target": "自动注入的记忆卡",
-          "start": 87.79165,
-          "end": 90.92866666666667,
+          "target": "人工审核要求",
+          "start": 86.3091,
+          "end": 88.56666666666666,
           "boxes": [
             [
-              1285,
-              485,
-              1980,
-              344
+              15,
+              1241,
+              1238,
+              259
             ]
           ]
         },
         {
           "cue": 17,
-          "target": "展开的上下文注入区",
-          "start": 90.962,
-          "end": 92.14933333333333,
+          "target": "Memory Card 编号",
+          "start": 88.6,
+          "end": 90.07480666666666,
           "boxes": [
             [
-              1215,
-              416,
-              810,
-              72
-            ]
-          ]
-        },
-        {
-          "cue": 17,
-          "target": "卡片编号",
-          "start": 92.14933333333333,
-          "end": 93.38233333333334,
-          "boxes": [
-            [
-              2150,
-              650,
-              660,
+              32,
+              559,
+              956,
               60
             ]
           ]
         },
         {
           "cue": 17,
-          "target": "卡片来源",
-          "start": 93.38233333333334,
-          "end": 94.43266666666666,
+          "target": "触发条件与原因",
+          "start": 90.07480666666666,
+          "end": 91.81775999999999,
           "boxes": [
             [
-              1300,
-              704,
-              1170,
-              49
+              32,
+              632,
+              2344,
+              126
             ]
           ]
         },
         {
           "cue": 17,
-          "target": "命中理由与问题现象",
-          "start": 94.43266666666666,
-          "end": 95.52866666666667,
+          "target": "卡片中的修法",
+          "start": 91.81775999999999,
+          "end": 93.42664,
           "boxes": [
             [
-              1300,
-              752,
-              1900,
-              75
+              75,
+              943,
+              1594,
+              66
+            ]
+          ]
+        },
+        {
+          "cue": 17,
+          "target": "原始适配记录的出处",
+          "start": 93.42664,
+          "end": 95.30366666666667,
+          "boxes": [
+            [
+              32,
+              1080,
+              1875,
+              58
             ]
           ]
         },
         {
           "cue": 18,
-          "target": "Agent 2 的代码修改",
-          "start": 95.562,
-          "end": 98.49166666666667,
+          "target": "启动前导出原生库目录",
+          "start": 95.337,
+          "end": 98.74720666666667,
           "boxes": [
             [
-              1235,
-              490,
-              2020,
-              440
-            ]
-          ]
-        },
-        {
-          "cue": 19,
-          "target": "新增环境变量设置",
-          "start": 98.525,
-          "end": 100.77720000000001,
-          "boxes": [
-            [
-              1260,
-              720,
-              1240,
-              60
-            ]
-          ]
-        },
-        {
-          "cue": 19,
-          "target": "环境变量设置在 exec 之前",
-          "start": 100.77720000000001,
-          "end": 102.27866666666667,
-          "boxes": [
-            [
-              1260,
-              720,
-              1240,
-              116
-            ]
-          ]
-        },
-        {
-          "cue": 20,
-          "target": "当前 RDKit 的 .libs 目录",
-          "start": 102.312,
-          "end": 106.72225,
-          "boxes": [
-            [
-              2070,
-              1265,
-              760,
-              64
-            ]
-          ]
-        },
-        {
-          "cue": 20,
-          "target": "与 Agent 1 的 apriltag 案例对照",
-          "start": 106.72225,
-          "end": 108.70366666666666,
-          "boxes": [
-            [
-              2070,
-              1265,
-              760,
-              64
-            ],
-            [
-              20,
-              751,
-              612,
+              90,
+              945,
+              731,
               68
             ]
           ]
         },
         {
-          "cue": 21,
-          "target": "重跑同一测试命令",
-          "start": 108.737,
-          "end": 111.18491666666667,
+          "cue": 18,
+          "target": "保留已有环境路径",
+          "start": 98.74720666666667,
+          "end": 101.21666666666667,
           "boxes": [
             [
-              1520,
-              495,
-              770,
-              65
+              802,
+              945,
+              1012,
+              68
+            ]
+          ]
+        },
+        {
+          "cue": 19,
+          "target": "实际审核人与批准",
+          "start": 101.25,
+          "end": 103.346,
+          "boxes": [
+            [
+              15,
+              572,
+              1275,
+              159
+            ]
+          ]
+        },
+        {
+          "cue": 19,
+          "target": "共享组和已发布记录",
+          "start": 103.346,
+          "end": 105.61666666666667,
+          "boxes": [
+            [
+              15,
+              726,
+              2156,
+              154
+            ]
+          ]
+        },
+        {
+          "cue": 20,
+          "target": "节点 B 的 reviewed 投影",
+          "start": 105.65,
+          "end": 108.73916666666666,
+          "boxes": [
+            [
+              15,
+              934,
+              1350,
+              163
+            ]
+          ]
+        },
+        {
+          "cue": 20,
+          "target": "来源节点 A 与本地卡编号",
+          "start": 108.73916666666666,
+          "end": 111.26666666666667,
+          "boxes": [
+            [
+              15,
+              1091,
+              1969,
+              99
             ]
           ]
         },
         {
           "cue": 21,
-          "target": "目录传入子进程的测试",
-          "start": 111.18491666666667,
-          "end": 113.82866666666666,
+          "target": "两端独立的本地数据库",
+          "start": 111.3,
+          "end": 116.62866666666667,
           "boxes": [
             [
-              1290,
-              808,
-              1300,
-              53
-            ]
-          ]
-        },
-        {
-          "cue": 21,
-          "target": "保留已有路径的测试",
-          "start": 113.82866666666666,
-          "end": 116.27658333333333,
-          "boxes": [
-            [
-              1290,
-              765,
-              1320,
-              53
-            ]
-          ]
-        },
-        {
-          "cue": 21,
-          "target": "空路径项处理测试",
-          "start": 116.27658333333333,
-          "end": 118.52866666666667,
-          "boxes": [
-            [
-              1290,
-              854,
-              1240,
-              53
+              15,
+              1187,
+              2044,
+              107
             ]
           ]
         },
         {
           "cue": 22,
-          "target": "三项测试通过及 OK 结果",
-          "start": 118.562,
-          "end": 120.46666666666667,
+          "target": "节点 B 的 RDKit 任务",
+          "start": 116.662,
+          "end": 122.51666666666667,
           "boxes": [
             [
-              1280,
-              765,
-              1330,
-              361
+              35,
+              163,
+              2850,
+              70
+            ],
+            [
+              15,
+              761,
+              638,
+              150
             ]
           ]
         },
         {
           "cue": 23,
-          "target": "使用回执 JSON",
-          "start": 120.5,
-          "end": 122.51666666666667,
-          "boxes": [
-            [
-              1285,
-              605,
-              1060,
-              437
-            ]
-          ]
-        },
-        {
-          "cue": 24,
-          "target": "同一张卡的 record_ref",
+          "target": "DSH 自动注入的组织卡片",
           "start": 122.55,
-          "end": 124.595,
+          "end": 128.00366666666667,
           "boxes": [
             [
-              1310,
-              640,
-              870,
-              57
+              1219,
+              424,
+              2044,
+              412
             ]
           ]
         },
         {
           "cue": 24,
-          "target": "pushed 和 applied 回执",
-          "start": 124.595,
-          "end": 126.91266666666667,
+          "target": "组织卡编号",
+          "start": 128.037,
+          "end": 129.74033333333335,
           "boxes": [
             [
-              1310,
-              764,
-              260,
-              100
+              2190,
+              536,
+              759,
+              49
             ]
           ]
         },
         {
           "cue": 24,
-          "target": "采用的启动脚本路径",
-          "start": 126.91266666666667,
-          "end": 129.36666666666667,
+          "target": "审核发布来源与共享组",
+          "start": 129.74033333333335,
+          "end": 131.2976666666667,
           "boxes": [
             [
-              1310,
-              864,
-              510,
-              96
+              1299,
+              611,
+              1022,
+              49
+            ]
+          ]
+        },
+        {
+          "cue": 24,
+          "target": "错误签名、代码词面与工具匹配",
+          "start": 131.2976666666667,
+          "end": 132.90366666666668,
+          "boxes": [
+            [
+              1299,
+              656,
+              1088,
+              49
             ]
           ]
         },
         {
           "cue": 25,
-          "target": "回流的使用记录",
-          "start": 129.4,
-          "end": 131.45375,
+          "target": "导出环境变量后再启动进程",
+          "start": 132.937,
+          "end": 138.16666666666666,
           "boxes": [
             [
-              1285,
-              605,
-              1060,
-              437
+              1269,
+              726,
+              1266,
+              109
             ]
           ]
         },
         {
-          "cue": 25,
-          "target": "使用记录关联的卡片编号",
-          "start": 131.45375,
-          "end": 133.275,
+          "cue": 26,
+          "target": "RDKit 当前依赖目录",
+          "start": 138.2,
+          "end": 141.08333333333331,
           "boxes": [
             [
-              1310,
-              640,
-              870,
-              57
+              1307,
+              1268,
+              1566,
+              58
+            ]
+          ]
+        },
+        {
+          "cue": 26,
+          "target": "已有 LD_LIBRARY_PATH 得到保留",
+          "start": 141.08333333333331,
+          "end": 143.96666666666667,
+          "boxes": [
+            [
+              1995,
+              726,
+              540,
+              54
+            ]
+          ]
+        },
+        {
+          "cue": 27,
+          "target": "相同测试命令",
+          "start": 144.0,
+          "end": 146.31466666666668,
+          "boxes": [
+            [
+              1369,
+              508,
+              506,
+              56
+            ]
+          ]
+        },
+        {
+          "cue": 27,
+          "target": "目录传入子进程",
+          "start": 146.31466666666668,
+          "end": 148.54666666666668,
+          "boxes": [
+            [
+              1299,
+              771,
+              1331,
+              54
+            ]
+          ]
+        },
+        {
+          "cue": 27,
+          "target": "已有路径保留",
+          "start": 148.54666666666668,
+          "end": 150.5306666666667,
+          "boxes": [
+            [
+              1299,
+              726,
+              1331,
+              54
+            ]
+          ]
+        },
+        {
+          "cue": 27,
+          "target": "空值处理",
+          "start": 150.5306666666667,
+          "end": 152.26666666666668,
+          "boxes": [
+            [
+              1299,
+              818,
+              1331,
+              54
+            ]
+          ]
+        },
+        {
+          "cue": 28,
+          "target": "三项通过和 OK",
+          "start": 152.3,
+          "end": 154.20366666666666,
+          "boxes": [
+            [
+              1298,
+              949,
+              694,
+              141
+            ]
+          ]
+        },
+        {
+          "cue": 29,
+          "target": "节点 B 读取的使用回执",
+          "start": 154.237,
+          "end": 156.86666666666667,
+          "boxes": [
+            [
+              1226,
+              428,
+              2032,
+              735
+            ]
+          ]
+        },
+        {
+          "cue": 30,
+          "target": "同一组织卡片编号",
+          "start": 156.9,
+          "end": 158.53449,
+          "boxes": [
+            [
+              1320,
+              744,
+              1228,
+              56
+            ]
+          ]
+        },
+        {
+          "cue": 30,
+          "target": "注入、读取、引用计数",
+          "start": 158.53449,
+          "end": 161.62186,
+          "boxes": [
+            [
+              1320,
+              964,
+              403,
+              137
+            ]
+          ]
+        },
+        {
+          "cue": 30,
+          "target": "来源节点 A",
+          "start": 161.62186,
+          "end": 162.95366666666666,
+          "boxes": [
+            [
+              1320,
+              579,
+              441,
+              92
+            ]
+          ]
+        },
+        {
+          "cue": 31,
+          "target": "Agent 2 的脚本修改",
+          "start": 162.987,
+          "end": 166.29324,
+          "boxes": [
+            [
+              1219,
+              1284,
+              1378,
+              114
+            ]
+          ]
+        },
+        {
+          "cue": 31,
+          "target": "同一任务的修复前后测试结果",
+          "start": 166.29324,
+          "end": 169.875,
+          "boxes": [
+            [
+              1219,
+              1438,
+              1875,
+              122
             ]
           ]
         }
       ],
-      "hold_capture_after_seconds": {
-        "b_injection": 3.0
+      "hold_capture_after_seconds": {},
+      "capture_start_seconds": {
+        "center": 21.433,
+        "runtimes": 41.8,
+        "config_doc": 15.233,
+        "pipeline": 18.533,
+        "release": 16.7
       },
-      "annotation_spec_sha256": "sha256:5e804bfeeb6d5963390700a7c9a3a09b6eff2260235bd93baa30ee3ce66b3575"
+      "annotation_spec_sha256": "sha256:d446461b28e9689d7a9be30cd76fcee517a3ee4627b929b237965902475ea0fd"
     },
     "font_name": "STHeiti Medium.ttc",
     "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
     "source_capture_sha256": {
-      "a-3.webm": "sha256:5a0a165eac2aa4cd9e2af5bc2a3619747a37124f65c8d8bf5008f302c11edbe6",
-      "b-3.webm": "sha256:eb9989cec45a77688d0c7921164b5c0d1f95bc2666fc2cf7817e237d80402255",
-      "config_doc.webm": "sha256:4eb89d74dc7a37776557ec7c06995400718017f0aeea0c320ac05093b98f653a",
-      "a_fix.webm": "sha256:1965368e8fbec0a48922196da9c19a69fef83768c089cd7d9066f71db1efe777",
-      "pipeline.webm": "sha256:cf1833f16b5ee5d508a921423fe085e9be9620b8d6ea3289123fa82fe6d2c68b",
-      "card.webm": "sha256:c50643355438ab179cb7f8f43aa178911d784ee465ce91b33448ded2fa4b3715",
-      "b_injection.webm": "sha256:871aafba29af36f14bfe1993a7e9ca9b7531b73fcfa164a20825d5d329be199b",
-      "b_apply.webm": "sha256:eebc4cc1dcd5cd7a43b0b908768a9455a84d4c66a1faf0d65ef0fd41f1ecca84",
-      "b_test.webm": "sha256:1715c119521d41ab2f99837760fb6dc73bea57843aa23bef1efffe41845d8acb",
-      "usage.webm": "sha256:526e5b2393811b8c78ab376d2bf5a00f11d30b618ad93766dc51aa0e3e87c1ba"
+      "a-3.webm": "sha256:4b0143ebb2f5a6ebed40c9ddf95983c5f58b803d2959ab4f0cb61213eac0b516",
+      "b-3.webm": "sha256:4573fe76ebaa62f0539022dc68087d7c5b454ad32713ffa5fa8d3b8402b30f0e",
+      "center.webm": "sha256:49ff7f09d6db0e2486263f62fae312a1743b8331d5962ff4342d9cb2ffb636bc",
+      "runtimes.webm": "sha256:333fbe95fb700afbff0f3844132739a432b32c4704377f728145ed09dc683467",
+      "config_doc.webm": "sha256:4c2ac22bad4864bbb32bdc3027d672112ca1b966461cd77870c1876c13230be0",
+      "a_fix.webm": "sha256:d5c54e2c49c08c3cd00c7d2e736df7ddc06f6d80182eb3a0bb66de297c9105ab",
+      "pipeline.webm": "sha256:cfe9170e15991dcb06badfd301f67bb14ed26cd7c508425e76c89ce0b7779603",
+      "card.webm": "sha256:365b6c2e0bdcb9653aaf1140245412152e34aefca2a63032bc8700de1b183ece",
+      "release.webm": "sha256:0c783fa0451dad663dad19798f8fa38a0873a90570720af2141c36ad0e554eb2",
+      "b_injection.webm": "sha256:41163a514064bbc35dabbea8404e2c315be4a4c9c833e1ab3bb2e3dff6e28831",
+      "b_apply.webm": "sha256:0e529feca3a356876b2066a04d4404db328827b0803068e932103801bc6c7267",
+      "b_test.webm": "sha256:d20f9ebfdbf3f266215d706f01023c7e86ff16b1e520eec9b8c01d3f0d1de223",
+      "usage.webm": "sha256:0807b0ce78905319961085fed7afef976b1b4e84d325e80282f1faaacf819bda"
     },
     "source_audio_sha256": {
-      "narration.mp3": "sha256:68da4782829c8b995586e0c3194df3bd588c4f880397968d483f8f71eca27de1"
+      "narration.mp3": "sha256:7af5f571f1d9a01e33335e26b1aadd6e4a74b95287cb0f2706d680c1dcf94ad5"
     },
     "scenes": [
       {
         "id": "intro",
         "start_seconds": 0,
-        "duration_seconds": 19.7,
-        "label": "组织级记忆组件 · 经验进入后续 Agent 的执行过程"
+        "duration_seconds": 18.767,
+        "label": "组织级记忆组件 · 节点 A 形成经验，节点 B 跨库使用"
+      },
+      {
+        "id": "center",
+        "start_seconds": 18.767,
+        "duration_seconds": 12.1,
+        "label": "组织中心启动 · Git Raw 接收、Center 收集、Release 分发"
+      },
+      {
+        "id": "runtimes",
+        "start_seconds": 30.867,
+        "duration_seconds": 13.467,
+        "label": "独立 Runtime 启动 · node-a 与 node-b · 本机双节点演示"
       },
       {
         "id": "config",
-        "start_seconds": 19.7,
-        "duration_seconds": 10.7,
-        "label": "接入配置 · 端点、项目与采集模板"
+        "start_seconds": 44.333,
+        "duration_seconds": 13.433,
+        "label": "接入配置 · DSH Profile、独立端点、同一共享组"
       },
       {
         "id": "a_fix",
-        "start_seconds": 30.4,
-        "duration_seconds": 16.7,
-        "label": "Agent 1 · apriltag-python：修复验证启动脚本"
+        "start_seconds": 57.767,
+        "duration_seconds": 16.333,
+        "label": "节点 A · apriltag-python · 排查并修复启动脚本"
       },
       {
         "id": "pipeline",
-        "start_seconds": 47.1,
-        "duration_seconds": 14.7,
-        "label": "处理链路 · Raw → 聚合 → Candidate → 核验"
+        "start_seconds": 74.1,
+        "duration_seconds": 14.5,
+        "label": "中心处理链路 · Raw、证据聚合、Candidate、核验"
       },
       {
         "id": "card",
-        "start_seconds": 61.8,
-        "duration_seconds": 17.5,
-        "label": "Agent 1 生成的 Memory Card · 条件、原因、修法、来源"
+        "start_seconds": 88.6,
+        "duration_seconds": 12.633,
+        "label": "Memory Card · 触发条件、原因、修法和来源"
+      },
+      {
+        "id": "release",
+        "start_seconds": 101.233,
+        "duration_seconds": 15.4,
+        "label": "组织发布 · 人工批准、审核提交、Release 同步至节点 B"
       },
       {
         "id": "b_injection",
-        "start_seconds": 79.3,
-        "duration_seconds": 16.233,
-        "label": "Agent 2 · 记忆卡自动进入 DSH 上下文"
+        "start_seconds": 116.633,
+        "duration_seconds": 16.3,
+        "label": "节点 B · RDKit · 组织卡片自动进入 DSH 上下文"
       },
       {
         "id": "b_apply",
-        "start_seconds": 95.533,
-        "duration_seconds": 13.2,
-        "label": "Agent 2 · 按卡片修改脚本，使用 RDKit 的 .libs 目录"
+        "start_seconds": 132.933,
+        "duration_seconds": 11.067,
+        "label": "节点 B · 读取卡片，使用 RDKit 的 .libs 目录"
       },
       {
         "id": "b_test",
-        "start_seconds": 108.733,
-        "duration_seconds": 11.767,
-        "label": "启动脚本测试 · 目录传递、路径保留、空值处理"
+        "start_seconds": 144.0,
+        "duration_seconds": 10.233,
+        "label": "同一命令复测 · 路径传递、已有路径保留、空值处理"
       },
       {
         "id": "usage",
-        "start_seconds": 120.5,
-        "duration_seconds": 12.867,
-        "label": "使用回执 · 同一张卡 → 脚本修改 → 测试结果回流"
+        "start_seconds": 154.233,
+        "duration_seconds": 15.733,
+        "label": "组织使用回执 · node-a 来源，node-b 注入、读取与引用"
       }
     ]
   },
@@ -1313,13 +1451,14 @@
     "poster": "harmony-python-preview.jpg",
     "captions_burned_in": true,
     "optional_text_track_enabled_by_default": false,
+    "control_safe_band_css_px": 96,
     "qualities": {
       "harmony-python-demo.mp4": {
         "width": 3840,
         "height": 2160,
         "fps": "30/1",
-        "duration_seconds": 133.366667,
-        "size_bytes": 9653176,
+        "duration_seconds": 169.966667,
+        "size_bytes": 11163008,
         "faststart": true,
         "complete_decode": "passed"
       },
@@ -1327,42 +1466,45 @@
         "width": 1920,
         "height": 1080,
         "fps": "30/1",
-        "duration_seconds": 133.368,
-        "size_bytes": 3755438,
+        "duration_seconds": 169.976,
+        "size_bytes": 4871772,
         "faststart": true,
         "complete_decode": "passed"
       }
     }
   },
   "media_sha256": {
-    "harmony-python-demo.mp4": "sha256:ab16b910181726da0bc9e9e15556dca0bac7ab1db05e57e329d824be4b9c7d14",
-    "harmony-python-demo-1080p.mp4": "sha256:267f186fff60e962982f765954739fb024173b7d490c50810b9fdc5931c13b26",
-    "harmony-python-preview.jpg": "sha256:867060ef4978d6604e095c515d369cb931f6913412588b38148a254f90536f74",
-    "harmony-python-zh.vtt": "sha256:cd1428ddb5dfd607507945f793646852a26b296d208d67ed7341fa1d8ba5c0ab"
+    "harmony-python-demo.mp4": "sha256:84efdf0328aa33f096f1a944380131f2f8a611224330de330ba3e3b07251de75",
+    "harmony-python-demo-1080p.mp4": "sha256:8a272ffb4cd8753846ad86d4007951e4eadde056c27e651dd8d0f1ef9220d364",
+    "harmony-python-preview.jpg": "sha256:11b931709111e5a0919b812e65860f7a7cd10c281f2ca1cfe0202ca154400042",
+    "harmony-python-zh.vtt": "sha256:78c4692df8742779f43f3b4decaa75e1f49eb73e4d77bce35d1e99cd695aebfd"
   },
-  "page_scope": "Video assets and their encoding/evidence metadata.",
   "postproduction": {
-    "edit": "Bottom subtitles and timed red callouts over the existing DSH recording.",
-    "subtitle_cues": 26,
-    "timed_callouts": 54,
-    "source_run_unchanged": true,
-    "audio_unchanged": true,
-    "capture_hold": {
-      "scene": "b_injection",
-      "source_time_seconds": 3.5,
-      "reason": "Keep card identifier, source and match text visible throughout the spoken reference."
+    "subtitle_cues": 32,
+    "timed_callout_phases": 59,
+    "subtitle_bottom_margin_4k_px": 280,
+    "native_browser_capture": true,
+    "full_text_tts_requests": 1,
+    "audio_splice_count": 0,
+    "terminal_preparation_trimmed": {
+      "center": 21.433,
+      "runtimes": 41.8,
+      "config_doc": 15.233,
+      "pipeline": 18.533,
+      "release": 16.7
     }
   },
+  "page_scope": "Demo video, its description and evidence, plus a native-control safe area for burned-in captions.",
   "visual_qa": {
-    "sampled_callouts": 54,
-    "covered_subtitle_cues": 26,
-    "audio_packet_sha256": "sha256:2eaf07dc89140edc916f3e4d6d7fc305068242c7247c7136ae31e0e26183a510",
-    "audio_matches_previous_video": true,
+    "sampled_callouts": 59,
+    "covered_subtitle_cues": 32,
+    "audio_packet_sha256": "sha256:3c2fae9e279fe771859fd85134f7e7aed20989a43ec30bcf65f1bccba0f058a2",
+    "continuous_source_audio": true,
     "checks": [
       {
         "cue": 0,
-        "target": "Crowd Memory 组件名",
-        "sample_seconds": 2.021,
+        "target": "组织级记忆组件名称",
+        "sample_seconds": 2.233,
         "red_border_ratios": [
           1.0
         ],
@@ -1370,8 +1512,8 @@
       },
       {
         "cue": 1,
-        "target": "Agent 1 的排查经验卡",
-        "sample_seconds": 5.659,
+        "target": "节点 A 的经验卡片",
+        "sample_seconds": 6.107,
         "red_border_ratios": [
           1.0
         ],
@@ -1379,8 +1521,8 @@
       },
       {
         "cue": 1,
-        "target": "后续 Agent 的代码修改",
-        "sample_seconds": 9.167,
+        "target": "节点 B 的代码修改与测试",
+        "sample_seconds": 9.521,
         "red_border_ratios": [
           1.0
         ],
@@ -1388,8 +1530,8 @@
       },
       {
         "cue": 2,
-        "target": "鸿蒙 PC Python 适配用例",
-        "sample_seconds": 12.537,
+        "target": "apriltag-python 案例",
+        "sample_seconds": 12.948,
         "red_border_ratios": [
           1.0
         ],
@@ -1397,18 +1539,8 @@
       },
       {
         "cue": 2,
-        "target": "两个库与两个 Agent",
-        "sample_seconds": 16.858,
-        "red_border_ratios": [
-          1.0,
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 3,
-        "target": "DSH Profile 配置路径",
-        "sample_seconds": 20.567,
+        "target": "RDKit 案例和目录",
+        "sample_seconds": 16.693,
         "red_border_ratios": [
           1.0
         ],
@@ -1416,8 +1548,8 @@
       },
       {
         "cue": 3,
-        "target": "记忆服务端点",
-        "sample_seconds": 22.246,
+        "target": "中心启动命令",
+        "sample_seconds": 19.716,
         "red_border_ratios": [
           1.0
         ],
@@ -1425,17 +1557,8 @@
       },
       {
         "cue": 3,
-        "target": "项目标识",
-        "sample_seconds": 23.546,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 3,
-        "target": "采集模板",
-        "sample_seconds": 24.575,
+        "target": "Center 和 Git 进程",
+        "sample_seconds": 21.406,
         "red_border_ratios": [
           1.0
         ],
@@ -1443,8 +1566,8 @@
       },
       {
         "cue": 4,
-        "target": "Crowd Memory 适配器",
-        "sample_seconds": 26.198,
+        "target": "Raw 接收地址",
+        "sample_seconds": 23.388,
         "red_border_ratios": [
           1.0
         ],
@@ -1452,8 +1575,8 @@
       },
       {
         "cue": 4,
-        "target": "自动注入、笔记与 workflow 采集",
-        "sample_seconds": 28.819,
+        "target": "Release 分发地址",
+        "sample_seconds": 25.765,
         "red_border_ratios": [
           1.0
         ],
@@ -1461,8 +1584,17 @@
       },
       {
         "cue": 5,
-        "target": "Agent 1 与 apriltag-python",
-        "sample_seconds": 33.271,
+        "target": "中心传输地址",
+        "sample_seconds": 28.047,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 5,
+        "target": "演示共享组",
+        "sample_seconds": 29.974,
         "red_border_ratios": [
           1.0
         ],
@@ -1470,8 +1602,17 @@
       },
       {
         "cue": 6,
-        "target": "卡片中的原生库加载失败条件",
-        "sample_seconds": 38.621,
+        "target": "节点 A 的 Runtime 启动命令",
+        "sample_seconds": 31.848,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 6,
+        "target": "节点 B 的 Runtime 启动命令",
+        "sample_seconds": 33.794,
         "red_border_ratios": [
           1.0
         ],
@@ -1479,17 +1620,18 @@
       },
       {
         "cue": 7,
-        "target": "Agent 1 的 export 修复",
-        "sample_seconds": 42.375,
+        "target": "各自的 Runtime 端点",
+        "sample_seconds": 35.78,
         "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 7,
-        "target": "先设置环境，再 exec 子进程",
-        "sample_seconds": 45.352,
+        "target": "共同连接中心的双节点",
+        "sample_seconds": 37.956,
         "red_border_ratios": [
           1.0
         ],
@@ -1497,17 +1639,8 @@
       },
       {
         "cue": 8,
-        "target": "采集到的工具操作和 Agent 笔记",
-        "sample_seconds": 48.251,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 8,
-        "target": "封存的 Raw 与 draft",
-        "sample_seconds": 50.322,
+        "target": "本机独立双节点说明",
+        "sample_seconds": 41.752,
         "red_border_ratios": [
           1.0
         ],
@@ -1515,8 +1648,8 @@
       },
       {
         "cue": 9,
-        "target": "按问题聚合证据",
-        "sample_seconds": 52.361,
+        "target": "Profile 中加载适配器",
+        "sample_seconds": 45.96,
         "red_border_ratios": [
           1.0
         ],
@@ -1524,17 +1657,8 @@
       },
       {
         "cue": 9,
-        "target": "形成 Candidate",
-        "sample_seconds": 54.445,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 9,
-        "target": "结构、来源和证据核验",
-        "sample_seconds": 56.53,
+        "target": "端点、项目和采集模板",
+        "sample_seconds": 49.181,
         "red_border_ratios": [
           1.0
         ],
@@ -1542,71 +1666,48 @@
       },
       {
         "cue": 10,
-        "target": "Raw 输入",
-        "sample_seconds": 58.281,
+        "target": "不同 host_id 和本地数据库",
+        "sample_seconds": 52.208,
         "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 10,
-        "target": "Candidate 产物",
-        "sample_seconds": 59.631,
+        "target": "相同 Raw、Release 和共享组",
+        "sample_seconds": 55.667,
         "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 10,
-        "target": "核验结果",
-        "sample_seconds": 61.065,
-        "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 11,
-        "target": "Agent 1 生成的 Memory Card 全文",
-        "sample_seconds": 63.483,
+        "target": "Agent 1 和 apriltag-python",
+        "sample_seconds": 60.496,
         "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 12,
-        "target": "卡片触发条件",
-        "sample_seconds": 65.852,
+        "target": "Agent 1 启动准备问题",
+        "sample_seconds": 65.264,
         "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
-        "cue": 12,
-        "target": "卡片原因",
-        "sample_seconds": 67.049,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 12,
-        "target": "卡片代码修法",
-        "sample_seconds": 68.133,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 12,
-        "target": "卡片来源",
-        "sample_seconds": 69.195,
+        "cue": 13,
+        "target": "进程启动前导出库目录",
+        "sample_seconds": 69.17,
         "red_border_ratios": [
           1.0
         ],
@@ -1614,17 +1715,8 @@
       },
       {
         "cue": 13,
-        "target": "原生库目录加入 LD_LIBRARY_PATH",
-        "sample_seconds": 71.245,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 13,
-        "target": "随后 exec 启动验证进程",
-        "sample_seconds": 73.866,
+        "target": "同一命令的三项测试通过",
+        "sample_seconds": 72.547,
         "red_border_ratios": [
           1.0
         ],
@@ -1632,8 +1724,8 @@
       },
       {
         "cue": 14,
-        "target": "换库时重定位依赖目录的说明",
-        "sample_seconds": 77.146,
+        "target": "节点 A 回流的本地卡与 Raw",
+        "sample_seconds": 75.883,
         "red_border_ratios": [
           1.0
         ],
@@ -1641,18 +1733,26 @@
       },
       {
         "cue": 15,
-        "target": "Agent 2 与 nerdd-module / RDKit",
-        "sample_seconds": 82.258,
+        "target": "证据聚合与 Candidate",
+        "sample_seconds": 78.777,
         "red_border_ratios": [
-          1.0,
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 15,
+        "target": "结构、来源与证据回放核验",
+        "sample_seconds": 82.141,
+        "red_border_ratios": [
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 16,
-        "target": "DSH 的适配器上下文注入入口",
-        "sample_seconds": 86.508,
+        "target": "单一来源",
+        "sample_seconds": 85.386,
         "red_border_ratios": [
           1.0
         ],
@@ -1660,8 +1760,8 @@
       },
       {
         "cue": 16,
-        "target": "自动注入的记忆卡",
-        "sample_seconds": 89.36,
+        "target": "人工审核要求",
+        "sample_seconds": 87.438,
         "red_border_ratios": [
           1.0
         ],
@@ -1669,8 +1769,8 @@
       },
       {
         "cue": 17,
-        "target": "展开的上下文注入区",
-        "sample_seconds": 91.556,
+        "target": "Memory Card 编号",
+        "sample_seconds": 89.337,
         "red_border_ratios": [
           1.0
         ],
@@ -1678,8 +1778,8 @@
       },
       {
         "cue": 17,
-        "target": "卡片编号",
-        "sample_seconds": 92.766,
+        "target": "触发条件与原因",
+        "sample_seconds": 90.946,
         "red_border_ratios": [
           1.0
         ],
@@ -1687,8 +1787,8 @@
       },
       {
         "cue": 17,
-        "target": "卡片来源",
-        "sample_seconds": 93.907,
+        "target": "卡片中的修法",
+        "sample_seconds": 92.622,
         "red_border_ratios": [
           1.0
         ],
@@ -1696,8 +1796,8 @@
       },
       {
         "cue": 17,
-        "target": "命中理由与问题现象",
-        "sample_seconds": 94.981,
+        "target": "原始适配记录的出处",
+        "sample_seconds": 94.365,
         "red_border_ratios": [
           1.0
         ],
@@ -1705,8 +1805,17 @@
       },
       {
         "cue": 18,
-        "target": "Agent 2 的代码修改",
-        "sample_seconds": 97.027,
+        "target": "启动前导出原生库目录",
+        "sample_seconds": 97.042,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 18,
+        "target": "保留已有环境路径",
+        "sample_seconds": 99.982,
         "red_border_ratios": [
           1.0
         ],
@@ -1714,8 +1823,8 @@
       },
       {
         "cue": 19,
-        "target": "新增环境变量设置",
-        "sample_seconds": 99.651,
+        "target": "实际审核人与批准",
+        "sample_seconds": 102.298,
         "red_border_ratios": [
           1.0
         ],
@@ -1723,8 +1832,8 @@
       },
       {
         "cue": 19,
-        "target": "环境变量设置在 exec 之前",
-        "sample_seconds": 101.528,
+        "target": "共享组和已发布记录",
+        "sample_seconds": 104.481,
         "red_border_ratios": [
           1.0
         ],
@@ -1732,8 +1841,8 @@
       },
       {
         "cue": 20,
-        "target": "当前 RDKit 的 .libs 目录",
-        "sample_seconds": 104.517,
+        "target": "节点 B 的 reviewed 投影",
+        "sample_seconds": 107.195,
         "red_border_ratios": [
           1.0
         ],
@@ -1741,18 +1850,8 @@
       },
       {
         "cue": 20,
-        "target": "与 Agent 1 的 apriltag 案例对照",
-        "sample_seconds": 107.713,
-        "red_border_ratios": [
-          1.0,
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 21,
-        "target": "重跑同一测试命令",
-        "sample_seconds": 109.961,
+        "target": "来源节点 A 与本地卡编号",
+        "sample_seconds": 110.003,
         "red_border_ratios": [
           1.0
         ],
@@ -1760,26 +1859,8 @@
       },
       {
         "cue": 21,
-        "target": "目录传入子进程的测试",
-        "sample_seconds": 112.507,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 21,
-        "target": "保留已有路径的测试",
-        "sample_seconds": 115.053,
-        "red_border_ratios": [
-          1.0
-        ],
-        "bottom_caption_present": true
-      },
-      {
-        "cue": 21,
-        "target": "空路径项处理测试",
-        "sample_seconds": 117.403,
+        "target": "两端独立的本地数据库",
+        "sample_seconds": 113.964,
         "red_border_ratios": [
           1.0
         ],
@@ -1787,17 +1868,18 @@
       },
       {
         "cue": 22,
-        "target": "三项测试通过及 OK 结果",
-        "sample_seconds": 119.514,
+        "target": "节点 B 的 RDKit 任务",
+        "sample_seconds": 119.589,
         "red_border_ratios": [
+          1.0,
           1.0
         ],
         "bottom_caption_present": true
       },
       {
         "cue": 23,
-        "target": "使用回执 JSON",
-        "sample_seconds": 121.508,
+        "target": "DSH 自动注入的组织卡片",
+        "sample_seconds": 125.277,
         "red_border_ratios": [
           1.0
         ],
@@ -1805,8 +1887,8 @@
       },
       {
         "cue": 24,
-        "target": "同一张卡的 record_ref",
-        "sample_seconds": 123.572,
+        "target": "组织卡编号",
+        "sample_seconds": 128.889,
         "red_border_ratios": [
           1.0
         ],
@@ -1814,8 +1896,8 @@
       },
       {
         "cue": 24,
-        "target": "pushed 和 applied 回执",
-        "sample_seconds": 125.754,
+        "target": "审核发布来源与共享组",
+        "sample_seconds": 130.519,
         "red_border_ratios": [
           1.0
         ],
@@ -1823,8 +1905,8 @@
       },
       {
         "cue": 24,
-        "target": "采用的启动脚本路径",
-        "sample_seconds": 128.14,
+        "target": "错误签名、代码词面与工具匹配",
+        "sample_seconds": 132.101,
         "red_border_ratios": [
           1.0
         ],
@@ -1832,17 +1914,125 @@
       },
       {
         "cue": 25,
-        "target": "回流的使用记录",
-        "sample_seconds": 130.427,
+        "target": "导出环境变量后再启动进程",
+        "sample_seconds": 135.552,
         "red_border_ratios": [
           1.0
         ],
         "bottom_caption_present": true
       },
       {
-        "cue": 25,
-        "target": "使用记录关联的卡片编号",
-        "sample_seconds": 132.364,
+        "cue": 26,
+        "target": "RDKit 当前依赖目录",
+        "sample_seconds": 139.642,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 26,
+        "target": "已有 LD_LIBRARY_PATH 得到保留",
+        "sample_seconds": 142.525,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 27,
+        "target": "相同测试命令",
+        "sample_seconds": 145.157,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 27,
+        "target": "目录传入子进程",
+        "sample_seconds": 147.431,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 27,
+        "target": "已有路径保留",
+        "sample_seconds": 149.539,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 27,
+        "target": "空值处理",
+        "sample_seconds": 151.399,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 28,
+        "target": "三项通过和 OK",
+        "sample_seconds": 153.252,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 29,
+        "target": "节点 B 读取的使用回执",
+        "sample_seconds": 155.552,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 30,
+        "target": "同一组织卡片编号",
+        "sample_seconds": 157.717,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 30,
+        "target": "注入、读取、引用计数",
+        "sample_seconds": 160.078,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 30,
+        "target": "来源节点 A",
+        "sample_seconds": 162.288,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 31,
+        "target": "Agent 2 的脚本修改",
+        "sample_seconds": 164.64,
+        "red_border_ratios": [
+          1.0
+        ],
+        "bottom_caption_present": true
+      },
+      {
+        "cue": 31,
+        "target": "同一任务的修复前后测试结果",
+        "sample_seconds": 168.084,
         "red_border_ratios": [
           1.0
         ],
@@ -1861,7 +2051,7 @@
     "playback": {
       "width": 1920,
       "height": 1080,
-      "duration": 133.368,
+      "duration": 169.976,
       "playing": true
     },
     "quality_switch": {
@@ -1873,14 +2063,26 @@
         "disabled"
       ]
     },
+    "desktop_control_safe_band": 96.125,
     "mobile": {
       "width": 390,
       "document_width": 390,
       "market_link_visible": true
     },
+    "mobile_control_safe_band": 96,
     "libpng_link": {
       "hash": "#example",
       "title": "libpng：从信息读取到图片读写"
+    },
+    "fullscreen_paused": {
+      "viewport": [
+        844,
+        390
+      ],
+      "video_height": 1080,
+      "current_time": 50.418624,
+      "native_controls_visible": true,
+      "caption_text_visible": true
     }
   }
 }

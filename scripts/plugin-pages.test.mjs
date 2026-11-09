@@ -53,6 +53,17 @@ test('a video loops muted only when the page opts in', () => {
   assert.throws(() => validateContent(page), /video.loop/);
 });
 
+test('burned-in captions opt into the control-safe player layout', () => {
+  const page = structuredClone(starter);
+  page.example = { title: '视频演示', video: { ...agent.example.video, captionsBurnedIn: true } };
+  validateContent(page);
+  const html = renderPage(page);
+  assert(html.includes('<video data-burned-captions controls'));
+  assert(!html.includes('label="中文字幕" default'));
+  page.example.video.captionsBurnedIn = false;
+  assert(!renderPage(page).includes('data-burned-captions'));
+});
+
 test('a standalone video is separate from the example and its reproduction prompt', () => {
   const page = structuredClone(starter);
   page.example.video = { ...agent.example.video, standalone: true };

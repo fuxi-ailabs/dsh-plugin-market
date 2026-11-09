@@ -18,7 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 DOCS = Path(__file__).resolve().parent
 FPS = 30
-SUBTITLE_BOTTOM_MARGIN = 28
+SUBTITLE_BOTTOM_MARGIN = 280
 
 def sha(path):
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
@@ -61,13 +61,13 @@ def label_plate(scene, target, font_path):
     label = ImageFont.truetype(str(font_path), 44)
     draw.rectangle((0, 0, 3840, 160), fill="#102e27")
     draw.text((54, 24), "Crowd Memory · 组织级记忆组件", font=title, fill="white")
-    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 轨迹 → 卡片 → 注入 → 采用", font=small, fill="#c2dfd3")
+    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 独立 Runtime · 中心审核发布 · 跨节点使用", font=small, fill="#c2dfd3")
     draw.text((3120, 58), "DSH · Memory Card", font=small, fill="#c2dfd3")
     if scene["view"] == "two_agents":
         draw.rectangle((0, 160, 1920, 240), fill="#edf0f3")
         draw.rectangle((1920, 160, 3840, 240), fill="#e3f3e8")
-        draw.text((44, 174), "Agent 1 · apriltag-python：生成记忆卡", font=label, fill="#354451")
-        draw.text((1964, 174), "Agent 2 · RDKit：卡片进入执行过程", font=label, fill="#17643c")
+        draw.text((44, 174), "节点 A · Agent 1 · apriltag-python", font=label, fill="#354451")
+        draw.text((1964, 174), "节点 B · Agent 2 · RDKit", font=label, fill="#17643c")
     else:
         draw.rectangle((0, 160, 3840, 240), fill="#e3f3e8")
         draw.text((54, 174), scene["label"], font=label, fill="#17643c")
@@ -167,7 +167,10 @@ def encode(args):
             stream = next(s for s in info["streams"] if s["codec_type"] == "video")
             if (stream["width"], stream["height"]) != expected:
                 raise ValueError(f"{path.name}: expected native {expected}")
-            if float(info["format"]["duration"]) < scene["duration"] + 0.5:
+            capture_start = annotations.get("capture_start_seconds", {}).get(source["view"], 0.5)
+            if capture_start < 0:
+                raise ValueError("Invalid capture start")
+            if float(info["format"]["duration"]) < scene["duration"] + capture_start:
                 raise ValueError(f"{path.name}: capture too short")
         scene["inputs"] = inputs
         scenes.append(scene)
@@ -191,8 +194,9 @@ def encode(args):
                 raise ValueError("Invalid capture hold duration")
             for index, path in enumerate(scene["inputs"], 1):
                 command += ["-threads", "2", "-i", str(path)]
+                capture_start = annotations.get("capture_start_seconds", {}).get(scene["view"], 0.5)
                 filters.append(
-                    f"[{index}:v]trim=start=0.5:duration={source_duration},"
+                    f"[{index}:v]trim=start={capture_start}:duration={source_duration},"
                     f"setpts=PTS-STARTPTS,fps={FPS},"
                     f"tpad=stop_mode=clone:stop_duration={duration - source_duration},"
                     f"format=yuv420p[v{index}]")
@@ -255,6 +259,7 @@ def encode(args):
             "visual_editing":{"subtitle_position":"bottom", "subtitle_bottom_margin_px":SUBTITLE_BOTTOM_MARGIN,
                 "callout_color":"#ff3030", "callout_stroke_px":8, "callouts":callouts,
                 "hold_capture_after_seconds":annotations["hold_capture_after_seconds"],
+                "capture_start_seconds":annotations.get("capture_start_seconds", {}),
                 "annotation_spec_sha256":sha(annotation_path)},
             "font_name":args.font.name,"font_sha256":sha(args.font),
             "source_capture_sha256":{p.name:sha(p) for s in scenes for p in s["inputs"]},

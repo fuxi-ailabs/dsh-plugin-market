@@ -1,0 +1,24 @@
+{
+  "agent_ingress": {
+    "enabled": true,
+    "profile": "session-default",
+    "snapshots": true
+  },
+  "allowed_roots": [
+    "<demo-root>/node-b/state"
+  ],
+  "host_id": "node-b",
+  "local_only": true,
+  "mode": "observe_shadow",
+  "runtime_root": "<demo-root>/node-b/state",
+  "schema": "memory-runtime-host-config/v1",
+  "socket_path": "/tmp/cm-org-b.sock",
+  "l1": {
+    "raw_remote": "git://127.0.0.1:9427/raw.git",
+    "release_remote": "git://127.0.0.1:9427/release.git",
+    "host_id": "node-b",
+    "credential_ref": "none",
+    "sharing_group": "org-python-adaptation",
+    "interval_seconds": 2
+  }
+}

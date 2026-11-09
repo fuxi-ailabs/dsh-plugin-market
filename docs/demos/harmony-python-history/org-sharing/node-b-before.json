@@ -1,0 +1,54 @@
+{
+  "ok": true,
+  "running": true,
+  "endpoint_file": "<demo-root>/node-b/state/endpoint.json",
+  "socket_path": "/tmp/cm-org-b.sock",
+  "result": {
+    "capabilities_missing": {},
+    "capability_disabled": [
+      "goal.changed",
+      "workflow.agent.end",
+      "workflow.agent.start",
+      "workflow.end",
+      "workflow.phase",
+      "workflow.start"
+    ],
+    "contract": "memory-agent-ingress/v1",
+    "default_profile": "session-default",
+    "identity": "cooperative_local",
+    "memory": {},
+    "memory_service": "injected",
+    "profile_fallback": [],
+    "profile_loader": "profile_v1",
+    "profile_sources": [
+      {
+        "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
+        "distribution": "crowdmemory-profile-session-default",
+        "id": "session-default",
+        "module": "crowdmemory_profile_session_default",
+        "modules_loaded": [],
+        "resource": "<demo-root>/node-b/releases/exo-24484b1020cf/venv/lib/python3.11/site-packages/crowdmemory_profile_session_default/session-default.json",
+        "revision": "3"
+      }
+    ],
+    "recent_errors": [],
+    "retention": {
+      "days": 30,
+      "last_gc": null
+    },
+    "schema_source": "contracts",
+    "sessions": {
+      "active": 0,
+      "ended": 0
+    },
+    "signature_source": "contracts",
+    "snapshots": {
+      "enabled": true,
+      "in_flight": 0
+    },
+    "workflow_runs": {
+      "active": 0,
+      "sealed": 0
+    }
+  }
+}
