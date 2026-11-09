@@ -1,52 +1,72 @@
 {
   "schema": "crowdmemory-demo-summary/v1",
-  "demo": "libpng-two-agent",
-  "recorded_at": "2026-11-04",
-  "scope": "本机两个独立工作区接入 libpng，分别完成信息读取与图片读写目标。",
-  "environment": {
-    "platform": "macOS arm64",
+  "demo": "backend-http-four-agent",
+  "scope": "四个独立工作区处理共用 HTTP 层的 GET 与 POST 非法 Content-Length 问题。左列独立排查，右列记录并复用经验。",
+  "versions": {
     "dsh": "0.1.6-alpha.2",
-    "runtime": "0.1.1",
     "adapter": "0.1.1",
-    "libpng": "1.6.59"
+    "runtime": "0.1.1",
+    "requested_model": "claude-sonnet-4-6"
   },
-  "results": [
-    {
-      "agent": "agent-a",
-      "task": "info",
-      "before_exit_codes": [
-        0,
-        2
-      ],
-      "after_exit_codes": [
-        0,
-        0,
-        0,
-        1
-      ]
+  "actors": {
+    "a": {
+      "memory_enabled": false,
+      "task_method": "GET",
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "2 failed, 5 passed in 6.11s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.00s"
+      },
+      "stop_reason": "time_budget"
     },
-    {
-      "agent": "agent-b",
-      "task": "roundtrip",
-      "before_exit_codes": [
-        0,
-        2
-      ],
-      "after_exit_codes": [
-        0,
-        0,
-        0,
-        1
-      ]
+    "b": {
+      "memory_enabled": false,
+      "task_method": "POST",
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "3 failed, 4 passed in 6.06s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "7 passed in 6.24s"
+      },
+      "stop_reason": "final"
+    },
+    "c": {
+      "memory_enabled": true,
+      "task_method": "GET",
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 3 passed in 3.58s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "4 passed in 3.71s"
+      },
+      "stop_reason": "final"
+    },
+    "d": {
+      "memory_enabled": true,
+      "task_method": "POST",
+      "required_tests_before": {
+        "exit_code": 1,
+        "summary": "1 failed, 4 passed in 4.45s"
+      },
+      "required_tests_after": {
+        "exit_code": 0,
+        "summary": "5 passed in 4.34s"
+      },
+      "stop_reason": "time_budget"
     }
-  ],
-  "verification": "修复后构建与功能测试通过，损坏图片测试返回非零；链接目标与头文件优先级按该环境核对。",
-  "memory": {
-    "revision": 2,
-    "read_receipt_count": 1,
-    "recorded_outcome": "unknown"
   },
-  "operator_recovery": "初始 topic_key 格式错误，操作人员恢复 Agent A 并纠正参数说明，随后保存 revision 2，Agent B 读取该版本。",
-  "presentation": "运行片段按阶段剪辑，配合合成中文旁白。",
-  "qualification": "受控三方库接入示例，验证范围为所展示的构建与功能测试。"
+  "memory": {
+    "record_ref": "lr_01a19f7cddaa7f8dbee2fb1d9dc63e06",
+    "recorded_outcome": "unknown",
+    "read_receipt_count": 1
+  },
+  "qualification": "各工作区按自己的测试划分验证。A 与 D 在追加回归工作中达到时间上限，要求覆盖的接口测试由独立检查通过。",
+  "presentation": "运行画面按阶段整理，分别记录实际命令与测试结果。"
 }

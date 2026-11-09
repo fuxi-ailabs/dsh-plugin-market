@@ -7,24 +7,23 @@
   "headline": ["Coding Agent", "群体记忆"],
   "install": {
     "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1",
-    "codeLabel": "终端 · DSH 适配器",
-    "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。其他 Agent 请按接入指南安装。",
-    "guide": {"label":"选择 Agent 接入方式 →","url":"adapters.html"}
+    "codeLabel": "终端 · 安装 Crowd Memory",
+    "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。"
   },
   "heroMedia": {
     "image": "assets/coding-memory.jpg",
-    "thumbnail": "assets/coding-agent-preview.jpg",
-    "alt": "两个 coding Agent 接入 libpng：左侧 A 记录构建修法，右侧 B 在独立工程读取并验证。",
-    "title": "三方库接入，把修法交给下一个 Agent",
-    "description": "A 修好 PNG 信息读取工具并留下经验；B 在另一个工程核对来源，完成图片读写测试。"
+    "alt": "四个 coding Agent 同屏：左列不共享记忆，右列 C 记录经验、D 读取并验证。",
+    "title": "四个 Agent，同屏看经验如何传递",
+    "description": "左列各自定位；右列由 C 写入修法，D 读取来源后在自己的工作区验证。",
+    "thumbnail": "assets/coding-agent-preview.jpg"
   },
   "useCases": [
     {
       "audience": "使用 coding Agent 的应用开发者",
-      "title": "接入与维护三方库",
-      "question": "“这个库的依赖、链接和版本问题，其他 Agent 是否处理过？”",
-      "description": "查阅同类工程的构建修法，核对目标名、头文件与库版本，再在当前工程构建并运行功能测试。",
-      "prompt": "接入或修复这个三方库，先实际复现构建问题，再查找和读取相关经验；核对当前构建目标、依赖和库版本，修改必要配置，并用真实功能测试验证。"
+      "title": "修复代码与接口问题",
+      "question": "“其他 Agent 是否修过类似的代码问题？”",
+      "description": "让 Agent 查阅已有的问题定位和修法，核对当前代码、依赖版本与接口行为，再补修改和回归测试。",
+      "prompt": "检查这个模块或接口的问题；先查找并读取相关记忆，核对来源、代码和依赖版本，再修改代码并运行回归测试，说明哪些条件与历史记录一致。"
     },
     {
       "audience": "开发 workflow 的集成与维护者",
@@ -42,31 +41,34 @@
     }
   ],
   "example": {
-    "title": "libpng：从信息读取到图片读写",
-    "description": "两个独立工程接入真实 libpng 1.6.59。A 先处理 PNG 信息读取工具的链接失败；B 接手另一个图片读写工程，核对 A 的经验后重新构建与测试。",
+    "title": "同一后端问题，四个 Agent",
+    "description": "GET 与 POST 共用一段 HTTP 处理代码，四个独立工作区遇到同类请求错误。上排先修复 GET，下排接手 POST。",
     "blocks": [
-      {"type":"list","items":["左侧 A：实际构建，复现 png_image_* 未定义符号，核对 CMake 链接配置。","A：修复链接与本机头文件版本混用，运行测试，再用 memory_note 记录原因、条件和命令。","右侧 B：在新工作区复现另一个目标的失败，用 memory_search、memory_read 核对 A 的来源记录。","B：按当前目标调整配置，验证 PNG 解码、编码、重新读取后的像素一致性。"]}
+      {"type":"list","items":["左上 A：独立定位和修复 GET，不写共享记忆。","左下 B：在新工作区接手 POST，独立排查并补接口测试。","右上 C：修复 GET 并测试后，用 memory_note 记录修法和适用条件。","右下 D：用 memory_search、memory_read 读取 C 的记录，核对公共 HTTP 层，再修改 POST 并测试。"]}
     ],
-    "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
+    "note": "左列未安装记忆适配器，右列共享一个 Runtime。四个 Agent 的真实运行画面按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
     "video": {
       "title": "鸿蒙 PC Python 三方库适配中的组织经验复用",
       "description": "约 153 秒连续中文配音，画面标注开发版 / trial。剪辑展示组织中心、双 Runtime 与 Adapter 配置、证据聚合和组织试推发布，再看 DSH 中卡片推送、读取、RDKit 脚本修改与复测。两个节点在本机运行，核验范围为启动脚本的环境传递。视频为 1080p。",
       "src": "assets/harmony-python-demo-1080p-redacted.mp4",
       "poster": "assets/harmony-python-preview-redacted.jpg",
       "qualities": [
-        {"label":"1080p","src":"assets/harmony-python-demo-1080p-redacted.mp4"}
+        {
+          "label": "1080p",
+          "src": "assets/harmony-python-demo-1080p-redacted.mp4"
+        }
       ],
       "captions": "assets/harmony-python-zh.vtt",
       "captionsBurnedIn": true,
       "standalone": true
     },
-    "prompt": "在 libpng 接入示例的独立工作区中，先构建 info 目标并复现失败，核对 CMake 依赖、头文件与二进制版本，修复后运行 PNG 信息读取测试；用 memory_note 记录实际原因、修法、验证和适用条件，scope=global，topic_key=libpng/cmake-link-target。再让另一个独立 Agent 处理 roundtrip 目标，先复现失败，再搜索和读取记忆，核对当前目标名与环境，修复后验证 PNG 解码、编码、重新读取的像素一致性。不要修改三方库或用硬编码输出代替测试。"
+    "prompt": "在 CrowdMemory 的干净源码工作区中，检查 distributions/memory-runtime/src/crowdmemory_runtime/server.py：带协议头的 GET /v1/status 遇到 Content-Length: abc 时直接断连。先用真实 HTTP/Unix socket 测试复现，再修复为结构化 JSON 400，确认正常请求和过大请求的行为不回归。验证后记录实际经验；再让独立工作区的 Agent 读取记录，核对并修复 POST 入口，运行接口测试。确保 Python 3.11、pytest 和项目依赖已就绪，且实际导入当前工作区的源码。"
   },
   "comparison": {
-    "title": "构建失败，到新工程验证通过",
-    "description": "截图取自 libpng 接入示例中两个 Agent 的真实工具结果：A 首次构建遇到链接失败；B 读取经验、核对当前配置后，通过另一个目标的构建与图片读写测试。",
-    "before": {"title":"A：首次接入，链接失败","description":"CMake 找到了 libpng，但可执行目标未链接库，png_image_* 符号无法解析。","image":"assets/libpng-before.jpg","alt":"Agent A 真实构建输出：png_image_* undefined symbols，链接失败。"},
-    "after": {"title":"B：核对经验后，图片读写通过","description":"按自己的目标配置链接与头文件路径后，PNG 解码、编码、重新读取的像素一致性测试通过。","image":"assets/libpng-after.jpg","alt":"Agent B 在独立工程的真实 CTest 和 PNG 读写测试通过输出。"},
+    "title": "使用前后：同一构建问题的受控示例",
+    "description": "下面保留 zlib 构建例子作为效果核对材料，与上面的日常 coding 任务录像分开。两个 Agent 的初始 C 程序和 Makefile 相同；图片为真实工具结果的局部截图。",
+    "before": {"title":"首次处理：还没有修复记录","description":"make 因 _compress2 链接失败退出 2，Agent 需要自行查明原因并修复。","image":"assets/before-memory.jpg","alt":"zlib 受控示例中，Agent A 首次 make 的实际链接失败输出，exit 2。"},
+    "after": {"title":"后续 Agent：读取记录后验证修法","description":"核对记录中的条件并补上链接参数后，make 退出 0，程序输出 PASS。","image":"assets/after-memory.jpg","alt":"zlib 受控示例中，Agent B 采用修法后 make 输出 PASS 和 exit code 0。"},
     "takeaways": ["记录有来源，Agent 可以核对当时的问题和实际修法。","后续 Agent 可读取来源记录，按当前工程调整配置，并运行构建与测试。","公开 E1 的 120 对受控合成任务：关记忆 45/120，开记忆 104/120。任务设置、数据和复算方法见评测页。"]
   },
   "requirements": {
@@ -83,8 +85,7 @@
     {"title":"配置与验证","description":"DSH Profile 决定插件装在哪个环境，Runtime 的 session-default/workflow-default 是采集模板。实际连接取决于启动 DSH 的进程收到的端点配置。"}
   ],
   "quickstart": {
-    "title":"DSH 安装与验证",
-    "description":"以下是视频中的 DSH 接入步骤。OpenClaude、opencode 和 Codex 的安装方式见 Agent 接入指南。",
+    "title":"安装与验证",
     "steps":[
       {"title":"检查环境","description":"确认 Node.js、Python 和 DSH 满足上面的条件。","code":"node --version\npython3 --version\ndsh --version","codeLabel":"终端","expected":"Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。"},
       {"title":"本地安装 Runtime","description":"在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。","code":"mkdir -p CMLocal && cd CMLocal\nnpm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1\nnpx --no-install crowdmemory-runtime install --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A","expected":"安装输出包含 Runtime 目录、Python 环境及 host-config.json。"},
@@ -94,18 +95,18 @@
     ]
   },
   "faq":[
-    {"question":"开发经验如何提供给其他 coding Agent？","answer":"修复并完成测试后，让 Agent 用 memory_note 记录现象、原因、实际修法、适用条件和检查结果。后续会话在相关开发任务或失败出现时可收到记录与命中理由，也可用 memory_search、memory_read 查找和核对来源；采用后仍需在当前代码上验证。"},
-    {"question":"已经有 session-default，为什么还要 DSH Profile？","answer":"DSH Profile 决定插件安装在哪个环境，例如 web；session-default / workflow-default 是 Runtime 的采集模板，两者不同。"},
-    {"question":"必须全局安装吗？Node.js 18 可以吗？","answer":"不需要全局安装 Runtime，按上面的独立目录步骤操作即可。npm 发布包需要 Node.js ≥ 22.18；Node.js 18 不满足要求。"},
-    {"question":"为什么另一个 Agent 没有收到记录？","answer":"检查两边是否连接同一 Runtime、记录的 project/global 范围和端点配置。笔记从后续会话开始可见，不推给写入它的同一会话。从 Dock 启动的桌面程序不会自动继承终端环境变量，需按配置文档设置。"},
-    {"question":"如何判断已有修法适用于当前代码？","answer":"核对问题现象、源码位置、依赖版本、运行环境和记录中的适用条件，查看实际 diff 与验证结果，再在当前工作区运行回归测试。libpng 接入录像与受控评测的任务设置、数据及原始依据见评测与运行依据链接。"}
+    {"question":"哪些开发任务适合使用 Crowd Memory？","answer":"代码缺陷定位、接口修复、构建排错、回归测试和开发 workflow 中都会积累可复用的经验。Crowd Memory 将问题现象、原因、修法和验证结果提供给处理相关任务的 coding Agent。"},
+    {"question":"开发经验如何形成并交给其他 Agent？","answer":"Runtime 记录任务轨迹和经验笔记，保留问题、实际修改、适用条件与验证结果。在后续任务启动、相关失败出现或进入 workflow 阶段时，适配器向 Agent 提供匹配的记忆卡、来源和命中理由。Agent 也可以主动读取记录。"},
+    {"question":"多个 Agent 可以怎样共享经验？","answer":"本机多个 Agent 可以通过 Runtime 共享记录，并按项目或全局范围使用。跨机器协作通过组织中心交换经验，当前处于内部预览；视频展示开发版的 trial 组织试推流程。"},
+    {"question":"如何判断已有经验适用于当前任务？","answer":"Agent 可以核对记录中的失败现象、代码位置、依赖版本、运行环境和验证结果，结合当前任务调整修改，并运行当前工程的回归测试。"},
+    {"question":"如何接入正在使用的 coding Agent？","answer":"通过 Adapter 将 coding Agent 连接到本机 Runtime。本页“安装与验证”提供 DSH 的独立安装与验证步骤；OpenClaude、opencode 和 Codex 的接入方式见页脚的 Agent 接入文档。"}
   ],
   "links":[
+    {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
     {"label":"Agent 接入文档 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
-    {"label":"DSH 连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
     {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
     {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
-    {"label":"coding 录像运行依据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json"},
-    {"label":"记忆卡演示运行依据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/harmony-python-evidence.json"}
+    {"label":"后端接口示例运行说明 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json"},
+    {"label":"视频运行说明 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/harmony-python-evidence.json"}
   ]
 }
