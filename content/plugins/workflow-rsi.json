@@ -78,6 +78,34 @@
         "code": "改进入口：闭环、Memory 共性、请求、工作计划、假设驱动\n  ↓\n诊断：沿 Workflow 结构回溯，区分结构问题与节点内容问题\n  ↓\n生成候选\n  结构问题：已审批的结构算子 + 受约束搜索\n  节点内容问题：交给 skill / agent RSI 接口\n  ↓\n整体评测：分级打分；validation 选候选，holdout 定发布\n  ↓\nPR：人审、合入；合入后重跑原任务，跟踪改动是否被保留\n  ↓\nTrial 记录 → 评估改进方法，按收益分配预算"
       },
       {
+        "type": "text",
+        "title": "静态工作流插件与结构搜索（开发版）",
+        "text": "在 DSH 里，静态工作流插件用 /workflow 运行定义文件里的工作流，会话里有运行节点和看板；/workflow-revisions 把 RSI 写出的修订文件导入会话，看板的演化视图在同一棵逻辑树上显示各版本的差分、其他候选没被选中的原因和验证阶梯。RSI 一侧，wie structure improve 用一条命令完成结构搜索、archive、提案和验证阶梯 L0～L3，最后写出修订文件。这两部分目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm；下方的演示视频从源码安装一直录到第 2 版通过。"
+      },
+      {
+        "type": "list",
+        "title": "演示视频里的例子：依赖版本这一步怎样演进",
+        "items": [
+          "目的：从一次失败的真实运行出发，看 RSI 把「依赖版本选择」演进成「依赖版本求解」子图，并在另外四个库上验证后提出新版本。",
+          "工作流：flow.yaml，六个阶段 generate、analysis、design、plan、execution、verification，每个阶段是一个子图；角色 adapter、checker。",
+          "适配任务：airda 0.0.3，scikit-learn 1.9.1 要求 numpy ≥ 1.24.1，langchain 0.1.0 要求 numpy ≥ 1、< 2；已适配仓库里的 numpy 为 1.21.6、1.26.4、2.5.1。",
+          "RSI 的输入：停止记录、loop 配置、两个人准入的结构算子（插入依赖版本求解子图、删去旧的版本选择节点）、range-b 与 source-c 组成的验证集、range-d 与 source-e 组成的 holdout、judge。",
+          "结果：第 1 版取最新的 numpy 2.5.1，运行测试失败；提案 s1/2 插入依赖版本求解子图，区间内取已适配的 1.26.4，第 2 版从分析阶段续跑，测试全部通过。依赖约束与版本是演示数据，节点由本地确定性替身模型执行。"
+        ]
+      },
+      {
+        "type": "code",
+        "title": "开发版：从源码安装与配置",
+        "codeLabel": "终端 · 开发版（演示视频中的步骤）",
+        "code": "# 前提：Node 22、DSH 0.2.2、pnpm（dsh plugin 安装插件时使用）\ngit clone -b feat/dsh-native-workflow <workflow-rsi 仓库> workflow-rsi\n(cd workflow-rsi && npm ci && npm run build)\nnpm install --global --prefix tools ./workflow-rsi      # 得到 wie、wrsi-staticflow\nexport PATH=\"$PWD/tools/bin:$PATH\"\n\n# DSH：新建 profile，加载静态工作流插件的引擎和插件包\ndsh --profile staticflow --from-default-profile web --dump-config >/dev/null\ndsh plugin --profile staticflow add ./workflow-rsi/packages/dsh-static-workflow-engine ./workflow-rsi/packages/dsh-static-workflow-bundle\n# 再写 profile 补丁 <DSH_HOME>/profiles/staticflow/cordis.patch.yml：\n# 模型的 provider 与密钥环境变量，staticflow-command 的 revisionsDir（修订收件目录）\n\n# RSI：judge 与停止族策略校验后提交待审，结构算子提交待审，由人准入\nwie judge import --dir <judge 与策略所在目录>\nwie asset register --kind structure-op --id <算子 id> --file <算子.json> --visibility infra-only --submit\nwie asset admit --uri <资产 URI>\n# 基线 run、验证集与 holdout 准备好后，一条命令完成结构搜索与验证\nwie structure improve --loop-config <loop 配置> --base-stop <停止记录>"
+      },
+      {
+        "type": "code",
+        "title": "在 DSH 里：运行、导入修订、续跑",
+        "codeLabel": "发送给 DSH",
+        "code": "/workflow flow.yaml runs/demo\n/workflow-revisions\n/workflow --resume runs/demo --rerun analysis"
+      },
+      {
         "type": "code",
         "title": "第 1 轮：诊断、改动、验证、提出 PR",
         "codeLabel": "闭环事件（UTC）",
@@ -149,11 +177,19 @@
     "note": "事件为真实闭环账本的原始记录，按时间排版。",
     "prompt": "/wrsi status\n/wrsi loop",
     "video": {
-      "title": "安装并在 DSH 操作台查看闭环",
-      "description": "前半段是安装：从 npm 装本体和操作台插件、启动 wrsi-server、写配置；后半段是 DSH 网页端的真实录屏：插件页、Agent 调用只读工具回答闭环状态、/wrsi status、/wrsi loop、不带 --confirm 的 /wrsi loop-resume。终端画面按实际命令输出与时间回放，服务 key 与网页 token 已打码；等待模型回答的部分 6 倍速。闭环数据是真实闭环账本的副本，由单独启动的 wrsi-server 提供。",
-      "src": "assets/console-demo.mp4",
-      "poster": "assets/console-demo-poster.jpg",
-      "captions": "assets/console-demo-zh.vtt"
+      "title": "静态工作流自演进：依赖版本节点的演化",
+      "description": "约 234 秒中文配音，画面标注开发版 / 演示。先说明组件解决的问题和例子的输入，再从源码安装、配置 DSH 插件与 RSI；之后在 DSH 里运行第 1 版（停在运行测试），RSI 用一条命令完成结构搜索与验证阶梯 L0～L3，/workflow-revisions 导入修订后在看板的演化视图里查看新增的依赖版本求解子图，第 2 版从分析阶段续跑，测试全部通过。静态工作流插件与 wie structure improve 在开发分支 feat/dsh-native-workflow 上，尚未发布到 npm；依赖约束与版本是演示数据，节点由本地确定性替身模型执行，终端画面按实际命令输出回放。视频为 1080p，字幕已烧录，画面中的路径为演示目录。",
+      "src": "assets/staticflow-rsi-demo-1080p.mp4",
+      "poster": "assets/staticflow-rsi-demo-preview.jpg",
+      "qualities": [
+        {
+          "label": "1080p",
+          "src": "assets/staticflow-rsi-demo-1080p.mp4"
+        }
+      ],
+      "captions": "assets/staticflow-rsi-demo-zh.vtt",
+      "captionsBurnedIn": true,
+      "standalone": true
     }
   },
   "comparison": {
@@ -286,6 +322,10 @@
     {
       "question": "接入一个新的 Workflow 需要准备什么？",
       "answer": "需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。"
+    },
+    {
+      "question": "静态工作流插件和结构搜索怎么装？",
+      "answer": "目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm。按「看例子」里的开发版步骤从源码构建，用 dsh plugin add 加载本地目录里的引擎和插件包；演示视频从安装、配置一直录到第 2 版通过。已发布的操作台按上方的安装命令安装。"
     },
     {
       "question": "插件调用失败，先检查哪里？",

@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="styles.css">
   <script src="demo-data.js" defer></script>
   <script src="page.js" defer></script>
+  <link rel="stylesheet" href="media-controls.css">
+  <script src="media-controls.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#overview">跳到主要内容</a>
@@ -92,7 +94,45 @@ Trial 记录 → 评估改进方法，按收益分配预算" aria-label="复制"
   ↓
 PR：人审、合入；合入后重跑原任务，跟踪改动是否被保留
   ↓
-Trial 记录 → 评估改进方法，按收益分配预算</code></pre></div></div><div class="demo-content-block"><h3>第 1 轮：诊断、改动、验证、提出 PR</h3><div class="code-block"><div class="code-bar"><span>闭环事件（UTC）</span><button type="button" class="copy-button" data-copy="17:24  run.started
+Trial 记录 → 评估改进方法，按收益分配预算</code></pre></div></div><div class="demo-content-block"><h3>静态工作流插件与结构搜索（开发版）</h3><p>在 DSH 里，静态工作流插件用 /workflow 运行定义文件里的工作流，会话里有运行节点和看板；/workflow-revisions 把 RSI 写出的修订文件导入会话，看板的演化视图在同一棵逻辑树上显示各版本的差分、其他候选没被选中的原因和验证阶梯。RSI 一侧，wie structure improve 用一条命令完成结构搜索、archive、提案和验证阶梯 L0～L3，最后写出修订文件。这两部分目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm；下方的演示视频从源码安装一直录到第 2 版通过。</p></div><div class="demo-content-block"><h3>演示视频里的例子：依赖版本这一步怎样演进</h3><ul><li>目的：从一次失败的真实运行出发，看 RSI 把「依赖版本选择」演进成「依赖版本求解」子图，并在另外四个库上验证后提出新版本。</li><li>工作流：flow.yaml，六个阶段 generate、analysis、design、plan、execution、verification，每个阶段是一个子图；角色 adapter、checker。</li><li>适配任务：airda 0.0.3，scikit-learn 1.9.1 要求 numpy ≥ 1.24.1，langchain 0.1.0 要求 numpy ≥ 1、&lt; 2；已适配仓库里的 numpy 为 1.21.6、1.26.4、2.5.1。</li><li>RSI 的输入：停止记录、loop 配置、两个人准入的结构算子（插入依赖版本求解子图、删去旧的版本选择节点）、range-b 与 source-c 组成的验证集、range-d 与 source-e 组成的 holdout、judge。</li><li>结果：第 1 版取最新的 numpy 2.5.1，运行测试失败；提案 s1/2 插入依赖版本求解子图，区间内取已适配的 1.26.4，第 2 版从分析阶段续跑，测试全部通过。依赖约束与版本是演示数据，节点由本地确定性替身模型执行。</li></ul></div><div class="demo-content-block"><h3>开发版：从源码安装与配置</h3><div class="code-block"><div class="code-bar"><span>终端 · 开发版（演示视频中的步骤）</span><button type="button" class="copy-button" data-copy="# 前提：Node 22、DSH 0.2.2、pnpm（dsh plugin 安装插件时使用）
+git clone -b feat/dsh-native-workflow &lt;workflow-rsi 仓库&gt; workflow-rsi
+(cd workflow-rsi &amp;&amp; npm ci &amp;&amp; npm run build)
+npm install --global --prefix tools ./workflow-rsi      # 得到 wie、wrsi-staticflow
+export PATH=&quot;$PWD/tools/bin:$PATH&quot;
+
+# DSH：新建 profile，加载静态工作流插件的引擎和插件包
+dsh --profile staticflow --from-default-profile web --dump-config &gt;/dev/null
+dsh plugin --profile staticflow add ./workflow-rsi/packages/dsh-static-workflow-engine ./workflow-rsi/packages/dsh-static-workflow-bundle
+# 再写 profile 补丁 &lt;DSH_HOME&gt;/profiles/staticflow/cordis.patch.yml：
+# 模型的 provider 与密钥环境变量，staticflow-command 的 revisionsDir（修订收件目录）
+
+# RSI：judge 与停止族策略校验后提交待审，结构算子提交待审，由人准入
+wie judge import --dir &lt;judge 与策略所在目录&gt;
+wie asset register --kind structure-op --id &lt;算子 id&gt; --file &lt;算子.json&gt; --visibility infra-only --submit
+wie asset admit --uri &lt;资产 URI&gt;
+# 基线 run、验证集与 holdout 准备好后，一条命令完成结构搜索与验证
+wie structure improve --loop-config &lt;loop 配置&gt; --base-stop &lt;停止记录&gt;" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code># 前提：Node 22、DSH 0.2.2、pnpm（dsh plugin 安装插件时使用）
+git clone -b feat/dsh-native-workflow &lt;workflow-rsi 仓库&gt; workflow-rsi
+(cd workflow-rsi &amp;&amp; npm ci &amp;&amp; npm run build)
+npm install --global --prefix tools ./workflow-rsi      # 得到 wie、wrsi-staticflow
+export PATH=&quot;$PWD/tools/bin:$PATH&quot;
+
+# DSH：新建 profile，加载静态工作流插件的引擎和插件包
+dsh --profile staticflow --from-default-profile web --dump-config &gt;/dev/null
+dsh plugin --profile staticflow add ./workflow-rsi/packages/dsh-static-workflow-engine ./workflow-rsi/packages/dsh-static-workflow-bundle
+# 再写 profile 补丁 &lt;DSH_HOME&gt;/profiles/staticflow/cordis.patch.yml：
+# 模型的 provider 与密钥环境变量，staticflow-command 的 revisionsDir（修订收件目录）
+
+# RSI：judge 与停止族策略校验后提交待审，结构算子提交待审，由人准入
+wie judge import --dir &lt;judge 与策略所在目录&gt;
+wie asset register --kind structure-op --id &lt;算子 id&gt; --file &lt;算子.json&gt; --visibility infra-only --submit
+wie asset admit --uri &lt;资产 URI&gt;
+# 基线 run、验证集与 holdout 准备好后，一条命令完成结构搜索与验证
+wie structure improve --loop-config &lt;loop 配置&gt; --base-stop &lt;停止记录&gt;</code></pre></div></div><div class="demo-content-block"><h3>在 DSH 里：运行、导入修订、续跑</h3><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="/workflow flow.yaml runs/demo
+/workflow-revisions
+/workflow --resume runs/demo --rerun analysis" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>/workflow flow.yaml runs/demo
+/workflow-revisions
+/workflow --resume runs/demo --rerun analysis</code></pre></div></div><div class="demo-content-block"><h3>第 1 轮：诊断、改动、验证、提出 PR</h3><div class="code-block"><div class="code-bar"><span>闭环事件（UTC）</span><button type="button" class="copy-button" data-copy="17:24  run.started
 17:26  stage generate    passed
 17:32  stage analysis    passed
 17:42  stage design      passed
@@ -166,11 +206,16 @@ redesign can address the failure.</code></pre></div></div><div class="demo-conte
 /wrsi loop-resume &lt;loop id&gt; fix --confirm" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>/wrsi loop &lt;loop id&gt;
 /wrsi loop-resume &lt;loop id&gt; fix --confirm</code></pre></div></div><figure class="demo-content-block demo-image"><h3>安装后：插件页出现操作台</h3><button type="button" class="screenshot-button" data-screenshot="assets/console-plugins.jpg" data-title="安装后：插件页出现操作台" aria-label="放大查看：安装后：插件页出现操作台"><img src="assets/console-plugins.jpg" alt="DSH 网页端「插件」页，已安装 workflow-rsi-dsh-console 并启用。" loading="lazy"><span>点击放大 <span aria-hidden="true">⤢</span></span></button><figcaption>真实截图：DSH 0.1.6-alpha.2 网页端，dsh plugin add 安装的 @fuxi-ailabs/workflow-rsi-dsh-console 0.1.0-alpha.1。</figcaption></figure><figure class="demo-content-block demo-image"><h3>向 Agent 提问，它调用只读工具</h3><button type="button" class="screenshot-button" data-screenshot="assets/console-agent.jpg" data-title="向 Agent 提问，它调用只读工具" aria-label="放大查看：向 Agent 提问，它调用只读工具"><img src="assets/console-agent.jpg" alt="DSH 会话中 Agent 调用 wrsi_loop_status，再按状态汇总 11 个闭环。" loading="lazy"><span>点击放大 <span aria-hidden="true">⤢</span></span></button><figcaption>真实截图：Agent 调用 wrsi_loop_status，按真实闭环账本回答每个闭环的状态和停止原因。</figcaption></figure><figure class="demo-content-block demo-image"><h3>/wrsi 命令：查看闭环，写操作先确认</h3><button type="button" class="screenshot-button" data-screenshot="assets/console-commands.jpg" data-title="/wrsi 命令：查看闭环，写操作先确认" aria-label="放大查看：/wrsi 命令：查看闭环，写操作先确认"><img src="assets/console-commands.jpg" alt="/wrsi status 与 /wrsi loop 的返回，以及 /wrsi loop-resume 不带 --confirm 时的 Not run 提示。" loading="lazy"><span>点击放大 <span aria-hidden="true">⤢</span></span></button><figcaption>真实截图：/wrsi status、/wrsi loop &lt;loop id&gt; 返回原始数据；/wrsi loop-resume 不带 --confirm 时只显示将要执行的操作。</figcaption></figure><div class="demo-content-block"><h3>闭环停下时人可以给出的决定</h3><ul><li>fix：重新诊断，再生成修复候选。</li><li>rerun：不改动，重跑 Workflow，例如环境恢复之后。</li><li>give-up：结束这个闭环。</li><li>merge-done：PR 已在 Workflow 仓合入，开始重跑。</li><li>写命令不带 --confirm 时只显示将要执行的操作，不执行。</li></ul></div></div>
       <p class="media-note">事件为真实闭环账本的原始记录，按时间排版。</p>
-      <figure id="recording" class="video-demo"><figcaption><strong>安装并在 DSH 操作台查看闭环</strong><p>前半段是安装：从 npm 装本体和操作台插件、启动 wrsi-server、写配置；后半段是 DSH 网页端的真实录屏：插件页、Agent 调用只读工具回答闭环状态、/wrsi status、/wrsi loop、不带 --confirm 的 /wrsi loop-resume。终端画面按实际命令输出与时间回放，服务 key 与网页 token 已打码；等待模型回答的部分 6 倍速。闭环数据是真实闭环账本的副本，由单独启动的 wrsi-server 提供。</p></figcaption><video controls playsinline preload="none" poster="assets/console-demo-poster.jpg" aria-label="安装并在 DSH 操作台查看闭环"><source src="assets/console-demo.mp4" type="video/mp4"><track kind="captions" src="assets/console-demo-zh.vtt" srclang="zh" label="中文字幕" default>浏览器不支持视频播放。</video></figure>
+
       <details class="reproduce"><summary><span><span class="accent" aria-hidden="true">⌘</span> 在 DSH 中复现</span><span aria-hidden="true">＋</span></summary><div><div class="code-block"><div class="code-bar"><span>发送给 DSH</span><button type="button" class="copy-button" data-copy="/wrsi status
 /wrsi loop" aria-label="复制">复制 <span aria-hidden="true">⧉</span></button></div><pre><code>/wrsi status
 /wrsi loop</code></pre></div></div></details>
 
+    </section>
+
+    <section class="wrap section" aria-labelledby="recording-section-title">
+      <div class="section-heading"><h2 id="recording-section-title">配音演示</h2></div>
+      <figure id="recording" class="video-demo"><figcaption><strong>静态工作流自演进：依赖版本节点的演化</strong><p>约 234 秒中文配音，画面标注开发版 / 演示。先说明组件解决的问题和例子的输入，再从源码安装、配置 DSH 插件与 RSI；之后在 DSH 里运行第 1 版（停在运行测试），RSI 用一条命令完成结构搜索与验证阶梯 L0～L3，/workflow-revisions 导入修订后在看板的演化视图里查看新增的依赖版本求解子图，第 2 版从分析阶段续跑，测试全部通过。静态工作流插件与 wie structure improve 在开发分支 feat/dsh-native-workflow 上，尚未发布到 npm；依赖约束与版本是演示数据，节点由本地确定性替身模型执行，终端画面按实际命令输出回放。视频为 1080p，字幕已烧录，画面中的路径为演示目录。</p><div class="media-toolbar" hidden><button type="button" class="button secondary" data-video-play>播放演示</button><label>清晰度 <select data-video-quality><option value="assets/staticflow-rsi-demo-1080p.mp4">1080p</option></select></label><span data-video-status role="status" aria-live="polite"></span></div><noscript><p><a href="assets/staticflow-rsi-demo-1080p.mp4">1080p</a></p></noscript></figcaption><video data-burned-captions controls playsinline preload="none" poster="assets/staticflow-rsi-demo-preview.jpg" aria-label="静态工作流自演进：依赖版本节点的演化"><source src="assets/staticflow-rsi-demo-1080p.mp4" type="video/mp4"><track kind="captions" src="assets/staticflow-rsi-demo-zh.vtt" srclang="zh" label="中文字幕">浏览器不支持视频播放。</video></figure>
     </section>
 
     <section id="comparison" class="wrap section" aria-labelledby="comparison-title">
@@ -207,7 +252,7 @@ which wie wrsi-server" aria-label="复制">复制 <span aria-hidden="true">⧉</
 
     <section id="faq" class="wrap section" aria-labelledby="faq-title">
       <div class="section-heading"><h2 id="faq-title">常见问题</h2></div>
-      <div class="faq-list"><details><summary>什么是静态工作流？<span aria-hidden="true">＋</span></summary><p>结构随版本固定的 Workflow：阶段、节点、交接、分支、重试和门禁写在 Workflow 仓的源码里，同一个版本对每个输入都按同一张结构图执行，节点用的模型、提示、Skill 和工具也随版本固定。workflow-rsi 每次改进产出一个新的静态版本，经评测后以 PR 交付。</p></details><details><summary>我的工作流不是面向开发者的，能用吗？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 只针对 ToD（to Developer，面向开发者）的静态工作流，依赖构建、测试、覆盖率这类可以自动判定的阶段结果做评测。面向 ToB、ToC 业务的工作流暂不支持；运行时按输入临时编排步骤的动态工作流，也不在改进范围内。</p></details><details><summary>workflow-rsi 和直接改提示词或 Skill 有什么区别？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。</p></details><details><summary>操作台会自己改 Workflow 或合入 PR 吗？<span aria-hidden="true">＋</span></summary><p>不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。</p></details><details><summary>闭环停下等人时怎么处理？<span aria-hidden="true">＋</span></summary><p>诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop &lt;loop id&gt; 查看停止原因和诊断结论，再用 /wrsi loop-resume &lt;loop id&gt; &lt;fix|rerun|give-up|merge-done&gt; --confirm 给出决定。</p></details><details><summary>接入一个新的 Workflow 需要准备什么？<span aria-hidden="true">＋</span></summary><p>需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。</p></details><details><summary>插件调用失败，先检查哪里？<span aria-hidden="true">＋</span></summary><p>先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。</p></details><details><summary>评分规则和发布标准由谁来定？<span aria-hidden="true">＋</span></summary><p>只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。</p></details></div>
+      <div class="faq-list"><details><summary>什么是静态工作流？<span aria-hidden="true">＋</span></summary><p>结构随版本固定的 Workflow：阶段、节点、交接、分支、重试和门禁写在 Workflow 仓的源码里，同一个版本对每个输入都按同一张结构图执行，节点用的模型、提示、Skill 和工具也随版本固定。workflow-rsi 每次改进产出一个新的静态版本，经评测后以 PR 交付。</p></details><details><summary>我的工作流不是面向开发者的，能用吗？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 只针对 ToD（to Developer，面向开发者）的静态工作流，依赖构建、测试、覆盖率这类可以自动判定的阶段结果做评测。面向 ToB、ToC 业务的工作流暂不支持；运行时按输入临时编排步骤的动态工作流，也不在改进范围内。</p></details><details><summary>workflow-rsi 和直接改提示词或 Skill 有什么区别？<span aria-hidden="true">＋</span></summary><p>workflow-rsi 先沿 Workflow 结构诊断，再决定改哪里：结构问题用已审批的结构算子和受约束搜索生成候选，节点内容（指令、Skill、工具说明、模型选择）交给 skill / agent RSI 接口。两类改动都在整个 Workflow 上分级评测，局部得分只作参考，以 PR 交付。</p></details><details><summary>操作台会自己改 Workflow 或合入 PR 吗？<span aria-hidden="true">＋</span></summary><p>不会。操作台注册 11 个只读工具和一个 /wrsi 命令，Agent 无法经工具改动 workflow-rsi。admit、publish、loop-resume、plan-decide 这类写命令必须由人带上 --confirm 才执行；PR 是否合入由 Workflow 仓的维护者决定。</p></details><details><summary>闭环停下等人时怎么处理？<span aria-hidden="true">＋</span></summary><p>诊断把握不足、候选验证不过、环境故障等情况都会停下。用 /wrsi loop &lt;loop id&gt; 查看停止原因和诊断结论，再用 /wrsi loop-resume &lt;loop id&gt; &lt;fix|rerun|give-up|merge-done&gt; --confirm 给出决定。</p></details><details><summary>接入一个新的 Workflow 需要准备什么？<span aria-hidden="true">＋</span></summary><p>需要该 Workflow 的适配器，用来读取 Run 的状态和停止记录、输出事实；适配器不下结论。另外配置 Workflow 仓库与闭环配置，以及人准入的评测资产。</p></details><details><summary>静态工作流插件和结构搜索怎么装？<span aria-hidden="true">＋</span></summary><p>目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm。按「看例子」里的开发版步骤从源码构建，用 dsh plugin add 加载本地目录里的引擎和插件包；演示视频从安装、配置一直录到第 2 版通过。已发布的操作台按上方的安装命令安装。</p></details><details><summary>插件调用失败，先检查哪里？<span aria-hidden="true">＋</span></summary><p>先确认 wrsi-server 在运行、server_url 正确、key_file 可读且与服务一致；闭环与工作计划功能还需要配置 wie。各种情况的返回见“错误与写操作”文档。插件不重试，也不在不可用时猜测结果。</p></details><details><summary>评分规则和发布标准由谁来定？<span aria-hidden="true">＋</span></summary><p>只由人准入。workflow-rsi 和 Agent 都改不了评分规则、发布标准和预算分配；新的改进方法由 method-author 提出，经影子试验和人工准入后启用。</p></details></div>
     </section>
   </main>
   <footer class="wrap footer"><span>Fuxi AI Labs</span><div><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/guide.html">使用文档 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/tools.html">工具与命令 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/errors.html">错误与写操作 ↗</a><a href="https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/workflow-rsi/versions.html">组件与版本 ↗</a><a href="#faq">常见问题</a><a href="#overview">回到顶部 ↑</a></div></footer>
