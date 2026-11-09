@@ -61,7 +61,7 @@ def label_plate(scene, target, font_path):
     label = ImageFont.truetype(str(font_path), 44)
     draw.rectangle((0, 0, 3840, 160), fill="#102e27")
     draw.text((54, 24), "Crowd Memory · 组织级记忆组件", font=title, fill="white")
-    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 独立 Runtime · 中心审核发布 · 跨节点使用", font=small, fill="#c2dfd3")
+    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 独立 Runtime · 自动核验与分发 · 跨节点使用", font=small, fill="#c2dfd3")
     draw.text((3120, 58), "DSH · Memory Card", font=small, fill="#c2dfd3")
     if scene["view"] == "two_agents":
         draw.rectangle((0, 160, 1920, 240), fill="#edf0f3")
@@ -264,7 +264,7 @@ def encode(args):
             "font_name":args.font.name,"font_sha256":sha(args.font),
             "source_capture_sha256":{p.name:sha(p) for s in scenes for p in s["inputs"]},
             "source_audio_sha256":{"narration.mp3":sha(master_audio)},
-            "scenes":[{"id":s["id"],"start_seconds":round(s["start"],3),"duration_seconds":round(s["duration"],3),"label":s["label"]} for s in scenes]}
+            "scenes":[{"id":s["id"],"kind":s.get("kind", "recorded_usage"),"start_seconds":round(s["start"],3),"duration_seconds":round(s["duration"],3),"label":s["label"]} for s in scenes]}
         for path in (video, poster, vtt): path.replace(args.assets / path.name)
         (DOCS / "narrated-encoding.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2) + "\n")
         print("Published narrated video", round(elapsed,3), "seconds", flush=True)

@@ -8,74 +8,86 @@
     {
       "id": "intro",
       "view": "two_agents",
-      "label": "组织级记忆组件 · 节点 A 形成经验，节点 B 跨库使用",
-      "speech": "Crowd Memory 是面向 coding Agent 的组织级记忆组件。任务轨迹和笔记形成经验，经中心审核发布后，供组织内其他节点的 Agent 使用。这里用鸿蒙 PC 的 Python 三方库适配，看 apriltag 的修法怎样用于 RDKit 的相关问题。"
+      "label": "组织级记忆组件 · 任务经验自动核验与跨节点使用",
+      "speech": "Crowd Memory 是面向 coding Agent 的组织级记忆组件。任务轨迹和笔记形成经验，由中心自动核验，达到发布门槛后，供组织内其他节点的 Agent 使用。这里用鸿蒙 PC 的 Python 三方库适配，看 apriltag 的修法怎样用于 RDKit 的相关问题。",
+      "kind": "recorded_usage"
     },
     {
       "id": "center",
       "view": "center",
       "label": "组织中心启动 · Git Raw 接收、Center 收集、Release 分发",
-      "speech": "先启动中心的 Git 服务和收集进程。Raw 接收各节点上报的数据，Release 分发审核后的经验。屏幕上能看到中心地址和演示共享组。"
+      "speech": "先启动中心的 Git 服务和收集进程。Raw 接收各节点上报的数据，Release 分发核验通过的经验。屏幕上能看到中心地址和演示共享组。",
+      "kind": "recorded_usage"
     },
     {
       "id": "runtimes",
       "view": "runtimes",
       "label": "独立 Runtime 启动 · node-a 与 node-b · 本机双节点演示",
-      "speech": "接着分别启动节点 A 和节点 B 的 Runtime。两端使用各自的端点和数据库，连接同一个中心。这里在本机运行两个独立节点，演示组织内的共享过程。"
+      "speech": "接着分别启动节点 A 和节点 B 的 Runtime。两端使用各自的端点和数据库，连接同一个中心。这里在本机运行两个独立节点，演示组织内的共享过程。",
+      "kind": "recorded_usage"
     },
     {
       "id": "config",
       "view": "config_doc",
       "label": "接入配置 · DSH Profile、独立端点、同一共享组",
-      "speech": "DSH 的 Profile 加载记忆适配器，设置本节点的端点、项目和采集模板。两端的共享配置使用不同的节点编号，指向相同的 Raw、Release 和共享组。"
+      "speech": "DSH 的 Profile 加载记忆适配器，设置本节点的端点、项目和采集模板。两端的共享配置使用不同的节点编号，指向相同的 Raw、Release 和共享组。",
+      "kind": "recorded_usage"
     },
     {
       "id": "a_fix",
       "view": "a_fix",
       "label": "节点 A · apriltag-python · 排查并修复启动脚本",
-      "speech": "Agent 一处理 apriltag-python，它用于识别 AprilTag 视觉标记。原生库文件已经存在，验证进程却找不到。Agent 一先复现启动脚本问题，再把库目录写入环境，三项启动测试通过。"
+      "speech": "Agent 一处理 apriltag-python，它用于识别 AprilTag 视觉标记。原生库文件已经存在，验证进程却找不到。Agent 一先复现启动脚本问题，再把库目录写入环境，三项启动测试通过。",
+      "kind": "recorded_usage"
     },
     {
       "id": "pipeline",
       "view": "pipeline",
-      "label": "中心处理链路 · Raw、证据聚合、Candidate、核验",
-      "speech": "轨迹和笔记从节点 A 回流到中心。中心聚合同一问题的证据，形成 Candidate，核对结构、来源和回放结果。这里只有一个来源，核验结果要求人工审核。"
+      "label": "自动核验机制示意 · Raw、证据聚合、Candidate、回放核验",
+      "speech": "轨迹和笔记从节点 A 回流到中心。中心聚合同一问题的证据，形成 Candidate，核对结构、来源和回放结果。核验通过的经验自动发布，证据不足的候选继续积累后续任务的记录。",
+      "kind": "mechanism_illustration"
     },
     {
       "id": "card",
       "view": "card",
       "label": "Memory Card · 触发条件、原因、修法和来源",
-      "speech": "这张 Memory Card 写明了触发条件、原因和修法，并保留原始适配记录的出处。关键动作是在启动进程之前导出原生库路径，同时保留已有路径。"
+      "speech": "这张 Memory Card 写明了触发条件、原因和修法，并保留原始适配记录的出处。关键动作是在启动进程之前导出原生库路径，同时保留已有路径。",
+      "kind": "recorded_usage"
     },
     {
       "id": "release",
       "view": "release",
-      "label": "组织发布 · 人工批准、审核提交、Release 同步至节点 B",
-      "speech": "审核人批准后，中心把卡片发布到演示共享组。节点 B 从 Release 同步到审核后的组织记录，来源仍指向节点 A。两个节点分别保存本地数据，交换的是共享组内发布的经验。"
+      "label": "组织发布机制示意 · 自动核验、Release 分发、节点 B 同步",
+      "speech": "候选通过自动核验后，中心把经验发布到共享组。节点 B 从 Release 同步经过核验的组织记录，来源仍指向节点 A。两个节点分别保存本地数据，交换的是共享组内发布的经验。",
+      "kind": "mechanism_illustration"
     },
     {
       "id": "b_injection",
       "view": "b_injection",
       "label": "节点 B · RDKit · 组织卡片自动进入 DSH 上下文",
-      "speech": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库路径问题。Crowd Memory 在执行前把组织卡片送入 DSH 上下文。展开这里，可以看到卡片编号、审核来源和匹配理由。"
+      "speech": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库路径问题。Crowd Memory 在执行前把组织卡片送入 DSH 上下文。展开这里，可以看到卡片编号、记录来源和匹配理由。",
+      "kind": "recorded_usage"
     },
     {
       "id": "b_apply",
       "view": "b_apply",
       "label": "节点 B · 读取卡片，使用 RDKit 的 .libs 目录",
-      "speech": "Agent 二打开卡片后，采用了先配置环境再启动进程的做法。这次使用 RDKit 的点 libs 目录，代码修改保留了原有的搜索路径。"
+      "speech": "Agent 二打开卡片后，采用了先配置环境再启动进程的做法。这次使用 RDKit 的点 libs 目录，代码修改保留了原有的搜索路径。",
+      "kind": "recorded_usage"
     },
     {
       "id": "b_test",
       "view": "b_test",
       "label": "同一命令复测 · 路径传递、已有路径保留、空值处理",
-      "speech": "用同一条命令重跑启动测试，检查目录是否传给子进程、已有路径是否保留，以及空值处理。这三项都通过了。"
+      "speech": "用同一条命令重跑启动测试，检查目录是否传给子进程、已有路径是否保留，以及空值处理。这三项都通过了。",
+      "kind": "recorded_usage"
     },
     {
       "id": "usage",
       "view": "usage",
       "label": "组织使用回执 · node-a 来源，node-b 注入、读取与引用",
-      "speech": "最后核对节点 B 的使用记录。同一张组织卡片下，记录了自动注入、读取和引用，来源是节点 A。结合刚才的脚本修改与测试结果，可以看到这条经验怎样进入另一个节点的任务。"
+      "speech": "最后核对节点 B 的使用记录。同一张组织卡片下，记录了自动注入、读取和引用，来源是节点 A。结合刚才的脚本修改与测试结果，可以看到这条经验怎样进入另一个节点的任务。",
+      "kind": "recorded_usage"
     }
   ]
 }

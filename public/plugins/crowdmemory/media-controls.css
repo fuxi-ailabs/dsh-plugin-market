@@ -4,7 +4,7 @@
 .media-toolbar [role="status"] { font-size: .9rem; }
 .media-toolbar button:focus-visible, .media-toolbar select:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 
-@supports (height: 1cqw) {
+@supports (height: 1cqw) and selector(:has(*)) {
   .video-demo:has(> video[data-burned-captions]) { container-type: inline-size; }
   .video-demo > video[data-burned-captions] {
     height: calc(56.25cqw + 96px);
