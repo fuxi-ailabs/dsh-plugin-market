@@ -16,7 +16,7 @@ window.PLUGIN_DEMO = {
   "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
   "video": {
     "title": "鸿蒙 PC Python 三方库适配中的组织经验复用",
-    "description": "约 173 秒连续中文配音。展示中心与两个独立 Runtime 的启动配置，用机制示意说明自动核验与发布，再看 DSH 中卡片注入、脚本修改和复测的运行画面。两个节点在本机运行，测试范围为启动脚本的环境传递。默认 1080p，可切换 4K。",
+    "description": "约 153 秒连续中文配音，画面标注开发版 / trial。剪辑展示组织中心、双 Runtime 与 Adapter 配置、证据聚合和组织试推发布，再看 DSH 中卡片推送、读取、RDKit 脚本修改与复测。两个节点在本机运行，核验范围为启动脚本的环境传递。默认 1080p，可切换 4K。",
     "src": "assets/harmony-python-demo-1080p.mp4",
     "poster": "assets/harmony-python-preview.jpg",
     "qualities": [

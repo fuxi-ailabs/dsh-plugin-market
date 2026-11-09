@@ -61,8 +61,8 @@ def label_plate(scene, target, font_path):
     label = ImageFont.truetype(str(font_path), 44)
     draw.rectangle((0, 0, 3840, 160), fill="#102e27")
     draw.text((54, 24), "Crowd Memory · 组织级记忆组件", font=title, fill="white")
-    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 独立 Runtime · 自动核验与分发 · 跨节点使用", font=small, fill="#c2dfd3")
-    draw.text((3120, 58), "DSH · Memory Card", font=small, fill="#c2dfd3")
+    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 独立 Runtime · 证据核验与组织试推 · 跨节点使用", font=small, fill="#c2dfd3")
+    draw.text((3120, 58), "开发版 / trial", font=small, fill="#c2dfd3")
     if scene["view"] == "two_agents":
         draw.rectangle((0, 160, 1920, 240), fill="#edf0f3")
         draw.rectangle((1920, 160, 3840, 240), fill="#e3f3e8")

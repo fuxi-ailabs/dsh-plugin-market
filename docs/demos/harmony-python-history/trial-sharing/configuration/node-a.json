@@ -1,0 +1,8 @@
+{
+  "raw_remote": "git://127.0.0.1:9447/raw.git",
+  "release_remote": "git://127.0.0.1:9447/release.git",
+  "host_id": "node-a",
+  "credential_ref": "none",
+  "sharing_group": "org-python-adaptation",
+  "interval_seconds": 2
+}
