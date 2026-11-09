@@ -98,6 +98,7 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/changelog.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html',
   'https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-dsh-adapter',
   'https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-openclaude-plugin',
@@ -108,8 +109,8 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/harmony-python-evidence.json',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7',
-  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/crowdmemory-pr7-development-20261101',
-  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/pr4-candidate-utility',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/archive-eval-20261110/results/crowdmemory-pr7-development-20261101',
+  'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/archive-eval-20261110/results/pr4-candidate-utility',
 ])], ['plugins/agentlineage', new Set([
   'https://fuxi-ailabs.github.io/dsh-plugin-market/',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/agentlineage/',

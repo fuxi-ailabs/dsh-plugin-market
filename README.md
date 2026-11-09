@@ -18,7 +18,7 @@ Fuxi 团队插件目录
 |---|---|---|
 | AgentLineage | `0.1.0-alpha.4` | `^0.2.1-rc.2` |
 | workflow-rsi 操作台 | `0.1.0-alpha.1` | `0.1.6-alpha.2 \|\| ^0.2.1-rc.2` |
-| Crowd Memory · 群体记忆 | `0.1.1` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
+| Crowd Memory · 群体记忆 | `0.2.0` | `0.1.6-alpha.2 \|\| ^0.2.0-rc.2` |
 | 鸿蒙代码验证器（@fuxi-ailabs/dsh-dt-verify） | `0.1.0-dev.40` | `^0.2.1-rc.2` |
 | Observe · DSH 会话观测 | `1.2.0` | `^0.2.1-rc.2` |
 | Score · DSH 会话评分 | `1.2.0` | `^0.2.1-rc.2` |
@@ -62,7 +62,7 @@ Redundancy Check 对会话中的 Skill 执行审计，把覆盖状态、finding 
 
 ## 添加后续插件或版本
 
-CrowdMemory 当前按非正式预览版本维护：市场索引仅提供当前版本，介绍页、文档和安装命令随当前版本覆盖更新。因此本次使用 0.1.1 替换目录中的 0.1.0，不按下列默认流程追加旧预览版本。此规则仅适用于 CrowdMemory，不表示旧包失去 DSH 兼容性，也不删除 npm 已发布包或原始运行证据；如需旧包，可通过 npm 包名和版本直接安装。
+CrowdMemory 按预览版本维护。市场索引提供当前 0.2.0，介绍页、文档和安装命令随版本覆盖更新；历史变更见组件更新日志。需要历史包时，可通过 npm 包名和版本直接安装。
 
 1. 在插件自己的仓库准备可安装 Bundle，核实 `package.json` 中的包名、版本、`dsh.bundle` 和 DSH 兼容范围；`engines.dsh` 写范围并与索引一致，验证 npm/Git 安装及构建产物。
 2. 在 `public/index.json` 的 `plugins` 数组追加条目；已有插件则向 `versions` 追加版本。Git 来源必须固定完整 40 位 commit SHA，并填写真实的子目录。`publishTimestamp` 使用来源提交的 Unix 秒时间。

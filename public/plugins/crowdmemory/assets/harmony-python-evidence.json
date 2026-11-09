@@ -22,7 +22,18 @@
     "state": "trial",
     "rule": "fix_local_evidence",
     "independent_projects": 3,
-    "support_raw": 4
+    "support_raw": 4,
+    "initial_publication": {
+      "command": "gate-serve",
+      "publish": "published",
+      "candidate_id": "problem-bdd584955b9beeea3733f59e2d2c86e7",
+      "outcome": "trial",
+      "reused": false,
+      "operation": "ADD",
+      "version": 1,
+      "release_epoch": "release-org-python-adaptation-20261109T121626Z",
+      "release_commit": "63e28fef19b5a1b3ceca8afa1e543149f78028ee"
+    }
   },
   "memory_usage": {
     "pushed": 1,
@@ -54,5 +65,6 @@
       "size_bytes": 4536737
     }
   },
-  "privacy": "画面中的用户名、主机名和个人目录已替换为通用演示标识，封面同步处理。"
+  "privacy": "画面中的用户名、主机名和个人目录已替换为通用演示标识，封面同步处理。",
+  "summary_scope": "任务、首次发布与使用结果摘要。视频由运行片段剪辑，启动镜头补录。"
 }

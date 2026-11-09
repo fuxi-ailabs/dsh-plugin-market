@@ -20,7 +20,7 @@
     <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <a class="brand" href="https://fuxi-ailabs.github.io/dsh-plugin-market/">Fuxi通用DSH组件市场</a>
     <span aria-hidden="true">/</span><a class="brand" href="index.html">Crowd Memory</a>
-    <span class="ver">v0.1.1</span>
+    <span class="ver">v0.2.0</span>
   </div>
   <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="adapters.html" class="on" aria-current="page">Agent 接入</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">评测</a></nav>
 </header>
@@ -33,10 +33,10 @@
       <p><a href="#dsh">DSH</a> · <a href="#openclaude">OpenClaude</a> · <a href="#opencode">opencode</a> · <a href="#codex">Codex</a></p>
 
       <h2 id="runtime">1. 启动共用 Runtime</h2>
-      <p>需要 Node.js ≥ 22.18、带 venv 的 Python ≥ 3.10，以及 macOS 或 Linux。以下命令使用独立目录，无需全局安装 Runtime。</p>
+      <p>需要 Node.js ≥ 22.18、带 venv 的 Python ≥ 3.10，以及 macOS、Linux 或 Windows 10/11。以下 Bash 命令使用独立目录；Windows 用户见下方 PowerShell 步骤。</p>
       <div class="code"><div class="code-bar"><span>终端 A</span><button type="button" class="copy">复制</button></div><pre><code>mkdir -p CMLocal
 cd CMLocal
-npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1
+npm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.2.0
 npx --no-install crowdmemory-runtime install --prefix "$PWD/.runtime/crowdmemory"
 npx --no-install crowdmemory-runtime start --prefix "$PWD/.runtime/crowdmemory"</code></pre></div>
       <p>保持终端 A 运行。在另一个终端进入同一 <code>CMLocal</code> 目录，设置连接信息，再执行下面所选宿主的安装步骤：</p>
@@ -44,32 +44,46 @@ npx --no-install crowdmemory-runtime start --prefix "$PWD/.runtime/crowdmemory"<
 export CROWDMEMORY_PROJECT="my-repository"</code></pre></div>
       <p>多个 Agent 要复用同一批本机记忆，应连接同一 Runtime，并使用稳定的项目标识；跨项目记录还需要合适的 project/global 范围。Runtime 和宿主应以同一个系统用户运行。<a href="runtime.html">Runtime 命令参考</a></p>
 
+      <h2 id="windows">Windows 10/11 · PowerShell</h2>
+      <p>使用本地 NTFS 用户目录、Node.js ≥ 22.18、带 venv 的 Python ≥ 3.10、DSH 和 pnpm。Runtime 与 DSH 使用同一 Windows 用户。终端 A：</p>
+      <div class="code"><div class="code-bar"><span>终端 A · PowerShell</span><button type="button" class="copy">复制</button></div><pre><code>mkdir CMLocal
+cd CMLocal
+npm.cmd install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.2.0
+npx.cmd --no-install crowdmemory-runtime install --prefix "$PWD\.runtime\crowdmemory"
+npx.cmd --no-install crowdmemory-runtime start --prefix "$PWD\.runtime\crowdmemory"</code></pre></div>
+      <p>另开终端 B，进入同一 CMLocal 目录：</p>
+      <div class="code"><div class="code-bar"><span>终端 B · PowerShell</span><button type="button" class="copy">复制</button></div><pre><code>$env:CROWDMEMORY_ENDPOINT_FILE="$PWD\.runtime\crowdmemory\state\endpoint.json"
+$env:CROWDMEMORY_PROJECT="my-repository"
+dsh.cmd plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.2.0
+dsh.cmd --profile web</code></pre></div>
+      <p>Windows Runtime 使用 token 鉴权的本用户回环 TCP，并检查 SID/DACL。保持终端 A 前台运行，Ctrl+C 或 Ctrl+Break 停止；Windows 的服务与自动启动边界见<a href="limits.html">已知限制</a>。</p>
+
       <h2 id="dsh">2. 接入 DSH</h2>
       <p>适用于 DSH 0.1.6-alpha.2 或 0.2.0-rc.2 及以后的 0.2.x。宿主已安装后，在终端 B 执行；<code>web</code> 换成实际使用的 Profile：</p>
-      <div class="code"><div class="code-bar"><span>终端 B · DSH</span><button type="button" class="copy">复制</button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1
+      <div class="code"><div class="code-bar"><span>终端 B · DSH</span><button type="button" class="copy">复制</button></div><pre><code>dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.2.0
 dsh --profile web</code></pre></div>
       <p>在插件列表确认 CrowdMemory 适配器已加载，再检查 Agent 是否提供三个记忆工具。需要固定端点路径、控制推送或启用 workflow 模板时，见<a href="configuration.html#override">DSH 插件配置</a>。从程序坞启动桌面版时，按<a href="configuration.html#desktop">桌面版配置</a>传入端点。</p>
       <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-dsh-adapter">DSH 适配器使用说明</a></p>
 
       <h2 id="openclaude">2. 接入 OpenClaude</h2>
       <p>适用于 OpenClaude 0.12.0、0.31.0。以下仍在同一 CMLocal 目录执行，下载插件到当前目录后启动宿主：</p>
-      <div class="code"><div class="code-bar"><span>终端 B · OpenClaude</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-openclaude-plugin@0.1.1 --registry=https://registry.npmjs.org
+      <div class="code"><div class="code-bar"><span>终端 B · OpenClaude</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-openclaude-plugin@0.2.0 --registry=https://registry.npmjs.org
 mkdir -p plugin-openclaude
-tar -xzf fuxi-ailabs-crowdmemory-openclaude-plugin-0.1.1.tgz -C plugin-openclaude
+tar -xzf fuxi-ailabs-crowdmemory-openclaude-plugin-0.2.0.tgz -C plugin-openclaude
 CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 openclaude --plugin-dir "$PWD/plugin-openclaude/package"</code></pre></div>
       <p>初始化后应看到 MCP 服务 <code>plugin:crowdmemory:memory</code> 已连接，并提供三个记忆工具。不加 <code>--bare</code>，该选项会跳过插件。此安装方式面向 OpenClaude；Claude Code 的兼容范围请另行确认。</p>
       <p><a href="https://www.npmjs.com/package/@fuxi-ailabs/crowdmemory-openclaude-plugin">OpenClaude 插件使用说明</a></p>
 
       <h2 id="opencode">2. 接入 opencode</h2>
-      <p>同一个 npm 0.1.1 适配器支持 opencode 1.x 和 2.x。按正在使用的主版本，将配置合并进项目的 <code>opencode.json</code>；不要覆盖已有配置。</p>
+      <p>同一个 npm 0.2.0 适配器支持 opencode 1.x 和 2.x。按正在使用的主版本，将配置合并进项目的 <code>opencode.json</code>；不要覆盖已有配置。</p>
       <div class="code"><div class="code-bar"><span>opencode 1.x</span><button type="button" class="copy">复制</button></div><pre><code>{
-  "plugin": [["@fuxi-ailabs/crowdmemory-opencode-adapter@0.1.1", {
+  "plugin": [["@fuxi-ailabs/crowdmemory-opencode-adapter@0.2.0", {
     "project": "my-repository"
   }]]
 }</code></pre></div>
       <div class="code"><div class="code-bar"><span>opencode 2.x</span><button type="button" class="copy">复制</button></div><pre><code>{
   "plugins": [{
-    "package": "@fuxi-ailabs/crowdmemory-opencode-adapter@0.1.1",
+    "package": "@fuxi-ailabs/crowdmemory-opencode-adapter@0.2.0",
     "options": { "project": "my-repository" }
   }]
 }</code></pre></div>
@@ -78,9 +92,9 @@ CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 openclaude --plugin-dir "$PWD/plugin-openclaud
 
       <h2 id="codex">2. 接入 Codex</h2>
       <p>适用于 Codex CLI 0.164.0。以下使用独立的 Codex 配置目录，仍在 CMLocal 中执行：</p>
-      <div class="code"><div class="code-bar"><span>终端 B · Codex</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-codex-plugin@0.1.1 --registry=https://registry.npmjs.org
+      <div class="code"><div class="code-bar"><span>终端 B · Codex</span><button type="button" class="copy">复制</button></div><pre><code>npm pack @fuxi-ailabs/crowdmemory-codex-plugin@0.2.0 --registry=https://registry.npmjs.org
 mkdir -p plugin-codex
-tar -xzf fuxi-ailabs-crowdmemory-codex-plugin-0.1.1.tgz -C plugin-codex
+tar -xzf fuxi-ailabs-crowdmemory-codex-plugin-0.2.0.tgz -C plugin-codex
 export CODEX_HOME="$PWD/.codex-crowdmemory"
 codex plugin marketplace add "$PWD/plugin-codex/package" --json
 codex plugin add crowdmemory@crowdmemory-codex --json
@@ -101,15 +115,15 @@ codex</code></pre></div>
 
       <h2 id="support">已发布适配器与能力边界</h2>
       <div class="table"><table><thead><tr><th>宿主</th><th>npm 版本</th><th>接入范围</th></tr></thead><tbody>
-        <tr><td><a href="#dsh">DSH</a></td><td>0.1.1</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件、推送及三个记忆工具。</td></tr>
-        <tr><td><a href="#openclaude">OpenClaude</a></td><td>0.1.1</td><td>会话、工具结果、压缩、子代理、推送及三个记忆工具；不采集 L2 workflow / goal 事件。</td></tr>
-        <tr><td><a href="#opencode">opencode</a></td><td>0.1.1</td><td>支持 1.x / 2.x；会话、工具结果、压缩、子代理、推送及三个记忆工具，不采集 L2 事件。</td></tr>
-        <tr><td><a href="#codex">Codex</a></td><td>0.1.1</td><td>会话、子会话、工具输出检索及三个记忆工具。CLI 0.164.0 不提供 shell 退出码，不据 stdout 推断测试成败；不采集压缩摘要或 L2 事件。</td></tr>
+        <tr><td><a href="#dsh">DSH</a></td><td>0.2.0</td><td>会话、工具结果、压缩、子代理、workflow / goal 事件、推送及三个记忆工具。</td></tr>
+        <tr><td><a href="#openclaude">OpenClaude</a></td><td>0.2.0</td><td>会话、工具结果、压缩、子代理、推送及三个记忆工具；不采集 L2 workflow / goal 事件。</td></tr>
+        <tr><td><a href="#opencode">opencode</a></td><td>0.2.0</td><td>支持 1.x / 2.x；会话、工具结果、压缩、子代理、推送及三个记忆工具，不采集 L2 事件。</td></tr>
+        <tr><td><a href="#codex">Codex</a></td><td>0.2.0</td><td>会话、子会话、工具输出检索及三个记忆工具。CLI 0.164.0 不提供 shell 退出码，不据 stdout 推断测试成败；不采集压缩摘要或 L2 事件。</td></tr>
       </tbody></table></div>
       <p>适配器负责连接宿主和记忆服务，任务是否成功仍需由实际测试和工作流判定。各适配器共用本机 Runtime；跨机器共享的使用范围见<a href="team.html">团队记忆</a>。</p>
       <nav class="pager" aria-label="翻页"><a class="pg prev" href="index.html"><span>上一页</span>介绍与安装</a><a class="pg next" href="configuration.html"><span>下一页</span>DSH 配置</a></nav>
     </article>
-    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#runtime">启动 Runtime</a><a href="#dsh">DSH</a><a href="#openclaude">OpenClaude</a><a href="#opencode">opencode</a><a href="#codex">Codex</a><a href="#verify">检查连接</a><a href="#support">能力边界</a></nav>
+    <nav class="toc" aria-label="本页目录"><div class="toc-title">本页目录</div><a href="#runtime">启动 Runtime</a><a href="#windows">Windows PowerShell</a><a href="#dsh">DSH</a><a href="#openclaude">OpenClaude</a><a href="#opencode">opencode</a><a href="#codex">Codex</a><a href="#verify">检查连接</a><a href="#support">能力边界</a></nav>
   </main>
 </div>
 <footer class="foot"><a href="index.html">Crowd Memory 介绍与安装</a> · <a href="configuration.html">DSH 配置</a> · <a href="tools.html">记忆工具</a></footer>

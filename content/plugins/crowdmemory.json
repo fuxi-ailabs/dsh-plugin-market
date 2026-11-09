@@ -1,12 +1,12 @@
 {
   "slug": "crowdmemory",
   "name": "Crowd Memory",
-  "version": "0.1.1",
-  "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.1.1",
+  "version": "0.2.0",
+  "compatibility": "DSH 0.1.6-alpha.2 或 ^0.2.0-rc.2 · adapter/runtime 0.2.0",
   "description": "把一个 coding Agent 在开发任务中验证过的经验，提供给处理相关问题的其他 Agent，并保留来源、适用条件和测试结果。",
   "headline": ["Coding Agent", "群体记忆"],
   "install": {
-    "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1",
+    "code": "dsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.2.0",
     "codeLabel": "终端 · 安装 Crowd Memory",
     "note": "先启动本机 Runtime；web 换成实际使用的 DSH Profile。"
   },
@@ -46,7 +46,7 @@
     "blocks": [
       {"type":"list","items":["左上 A：独立定位和修复 GET，不写共享记忆。","左下 B：在新工作区接手 POST，独立排查并补接口测试。","右上 C：修复 GET 并测试后，用 memory_note 记录修法和适用条件。","右下 D：用 memory_search、memory_read 读取 C 的记录，核对公共 HTTP 层，再修改 POST 并测试。"]}
     ],
-    "note": "左列未安装记忆适配器，右列共享一个 Runtime。四个 Agent 的真实运行画面按阶段同屏整理，非同步计时；实际测试与来源读取回执见运行依据。",
+    "note": "左列独立排查，右列通过同一 Runtime 共享记忆。四个 Agent 在独立工作区运行，截图按任务阶段整理；任务条件和结果概述见后端接口示例运行说明。",
     "video": {
       "title": "鸿蒙 PC Python 三方库适配中的组织经验复用",
       "description": "约 153 秒连续中文配音，画面标注开发版 / trial。剪辑展示组织中心、双 Runtime 与 Adapter 配置、证据聚合和组织试推发布，再看 DSH 中卡片推送、读取、RDKit 脚本修改与复测。两个节点在本机运行，核验范围为启动脚本的环境传递。视频为 1080p。",
@@ -74,8 +74,8 @@
   "requirements": {
     "summary": "本机 Runtime · Node.js ≥ 22.18 · Python ≥ 3.10",
     "items": [
-      {"label":"运行平台","value":"macOS 或 Linux；Python 需包含 venv。"},
-      {"label":"宿主与插件","value":"adapter/runtime 0.1.1；DSH 支持 0.1.6-alpha.2 或 ^0.2.0-rc.2，包含市场基准 0.2.1-rc.2。"},
+      {"label":"运行平台","value":"macOS、Linux 或 Windows 10/11；Python 需包含 venv。Windows 使用本用户回环 TCP 与前台 Runtime。"},
+      {"label":"宿主与插件","value":"adapter/runtime 0.2.0；DSH 支持 0.1.6-alpha.2 或 ^0.2.0-rc.2，包含市场基准 0.2.1-rc.2。"},
       {"label":"独立安装","value":"Runtime 本地 npm 安装，在指定目录建立独立 Python 环境；不需要全局安装 Runtime。"}
     ]
   },
@@ -86,11 +86,12 @@
   ],
   "quickstart": {
     "title":"安装与验证",
+    "description":"以下为 macOS/Linux 的 Bash 命令。Windows PowerShell 安装步骤见 Agent 接入文档。",
     "steps":[
       {"title":"检查环境","description":"确认 Node.js、Python 和 DSH 满足上面的条件。","code":"node --version\npython3 --version\ndsh --version","codeLabel":"终端","expected":"Node.js ≥ 22.18，Python ≥ 3.10，DSH 位于支持范围。"},
-      {"title":"本地安装 Runtime","description":"在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。","code":"mkdir -p CMLocal && cd CMLocal\nnpm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.1.1\nnpx --no-install crowdmemory-runtime install --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A","expected":"安装输出包含 Runtime 目录、Python 环境及 host-config.json。"},
+      {"title":"本地安装 Runtime","description":"在独立目录安装 npm 包，Runtime 在 prefix 下建立隔离环境。","code":"mkdir -p CMLocal && cd CMLocal\nnpm install --save-exact @fuxi-ailabs/crowdmemory-runtime@0.2.0\nnpx --no-install crowdmemory-runtime install --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A","expected":"安装输出包含 Runtime 目录、Python 环境及 host-config.json。"},
       {"title":"启动记忆服务","description":"保持前台终端运行；Ctrl-C 会停止服务。","code":"npx --no-install crowdmemory-runtime start --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 A · CMLocal","expected":"Runtime 启动，并生成 state/endpoint.json。"},
-      {"title":"安装并连接 DSH","description":"另开终端进入同一 CMLocal 目录，将端点传给 DSH。web 换成自己的 Profile。","code":"export CROWDMEMORY_ENDPOINT_FILE=\"$PWD/.runtime/crowdmemory/state/endpoint.json\"\ndsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.1.1\ndsh --profile web","codeLabel":"终端 B · CMLocal","expected":"插件出现在该 Profile 中，Agent 可调用 memory_note、memory_search、memory_read。"},
+      {"title":"安装并连接 DSH","description":"另开终端进入同一 CMLocal 目录，将端点传给 DSH。web 换成自己的 Profile。","code":"export CROWDMEMORY_ENDPOINT_FILE=\"$PWD/.runtime/crowdmemory/state/endpoint.json\"\ndsh plugin --profile web add @fuxi-ailabs/crowdmemory-dsh-adapter@0.2.0\ndsh --profile web","codeLabel":"终端 B · CMLocal","expected":"插件出现在该 Profile 中，Agent 可调用 memory_note、memory_search、memory_read。"},
       {"title":"检查状态并运行 coding 例子","description":"另开终端检查状态。在 DSH 中运行上面的修复任务，写下经验后再启动独立 Agent，读取记录、修改代码并运行测试。","code":"npx --no-install crowdmemory-runtime status --prefix \"$PWD/.runtime/crowdmemory\"","codeLabel":"终端 C · CMLocal","expected":"状态显示 Runtime 运行中；第二个 Agent 能读取来源记录，并用测试验证修改。"}
     ]
   },
@@ -103,6 +104,7 @@
   ],
   "links":[
     {"label":"连接与配置 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/configuration.html"},
+    {"label":"更新日志 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/changelog.html"},
     {"label":"Agent 接入文档 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/adapters.html"},
     {"label":"评测与公开数据 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html"},
     {"label":"记忆工具参考 ↗","url":"https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html"},
