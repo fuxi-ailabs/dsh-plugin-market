@@ -1,5 +1,0 @@
-{
-  "library": "apriltag-python 3.4.5",
-  "native_directory": "venv/lib/python3.12/site-packages/apriltag",
-  "validation_scope": "launcher child-process environment"
-}

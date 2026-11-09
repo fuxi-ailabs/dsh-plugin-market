@@ -1,7 +1,0 @@
-{
-  "repository": "https://gitcode.com/third-party-library-for-harmony/CrowdMemory",
-  "commit": "f81435bb8c6e11cc52a4b6d873e026879cf31963",
-  "target": "distributions/memory-runtime/src/crowdmemory_runtime/server.py",
-  "task_a": "GET malformed Content-Length",
-  "task_b": "POST malformed Content-Length"
-}

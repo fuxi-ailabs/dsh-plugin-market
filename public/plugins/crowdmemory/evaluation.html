@@ -13,7 +13,7 @@
   <div class="top-row">
     <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
-    <span class="ver">v0.1.1</span>
+    <span class="ver">v0.2.0</span>
     <button type="button" class="theme" aria-label="切换明暗">◐</button>
   </div>
   <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="adapters.html">Agent 接入</a><a href="push.html">指南</a><a href="runtime.html">参考</a><a href="evaluation.html" class="on">其他</a></nav>
@@ -27,14 +27,14 @@
 <p>2026-11-01 公开开发数据复跑。同一测试任务分别开、关记忆，使用相同模型与预算。每类先有一次独立学习，测试项目不含学习项目的 NOTES.md。</p>
 <div class="table"><table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>任务</td><td>10 类合成任务，每类 12 对，共 120 对；全部纳入，未排除失败任务</td></tr><tr><td>模型与宿主</td><td>请求名 claude-sonnet-5；DSH 0.1.6-alpha.2，经既有模型中继调用</td></tr><tr><td>预算</td><td>每臂最多 10 次工具结果、300 秒</td></tr><tr><td>关记忆完成</td><td>45 / 120（37.50%）</td></tr><tr><td>开记忆完成</td><td>104 / 120（86.67%）</td></tr><tr><td>配对差值</td><td>+49.17 个百分点，95% 区间 +37.97～+58.49</td></tr><tr><td>只有一方完成</td><td>只有开记忆完成 64 对，只有关记忆完成 5 对</td></tr><tr><td>显著性</td><td>McNemar 双侧精确检验 p = 4.1192×10⁻¹⁴</td></tr><tr><td>按任务族</td><td>9 类净差为正，1 类持平；统计对象为合成任务，同族实例可能相关</td></tr><tr><td>服务异常</td><td>本轮模型服务错误、开关核验失败和不完整对照均为 0</td></tr></tbody></table></div>
 <p>本组对照比较固定预算下开关记忆的任务完成情况。平均墙钟 ON 38.044 秒、OFF 36.676 秒。</p>
-<p>评测数据已随 <a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7">CrowdMemory PR #7</a> 合入 main。<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/crowdmemory-pr7-development-20261101">原始结果与复算方法</a>中的 E1 目录公开 250 条学习及测试运行的结果、预算、开关核验和摘要；任务生成器与冻结规格在 <code>datasets/crowdmemory-e1/</code>。</p>
+<p>历史评测数据最初随 <a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7">CrowdMemory PR #7</a> 合入源码，现归档在 <code>archive-eval-20261110</code>。<a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/archive-eval-20261110/results/crowdmemory-pr7-development-20261101">原始结果与复算方法</a>中的 E1 目录公开 250 条学习及测试运行的结果、预算、开关核验和摘要；任务生成器与冻结规格在 <code>datasets/crowdmemory-e1/</code>。</p>
 <h2 id="refinement">固定 Episode 的提炼前后对照<a class="hash" href="#refinement" aria-label="本节链接">#</a></h2>
 <p>另一个实验固定 10 个学习任务的真实执行轨迹，重放实际配置改动并核对测试结果，生成 20 个 Episode。PR4 前后使用完全相同的 Episode 文件，来源为受控生成任务上的真实执行。</p>
 <p>分别运行旧版、新版默认、新版 split/merge，并保留旧版重复组。两轮共 80 个构建臂、200 个 Agent 任务；这里的“默认”和“split/merge”是 Center 提炼配置，不是插件的记忆开关。</p>
 <div class="table"><table><thead><tr><th>恢复轮（claude-sonnet-4-6）</th><th>形成 Candidate</th><th>下游任务通过</th><th>Agent 最终服务错误</th></tr></thead><tbody><tr><td>PR4 前</td><td>2/10</td><td>5/30</td><td>0/30</td></tr><tr><td>PR4 后默认</td><td>10/10</td><td>2/30</td><td>10/30</td></tr><tr><td>PR4 后 split/merge</td><td>10/10</td><td>4/30</td><td>5/30</td></tr><tr><td>旧版重复组（仅 t01）</td><td>10/10</td><td>3/10</td><td>0/10</td></tr></tbody></table></div>
 <p>旧版初始臂有 8 次构建因模型服务 HTTP 500 没有形成 Candidate；失败全部保留，投递空数组。两轮记录均包含模型中继间歇故障，表中单列了 Agent 最终服务错误数。</p>
 <p>完整重复组中，旧版与新版默认实际投递的 Candidate 内容和提示摘要均 10/10 相同。可选拆分在本组记录中丢失了部分修复成功 Episode：原样重放到来源学习任务时，旧版重复组与新版默认均 10/10 通过，可选臂为 4/10。这组结果来自发现候选差异后追加的来源学习任务修复保留诊断。</p>
-<p>全部输入档案、实际 Candidate 请求响应、200 次 Agent 结果、工具轨迹和复算脚本，已合入 main 的 <a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/pr4-candidate-utility">results/pr4-candidate-utility/</a>。输入文件与每次构建按 SHA-256 绑定，两轮的输入档案完全一致。服务失败包含在记录中，各模型样本分别统计。</p>
+<p>全部输入档案、实际 Candidate 请求响应、200 次 Agent 结果、工具轨迹和复算脚本，位于归档 tag <code>archive-eval-20261110</code> 的 <a href="https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/archive-eval-20261110/results/pr4-candidate-utility">results/pr4-candidate-utility/</a>。输入文件与每次构建按 SHA-256 绑定，两轮的输入档案完全一致。服务失败包含在记录中，各模型样本分别统计。</p>
 <h2 id="replay">真实失败回放<a class="hash" href="#replay" aria-label="本节链接">#</a></h2>
 <p>以下是既有文档保留的内部业务回放摘要，共 277 个可评估时刻，统计后来修好该失败的记录是否排在前 3。原始业务数据为非公开数据；本次公开复跑未纳入 E10。</p>
 <div class="table"><table><thead><tr><th>条件</th><th>前 3 命中率</th></tr></thead><tbody><tr><td>只用通用信号</td><td>76%</td></tr><tr><td>接入方提供自己的失败指纹</td><td>90%</td></tr></tbody></table></div>

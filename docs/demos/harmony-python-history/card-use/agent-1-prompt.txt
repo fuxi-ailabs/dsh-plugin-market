@@ -1,4 +1,0 @@
-处理 apriltag-python 3.4.5 的验证启动脚本。先读 task.md、context.json、apriltag-loader.md 和 launch-verification.sh，再执行 python3 test-launch.py 复现当前脚本问题。修复 launch-verification.sh 后用完全相同的命令重跑测试。只在本机验证启动脚本的子进程环境。
-修好后调用 memory_note，type=bugfix，scope=global，topic_key=harmony/native-loader-launch。内容要精炼，what 写问题，why 写原因，where 写来源档案 am-347d912831feb751855892df 和固定提交，learned 必须写可以照做的修复步骤，尤其是新进程启动前导出原生库目录以及跨库时重新定位目录。不要把验证范围说明填进 learned。fix 使用本次通过测试的 launch-verification.sh 的真实 unified diff，不能填无关路径。
-同时生成 memory-card.md，用标题、触发条件、原因、修复步骤、来源和验证范围展示这张卡，全文不超过 450 个中文字，保留必要代码。说明本地测试是启动脚本环境传递，历史库结论保留在来源中。修复步骤不得包含当前工作区的绝对路径，便于另一个库沿用。
-不要调用其他 Agent，不联网，不安装库。最后用五行以内汇报测试和记忆编号。

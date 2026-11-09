@@ -1,593 +1,70 @@
 {
-  "schema": "crowdmemory-memory-card-demo/v1",
+  "schema": "crowdmemory-demo-summary/v1",
+  "demo": "organization-trial",
   "recorded_at": "2026-11-09",
   "environment": {
     "platform": "macOS arm64",
-    "dsh": "0.1.6-alpha.2",
-    "runtime": "0.1.1",
-    "adapter": "0.1.1",
-    "profile": "session-default@3",
-    "model_requested": "claude-sonnet-4-6",
-    "provider_identity_independently_verified": false
+    "version": "0.1.1 development build",
+    "topology": "本机两套独立 Runtime、端点和数据库，通过隔离的 loopback Git 中心交换数据。"
   },
-  "sources": {
+  "source": {
     "repository": "https://gitcode.com/third-party-library-for-harmony/migbot-experience-raw",
-    "branch": "automemory/host-27",
-    "commit": "343c60fd2309dbf1edf6d3169b80838c54e1f1cd",
-    "files": [
-      {
-        "local": "sources/apriltag-loader.md",
-        "path": "records/2026/11/am-347d912831feb751855892df/auto_memory/cython-ext-no-rpath-needs-ld-library-path.md",
-        "sha256": "8f1b2b709420116fabd294a1941242f60851b8342cbbed01743f0616819cecb7"
-      },
-      {
-        "local": "sources/apriltag-report.md",
-        "path": "records/2026/11/am-347d912831feb751855892df/artifacts/final-report.md",
-        "sha256": "eef622ec72cbf7dcd92ef2ee3a2b6374abbb647f7bc3b8e98bac8e4b6d65bbff"
-      },
-      {
-        "local": "sources/apriltag-scheduler-state.json",
-        "path": "records/2026/11/am-347d912831feb751855892df/artifacts/scheduler-state.json",
-        "sha256": "c92ec6b261ffa8e3b99e657fc6aec919a7268baf52d0deece2e8ca744248159b"
-      },
-      {
-        "local": "sources/rdkit-loader.md",
-        "path": "records/2026/11/am-9eca62129bbb8880a8aaf78a/auto_memory/rdkit-libs-subdir-needs-LD_LIBRARY_PATH-on-hmos.md",
-        "sha256": "1cec1986373a558232520aacd9f6043f211383006536c427d87a480606c8468a"
-      },
-      {
-        "local": "sources/nerdd-final-report.md",
-        "path": "records/2026/11/am-9eca62129bbb8880a8aaf78a/artifacts/final-report.md",
-        "sha256": "a2575f0fe47d86b60734497e9009b18f60a1acd91135ae46ad655a1b9e27d0ff"
-      }
-    ]
+    "projects": [
+      "apriltag-python",
+      "template-engine-ia / Pillow",
+      "fubon-api-mcp-server / TA-Lib"
+    ],
+    "consumer": "nerdd-module / RDKit"
   },
-  "task_scope": {
-    "case": "Historical HarmonyOS PC apriltag-python and nerdd-module/RDKit loader-path records.",
-    "fixture": "Locally constructed launcher task derived from the recorded process-environment requirement.",
-    "current_tests": "Three tests of child-process LD_LIBRARY_PATH propagation, inherited paths and empty-component handling.",
-    "center_execution": "Installed Crowd Memory Center form_candidates and validate_candidate over Runtime-sealed Raw and draft.",
-    "center_status": {
-      "support_tier": "single_source",
-      "recommendation": "needs_human"
-    },
-    "consumed_memory": "Local Runtime card revision 2.",
-    "capture_input": "Historical notes explicitly supplied to Agent 1; Agent 2 receives task/context files and automatic plugin injection."
-  },
-  "actors": [
-    {
-      "agent": "agent-1",
-      "session_ref": "session-1b416eda-92fa-4c5c-808f-66b521dac437",
-      "library": "apriltag-python 3.4.5",
-      "direct_test_exit_code": 0,
-      "tests_passed": 3
-    },
-    {
-      "agent": "agent-2",
-      "session_ref": "session-80105e90-0cf8-4f49-a726-0596b73e8275",
-      "library": "nerdd-module / RDKit",
-      "test_command": "python3 test-launch.py",
-      "test_process_before_exit_code": 1,
-      "test_process_after_exit_code": 0,
-      "bash_wrapper_exit_codes": [
-        0,
-        0
-      ],
-      "exit_code_capture": "python3 test-launch.py; echo [exit code: $?]",
-      "tests_passed": 3,
-      "query_tool_calls": 0,
-      "modified_files": [
-        "launch-verification.sh"
-      ]
+  "scope": "根据鸿蒙 PC Python 三方库适配记录构造启动脚本任务，核验子进程目录传递、已有搜索路径保留和空路径分量。",
+  "publication": {
+    "gate": "gate@2",
+    "state": "trial",
+    "rule": "fix_local_evidence",
+    "independent_projects": 3,
+    "support_raw": 4,
+    "initial_publication": {
+      "command": "gate-serve",
+      "publish": "published",
+      "candidate_id": "problem-bdd584955b9beeea3733f59e2d2c86e7",
+      "outcome": "trial",
+      "reused": false,
+      "operation": "ADD",
+      "version": 1,
+      "release_epoch": "release-org-python-adaptation-20261109T121626Z",
+      "release_commit": "63e28fef19b5a1b3ceca8afa1e543149f78028ee"
     }
-  ],
-  "memory": {
-    "record_ref": "lr_01a1bec35c267fd68370ff34663f6058",
-    "revision": 2,
-    "topic_key": "harmony/native-loader-launch",
-    "trust": "local_auto",
+  },
+  "memory_usage": {
     "pushed": 1,
-    "applied": 1,
-    "applied_via": "fix_path",
-    "applied_paths": [
-      "launch-verification.sh"
-    ],
-    "agent_2_task_id": "task_dbb73de20c45d42f96e47702",
-    "receipts": [
-      {
-        "receipt_id": "01a1bedb-1dca-7c27-a38f-0cec7d9a0bf5",
-        "kind": "view_exposure",
-        "exposure_kind": "pushed",
-        "revision": 2,
-        "payload": {
-          "dedupe_key": "pushed:session_start",
-          "overrides": {},
-          "policy": {
-            "enabled": true,
-            "max_chars": 4000,
-            "max_items": 3,
-            "min_score": 0.0,
-            "require": []
-          },
-          "profile": {
-            "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-            "id": "session-default",
-            "revision": "3"
-          },
-          "repeat": false,
-          "trigger": "session_start"
-        }
-      },
-      {
-        "receipt_id": "01a1bedb-4dee-7011-bde8-917b8b1aea9e",
-        "kind": "record_usage",
-        "exposure_kind": "applied",
-        "revision": 2,
-        "payload": {
-          "path": "launch-verification.sh",
-          "profile": {
-            "digest": "sha256:723483c7d5937eca533da2ca7aab8462be84965d18b7e6d83cf369365f672378",
-            "id": "session-default",
-            "revision": "3"
-          },
-          "via": "fix_path"
-        }
-      }
-    ],
-    "injection_before_edit": [
-      {
-        "event": "card_injection",
-        "seq": 10,
-        "time_ms": 1794203393504,
-        "source": {
-          "kind": "plugin",
-          "plugin": "crowdmemory-dsh-adapter",
-          "form": "recall"
-        }
-      },
-      {
-        "event": "tool_call",
-        "seq": 34,
-        "time_ms": 1794203401527,
-        "name": "bash",
-        "arguments": {
-          "command": "python3 test-launch.py; echo \"[exit code: $?]\"",
-          "description": "Reproduce launcher failure"
-        }
-      },
-      {
-        "event": "tool_call",
-        "seq": 41,
-        "time_ms": 1794203405747,
-        "name": "edit",
-        "arguments": {
-          "file_path": "<demo-root>/workspaces/agent-2-final/launch-verification.sh",
-          "old_string": "native_dir=$1\nshift\nexec \"$@\"",
-          "new_string": "native_dir=$1\nshift\nexport LD_LIBRARY_PATH=\"$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\nexec \"$@\""
-        }
-      },
-      {
-        "event": "tool_call",
-        "seq": 46,
-        "time_ms": 1794203407505,
-        "name": "bash",
-        "arguments": {
-          "command": "python3 test-launch.py; echo \"[exit code: $?]\"",
-          "description": "Rerun identical launcher tests"
-        }
-      }
-    ]
+    "read": 1,
+    "cited": 1
   },
-  "processing": {
-    "implementation_commit": "0e969cbb87ccd71090bf54352da7326167a8ff6e",
-    "summary": {
-      "raw_envelopes": 2,
-      "draft_revision": 2,
-      "groups": 1,
-      "candidate_id": "problem-1c60b6f9028320f6c6b619576444c9e3",
-      "record_ref": "lr_01a1bec35c267fd68370ff34663f6058",
-      "checks": {
-        "schema": "pass",
-        "provenance": "pass",
-        "content_invariants": "pass",
-        "semantic": "review",
-        "conflict": "pass",
-        "replay": "pass",
-        "security": "pass"
-      },
-      "support_tier": "single_source",
-      "recommendation": "needs_human"
-    },
-    "artifacts_sha256": {
-      "summary.json": "sha256:f8fe0293bf4894c43700b1fbb0852b403b0eef28463cfdc7c49cdf5303aec248",
-      "draft.json": "sha256:741030497b942ff77809527e37488b81b04b9bcef65912ce61e5eaa725e6c869",
-      "aggregation.json": "sha256:d3dd060cb38df2f0e595079549be324ffde836f051d1649bddaaeee0c223acbf",
-      "candidate.json": "sha256:66eebf03f7d219dea80bc0817bab6ac589096a0e22f531f213ea12105026e307",
-      "validation.json": "sha256:e07e681a458a8e2d4c5a16bc6fa16282a5b24b5a8b24f5fe88deaa2084521071"
-    },
-    "raw_inputs_sha256": {
-      "c45311a48319d3bc4c61de2c6976eea76086867997df87a8e2ed7a56459fa968.json": "sha256:2a8d2b3aab415d77c9cba614608257501d4e8e55e0309d04aeb9283de42037d1",
-      "63b02ed3758f4c7ef5ff29eeec64d394d78e30f630f0a9f0c2a7d41f2ac8c1dd.json": "sha256:39742cf427c255ce845a9ae3c7e0540e64c31cd5e7c4dc62192ecd8b1975d040"
-    }
+  "result": "Agent 2 在 DSH 中读取组织 trial 卡片，修改 RDKit 启动脚本，同一条命令复测三项环境传递测试通过。",
+  "prior_gate1_result": {
+    "outcome": "rejected",
+    "reason": "no_lift",
+    "inject_pass": 3,
+    "control_pass": 3,
+    "k": 3
   },
-  "operator_preparation": {
-    "refinement": "Agent 1 was asked to simplify its first fix and card into a one-line export diff, then rerun tests directly; revision 2 is the version consumed by Agent 2.",
-    "initial_agent_1_pipeline": "First test output was piped through tail and the shell pipeline returned zero; later direct test run preserved the original exit status.",
-    "receipt_view": "During preparation an outbox-based reporter was replaced with a read-only SQLite reporter. The filmed Agent 2 run uses the SQLite reporter in its original task.",
-    "ui_navigation": "Only isolated workspace navigation and browser text zoom adjusted for capture; persisted conversations and Runtime usage state retained."
+  "presentation": {
+    "development_build": true,
+    "visible_state": "trial",
+    "mode": "edited_recorded_fragments",
+    "single_continuous_end_to_end_capture": false,
+    "startup_retakes": true,
+    "synthetic_narration": true,
+    "duration_seconds": 152.9
   },
-  "run_logs": {
-    "agent-1-events.jsonl": {
-      "raw_sha256": "sha256:2c2d77a8cd6c106bd4279f01ca3888fd119ab13665583608698142f601357116",
-      "published_sha256": "sha256:6f22ad031f673c7fe8e1ee333b262a1308e15b6a7d07c63bb24f0f40b3ecb7bd",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-1-pipeline-events.jsonl": {
-      "raw_sha256": "sha256:453520fb35f592f087796d58802d0419cbe22b447a808cbf7d6defb16420b8fd",
-      "published_sha256": "sha256:5681c79fec65422e280ce573005d0d6cc5f929beae6412150265a4b964c0f28d",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-1-refine-events.jsonl": {
-      "raw_sha256": "sha256:f875ad3039436d4f980d662304d1027b1b3105d68c6285d1a0610778edcb520e",
-      "published_sha256": "sha256:001e233bab6e65d524647ed9b64f767815366acf91d078a369fcee179cdb164e",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-events.jsonl": {
-      "raw_sha256": "sha256:edf623590ca9f751e81c3cd222cd832d57f2a1964a105b4eeef58216682adb88",
-      "published_sha256": "sha256:1201b523666f8b7d63c67c002cac6ec395670e9978cbac89dbc79be300648144",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-final-events.jsonl": {
-      "raw_sha256": "sha256:ab155722ad13e7d6f61f79810c37bf2da724ffd47293682c154c1bdd62994c6b",
-      "published_sha256": "sha256:f97703c8b163d5511caef7533e636b4b2d736f22f871418ca1ce16a0569fe343",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    },
-    "agent-2-receipt-events.jsonl": {
-      "raw_sha256": "sha256:cdd9610d7d398dae7501334cd9f0068e85063b84760d9970e21bfd5457e34444",
-      "published_sha256": "sha256:7c32a8fca72fd99cfffca54bfc4424ff06e5fe6ea8a0867785e79be6f2ea08da",
-      "normalization": "Only absolute demo-root prefixes replaced."
-    }
-  },
-  "narration": {
-    "voice": "zh-CN-YunyangNeural",
-    "rate": "+0%",
-    "continuous": true,
-    "audio_splice_count": 0,
-    "type": "synthetic_narration",
-    "script_sha256": "sha256:ce584657152af967a5600239fec7ab44567a1154dacc19b2ff2e68eeb1669d99",
-    "source_audio_sha256": "sha256:68da4782829c8b995586e0c3194df3bd588c4f880397968d483f8f71eca27de1",
-    "audio_analysis": {
-      "input_i": "-25.46",
-      "input_tp": "-1.47",
-      "input_lra": "4.30",
-      "input_thresh": "-35.88",
-      "output_i": "-18.70",
-      "output_tp": "-1.50",
-      "output_lra": "2.50",
-      "output_thresh": "-29.06",
-      "normalization_type": "dynamic",
-      "target_offset": "2.70",
-      "silences_at_least_1_2_seconds_at_minus_38_db": []
-    }
-  },
-  "reproduction": "https://github.com/fuxi-ailabs/dsh-plugin-market/tree/codex/crowdmemory-harmony-demo/docs/demos/harmony-python-history",
-  "encoding": {
-    "duration_seconds": 133.367,
-    "poster_time_seconds": 2,
-    "container_duration_seconds": 133.367,
-    "fps": 30,
-    "width": 3840,
-    "height": 2160,
-    "narration": {
-      "voice": "zh-CN-YunyangNeural",
-      "rate": "+0%",
-      "type": "synthetic_narration",
-      "continuous": true,
-      "audio_splice_count": 0,
-      "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"
-    },
-    "captions_burned_in": true,
-    "caption_count": 26,
-    "captions": [
-      {
-        "scene": "intro",
-        "start": 0.1,
-        "end": 3.942,
-        "text": "Crowd Memory 是面向 Agent 的组织级记忆组件。"
-      },
-      {
-        "scene": "intro",
-        "start": 3.975,
-        "end": 10.992,
-        "text": "开发任务留下的排查过程和修复经验，可以在后续 Agent 执行前进入它的上下文。"
-      },
-      {
-        "scene": "intro",
-        "start": 11.025,
-        "end": 19.667,
-        "text": "这里选鸿蒙 PC 的 Python 三方库适配，两个库遇到了相近的原生依赖问题，正好看经验怎样跨库使用。"
-      },
-      {
-        "scene": "config",
-        "start": 19.7,
-        "end": 25.117,
-        "text": "先在 DSH 的 Profile 里接上记忆服务，设置项目和采集模板。"
-      },
-      {
-        "scene": "config",
-        "start": 25.15,
-        "end": 30.392,
-        "text": "加载适配器后，任务里的工具操作和笔记就可以进入处理链路。"
-      },
-      {
-        "scene": "a_fix",
-        "start": 30.425,
-        "end": 36.117,
-        "text": "Agent 一处理 apriltag-python，这个库用于识别 AprilTag 视觉标记。"
-      },
-      {
-        "scene": "a_fix",
-        "start": 36.15,
-        "end": 41.092,
-        "text": "适配记录里的原生库文件已经存在，验证进程却找不到。"
-      },
-      {
-        "scene": "a_fix",
-        "start": 41.125,
-        "end": 47.079,
-        "text": "它根据排查记录修正启动脚本，把库目录写入环境，再启动子进程。"
-      },
-      {
-        "scene": "pipeline",
-        "start": 47.112,
-        "end": 51.254,
-        "text": "任务结束以后，轨迹和笔记回流到记忆中心。"
-      },
-      {
-        "scene": "pipeline",
-        "start": 51.287,
-        "end": 57.604,
-        "text": "中心把同一问题的证据聚合起来，形成候选，并核对结构、来源和证据。"
-      },
-      {
-        "scene": "pipeline",
-        "start": 57.637,
-        "end": 61.792,
-        "text": "这里可以逐项打开 Raw、Candidate 和核验结果。"
-      },
-      {
-        "scene": "card",
-        "start": 61.825,
-        "end": 65.142,
-        "text": "这就是 Agent 一生成的 Memory Card。"
-      },
-      {
-        "scene": "card",
-        "start": 65.175,
-        "end": 69.692,
-        "text": "卡片写明了触发条件、原因、修复步骤和来源。"
-      },
-      {
-        "scene": "card",
-        "start": 69.725,
-        "end": 74.967,
-        "text": "关键动作是先把原生库目录加入环境，再启动验证进程。"
-      },
-      {
-        "scene": "card",
-        "start": 75.0,
-        "end": 79.292,
-        "text": "换一个库时，需要重新确认它自己的依赖目录。"
-      },
-      {
-        "scene": "b_injection",
-        "start": 79.325,
-        "end": 85.192,
-        "text": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库加载问题。"
-      },
-      {
-        "scene": "b_injection",
-        "start": 85.225,
-        "end": 90.929,
-        "text": "开始下一步之前，Crowd Memory 把这张卡送进了 DSH 上下文。"
-      },
-      {
-        "scene": "b_injection",
-        "start": 90.962,
-        "end": 95.529,
-        "text": "展开这里，能看到卡片编号、来源和触发原因。"
-      },
-      {
-        "scene": "b_apply",
-        "start": 95.562,
-        "end": 98.492,
-        "text": "接着看 Agent 二的代码修改。"
-      },
-      {
-        "scene": "b_apply",
-        "start": 98.525,
-        "end": 102.279,
-        "text": "它把环境变量设置放在启动进程之前。"
-      },
-      {
-        "scene": "b_apply",
-        "start": 102.312,
-        "end": 108.704,
-        "text": "这次传入的是 RDKit 的点 libs 目录，与 Agent 一处理的 apriltag 目录不同。"
-      },
-      {
-        "scene": "b_test",
-        "start": 108.737,
-        "end": 118.529,
-        "text": "用同一条命令重跑启动测试，检查原生库目录是否传入子进程、已有路径是否保留，以及空值会不会多出一项。"
-      },
-      {
-        "scene": "b_test",
-        "start": 118.562,
-        "end": 120.467,
-        "text": "这三项都通过了。"
-      },
-      {
-        "scene": "usage",
-        "start": 120.5,
-        "end": 122.517,
-        "text": "最后看使用回执。"
-      },
-      {
-        "scene": "usage",
-        "start": 122.55,
-        "end": 129.367,
-        "text": "同一个卡片编号下，已经记录了注入和采用，采用的文件就是刚才修改的启动脚本。"
-      },
-      {
-        "scene": "usage",
-        "start": 129.4,
-        "end": 133.275,
-        "text": "这条使用记录会回流，和这张卡一起保留。"
-      }
-    ],
-    "font_name": "STHeiti Medium.ttc",
-    "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
-    "source_capture_sha256": {
-      "a-3.webm": "sha256:5a0a165eac2aa4cd9e2af5bc2a3619747a37124f65c8d8bf5008f302c11edbe6",
-      "b-3.webm": "sha256:eb9989cec45a77688d0c7921164b5c0d1f95bc2666fc2cf7817e237d80402255",
-      "config_doc.webm": "sha256:4eb89d74dc7a37776557ec7c06995400718017f0aeea0c320ac05093b98f653a",
-      "a_fix.webm": "sha256:1965368e8fbec0a48922196da9c19a69fef83768c089cd7d9066f71db1efe777",
-      "pipeline.webm": "sha256:cf1833f16b5ee5d508a921423fe085e9be9620b8d6ea3289123fa82fe6d2c68b",
-      "card.webm": "sha256:c50643355438ab179cb7f8f43aa178911d784ee465ce91b33448ded2fa4b3715",
-      "b_injection.webm": "sha256:871aafba29af36f14bfe1993a7e9ca9b7531b73fcfa164a20825d5d329be199b",
-      "b_apply.webm": "sha256:eebc4cc1dcd5cd7a43b0b908768a9455a84d4c66a1faf0d65ef0fd41f1ecca84",
-      "b_test.webm": "sha256:1715c119521d41ab2f99837760fb6dc73bea57843aa23bef1efffe41845d8acb",
-      "usage.webm": "sha256:526e5b2393811b8c78ab376d2bf5a00f11d30b618ad93766dc51aa0e3e87c1ba"
-    },
-    "source_audio_sha256": {
-      "narration.mp3": "sha256:68da4782829c8b995586e0c3194df3bd588c4f880397968d483f8f71eca27de1"
-    },
-    "scenes": [
-      {
-        "id": "intro",
-        "start_seconds": 0,
-        "duration_seconds": 19.7,
-        "label": "组织级记忆组件 · 经验进入后续 Agent 的执行过程"
-      },
-      {
-        "id": "config",
-        "start_seconds": 19.7,
-        "duration_seconds": 10.7,
-        "label": "接入配置 · 端点、项目与采集模板"
-      },
-      {
-        "id": "a_fix",
-        "start_seconds": 30.4,
-        "duration_seconds": 16.7,
-        "label": "Agent 1 · apriltag-python：修复验证启动脚本"
-      },
-      {
-        "id": "pipeline",
-        "start_seconds": 47.1,
-        "duration_seconds": 14.7,
-        "label": "处理链路 · Raw → 聚合 → Candidate → 核验"
-      },
-      {
-        "id": "card",
-        "start_seconds": 61.8,
-        "duration_seconds": 17.5,
-        "label": "Agent 1 生成的 Memory Card · 条件、原因、修法、来源"
-      },
-      {
-        "id": "b_injection",
-        "start_seconds": 79.3,
-        "duration_seconds": 16.233,
-        "label": "Agent 2 · 记忆卡自动进入 DSH 上下文"
-      },
-      {
-        "id": "b_apply",
-        "start_seconds": 95.533,
-        "duration_seconds": 13.2,
-        "label": "Agent 2 · 按卡片修改脚本，使用 RDKit 的 .libs 目录"
-      },
-      {
-        "id": "b_test",
-        "start_seconds": 108.733,
-        "duration_seconds": 11.767,
-        "label": "启动脚本测试 · 目录传递、路径保留、空值处理"
-      },
-      {
-        "id": "usage",
-        "start_seconds": 120.5,
-        "duration_seconds": 12.867,
-        "label": "使用回执 · 同一张卡 → 脚本修改 → 测试结果回流"
-      }
-    ]
-  },
-  "web_delivery": {
-    "default": "harmony-python-demo-1080p.mp4",
-    "original": "harmony-python-demo.mp4",
-    "preload": "none",
-    "poster": "harmony-python-preview.jpg",
-    "captions_burned_in": true,
-    "optional_text_track_enabled_by_default": false,
-    "qualities": {
-      "harmony-python-demo.mp4": {
-        "width": 3840,
-        "height": 2160,
-        "fps": "30/1",
-        "duration_seconds": 133.366667,
-        "size_bytes": 9527474,
-        "faststart": true,
-        "complete_decode": "passed"
-      },
-      "harmony-python-demo-1080p.mp4": {
-        "width": 1920,
-        "height": 1080,
-        "fps": "30/1",
-        "duration_seconds": 133.368,
-        "size_bytes": 3723238,
-        "faststart": true,
-        "complete_decode": "passed"
-      }
-    }
-  },
-  "media_sha256": {
-    "harmony-python-demo.mp4": "sha256:8b68db8c5f2fa40f97f40fe11dbb544081d862608ec1a22b777e2c5f432ddbc8",
-    "harmony-python-demo-1080p.mp4": "sha256:020d270268b0add9e5f4f164d911c568164510b95d1fb807da111dffcb7de7f3",
-    "harmony-python-preview.jpg": "sha256:ad34be15a6ad4fa65035954129375af601b0048100b45f7251a4c1065a931865",
-    "harmony-python-zh.vtt": "sha256:cd1428ddb5dfd607507945f793646852a26b296d208d67ed7341fa1d8ba5c0ab"
-  },
-  "page_scope": "Narrated video, its metadata and evidence link. General component content and the existing libpng example retained.",
-  "browser_qa": {
-    "initial": {
-      "mp4_requests": 0,
-      "preload": "none",
-      "tracks": [
-        "disabled"
-      ]
-    },
-    "playback": {
+  "media": {
+    "harmony-python-demo-1080p-redacted.mp4": {
       "width": 1920,
       "height": 1080,
-      "duration": 133.368,
-      "playing": true
-    },
-    "quality_switch": {
-      "width": 3840,
-      "height": 2160,
-      "time": 40,
-      "paused": true,
-      "tracks": [
-        "disabled"
-      ]
-    },
-    "mobile": {
-      "width": 390,
-      "document_width": 390,
-      "video_left": 19,
-      "video_right": 371,
-      "market_link_visible": true
-    },
-    "libpng_link": {
-      "hash": "#example",
-      "title": "libpng：从信息读取到图片读写"
+      "duration_seconds": 152.916,
+      "size_bytes": 4536737
     }
-  }
+  },
+  "privacy": "画面中的用户名、主机名和个人目录已替换为通用演示标识，封面同步处理。",
+  "summary_scope": "任务、首次发布与使用结果摘要。视频由运行片段剪辑，启动镜头补录。"
 }

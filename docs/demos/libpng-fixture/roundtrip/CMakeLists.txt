@@ -1,7 +1,0 @@
-cmake_minimum_required(VERSION 3.20)
-project(png_roundtrip_demo C)
-find_package(PNG REQUIRED)
-add_executable(png_roundtrip main.c)
-target_include_directories(png_roundtrip PRIVATE ${PNG_INCLUDE_DIRS})
-enable_testing()
-add_test(NAME png_roundtrip_preserves_pixels COMMAND png_roundtrip ${CMAKE_CURRENT_SOURCE_DIR}/../fixtures/sample.png ${CMAKE_CURRENT_BINARY_DIR}/roundtrip.png)

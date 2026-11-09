@@ -1,3 +1,0 @@
-现在展示经验处理链路。运行下面命令，使用安装的 Crowd Memory Center 实现处理刚才 Runtime 封存的笔记与 Raw。
-<previous-demo-root>/venv/bin/python process-experience.py <demo-root>/runtime
-读取生成的 experience-pipeline.md 和 pipeline/summary.json。最后用一个紧凑表格展示输入、封存、聚合、候选、核验、本地卡片状态，保留 candidate_id 和卡片编号。核验逐项状态按输出，single_source / needs_human 按输出。表格以后只列出 pipeline/candidate.json 与 pipeline/validation.json 供打开查看。不重新写记忆，不运行目标平台验证，不谈录像。

@@ -13,7 +13,7 @@
   <div class="top-row">
     <button type="button" class="menu" aria-label="打开目录" aria-expanded="false">☰</button>
     <a class="brand" href="index.html"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="6" r="2.4"/><circle cx="12" cy="3.6" r="2.4"/><circle cx="19" cy="6" r="2.4"/><path d="M5 6l7 7M12 3.6V13M19 6l-7 7" fill="none" stroke="currentColor" stroke-width="1.4" opacity=".5"/><rect x="6" y="15" width="12" height="2.6" rx="1.3"/><rect x="6" y="19.2" width="12" height="2.6" rx="1.3"/></svg>Crowd Memory 文档</a>
-    <span class="ver">v0.1.1</span>
+    <span class="ver">v0.2.0</span>
     <button type="button" class="theme" aria-label="切换明暗">◐</button>
   </div>
   <nav class="tabs" aria-label="文档分类"><a href="index.html">快速开始</a><a href="adapters.html">Agent 接入</a><a href="push.html" class="on">指南</a><a href="runtime.html">参考</a><a href="evaluation.html">其他</a></nav>
@@ -23,11 +23,13 @@
   <main class="main">
     <article class="doc">
       <h1>团队记忆</h1>
-<div class="note"><strong>内部预览</strong><p>团队记忆目前只在内部使用，0.1.1 不对外提供中心服务。本页说明其工作方式。</p></div>
-<p>团队记忆让多台机器共享经过核验的记录。各台机器把记录上传到原始记录仓；中心定期运行 <code>crowdmemory gate-run</code>，逐条核验候选记录，通过的发布到发布仓；各台机器拉取发布仓，把其中的记录推送给 Agent。整个过程不需要人工审核。</p>
+<div class="note"><strong>内部预览</strong><p>0.2.0 源码提供组织中心的自动核验与 trial 试推流程，组织中心当前按内部预览部署。本页说明其工作方式。</p></div>
+<p>团队记忆让多台机器共享经过核验的记录。各台机器把记录上传到原始记录仓；中心通过 <code>crowdmemory gate-serve</code> 持续处理，或按需运行 <code>crowdmemory gate-run</code>，逐条核验候选记录，通过的发布到发布仓；各台机器拉取发布仓，把其中的记录推送给 Agent。整个过程不需要人工审核。</p>
 <h2 id="checks">核验<a class="hash" href="#checks" aria-label="本节链接">#</a></h2>
+<p><code>gate@2</code> 对带修法的记录核对原始引用、本机证据 L、修改约束、一致性与独立来源，满足条件后发布为 <code>trial</code>。后续使用与验证信号回流到中心，用于继续评估与晋升。</p>
+<p>下面列出恢复工作区进行回放时使用的检查项：</p>
 <div class="table"><table><thead><tr><th>检查</th><th>内容</th><th>不通过时</th></tr></thead><tbody><tr><td>C1</td><td>记录中的引用、修法和失败签名都能在原始记录中找到</td><td>拒绝</td></tr><tr><td>C2</td><td>恢复失败时的工作区，重跑失败步骤，失败能复现</td><td>拒绝</td></tr><tr><td>C3</td><td>按修法修改后，失败步骤通过</td><td>拒绝</td></tr><tr><td>C4</td><td>修法没有修改或跳过测试、放宽阈值、关闭检查</td><td>拒绝</td></tr><tr><td>C5</td><td>与已有记录不冲突</td><td>拒绝</td></tr><tr><td>C6</td><td>来自至少 3 个独立会话或项目</td><td>保留为草稿</td></tr><tr><td>E1</td><td>同一快照上交替运行两组，一组只装这条记录，一组不装。修法能直接执行且 C3 已通过时，要求装记录的一组不比对照组差；其他情况要求装记录的一组更好</td><td>拒绝</td></tr></tbody></table></div>
-<p>全部通过后，记录发布为团队核验记录，推送中的出处显示为 <code>团队 · 已在 &lt;N&gt; 次回放验证</code>，并附一行核验结果。</p>
+<p>回放核验全部通过后，记录发布为团队核验记录，推送中的出处显示为 <code>团队 · 已在 &lt;N&gt; 次回放验证</code>，并附一行核验结果。</p>
 <h2 id="withdraw">撤下<a class="hash" href="#withdraw" aria-label="本节链接">#</a></h2>
 <p>已发布的记录在重新核验时被拒绝，或新版本核验失败时撤下。撤下的记录不再推送，历史版本保留在发布仓中。核验结果待定（例如回放时间不足）时不撤下。</p>
 <h2 id="requirements">要求<a class="hash" href="#requirements" aria-label="本节链接">#</a></h2>
