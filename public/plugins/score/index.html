@@ -35,7 +35,7 @@
         <div class="hero-title">
           <img src="assets/icon.svg" alt="" width="64" height="64">
           <div>
-            <p class="eyebrow">DSH BUNDLE · dsh-score-bundle · v1.2.0</p>
+            <p class="eyebrow">DSH BUNDLE · dsh-score-bundle · v1.2.1</p>
             <h1>Score</h1>
           </div>
         </div>
@@ -43,7 +43,7 @@
         <dl class="meta">
           <div><dt>DSH</dt><dd><code>^0.2.1-rc.2</code></dd></div>
           <div><dt>Node.js</dt><dd><code>&gt;=24</code></dd></div>
-          <div><dt>Score Bundle</dt><dd><code>dsh-score-bundle@1.2.0</code></dd></div>
+          <div><dt>Score Bundle</dt><dd><code>dsh-score-bundle@1.2.1</code></dd></div>
           <div><dt>Context-Insight</dt><dd><code>0.2.41</code></dd></div>
         </dl>
       </div>
@@ -83,15 +83,15 @@
           <div class="tab-panel" id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" data-panel="overview">
             <section id="relationship">
               <h2>主要组成</h2>
-              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-score-bundle@1.2.0</code>，即可获得完整的会话评分能力。</p>
+              <p>实际使用中，您只需要一键安装 <code>@fuxi-ailabs/dsh-score-bundle@1.2.1</code>，即可获得完整的会话评分能力。</p>
               <table class="relationship-table">
                 <thead><tr><th>组成</th><th>版本</th><th>作用</th></tr></thead>
                 <tbody>
-                  <tr><td><strong>Score Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.0</code></td><td>一次安装完整的评分能力，自带 provider-auth、env-health、Host 和 UX。</td></tr>
-                  <tr><td><strong>dsh-score</strong><small>Host 插件</small></td><td><code class="version-short">1.2.0</code></td><td>注册 <code>/score</code>，负责导入、读卡、重算、语义评审和覆盖度对账。</td></tr>
+                  <tr><td><strong>Score Bundle</strong><small>安装入口</small></td><td><code class="version-short">1.2.1</code></td><td>一次安装完整的评分能力，自带 provider-auth、env-health、Host 和 UX。</td></tr>
+                  <tr><td><strong>dsh-score</strong><small>Host 插件</small></td><td><code class="version-short">1.2.1</code></td><td>注册 <code>/score</code>，负责导入、读卡、重算、语义评审和覆盖度对账。</td></tr>
                   <tr><td><strong>dsh-score-ux</strong><small>Web UX 插件</small></td><td><code class="version-short">1.2.0</code></td><td>渲染六维评分圆盘、维度详情、重算按钮和语义评审入口。</td></tr>
                   <tr><td><strong>dsh-provider-auth</strong><small>共享认证</small></td><td><code class="version-short">1.1.0</code></td><td>解析显式配置、环境变量或 DSH credentials，供语义评审借用模型连接。</td></tr>
-                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.0</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Observe 同时安装时复用同一实例。</td></tr>
+                  <tr><td><strong>dsh-env-health</strong><small>共享运行时</small></td><td><code class="version-short">1.2.1</code></td><td>管理 Context-Insight CLI 的探测、安装和并发安装锁；与 Observe 同时安装时复用同一实例。</td></tr>
                   <tr><td><strong>Context-Insight</strong><small>评分运行时</small></td><td><code class="version-short">0.2.41</code></td><td>提供六维评分卡、覆盖度、证据与服务端评分页面。</td></tr>
                 </tbody>
               </table>
@@ -145,9 +145,10 @@
 
             <section id="install">
               <h2>2. 安装 Score Bundle</h2>
+              <p><strong>从 1.2.0 升级：</strong>DSH 市场只会提示更新，不能直接升级已安装插件。请先移除旧 Bundle：<code>dsh plugin --profile web remove @fuxi-ailabs/dsh-score-bundle</code>，再执行下方 <code>add</code> 命令安装 1.2.1。</p>
               <div class="install-command" aria-label="终端安装命令">
-                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.0</code></pre>
-                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.0" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
+                <pre><code>dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.1</code></pre>
+                <button type="button" class="copy-button" data-copy="dsh plugin --profile web add @fuxi-ailabs/dsh-score-bundle@1.2.1" aria-label="复制安装命令">复制 <span aria-hidden="true">⧉</span></button>
               </div>
               <p class="profile-note">如果目标不是 <code>web</code> profile，请替换命令中的 profile 名。</p>
               <p>DSH 市场中也可以搜索 <strong>Score · DSH 会话评分</strong> 进行安装：</p>
