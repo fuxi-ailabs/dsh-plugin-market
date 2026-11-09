@@ -1,0 +1,486 @@
+{
+  "schema": "crowdmemory-harmony-python-history-demo/v1",
+  "recorded_at": "2026-11-09",
+  "environment": {
+    "platform": "macOS arm64",
+    "dsh": "0.1.6-alpha.2",
+    "runtime": "0.1.1",
+    "adapter": "0.1.1",
+    "model_requested": "claude-sonnet-4-6",
+    "provider_identity_independently_verified": false,
+    "runtime_profile": "session-default",
+    "project": "harmony-python-demo",
+    "endpoint_file": "<demo-root>/runtime/endpoint.json"
+  },
+  "execution_scope": {
+    "historical_inputs": "Two independent archived HarmonyOS PC adaptation tasks, explicitly supplied to DSH for analysis.",
+    "current_execution": "Local DSH analysis, memory_note, memory_search, memory_read, candidate preparation and source comparison.",
+    "center_scene": "Server deployment flow illustration. Actual demo uses a single local Runtime and no center publication.",
+    "native_platform_validation": "Historical reports only. Candidate commands were not executed on HarmonyOS in this demo.",
+    "historical_chronology": "nerdd-module 2026-11-02 precedes apriltag-python 2026-11-04; cross-library consumption occurs only in this 2026-11-09 DSH replay."
+  },
+  "sources": {
+    "repository": "https://gitcode.com/third-party-library-for-harmony/migbot-experience-raw",
+    "branch": "automemory/host-27",
+    "commit": "343c60fd2309dbf1edf6d3169b80838c54e1f1cd",
+    "files": [
+      {
+        "local": "sources/apriltag-loader.md",
+        "path": "records/2026/11/am-347d912831feb751855892df/auto_memory/cython-ext-no-rpath-needs-ld-library-path.md",
+        "sha256": "8f1b2b709420116fabd294a1941242f60851b8342cbbed01743f0616819cecb7"
+      },
+      {
+        "local": "sources/apriltag-report.md",
+        "path": "records/2026/11/am-347d912831feb751855892df/artifacts/final-report.md",
+        "sha256": "eef622ec72cbf7dcd92ef2ee3a2b6374abbb647f7bc3b8e98bac8e4b6d65bbff"
+      },
+      {
+        "local": "sources/apriltag-scheduler-state.json",
+        "path": "records/2026/11/am-347d912831feb751855892df/artifacts/scheduler-state.json",
+        "sha256": "c92ec6b261ffa8e3b99e657fc6aec919a7268baf52d0deece2e8ca744248159b"
+      },
+      {
+        "local": "sources/rdkit-loader.md",
+        "path": "records/2026/11/am-9eca62129bbb8880a8aaf78a/auto_memory/rdkit-libs-subdir-needs-LD_LIBRARY_PATH-on-hmos.md",
+        "sha256": "1cec1986373a558232520aacd9f6043f211383006536c427d87a480606c8468a"
+      },
+      {
+        "local": "sources/nerdd-final-report.md",
+        "path": "records/2026/11/am-9eca62129bbb8880a8aaf78a/artifacts/final-report.md",
+        "sha256": "a2575f0fe47d86b60734497e9009b18f60a1acd91135ae46ad655a1b9e27d0ff"
+      }
+    ]
+  },
+  "actors": [
+    {
+      "agent": "agent-1",
+      "session_ref": "session-c269d9b2-3b80-4293-a318-504849a3f917",
+      "task": "Analyze apriltag archive, preserve source and conditions, record experience.",
+      "tool_calls": 5,
+      "historical_verdict": "pass",
+      "historical_test_scope": "Scheduler collected 12 generated cases; source snapshot contained no upstream tests."
+    },
+    {
+      "agent": "agent-2",
+      "session_ref": "session-75d24a9e-5614-4b5b-83d8-836764875125",
+      "task": "Retrieve Agent 1 record for RDKit; form a candidate; compare to separately revealed historical fix and report.",
+      "tool_calls": 27,
+      "historical_verdict": "conditional_pass",
+      "historical_tests": {
+        "passed": 65,
+        "total": 66,
+        "remaining": "InChI input parsing with trailing-newline bytes returns fewer records. Separate from import loader failure."
+      },
+      "operator_refinement": "After source comparison, operator requested adding artifact-integrity boundaries and avoiding an empty LD_LIBRARY_PATH component. Full prompt and real model/tool responses retained."
+    }
+  ],
+  "memory": {
+    "record_ref": "lr_01a1be9088207711b6379c03f1c707ab",
+    "topic_key": "harmony/native-loader-path",
+    "scope": "global",
+    "storage": "local Runtime",
+    "note_receipt": "saved lr_01a1be9088207711b6379c03f1c707ab revision 1 under harmony/native-loader-path; no similar memories found",
+    "agent_2_read_ref": "lr_01a1be9088207711b6379c03f1c707ab",
+    "same_record_confirmed": true,
+    "center_verified": false,
+    "entry_basis": "Analysis of archived agent note and scheduler report; source strength retained in note."
+  },
+  "run_logs": {
+    "agent-1-events.jsonl": {
+      "raw_sha256": "sha256:c0c3c51fda9f5fee770e85832029a1f16174ce4c67b91dc6aae81be6cd1ab740",
+      "public_sha256": "sha256:002bc7de97122bda386f2547f4ea655cd2c898f3b80f5cbd8e7688fb947bbe48",
+      "normalization": "Only absolute demo-root prefix replaced with <demo-root>."
+    },
+    "agent-2-events.jsonl": {
+      "raw_sha256": "sha256:9e2726dd31e73d77eae9f9a434eb98b7481ca41fab460d7695f58f96c892be91",
+      "public_sha256": "sha256:02395e39a3ab9c5fa5d44aac2112fa74950b399c198953a2ac25ad9073c8aeff",
+      "normalization": "Only absolute demo-root prefix replaced with <demo-root>."
+    },
+    "agent-2-check-events.jsonl": {
+      "raw_sha256": "sha256:d292f83c5824db3d7ed2344f6ff97ded70948b723c4e41f423f280751b827e54",
+      "public_sha256": "sha256:89a954c55f83a75fb0e88b1df45d32cff58f8a6bfeb3d0374050c10050f207ad",
+      "normalization": "Only absolute demo-root prefix replaced with <demo-root>."
+    },
+    "agent-2-refine-events.jsonl": {
+      "raw_sha256": "sha256:489f43657acdf863a94f38151690befcc5eb70702afad1005b7cd2c70c7c33ea",
+      "public_sha256": "sha256:352f7b624a6fc7b2bcee4ad0cb0f6395d01707d98d2ee79614ac272b08ac9311",
+      "normalization": "Only absolute demo-root prefix replaced with <demo-root>."
+    }
+  },
+  "public_files_sha256": {
+    "agent-2-events.jsonl": "sha256:02395e39a3ab9c5fa5d44aac2112fa74950b399c198953a2ac25ad9073c8aeff",
+    "comparison.md": "sha256:e0d56b300e0a15e14666eb814fbc89f7d726d076d510d44663e1f501440d8c45",
+    "agent-2-check-events.jsonl": "sha256:89a954c55f83a75fb0e88b1df45d32cff58f8a6bfeb3d0374050c10050f207ad",
+    "agent-2-refine-events.jsonl": "sha256:352f7b624a6fc7b2bcee4ad0cb0f6395d01707d98d2ee79614ac272b08ac9311",
+    "agent-2-prompt.txt": "sha256:f2078afc5ef2cd10defa691ff32c8b56c476ae839bd9872de86f508431d81dfd",
+    "agent-2-refine-prompt.txt": "sha256:8db433ce8e4d35f0797ae1f044ad996a685824e42351b643af2e51b0ec52c566",
+    "candidate.md": "sha256:89846c931de9f0f2ebdc76c487bbfd7a8c765c4e34d02cfabdfbc97871303dd8",
+    "README.md": "sha256:36f427ea6dab2b51be4b89f9d4927f00525f6d7db56cdf9d18a843c02dcd9d8b",
+    "agent-2-check-prompt.txt": "sha256:a3205e05af7babc376a8fd29c3b05e296a342ef497420fc0d3c8b4d058b92033",
+    "agent-1-prompt.txt": "sha256:8a9604f69e6b991cf5c4a7fae97c0ed3334e020592bf1a0f589148e94d804e88",
+    "agent-1-events.jsonl": "sha256:002bc7de97122bda386f2547f4ea655cd2c898f3b80f5cbd8e7688fb947bbe48"
+  },
+  "narration": {
+    "voice": "zh-CN-YunyangNeural",
+    "rate": "+0%",
+    "continuous": true,
+    "audio_splice_count": 0,
+    "type": "synthetic_narration",
+    "script_sha256": "sha256:7053bbdb2d6d723cac32619cef2dbabcbbac461375a705f93bf0bf5a30dc1e00",
+    "source_audio_sha256": "sha256:6d117e06715d1fddaee5722d7a285c42def0d2808f1c1929b24cd0ffa7331b6f",
+    "long_pause_check": "No silence >= 1.2 seconds at -38 dB in continuous TTS master.",
+    "measured_audio": {
+      "integrated_lufs": -18.46,
+      "true_peak_dbtp": -1.36,
+      "measurement": "ffmpeg loudnorm analysis of final AAC decode"
+    }
+  },
+  "reproduction": "https://github.com/fuxi-ailabs/dsh-plugin-market/tree/codex/crowdmemory-harmony-demo/docs/demos/harmony-python-history",
+  "configuration_capture": {
+    "documentation": "Public configuration.html#override with placeholder paths, project and template fields.",
+    "loaded_status": "Actual DSH Plugins detail shows adapter 0.1.1 and 1 total / 1 running."
+  },
+  "encoding": {
+    "duration_seconds": 162.8,
+    "poster_time_seconds": 148.3,
+    "container_duration_seconds": 162.8,
+    "fps": 30,
+    "width": 3840,
+    "height": 2160,
+    "narration": {
+      "voice": "zh-CN-YunyangNeural",
+      "rate": "+0%",
+      "type": "synthetic_narration",
+      "continuous": true,
+      "audio_splice_count": 0,
+      "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"
+    },
+    "captions_burned_in": true,
+    "caption_count": 30,
+    "captions": [
+      {
+        "scene": "intro",
+        "start": 0.1,
+        "end": 3.942,
+        "text": "Crowd Memory 是面向 Agent 的组织级记忆组件。"
+      },
+      {
+        "scene": "intro",
+        "start": 3.975,
+        "end": 11.429,
+        "text": "它把开发任务中的排查过程、修复办法和验证结果整理成经验，供后续 Agent 检索。"
+      },
+      {
+        "scene": "intro",
+        "start": 11.462,
+        "end": 18.329,
+        "text": "这次用鸿蒙 PC 的 Python 三方库适配资料，看看同一类问题的经验怎样跨库复用。"
+      },
+      {
+        "scene": "config_doc",
+        "start": 18.362,
+        "end": 23.329,
+        "text": "本片使用真实历史记录，由两个 DSH Agent 在本机复盘。"
+      },
+      {
+        "scene": "config_doc",
+        "start": 23.362,
+        "end": 31.092,
+        "text": "先看接入配置，在 DSH 的 Profile 中连接记忆服务端点，设置项目标识和采集模板。"
+      },
+      {
+        "scene": "config_loaded",
+        "start": 31.125,
+        "end": 36.179,
+        "text": "插件加载以后，Agent 就可以记录、搜索和读取经验。"
+      },
+      {
+        "scene": "config_loaded",
+        "start": 36.212,
+        "end": 38.842,
+        "text": "这里保留了实际加载状态。"
+      },
+      {
+        "scene": "a_source",
+        "start": 38.875,
+        "end": 42.142,
+        "text": "左边的 Agent 一先看 apriltag-python。"
+      },
+      {
+        "scene": "a_source",
+        "start": 42.175,
+        "end": 47.567,
+        "text": "这个库识别黑白方形的 AprilTag 视觉标记，常用于机器人定位。"
+      },
+      {
+        "scene": "a_source",
+        "start": 47.6,
+        "end": 54.592,
+        "text": "它依赖原生库 libapriltag，但历史记录里，库文件明明存在，导入时却找不到。"
+      },
+      {
+        "scene": "a_diagnosis",
+        "start": 54.625,
+        "end": 60.992,
+        "text": "记录里试过改 Python 搜索路径、在程序运行后设置环境变量，都没有解决。"
+      },
+      {
+        "scene": "a_diagnosis",
+        "start": 61.025,
+        "end": 67.942,
+        "text": "有效做法是先找到原生库目录，在启动验证进程之前设置加载器搜索路径。"
+      },
+      {
+        "scene": "a_diagnosis",
+        "start": 67.975,
+        "end": 72.742,
+        "text": "Agent 一把这些尝试、适用条件和来源一起整理出来。"
+      },
+      {
+        "scene": "a_note",
+        "start": 72.775,
+        "end": 74.892,
+        "text": "现在保存这条经验。"
+      },
+      {
+        "scene": "a_note",
+        "start": 74.925,
+        "end": 82.917,
+        "text": "记录中保留了具体报错和原始档案编号，也注明历史报告的验证范围，方便接手的 Agent 回查。"
+      },
+      {
+        "scene": "center",
+        "start": 82.95,
+        "end": 88.117,
+        "text": "组织级部署中，任务轨迹和结果回流到服务器上的记忆中心。"
+      },
+      {
+        "scene": "center",
+        "start": 88.15,
+        "end": 93.042,
+        "text": "中心聚合证据、提炼候选，核验后发布到共享范围。"
+      },
+      {
+        "scene": "center",
+        "start": 93.075,
+        "end": 98.892,
+        "text": "后续 Agent 的采用和测试结果再回流，持续补充经验的适用条件。"
+      },
+      {
+        "scene": "center",
+        "start": 98.925,
+        "end": 101.792,
+        "text": "这里展示的是这条处理链路。"
+      },
+      {
+        "scene": "b_task",
+        "start": 101.825,
+        "end": 103.554,
+        "text": "右边换一个库。"
+      },
+      {
+        "scene": "b_task",
+        "start": 103.587,
+        "end": 109.342,
+        "text": "nerdd-module 用 RDKit 处理分子数据，这次报错指向另一个原生库。"
+      },
+      {
+        "scene": "b_task",
+        "start": 109.375,
+        "end": 113.767,
+        "text": "Agent 二先搜索已有经验，再打开刚才那条记录。"
+      },
+      {
+        "scene": "b_read",
+        "start": 113.8,
+        "end": 116.129,
+        "text": "它复用的是诊断方法。"
+      },
+      {
+        "scene": "b_read",
+        "start": 116.162,
+        "end": 124.967,
+        "text": "核对当前资料后，Agent 二发现 RDKit 的伴生库放在点 libs 子目录，而已有搜索路径只覆盖上一层。"
+      },
+      {
+        "scene": "b_read",
+        "start": 125.0,
+        "end": 129.304,
+        "text": "因此，候选命令需要加入 RDKit 自己的目录。"
+      },
+      {
+        "scene": "results",
+        "start": 129.337,
+        "end": 131.179,
+        "text": "再对照历史报告。"
+      },
+      {
+        "scene": "results",
+        "start": 131.212,
+        "end": 139.004,
+        "text": "nerdd-module 当时通过了六十六项中的六十五项，还有一项 InChI 解析问题，结论是条件通过。"
+      },
+      {
+        "scene": "results",
+        "start": 139.037,
+        "end": 146.279,
+        "text": "这些结果来自原始适配档案，本次录制完成的是资料核对、记忆检索和方案复用。"
+      },
+      {
+        "scene": "closing",
+        "start": 146.312,
+        "end": 154.004,
+        "text": "左边从完整排查记录里提炼经验，右边带着另一个库的报错检索，再按自己的依赖目录调整。"
+      },
+      {
+        "scene": "closing",
+        "start": 154.037,
+        "end": 162.712,
+        "text": "Crowd Memory 把来源、条件和结果一起交给后续 Agent，让一次排查形成可继续积累的组织级经验。"
+      }
+    ],
+    "font_name": "STHeiti Medium.ttc",
+    "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
+    "source_capture_sha256": {
+      "overview.webm": "sha256:2285f3dd341ac1f26e725a292195bcf237ff371f1c9010867ed807d1f4b802ec",
+      "config_doc.webm": "sha256:4eb89d74dc7a37776557ec7c06995400718017f0aeea0c320ac05093b98f653a",
+      "config_loaded.webm": "sha256:1b477b0630b4ac9267619d810df8c49ec069cfdfbf934e4c059422d3059a9efd",
+      "a_source.webm": "sha256:ada91b09ee80ce63750210fcbea6f32e0c40686a4237c5a95a8cadd3954a99e6",
+      "a_diagnosis.webm": "sha256:b65a22ab06aa3b7c945d9df141e765f4a93471eaaec9f512a3ac35ecc8863166",
+      "a_note.webm": "sha256:6fad154b29d686e1ce945daf5af1920856a33a6e190e53368a816e6e4efb39a1",
+      "center.webm": "sha256:5071ff6f4c9b24efd7265f754b43ae59a59878a562f4f5f3d278d2cc59ad9a97",
+      "b_task.webm": "sha256:0fcb27d03038fabc8c722c8774a88b5716510f9930fab3a73bd2ce05241e980f",
+      "b_read.webm": "sha256:a5751ecabe8597febeb591d9766fd8c375af3a7b24f1c18a0e934af95b1b08b5",
+      "results.webm": "sha256:c369ec646af52a68c1262856607d13a2c7206640de6a4e2ce0afd3190acd0812",
+      "a-3.webm": "sha256:c9709e0b5f96fcebd89198d4b3f1cca962ce8fbee346c24e6038a690e14cf285",
+      "b-3.webm": "sha256:762654ff84099bd092cd299939ee4baae03de39363173129fcbc6aa4adbacf20"
+    },
+    "source_audio_sha256": {
+      "narration.mp3": "sha256:6d117e06715d1fddaee5722d7a285c42def0d2808f1c1929b24cd0ffa7331b6f"
+    },
+    "scenes": [
+      {
+        "id": "intro",
+        "start_seconds": 0,
+        "duration_seconds": 18.333,
+        "label": "组织级记忆组件 · 从开发记录中复用经验"
+      },
+      {
+        "id": "config_doc",
+        "start_seconds": 18.333,
+        "duration_seconds": 12.767,
+        "label": "接入配置 · Runtime 端点、项目与采集模板"
+      },
+      {
+        "id": "config_loaded",
+        "start_seconds": 31.1,
+        "duration_seconds": 7.767,
+        "label": "DSH · Crowd Memory 适配器已加载"
+      },
+      {
+        "id": "a_source",
+        "start_seconds": 38.867,
+        "duration_seconds": 15.733,
+        "label": "Agent 1 · 读取 apriltag-python 的历史排查记录"
+      },
+      {
+        "id": "a_diagnosis",
+        "start_seconds": 54.6,
+        "duration_seconds": 18.167,
+        "label": "Agent 1 · 从失败尝试中提炼适用条件"
+      },
+      {
+        "id": "a_note",
+        "start_seconds": 72.767,
+        "duration_seconds": 10.167,
+        "label": "Agent 1 · 保存带来源的经验"
+      },
+      {
+        "id": "center",
+        "start_seconds": 82.933,
+        "duration_seconds": 18.867,
+        "label": "组织级部署流程示意 · 记忆中心运行在服务器上"
+      },
+      {
+        "id": "b_task",
+        "start_seconds": 101.8,
+        "duration_seconds": 12.0,
+        "label": "Agent 2 · nerdd-module 的 RDKit 依赖加载失败"
+      },
+      {
+        "id": "b_read",
+        "start_seconds": 113.8,
+        "duration_seconds": 15.533,
+        "label": "Agent 2 · 读取同一条经验，核对当前库的条件"
+      },
+      {
+        "id": "results",
+        "start_seconds": 129.333,
+        "duration_seconds": 16.967,
+        "label": "对照原始报告 · 65/66，通过范围与遗留问题分别保留"
+      },
+      {
+        "id": "closing",
+        "start_seconds": 146.3,
+        "duration_seconds": 16.5,
+        "label": "Agent 1 提炼排查经验 → Agent 2 调整跨库用法"
+      }
+    ]
+  },
+  "web_delivery": {
+    "default": "harmony-python-demo-1080p.mp4",
+    "original": "harmony-python-demo.mp4",
+    "preload": "none",
+    "poster": "harmony-python-preview.jpg",
+    "captions_burned_in": true,
+    "optional_text_track_enabled_by_default": false,
+    "qualities": {
+      "harmony-python-demo.mp4": {
+        "width": 3840,
+        "height": 2160,
+        "fps": "30/1",
+        "duration_seconds": 162.8,
+        "size_bytes": 14431615,
+        "faststart": true,
+        "complete_decode": "passed"
+      },
+      "harmony-python-demo-1080p.mp4": {
+        "width": 1920,
+        "height": 1080,
+        "fps": "30/1",
+        "duration_seconds": 162.805,
+        "size_bytes": 5433659,
+        "faststart": true,
+        "complete_decode": "passed"
+      }
+    }
+  },
+  "media_sha256": {
+    "harmony-python-demo.mp4": "sha256:b728518e69d7cd3295a8993db04e3005a9179f7906f64c9ab84ba4846b8b6dc1",
+    "harmony-python-demo-1080p.mp4": "sha256:b702b9185b5d1f2cbb785736e6faa5ca62794adace92a8edfbbb301d7ac8c352",
+    "harmony-python-preview.jpg": "sha256:862a7f8028a946bbc2c10b63b0963f7022a353ca6c10cfea5f863dcebf8a332c",
+    "harmony-python-zh.vtt": "sha256:bb55cb0347d5e31a5a63335559d75a73ba2ed9a8f200195522c01639a2b45418"
+  },
+  "page_scope": "Video metadata and evidence link, plus explicit libpng name in the existing screenshot comparison cross-reference.",
+  "browser_verification": {
+    "default_playback": {
+      "width": 1920,
+      "height": 1080,
+      "duration_seconds": 162.805,
+      "error": null
+    },
+    "quality_switch": {
+      "from": "1080p",
+      "to": "4K",
+      "position_before_seconds": 40,
+      "position_after_seconds": 40,
+      "paused_preserved": true,
+      "width_after": 3840,
+      "height_after": 2160,
+      "optional_text_track": "disabled"
+    },
+    "initial_load_mp4_requests": 0,
+    "mobile_viewport_width": 390,
+    "mobile_document_scroll_width": 390
+  }
+}

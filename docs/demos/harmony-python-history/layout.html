@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>Crowd Memory 演示流程示意</title>
+<style>
+* { box-sizing: border-box }
+body { margin: 0; background: #f8faf9; color: #20382f; font-family: -apple-system, "PingFang SC", sans-serif }
+main { width: 1480px; margin: 60px auto }
+.eyebrow { color: #61766b; font-size: 22px; letter-spacing: 2px }
+h1 { margin: 22px 0 18px; font-size: 58px; font-weight: 600 }
+.lead { margin: 0 0 50px; color: #5a7065; font-size: 27px; line-height: 1.8 }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 32px }
+.card { padding: 38px 42px; border: 1px solid #d6e1da; background: white; border-radius: 14px }
+.number { color: #328060; font-size: 23px; font-weight: 600 }
+h2 { font-size: 34px; font-weight: 600; margin: 22px 0 }
+p, li { font-size: 25px; line-height: 1.85 }
+ul { padding-left: 28px }
+code { font-size: 23px; font-family: "SFMono-Regular", monospace; background: #f0f5f2; padding: 2px 6px }
+.strip { margin-top: 30px; padding: 24px 30px; background: #e8f3ec; font-size: 25px; line-height: 1.7 }
+.server { border: 2px solid #4b8e6a; border-radius: 14px; padding: 30px; background: #eff6f1 }
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 22px }
+.steps .card { padding: 24px 30px }
+.steps h2 { font-size: 29px; margin: 15px 0 }
+.steps p { font-size: 23px; margin: 0 }
+.connection { text-align: center; margin: 20px 0; font-size: 28px; color: #387454 }
+.foot { margin-top: 28px; font-size: 21px; color: #697c70; line-height: 1.7 }
+[hidden] { display: none }
+</style>
+<main id="overview">
+  <div class="eyebrow">CROWD MEMORY / 历史资料复盘</div>
+  <h1>把一次排查，交给处理另一类库的 Agent</h1>
+  <p class="lead">组织级记忆组件 · 保留经验来源、适用条件与验证范围</p>
+  <div class="pair">
+    <section class="card">
+      <div class="number">AGENT 1 · 提炼经验</div>
+      <h2>apriltag-python 3.4.5</h2>
+      <p>识别 AprilTag 视觉标记，用于机器人定位。</p>
+      <ul><li>读取历史失败尝试与最终报告</li><li>定位 <code>libapriltag.so</code> 搜索路径问题</li><li>整理条件，记录原始档案编号</li></ul>
+    </section>
+    <section class="card">
+      <div class="number">AGENT 2 · 跨库复用</div>
+      <h2>nerdd-module / RDKit</h2>
+      <p>用 RDKit 处理分子数据，遇到另一项依赖加载失败。</p>
+      <ul><li>根据当前报错检索、读取经验</li><li>核对 RDKit 的 <code>.libs/</code> 目录</li><li>调整候选命令，对照历史验证范围</li></ul>
+    </section>
+  </div>
+  <div class="strip">真实档案 → Agent 1 整理 → 本地记忆检索 → Agent 2 调整用法 → 对照原始结果</div>
+  <div class="foot">资料来自 migbot-experience-raw 的两份独立历史任务。本次演示在 macOS 上运行 DSH，完成档案复盘和记忆工具调用。</div>
+</main>
+<main id="center" hidden>
+  <div class="eyebrow">组织级部署 / 处理链路示意</div>
+  <h1>记忆中心部署在服务器上</h1>
+  <p class="lead">从任务数据回流到共享经验，再由新的使用结果补充适用条件</p>
+  <div class="pair">
+    <div class="card"><div class="number">AGENT / RUNTIME</div><h2>任务轨迹、笔记、验证结果</h2><p>记录来源引用与使用结果，形成可回查的证据。</p></div>
+    <div class="card"><div class="number">ADAPTER</div><h2>接入 Agent 的事件与工具</h2><p>DSH 通过适配器连接本机 Runtime。</p></div>
+  </div>
+  <div class="connection">↓ 数据回流</div>
+  <section class="server">
+    <div class="number">服务器 · 记忆中心</div>
+    <div class="steps">
+      <section class="card"><div class="number">01</div><h2>证据聚合</h2><p>关联问题、来源与执行结果。</p></section>
+      <section class="card"><div class="number">02</div><h2>候选提炼</h2><p>提取原因、做法和适用条件。</p></section>
+      <section class="card"><div class="number">03</div><h2>核验与发布</h2><p>满足门槛后进入共享范围。</p></section>
+    </div>
+  </section>
+  <div class="connection">↓ 共享检索与读取　　↑ 后续采用与验证结果</div>
+  <div class="foot">部署流程示意。本次实际运行使用本地记忆库，经验来源为显式提供的历史资料。</div>
+</main>
+<script>
+if (new URLSearchParams(location.search).get('view') === 'center') {
+  document.getElementById('overview').hidden = true;
+  document.getElementById('center').hidden = false;
+}
+</script>
+</html>

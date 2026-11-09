@@ -40,6 +40,8 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
   'assets/coding-agent-poster.jpg', 'assets/coding-agent-zh.vtt', 'assets/coding-evidence.json',
   'assets/libpng-before.jpg', 'assets/libpng-after.jpg',
   'media-controls.js', 'media-controls.css', 'assets/coding-agent-demo-1080p.mp4', 'assets/coding-agent-preview.jpg',
+  'assets/harmony-python-demo.mp4', 'assets/harmony-python-demo-1080p.mp4',
+  'assets/harmony-python-preview.jpg', 'assets/harmony-python-zh.vtt', 'assets/harmony-python-evidence.json',
 ])], ['plugins/workflow-rsi', new Set([
   'index.html', 'styles.css', 'page.js', 'demo-data.js',
   'guide.html', 'tools.html', 'errors.html', 'versions.html', 'docs.css', 'docs.js',
@@ -104,6 +106,7 @@ const publicLinks = new Map([['plugins/skillopt', new Set(['https://fuxi-ailabs.
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/evaluation.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/tools.html',
   'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/coding-evidence.json',
+  'https://fuxi-ailabs.github.io/dsh-plugin-market/plugins/crowdmemory/assets/harmony-python-evidence.json',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/pull/7',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/crowdmemory-pr7-development-20261101',
   'https://gitcode.com/third-party-library-for-harmony/CrowdMemory/tree/main/results/pr4-candidate-utility',

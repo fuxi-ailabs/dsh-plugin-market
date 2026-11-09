@@ -1,0 +1,1 @@
+把核对后发现的边界直接补入 candidate.md，并在 comparison.md 把对应待办改为已补充。本次只有资料核对，目标平台验证仍待执行。另将候选环境变量拼接写为 export LD_LIBRARY_PATH="<venv>/lib/python3.12/site-packages/rdkit/.libs${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"，避免未设置原变量时产生空路径项。保留占位符说明、原始命令与修订命令的区别、文件来源与条件通过结论。不要执行这些目标平台命令。只改这两个文件，简短返回修改结果，不重复长篇解释。

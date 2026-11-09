@@ -1,0 +1,94 @@
+{
+  "schema": "scheduler-state/v1",
+  "root_library": "apriltag-python",
+  "workspace": "/storage/Users/currentUser/cache/apriltag-python-20261104-215322",
+  "verification_mode": "shell",
+  "auto_mode": true,
+  "flow": "lite",
+  "created_at": "2026-11-04T13:55:28Z",
+  "updated_at": "2026-11-04T14:40:50Z",
+  "serial_order": [
+    "pypi|apriltag-python|3.4.5"
+  ],
+  "skipped_already_adapted": [],
+  "cursor": 1,
+  "migration_finished": true,
+  "libs": {
+    "pypi|apriltag-python|3.4.5": {
+      "unit_id": "pypi|apriltag-python|3.4.5",
+      "ecosystem": "pypi",
+      "name": "apriltag-python",
+      "version": "3.4.5",
+      "source_locator": "/storage/Users/currentUser/cache/apriltag-python-20261104-215322/apriltag-python",
+      "unknown_reason": "",
+      "depends_on": [],
+      "is_scc_bundle": false,
+      "members": [
+        "pypi|apriltag-python|3.4.5"
+      ],
+      "wave": 0,
+      "publish_target": "",
+      "so_ownership": "",
+      "test_only": false,
+      "status": "done",
+      "verdict": "pass",
+      "final_stage": null,
+      "repo_path": "/storage/Users/currentUser/cache/apriltag-python-20261104-215322/apriltag-python",
+      "artifact_paths": [
+        "/storage/Users/currentUser/cache/apriltag-python-20261104-215322/apriltag-python/harmony-migration-lite/execute/apriltag_python-3.4.5-cp312-cp312-ohos_aarch64.whl"
+      ],
+      "acquisition": null,
+      "failure_reason": null,
+      "blocked_reason": null,
+      "need_to_full": false,
+      "coverage_status": "NO_UPSTREAM_TESTS_WITH_GENERATED_COVERAGE",
+      "declared_total": 0,
+      "verify_one_sentences": [],
+      "none_any": false,
+      "native_fallback": null,
+      "wall_seconds": 2574,
+      "build_system": "setuptools",
+      "unavailable_deps": [],
+      "unavailable_test_deps": [],
+      "source_health": {
+        "status": "network",
+        "added": 0,
+        "note": "tarball 未取得（network），保留 sdist、未与上游取并集"
+      },
+      "source_provenance": {
+        "locator": "https://pypi.tuna.tsinghua.edu.cn/packages/98/ab/17ef2d16028d2ca636cc309e0283f91c9a7e4456ee03c64a6fdbf684e312/apriltag_python-3.4.5.tar.gz",
+        "route": "⑤ PyPI sdist",
+        "version": "3.4.5",
+        "tag_matched": null,
+        "version_verified": true,
+        "kind": "sdist",
+        "archive_sha256": "2217f23ea732c9366e27b50733170ff98202c504f062c267bda59de2f92c7f14",
+        "archive_bytes": 1858936,
+        "source_subdirectory": ".",
+        "upstream_overlay": {
+          "status": "network",
+          "added": 0,
+          "note": "tarball 未取得（network），保留 sdist、未与上游取并集"
+        }
+      },
+      "source_fetch_attempts": null,
+      "dispatched_at": null,
+      "static_total": 0,
+      "excluded_total": 0,
+      "expected_collectable_total": 0,
+      "collected_total": 12,
+      "collected_expected_total": 0,
+      "unresolved_failure_count": 0
+    }
+  },
+  "supported_python": "==3.12.*",
+  "_seal": "0f6c97dca818bd69732f5424c540b3fe5ebbbbf66cf5e4aa6b1782739481a11a",
+  "finalize_ok": true,
+  "finalize_errors": [],
+  "replay": {
+    "status": "running",
+    "started_at": "2026-11-04T14:40:50Z",
+    "generator": "execution-replay",
+    "force": false
+  }
+}

@@ -1,0 +1,6 @@
+你是本次演示的 Agent 2，在独立工作区复盘另一个鸿蒙 PC Python 适配任务。只在本机分析历史资料，不安装或执行原生库，不访问网络，不调用其他 Agent。用中文简洁回答。
+1. 读取 task.md 的真实历史错误和目录信息。
+2. 调用 memory_search，查询 HarmonyOS musl native library LD_LIBRARY_PATH missing RPATH，并用 memory_read 打开相关记录。必须根据实际返回的 record_ref 读取，不猜编号。
+3. 用检索到的经验核对 RDKit 这个不同原生依赖的目录条件。指出 apriltag 的 libapriltag.so 路径不能直接用于 RDKit，应用的是启动验证进程前配置原生加载器搜索路径的诊断方法。
+4. 形成 candidate.md，包含历史报错、检索到的记录编号、适用条件、候选命令 export LD_LIBRARY_PATH="<venv>/lib/python3.12/site-packages/rdkit/.libs:${LD_LIBRARY_PATH:-}"（<venv> 是待替换占位符），以及待在目标环境重新执行的 import/功能验证步骤。明确本次是资料复盘和候选方案，不是本机鸿蒙验证，也不据此声称测试通过。
+5. 最后用不超过 180 字总结复用前后的区别。不要写 memory_note，不要臆测当前库测试结果。

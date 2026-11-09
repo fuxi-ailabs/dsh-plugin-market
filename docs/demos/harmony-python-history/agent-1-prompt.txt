@@ -1,0 +1,5 @@
+你是本次演示的 Agent 1，正在复盘一份真实的鸿蒙 PC Python 三方库适配档案。资料来自 migbot-experience-raw，并非当前机器执行结果。请用中文完成以下任务，不调用其他 Agent，不访问网络、不执行原生库安装或测试。
+1. 用文件工具读取 apriltag-loader.md、apriltag-report.md 和 apriltag-scheduler-state.json。区分历史记录报告的结论与本次仅做资料核对的操作。
+2. 解释 apriltag-python 3.4.5 用于检测 AprilTag 黑白视觉标记，可服务机器人定位。概括 libapriltag.so 加载失败时记录中走过的弯路和有效排查方法，提炼可以用于另一个原生依赖的条件。
+3. 调用一次 memory_note，type=pitfall，scope=global，topic_key=harmony/native-loader-path，标题简洁。content 四段中保留确切错误、适用条件、启动进程前设置 LD_LIBRARY_PATH、目录应按当前库重新定位、历史 pass 的证据范围、来源记录 am-347d912831feb751855892df 与分支提交 343c60fd2309dbf1edf6d3169b80838c54e1f1cd。明确来源是历史 Agent 笔记和调度器报告，本次没有重跑鸿蒙验证。不要填写 fix 或虚构 evidence_refs，不把该记录叫作中心核验通过。
+4. 最后用不超过 220 个中文字总结：原始问题、排查弯路、可复用经验、来源与验证范围。避免通用宣传语。
