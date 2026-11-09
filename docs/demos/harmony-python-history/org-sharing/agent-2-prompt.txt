@@ -1,6 +1,0 @@
-你是节点 B 的开发 Agent，连接本节点独立 Runtime。修复 nerdd-module / RDKit 任务的验证启动脚本。当前任务和依赖目录在 task.md、context.json。
-先核对 DSH 自动送入的组织共享卡片。若有共享卡，直接 memory_read 打开它查看完整内容和来源，不调用 memory_search。然后读工作区文件，直接执行 python3 test-launch.py 复现启动问题。保持原始退出码，不加管道、tail、重定向或 echo。
-只修改 launch-verification.sh，完成最小修复，不改测试文件。使用 context.json 中当前库的目录，修复后直接重跑完全相同的测试命令。
-测试通过后，把这次跨库采用结果写入 memory_note，title 用中文，type=bugfix，scope=project，topic_key=harmony/rdkit-native-loader。where 写本工作区 launch-verification.sh 与原始 RDKit 档案编号。relates_to 用 relation=related 引用你采用的 rr_ 组织记录编号。正文说明此卡用于当前 RDKit 目录，三项启动脚本测试通过。fix 附实际统一 diff。
-随后运行 python3 show-org-usage.py，展示由只读 Runtime 查询得到的来源节点、Release、注入、读取和引用回执。不要修改或补写回执。
-最后控制在 200 字以内，给出代码改动、三项测试、共享卡编号和来源节点。不要添加录制说明，不安装库，不联网，不调用其他 Agent。

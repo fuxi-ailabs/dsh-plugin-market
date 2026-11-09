@@ -1,5 +1,0 @@
-{
-  "library": "nerdd-module / RDKit",
-  "native_directory": "venv/lib/python3.12/site-packages/rdkit/.libs",
-  "validation_scope": "launcher child-process environment"
-}
