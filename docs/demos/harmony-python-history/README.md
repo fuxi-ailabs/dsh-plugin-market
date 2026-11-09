@@ -27,6 +27,8 @@ DSH 为 0.1.6-alpha.2，Runtime 与适配器为 0.1.1。请求模型为 `claude-
 
 画面为浏览器原生捕获，聚焦尺寸 3840×1920，双 Agent 尺寸各为 1920×1920。配音使用云扬 `zh-CN-YunyangNeural`、`+0%`，全文一次连续合成。输出包含嵌入字幕的 4K 原片和网页默认 1080p 版本。
 
+字幕距画面底边 28 px。`video-callouts.json` 将 26 条字幕对应到 54 段红框标注，按旁白切换到配置、卡片、代码、测试和回执中的具体位置。自动注入片段在源画面第 3.5 秒停帧，保留卡片编号、来源和命中说明供后续旁白指认。
+
 ```sh
 python synthesize-narration.py /absolute/path/audio
 python encode-narrated-video.py /absolute/path/captures/focus \

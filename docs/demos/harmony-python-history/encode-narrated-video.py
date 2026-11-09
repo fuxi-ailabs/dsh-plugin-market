@@ -18,6 +18,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 DOCS = Path(__file__).resolve().parent
 FPS = 30
+SUBTITLE_BOTTOM_MARGIN = 28
 
 def sha(path):
     return "sha256:" + hashlib.sha256(path.read_bytes()).hexdigest()
@@ -89,8 +90,7 @@ def subtitle_plate(text, target, font_path):
         raise ValueError("Narration sentence needs shorter subtitle: " + text)
     line_height = 98
     height = line_height * len(lines) + 32
-    # Leave room for native player controls when the walkthrough is paused.
-    top = 2160 - 240 - height
+    top = 2160 - SUBTITLE_BOTTOM_MARGIN - height
     width = math.ceil(max(draw.textlength(line, font=font) for line in lines)) + 52
     left = (3840 - width) // 2
     draw.rectangle((left, top, left + width, top + height), fill=(0, 0, 0, 220))
@@ -101,11 +101,34 @@ def subtitle_plate(text, target, font_path):
 
 def encode(args):
     spec = json.loads((DOCS / "narration.json").read_text())
+    annotation_path = DOCS / "video-callouts.json"
+    annotations = json.loads(annotation_path.read_text())
     if not spec.get("continuous"):
         raise ValueError("This encoder requires a single continuous narration")
     master_audio = args.audio / "narration.mp3"
     master_duration = float(probe(master_audio)["format"]["duration"])
     master_cues = captions(args.audio / "narration.srt", master_duration)
+    if [item["index"] for item in annotations["cues"]] != list(range(len(master_cues))):
+        raise ValueError("Callouts must cover every subtitle cue in order")
+    callouts = []
+    for cue, item in zip(master_cues, annotations["cues"]):
+        previous = 0
+        for phase in item["phases"]:
+            until = phase["until"]
+            if not previous < until <= 1 or not phase["boxes"]:
+                raise ValueError("Invalid callout timing or missing target")
+            for x, y, width, height in phase["boxes"]:
+                if (min(x, y) < 0 or min(width, height) <= 0
+                        or x + width > 3840 or y + height > 1900):
+                    raise ValueError("Callout outside the visible evidence area")
+            callouts.append({
+                "cue": item["index"], "target": phase["target"],
+                "start": cue["start"] + previous * (cue["end"] - cue["start"]),
+                "end": cue["start"] + until * (cue["end"] - cue["start"]),
+                "boxes": phase["boxes"]})
+            previous = until
+        if previous != 1:
+            raise ValueError("Callouts must cover the entire subtitle cue")
     normalize = lambda text: re.sub(r"[^\w\u4e00-\u9fff]", "", text).lower()
     grouped_cues = []
     cursor = 0
@@ -163,15 +186,32 @@ def encode(args):
             command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
                        "-loop", "1", "-framerate", "1", "-i", str(plate)]
             filters = ["[0:v]fps=30,format=yuv420p[base]"]
+            source_duration = annotations["hold_capture_after_seconds"].get(sid, duration)
+            if not 0 < source_duration <= duration:
+                raise ValueError("Invalid capture hold duration")
             for index, path in enumerate(scene["inputs"], 1):
                 command += ["-threads", "2", "-i", str(path)]
-                filters.append(f"[{index}:v]trim=start=0.5:duration={duration},setpts=PTS-STARTPTS,fps={FPS},format=yuv420p[v{index}]")
+                filters.append(
+                    f"[{index}:v]trim=start=0.5:duration={source_duration},"
+                    f"setpts=PTS-STARTPTS,fps={FPS},"
+                    f"tpad=stop_mode=clone:stop_duration={duration - source_duration},"
+                    f"format=yuv420p[v{index}]")
             if len(scene["inputs"]) == 2:
                 filters += ["[base][v1]overlay=0:240:shortest=1[p1]",
                             "[p1][v2]overlay=1920:240:shortest=1[content]"]
             else:
                 filters += ["[base][v1]overlay=0:240:shortest=1[content]"]
             current = "content"
+            scene_callouts = [item for item in callouts if scene["start"] <= item["start"] < scene["start"] + duration]
+            for item_index, item in enumerate(scene_callouts):
+                begin = item["start"] - scene["start"]
+                end = item["end"] - scene["start"]
+                for box_index, (x, y, width, height) in enumerate(item["boxes"]):
+                    after = f"highlight{item_index}_{box_index}"
+                    filters.append(
+                        f"[{current}]drawbox=x={x}:y={y}:w={width}:h={height}:"
+                        f"color=0xff3030:t=8:enable='gte(t,{begin})*lt(t,{end})'[{after}]")
+                    current = after
             for index, cue in enumerate(scene["captions"]):
                 overlay = stage / f"{sid}-caption-{index}.png"
                 subtitle_plate(cue["text"], overlay, args.font)
@@ -212,6 +252,10 @@ def encode(args):
                          "continuous":True,"audio_splice_count":0,
                          "audio_master":"AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"},
             "captions_burned_in":True,"caption_count":len(timeline),"captions":timeline,
+            "visual_editing":{"subtitle_position":"bottom", "subtitle_bottom_margin_px":SUBTITLE_BOTTOM_MARGIN,
+                "callout_color":"#ff3030", "callout_stroke_px":8, "callouts":callouts,
+                "hold_capture_after_seconds":annotations["hold_capture_after_seconds"],
+                "annotation_spec_sha256":sha(annotation_path)},
             "font_name":args.font.name,"font_sha256":sha(args.font),
             "source_capture_sha256":{p.name:sha(p) for s in scenes for p in s["inputs"]},
             "source_audio_sha256":{"narration.mp3":sha(master_audio)},
