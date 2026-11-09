@@ -1,0 +1,4 @@
+修复 nerdd-module / RDKit 适配任务的验证启动脚本。任务报错和依赖位置在 task.md，当前库的目录在 context.json。先读工作区文件，再直接执行 python3 test-launch.py 复现启动问题，保持原始退出码，不使用管道、tail 或重定向。
+只修改 launch-verification.sh，保持改动最小，不改测试文件。修改后执行完全相同的 python3 test-launch.py。
+结束前，用当前上下文卡片的编号运行 python3 show-usage.py ../../runtime <卡片编号>，核对这个 Agent 的注入与采用回执。若尚未落盘，稍后重试，不修改回执或统计状态。
+最后展示代码改动、3 项启动测试结果与采用的卡片编号，控制在 200 字以内。不要补录制说明，不安装库，不联网，不调用其他 Agent。

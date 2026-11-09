@@ -1,0 +1,44 @@
+{
+  "record_ref": "lr_01a1bec35c267fd68370ff34663f6058",
+  "project": "harmony-python-card-use",
+  "topic_key": "harmony/native-loader-launch",
+  "title": "apriltag-python 启动脚本未导出原生库目录致子进程加载失败",
+  "type": "bugfix",
+  "scope": "global",
+  "phase": "session",
+  "summary": "验证启动脚本收了原生库目录参数却不导出 LD_LIBRARY_PATH，子进程环境为空，依赖 libapriltag.so 的导入仍报 Error loading shared library，3 项启动测试全败。",
+  "trust": "local_auto",
+  "revision": 2,
+  "revoked": 0,
+  "origin_session": "ash_2b8ecd5cc0bb07fc7811870f7496e053",
+  "origin_session_ref": "session-1b416eda-92fa-4c5c-808f-66b521dac437",
+  "origin_task": "task_dbbe53d82b4de2072882b634",
+  "visible_after_seq": 1,
+  "recorded_outcome": "unknown",
+  "used_success": 0,
+  "created_at": "2026-11-09T05:23:56Z",
+  "updated_at": "2026-11-09T05:30:42Z",
+  "content": {
+    "evidence_refs": [],
+    "failure_context": [
+      {
+        "command": null,
+        "error_signature": "sha256:890b63628cf9471681cdf450f4d44cf2dd228bce79e191720473e2b3a341ab55",
+        "exit_code": null,
+        "session_handle": "ash_cd63c785e5cd26fa59c29024e7fac927",
+        "snapshot": null,
+        "tool_name": "write"
+      }
+    ],
+    "files": [],
+    "fix": {
+      "diff": "--- a/launch-verification.sh\n+++ b/launch-verification.sh\n@@ -2,4 +2,5 @@\n set -euo pipefail\n native_dir=$1\n shift\n+export LD_LIBRARY_PATH=\"$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"\n exec \"$@\"\n",
+      "kind": "diff"
+    },
+    "learned": "在 exec 前加 export LD_LIBRARY_PATH=\"$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\"：前置目录、不留空分量；换库时按该库自身 site-packages/<pkg> 重定位 native_dir 再传参，用原命令复跑。",
+    "relates_to": [],
+    "what": "验证启动脚本收了原生库目录参数却不导出 LD_LIBRARY_PATH，子进程环境为空，依赖 libapriltag.so 的导入仍报 Error loading shared library，3 项启动测试全败。",
+    "where": "来源档案 am-347d912831feb751855892df（migbot-experience-raw），固定提交 343c60fd2309dbf1edf6d3169b80838c54e1f1cd；apriltag-python 3.4.5。",
+    "why": "musl 只按动态链接器搜索路径解析 DT_NEEDED，且 LD_LIBRARY_PATH 仅在进程启动时读一次；父 shell 不导出则 python 内赋值、RTLD_GLOBAL 预加载都无效。"
+  }
+}

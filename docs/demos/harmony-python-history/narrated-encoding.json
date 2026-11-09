@@ -1,7 +1,7 @@
 {
-  "duration_seconds": 162.8,
-  "poster_time_seconds": 148.3,
-  "container_duration_seconds": 162.8,
+  "duration_seconds": 133.367,
+  "poster_time_seconds": 2,
+  "container_duration_seconds": 133.367,
   "fps": 30,
   "width": 3840,
   "height": 2160,
@@ -14,7 +14,7 @@
     "audio_master": "AAC mono 48kHz / loudnorm target -16 LUFS, true peak target -1.5 dBTP"
   },
   "captions_burned_in": true,
-  "caption_count": 30,
+  "caption_count": 26,
   "captions": [
     {
       "scene": "intro",
@@ -25,263 +25,225 @@
     {
       "scene": "intro",
       "start": 3.975,
-      "end": 11.429,
-      "text": "它把开发任务中的排查过程、修复办法和验证结果整理成经验，供后续 Agent 检索。"
+      "end": 10.992,
+      "text": "开发任务留下的排查过程和修复经验，可以在后续 Agent 执行前进入它的上下文。"
     },
     {
       "scene": "intro",
-      "start": 11.462,
-      "end": 18.329,
-      "text": "这次用鸿蒙 PC 的 Python 三方库适配资料，看看同一类问题的经验怎样跨库复用。"
+      "start": 11.025,
+      "end": 19.667,
+      "text": "这里选鸿蒙 PC 的 Python 三方库适配，两个库遇到了相近的原生依赖问题，正好看经验怎样跨库使用。"
     },
     {
-      "scene": "config_doc",
-      "start": 18.362,
-      "end": 23.329,
-      "text": "本片使用真实历史记录，由两个 DSH Agent 在本机复盘。"
+      "scene": "config",
+      "start": 19.7,
+      "end": 25.117,
+      "text": "先在 DSH 的 Profile 里接上记忆服务，设置项目和采集模板。"
     },
     {
-      "scene": "config_doc",
-      "start": 23.362,
-      "end": 31.092,
-      "text": "先看接入配置，在 DSH 的 Profile 中连接记忆服务端点，设置项目标识和采集模板。"
+      "scene": "config",
+      "start": 25.15,
+      "end": 30.392,
+      "text": "加载适配器后，任务里的工具操作和笔记就可以进入处理链路。"
     },
     {
-      "scene": "config_loaded",
-      "start": 31.125,
-      "end": 36.179,
-      "text": "插件加载以后，Agent 就可以记录、搜索和读取经验。"
+      "scene": "a_fix",
+      "start": 30.425,
+      "end": 36.117,
+      "text": "Agent 一处理 apriltag-python，这个库用于识别 AprilTag 视觉标记。"
     },
     {
-      "scene": "config_loaded",
-      "start": 36.212,
-      "end": 38.842,
-      "text": "这里保留了实际加载状态。"
+      "scene": "a_fix",
+      "start": 36.15,
+      "end": 41.092,
+      "text": "适配记录里的原生库文件已经存在，验证进程却找不到。"
     },
     {
-      "scene": "a_source",
-      "start": 38.875,
-      "end": 42.142,
-      "text": "左边的 Agent 一先看 apriltag-python。"
+      "scene": "a_fix",
+      "start": 41.125,
+      "end": 47.079,
+      "text": "它根据排查记录修正启动脚本，把库目录写入环境，再启动子进程。"
     },
     {
-      "scene": "a_source",
-      "start": 42.175,
-      "end": 47.567,
-      "text": "这个库识别黑白方形的 AprilTag 视觉标记，常用于机器人定位。"
+      "scene": "pipeline",
+      "start": 47.112,
+      "end": 51.254,
+      "text": "任务结束以后，轨迹和笔记回流到记忆中心。"
     },
     {
-      "scene": "a_source",
-      "start": 47.6,
-      "end": 54.592,
-      "text": "它依赖原生库 libapriltag，但历史记录里，库文件明明存在，导入时却找不到。"
+      "scene": "pipeline",
+      "start": 51.287,
+      "end": 57.604,
+      "text": "中心把同一问题的证据聚合起来，形成候选，并核对结构、来源和证据。"
     },
     {
-      "scene": "a_diagnosis",
-      "start": 54.625,
-      "end": 60.992,
-      "text": "记录里试过改 Python 搜索路径、在程序运行后设置环境变量，都没有解决。"
+      "scene": "pipeline",
+      "start": 57.637,
+      "end": 61.792,
+      "text": "这里可以逐项打开 Raw、Candidate 和核验结果。"
     },
     {
-      "scene": "a_diagnosis",
-      "start": 61.025,
-      "end": 67.942,
-      "text": "有效做法是先找到原生库目录，在启动验证进程之前设置加载器搜索路径。"
+      "scene": "card",
+      "start": 61.825,
+      "end": 65.142,
+      "text": "这就是 Agent 一生成的 Memory Card。"
     },
     {
-      "scene": "a_diagnosis",
-      "start": 67.975,
-      "end": 72.742,
-      "text": "Agent 一把这些尝试、适用条件和来源一起整理出来。"
+      "scene": "card",
+      "start": 65.175,
+      "end": 69.692,
+      "text": "卡片写明了触发条件、原因、修复步骤和来源。"
     },
     {
-      "scene": "a_note",
-      "start": 72.775,
-      "end": 74.892,
-      "text": "现在保存这条经验。"
+      "scene": "card",
+      "start": 69.725,
+      "end": 74.967,
+      "text": "关键动作是先把原生库目录加入环境，再启动验证进程。"
     },
     {
-      "scene": "a_note",
-      "start": 74.925,
-      "end": 82.917,
-      "text": "记录中保留了具体报错和原始档案编号，也注明历史报告的验证范围，方便接手的 Agent 回查。"
+      "scene": "card",
+      "start": 75.0,
+      "end": 79.292,
+      "text": "换一个库时，需要重新确认它自己的依赖目录。"
     },
     {
-      "scene": "center",
-      "start": 82.95,
-      "end": 88.117,
-      "text": "组织级部署中，任务轨迹和结果回流到服务器上的记忆中心。"
+      "scene": "b_injection",
+      "start": 79.325,
+      "end": 85.192,
+      "text": "Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库加载问题。"
     },
     {
-      "scene": "center",
-      "start": 88.15,
-      "end": 93.042,
-      "text": "中心聚合证据、提炼候选，核验后发布到共享范围。"
+      "scene": "b_injection",
+      "start": 85.225,
+      "end": 90.929,
+      "text": "开始下一步之前，Crowd Memory 把这张卡送进了 DSH 上下文。"
     },
     {
-      "scene": "center",
-      "start": 93.075,
-      "end": 98.892,
-      "text": "后续 Agent 的采用和测试结果再回流，持续补充经验的适用条件。"
+      "scene": "b_injection",
+      "start": 90.962,
+      "end": 95.529,
+      "text": "展开这里，能看到卡片编号、来源和触发原因。"
     },
     {
-      "scene": "center",
-      "start": 98.925,
-      "end": 101.792,
-      "text": "这里展示的是这条处理链路。"
+      "scene": "b_apply",
+      "start": 95.562,
+      "end": 98.492,
+      "text": "接着看 Agent 二的代码修改。"
     },
     {
-      "scene": "b_task",
-      "start": 101.825,
-      "end": 103.554,
-      "text": "右边换一个库。"
+      "scene": "b_apply",
+      "start": 98.525,
+      "end": 102.279,
+      "text": "它把环境变量设置放在启动进程之前。"
     },
     {
-      "scene": "b_task",
-      "start": 103.587,
-      "end": 109.342,
-      "text": "nerdd-module 用 RDKit 处理分子数据，这次报错指向另一个原生库。"
+      "scene": "b_apply",
+      "start": 102.312,
+      "end": 108.704,
+      "text": "这次传入的是 RDKit 的点 libs 目录，与 Agent 一处理的 apriltag 目录不同。"
     },
     {
-      "scene": "b_task",
-      "start": 109.375,
-      "end": 113.767,
-      "text": "Agent 二先搜索已有经验，再打开刚才那条记录。"
+      "scene": "b_test",
+      "start": 108.737,
+      "end": 118.529,
+      "text": "用同一条命令重跑启动测试，检查原生库目录是否传入子进程、已有路径是否保留，以及空值会不会多出一项。"
     },
     {
-      "scene": "b_read",
-      "start": 113.8,
-      "end": 116.129,
-      "text": "它复用的是诊断方法。"
+      "scene": "b_test",
+      "start": 118.562,
+      "end": 120.467,
+      "text": "这三项都通过了。"
     },
     {
-      "scene": "b_read",
-      "start": 116.162,
-      "end": 124.967,
-      "text": "核对当前资料后，Agent 二发现 RDKit 的伴生库放在点 libs 子目录，而已有搜索路径只覆盖上一层。"
+      "scene": "usage",
+      "start": 120.5,
+      "end": 122.517,
+      "text": "最后看使用回执。"
     },
     {
-      "scene": "b_read",
-      "start": 125.0,
-      "end": 129.304,
-      "text": "因此，候选命令需要加入 RDKit 自己的目录。"
+      "scene": "usage",
+      "start": 122.55,
+      "end": 129.367,
+      "text": "同一个卡片编号下，已经记录了注入和采用，采用的文件就是刚才修改的启动脚本。"
     },
     {
-      "scene": "results",
-      "start": 129.337,
-      "end": 131.179,
-      "text": "再对照历史报告。"
-    },
-    {
-      "scene": "results",
-      "start": 131.212,
-      "end": 139.004,
-      "text": "nerdd-module 当时通过了六十六项中的六十五项，还有一项 InChI 解析问题，结论是条件通过。"
-    },
-    {
-      "scene": "results",
-      "start": 139.037,
-      "end": 146.279,
-      "text": "这些结果来自原始适配档案，本次录制完成的是资料核对、记忆检索和方案复用。"
-    },
-    {
-      "scene": "closing",
-      "start": 146.312,
-      "end": 154.004,
-      "text": "左边从完整排查记录里提炼经验，右边带着另一个库的报错检索，再按自己的依赖目录调整。"
-    },
-    {
-      "scene": "closing",
-      "start": 154.037,
-      "end": 162.712,
-      "text": "Crowd Memory 把来源、条件和结果一起交给后续 Agent，让一次排查形成可继续积累的组织级经验。"
+      "scene": "usage",
+      "start": 129.4,
+      "end": 133.275,
+      "text": "这条使用记录会回流，和这张卡一起保留。"
     }
   ],
   "font_name": "STHeiti Medium.ttc",
   "font_sha256": "sha256:f8fa4a63e2cf500e98e64d4c73260daaba049306cf85dec9e3729bc285b7d645",
   "source_capture_sha256": {
-    "overview.webm": "sha256:2285f3dd341ac1f26e725a292195bcf237ff371f1c9010867ed807d1f4b802ec",
+    "a-3.webm": "sha256:5a0a165eac2aa4cd9e2af5bc2a3619747a37124f65c8d8bf5008f302c11edbe6",
+    "b-3.webm": "sha256:eb9989cec45a77688d0c7921164b5c0d1f95bc2666fc2cf7817e237d80402255",
     "config_doc.webm": "sha256:4eb89d74dc7a37776557ec7c06995400718017f0aeea0c320ac05093b98f653a",
-    "config_loaded.webm": "sha256:1b477b0630b4ac9267619d810df8c49ec069cfdfbf934e4c059422d3059a9efd",
-    "a_source.webm": "sha256:ada91b09ee80ce63750210fcbea6f32e0c40686a4237c5a95a8cadd3954a99e6",
-    "a_diagnosis.webm": "sha256:b65a22ab06aa3b7c945d9df141e765f4a93471eaaec9f512a3ac35ecc8863166",
-    "a_note.webm": "sha256:6fad154b29d686e1ce945daf5af1920856a33a6e190e53368a816e6e4efb39a1",
-    "center.webm": "sha256:5071ff6f4c9b24efd7265f754b43ae59a59878a562f4f5f3d278d2cc59ad9a97",
-    "b_task.webm": "sha256:0fcb27d03038fabc8c722c8774a88b5716510f9930fab3a73bd2ce05241e980f",
-    "b_read.webm": "sha256:a5751ecabe8597febeb591d9766fd8c375af3a7b24f1c18a0e934af95b1b08b5",
-    "results.webm": "sha256:c369ec646af52a68c1262856607d13a2c7206640de6a4e2ce0afd3190acd0812",
-    "a-3.webm": "sha256:c9709e0b5f96fcebd89198d4b3f1cca962ce8fbee346c24e6038a690e14cf285",
-    "b-3.webm": "sha256:762654ff84099bd092cd299939ee4baae03de39363173129fcbc6aa4adbacf20"
+    "a_fix.webm": "sha256:1965368e8fbec0a48922196da9c19a69fef83768c089cd7d9066f71db1efe777",
+    "pipeline.webm": "sha256:cf1833f16b5ee5d508a921423fe085e9be9620b8d6ea3289123fa82fe6d2c68b",
+    "card.webm": "sha256:c50643355438ab179cb7f8f43aa178911d784ee465ce91b33448ded2fa4b3715",
+    "b_injection.webm": "sha256:871aafba29af36f14bfe1993a7e9ca9b7531b73fcfa164a20825d5d329be199b",
+    "b_apply.webm": "sha256:eebc4cc1dcd5cd7a43b0b908768a9455a84d4c66a1faf0d65ef0fd41f1ecca84",
+    "b_test.webm": "sha256:1715c119521d41ab2f99837760fb6dc73bea57843aa23bef1efffe41845d8acb",
+    "usage.webm": "sha256:526e5b2393811b8c78ab376d2bf5a00f11d30b618ad93766dc51aa0e3e87c1ba"
   },
   "source_audio_sha256": {
-    "narration.mp3": "sha256:6d117e06715d1fddaee5722d7a285c42def0d2808f1c1929b24cd0ffa7331b6f"
+    "narration.mp3": "sha256:68da4782829c8b995586e0c3194df3bd588c4f880397968d483f8f71eca27de1"
   },
   "scenes": [
     {
       "id": "intro",
       "start_seconds": 0,
-      "duration_seconds": 18.333,
-      "label": "组织级记忆组件 · 从开发记录中复用经验"
+      "duration_seconds": 19.7,
+      "label": "组织级记忆组件 · 经验进入后续 Agent 的执行过程"
     },
     {
-      "id": "config_doc",
-      "start_seconds": 18.333,
-      "duration_seconds": 12.767,
-      "label": "接入配置 · Runtime 端点、项目与采集模板"
+      "id": "config",
+      "start_seconds": 19.7,
+      "duration_seconds": 10.7,
+      "label": "接入配置 · 端点、项目与采集模板"
     },
     {
-      "id": "config_loaded",
-      "start_seconds": 31.1,
-      "duration_seconds": 7.767,
-      "label": "DSH · Crowd Memory 适配器已加载"
+      "id": "a_fix",
+      "start_seconds": 30.4,
+      "duration_seconds": 16.7,
+      "label": "Agent 1 · apriltag-python：修复验证启动脚本"
     },
     {
-      "id": "a_source",
-      "start_seconds": 38.867,
-      "duration_seconds": 15.733,
-      "label": "Agent 1 · 读取 apriltag-python 的历史排查记录"
+      "id": "pipeline",
+      "start_seconds": 47.1,
+      "duration_seconds": 14.7,
+      "label": "处理链路 · Raw → 聚合 → Candidate → 核验"
     },
     {
-      "id": "a_diagnosis",
-      "start_seconds": 54.6,
-      "duration_seconds": 18.167,
-      "label": "Agent 1 · 从失败尝试中提炼适用条件"
+      "id": "card",
+      "start_seconds": 61.8,
+      "duration_seconds": 17.5,
+      "label": "Agent 1 生成的 Memory Card · 条件、原因、修法、来源"
     },
     {
-      "id": "a_note",
-      "start_seconds": 72.767,
-      "duration_seconds": 10.167,
-      "label": "Agent 1 · 保存带来源的经验"
+      "id": "b_injection",
+      "start_seconds": 79.3,
+      "duration_seconds": 16.233,
+      "label": "Agent 2 · 记忆卡自动进入 DSH 上下文"
     },
     {
-      "id": "center",
-      "start_seconds": 82.933,
-      "duration_seconds": 18.867,
-      "label": "组织级部署流程示意 · 记忆中心运行在服务器上"
+      "id": "b_apply",
+      "start_seconds": 95.533,
+      "duration_seconds": 13.2,
+      "label": "Agent 2 · 按卡片修改脚本，使用 RDKit 的 .libs 目录"
     },
     {
-      "id": "b_task",
-      "start_seconds": 101.8,
-      "duration_seconds": 12.0,
-      "label": "Agent 2 · nerdd-module 的 RDKit 依赖加载失败"
+      "id": "b_test",
+      "start_seconds": 108.733,
+      "duration_seconds": 11.767,
+      "label": "启动脚本测试 · 目录传递、路径保留、空值处理"
     },
     {
-      "id": "b_read",
-      "start_seconds": 113.8,
-      "duration_seconds": 15.533,
-      "label": "Agent 2 · 读取同一条经验，核对当前库的条件"
-    },
-    {
-      "id": "results",
-      "start_seconds": 129.333,
-      "duration_seconds": 16.967,
-      "label": "对照原始报告 · 65/66，通过范围与遗留问题分别保留"
-    },
-    {
-      "id": "closing",
-      "start_seconds": 146.3,
-      "duration_seconds": 16.5,
-      "label": "Agent 1 提炼排查经验 → Agent 2 调整跨库用法"
+      "id": "usage",
+      "start_seconds": 120.5,
+      "duration_seconds": 12.867,
+      "label": "使用回执 · 同一张卡 → 脚本修改 → 测试结果回流"
     }
   ]
 }

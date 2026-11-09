@@ -1,31 +1,31 @@
-# 鸿蒙 PC Python 三方库适配资料复盘
+# DSH 记忆卡注入与采用演示
 
-2026-11-09 录制。两个 DSH Agent 在 macOS 上分析真实历史适配资料，通过 Crowd Memory 的本地 Runtime 记录和读取经验。
+2026-11-09 录制。两个 DSH Agent 使用鸿蒙 PC Python 三方库适配记录，修复验证启动脚本，通过 Crowd Memory 传递修法。
 
-## 资料与执行范围
+## 画面与证据
 
-- Agent 1 读取 apriltag-python 3.4.5 的历史笔记、最终报告和调度器状态，提炼原生库加载路径经验并调用 `memory_note`。
-- Agent 2 先获得 nerdd-module / RDKit 的历史错误与目录信息，调用 `memory_search`、`memory_read`，形成当前依赖的候选方案。之后才向它提供 RDKit 原始修法和最终报告，核对目录、验证范围和遗留问题。
-- 两份原始任务分别发生于 2026-11-04 和 2026-11-02。跨库记忆读取发生在本次 DSH 复盘中。视频中的 65/66 与 `conditional_pass` 均来自 nerdd-module 历史报告。
-- 记忆中心画面是服务器部署流程示意。本次实际运行范围为本地档案分析、经验保存、检索与读取。历史输入由操作人员显式提供。
+1. Agent 1 处理 apriltag-python 的启动准备问题，生成带条件、原因、代码修法和来源的记忆卡。
+2. Runtime 封存 Raw，通过其 build_draft 形成草稿，再调用 Center 的 `form_candidates` 和 `validate_candidate`，保留聚合、候选、核验产物。
+3. 卡片以插件上下文消息自动进入 Agent 2 的第一步。Agent 2 处理 nerdd-module / RDKit 的目录条件，修改启动脚本并运行测试。
+4. Runtime 的只读回执显示同一条记录 revision 2 的 `pushed=1`、`applied=1`，采用路径为 `launch-verification.sh`。脚本 diff 与前后测试输出一并保留。
 
-原始资料固定于 `migbot-experience-raw` 的 `automemory/host-27` 分支提交 `343c60fd2309dbf1edf6d3169b80838c54e1f1cd`。精确路径、SHA-256 与运行回执见 `sources.json` 和网页中的 `harmony-python-evidence.json`。
+`card-use/agent-2-injection.json` 保存 DSH 注入消息。Agent 2 执行修复时，记忆工具的主动调用次数为零。`card-use/agent-2/memory-usage.json` 保存对应任务的原始 SQLite 回执，`fix_path` 表示工具写入了该卡结构化修复所指向的文件。
 
-## 可核对材料
+`card-use/memory-card.md` 是 Agent 1 生成的卡片展示文本。`card-use/pipeline/` 保留两份 Raw 输入原文、Center 输入草稿、聚合报告、Candidate 和核验结果。中心候选当前为 `single_source`、`needs_human`，本地卡片的信任状态为 `local_auto`。
 
-`sources/` 保留五份原始输入文件。`agent-*-prompt.txt` 与 `agent-*-events.jsonl` 保留本次提示和工具调用，工作目录前缀统一替换为 `<demo-root>`。`candidate.md` 和 `comparison.md` 是 Agent 2 产物。环境变量拼接方式经操作人员要求修订，原提示和修订过程均保留。
+## 数据与测试范围
 
-DSH 为 0.1.6-alpha.2，Runtime 和适配器为 0.1.1。请求的模型为 `claude-sonnet-4-6`，通过兼容中继调用。模型供应方身份未经独立核验。
+适配记录固定于 `migbot-experience-raw` 的 `automemory/host-27` 分支提交 `343c60fd2309dbf1edf6d3169b80838c54e1f1cd`，路径与哈希见 `sources.json`。启动脚本和三项测试是为演示构造的可复现任务，验证目录传入新进程、保留已有路径与避免空路径项。鸿蒙原生库的适配结果保留在原始档案中。
 
-## 录制与编码
+Agent 1 首轮测试通过管道截取输出，模型看到失败断言，但 shell 管道返回 0。随后人工要求保留原始退出码，复跑通过并将卡片和补丁精简为 revision 2。最终 Agent 2 修复前后执行相同命令，以 shell 输出中的退出码标记保留 Python 测试的 1→0 变化；追加 echo 的外层 shell 返回 0。首次使用检查读取了尚待封存的 outbox，后续改为只读查询 Runtime SQLite。提示、工具结果与修订过程均保存于 `card-use/`。
 
-- 实际 DSH Web UI 与公开配置文档由浏览器原生捕获。
-- `layout.html` 是开场与记忆中心的流程示意。
-- 聚焦画面原始尺寸为 3840×1920。结尾由两个 1920×1920 原生画面并排组成，加入标题与字幕后输出 3840×2160。
-- 配音使用 `zh-CN-YunyangNeural`、`+0%`，全文一次连续合成。字幕嵌入视频，网页字幕轨默认关闭。
-- 网页默认加载 1080p 轻量版，提供 4K 原画选项。
+DSH 为 0.1.6-alpha.2，Runtime 与适配器为 0.1.1。请求模型为 `claude-sonnet-4-6`，使用兼容中继。
 
-在独立 Python 环境中安装 `edge-tts` 与 Pillow，系统准备 ffmpeg、ffprobe 和中文字体后，可以使用以下编码入口。原始捕获和音轨在本机录制目录保存。
+## 重放与编码
+
+将 `card-use/fixture/launch-verification.sh`、`test-launch.py` 和任一 `agent-*-context.json` 放入独立目录，将 context 文件命名为 `context.json`，执行 `python3 test-launch.py`。修复版本分别位于 `card-use/agent-1/` 与 `card-use/agent-2/`。
+
+画面为浏览器原生捕获，聚焦尺寸 3840×1920，双 Agent 尺寸各为 1920×1920。配音使用云扬 `zh-CN-YunyangNeural`、`+0%`，全文一次连续合成。输出包含嵌入字幕的 4K 原片和网页默认 1080p 版本。
 
 ```sh
 python synthesize-narration.py /absolute/path/audio

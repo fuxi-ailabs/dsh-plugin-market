@@ -1,75 +1,18 @@
 {
-  "voice": "zh-CN-YunyangNeural",
-  "rate": "+0%",
-  "continuous": true,
-  "language": "zh-CN",
-  "type": "synthetic_narration",
-  "scenes": [
-    {
-      "id": "intro",
-      "view": "overview",
-      "label": "组织级记忆组件 · 从开发记录中复用经验",
-      "speech": "Crowd Memory 是面向 Agent 的组织级记忆组件。它把开发任务中的排查过程、修复办法和验证结果整理成经验，供后续 Agent 检索。这次用鸿蒙 PC 的 Python 三方库适配资料，看看同一类问题的经验怎样跨库复用。"
-    },
-    {
-      "id": "config_doc",
-      "view": "config_doc",
-      "label": "接入配置 · Runtime 端点、项目与采集模板",
-      "speech": "本片使用真实历史记录，由两个 DSH Agent 在本机复盘。先看接入配置，在 DSH 的 Profile 中连接记忆服务端点，设置项目标识和采集模板。"
-    },
-    {
-      "id": "config_loaded",
-      "view": "config_loaded",
-      "label": "DSH · Crowd Memory 适配器已加载",
-      "speech": "插件加载以后，Agent 就可以记录、搜索和读取经验。这里保留了实际加载状态。"
-    },
-    {
-      "id": "a_source",
-      "view": "a_source",
-      "label": "Agent 1 · 读取 apriltag-python 的历史排查记录",
-      "speech": "左边的 Agent 一先看 apriltag-python。这个库识别黑白方形的 AprilTag 视觉标记，常用于机器人定位。它依赖原生库 libapriltag，但历史记录里，库文件明明存在，导入时却找不到。"
-    },
-    {
-      "id": "a_diagnosis",
-      "view": "a_diagnosis",
-      "label": "Agent 1 · 从失败尝试中提炼适用条件",
-      "speech": "记录里试过改 Python 搜索路径、在程序运行后设置环境变量，都没有解决。有效做法是先找到原生库目录，在启动验证进程之前设置加载器搜索路径。Agent 一把这些尝试、适用条件和来源一起整理出来。"
-    },
-    {
-      "id": "a_note",
-      "view": "a_note",
-      "label": "Agent 1 · 保存带来源的经验",
-      "speech": "现在保存这条经验。记录中保留了具体报错和原始档案编号，也注明历史报告的验证范围，方便接手的 Agent 回查。"
-    },
-    {
-      "id": "center",
-      "view": "center",
-      "label": "组织级部署流程示意 · 记忆中心运行在服务器上",
-      "speech": "组织级部署中，任务轨迹和结果回流到服务器上的记忆中心。中心聚合证据、提炼候选，核验后发布到共享范围。后续 Agent 的采用和测试结果再回流，持续补充经验的适用条件。这里展示的是这条处理链路。"
-    },
-    {
-      "id": "b_task",
-      "view": "b_task",
-      "label": "Agent 2 · nerdd-module 的 RDKit 依赖加载失败",
-      "speech": "右边换一个库。nerdd-module 用 RDKit 处理分子数据，这次报错指向另一个原生库。Agent 二先搜索已有经验，再打开刚才那条记录。"
-    },
-    {
-      "id": "b_read",
-      "view": "b_read",
-      "label": "Agent 2 · 读取同一条经验，核对当前库的条件",
-      "speech": "它复用的是诊断方法。核对当前资料后，Agent 二发现 RDKit 的伴生库放在点 libs 子目录，而已有搜索路径只覆盖上一层。因此，候选命令需要加入 RDKit 自己的目录。"
-    },
-    {
-      "id": "results",
-      "view": "results",
-      "label": "对照原始报告 · 65/66，通过范围与遗留问题分别保留",
-      "speech": "再对照历史报告。nerdd-module 当时通过了六十六项中的六十五项，还有一项 InChI 解析问题，结论是条件通过。这些结果来自原始适配档案，本次录制完成的是资料核对、记忆检索和方案复用。"
-    },
-    {
-      "id": "closing",
-      "view": "two_agents",
-      "label": "Agent 1 提炼排查经验 → Agent 2 调整跨库用法",
-      "speech": "左边从完整排查记录里提炼经验，右边带着另一个库的报错检索，再按自己的依赖目录调整。Crowd Memory 把来源、条件和结果一起交给后续 Agent，让一次排查形成可继续积累的组织级经验。"
-    }
+  "voice":"zh-CN-YunyangNeural",
+  "rate":"+0%",
+  "continuous":true,
+  "language":"zh-CN",
+  "type":"synthetic_narration",
+  "scenes":[
+    {"id":"intro","view":"two_agents","label":"组织级记忆组件 · 经验进入后续 Agent 的执行过程","speech":"Crowd Memory 是面向 Agent 的组织级记忆组件。开发任务留下的排查过程和修复经验，可以在后续 Agent 执行前进入它的上下文。这里选鸿蒙 PC 的 Python 三方库适配，两个库遇到了相近的原生依赖问题，正好看经验怎样跨库使用。"},
+    {"id":"config","view":"config_doc","label":"接入配置 · 端点、项目与采集模板","speech":"先在 DSH 的 Profile 里接上记忆服务，设置项目和采集模板。加载适配器后，任务里的工具操作和笔记就可以进入处理链路。"},
+    {"id":"a_fix","view":"a_fix","label":"Agent 1 · apriltag-python：修复验证启动脚本","speech":"Agent 一处理 apriltag-python，这个库用于识别 AprilTag 视觉标记。适配记录里的原生库文件已经存在，验证进程却找不到。它根据排查记录修正启动脚本，把库目录写入环境，再启动子进程。"},
+    {"id":"pipeline","view":"pipeline","label":"处理链路 · Raw → 聚合 → Candidate → 核验","speech":"任务结束以后，轨迹和笔记回流到记忆中心。中心把同一问题的证据聚合起来，形成候选，并核对结构、来源和证据。这里可以逐项打开 Raw、Candidate 和核验结果。"},
+    {"id":"card","view":"card","label":"Agent 1 生成的 Memory Card · 条件、原因、修法、来源","speech":"这就是 Agent 一生成的 Memory Card。卡片写明了触发条件、原因、修复步骤和来源。关键动作是先把原生库目录加入环境，再启动验证进程。换一个库时，需要重新确认它自己的依赖目录。"},
+    {"id":"b_injection","view":"b_injection","label":"Agent 2 · 记忆卡自动进入 DSH 上下文","speech":"Agent 二处理 nerdd-module，它依赖的 RDKit 也遇到了原生库加载问题。开始下一步之前，Crowd Memory 把这张卡送进了 DSH 上下文。展开这里，能看到卡片编号、来源和触发原因。"},
+    {"id":"b_apply","view":"b_apply","label":"Agent 2 · 按卡片修改脚本，使用 RDKit 的 .libs 目录","speech":"接着看 Agent 二的代码修改。它把环境变量设置放在启动进程之前。这次传入的是 RDKit 的点 libs 目录，与 Agent 一处理的 apriltag 目录不同。"},
+    {"id":"b_test","view":"b_test","label":"启动脚本测试 · 目录传递、路径保留、空值处理","speech":"用同一条命令重跑启动测试，检查原生库目录是否传入子进程、已有路径是否保留，以及空值会不会多出一项。这三项都通过了。"},
+    {"id":"usage","view":"usage","label":"使用回执 · 同一张卡 → 脚本修改 → 测试结果回流","speech":"最后看使用回执。同一个卡片编号下，已经记录了注入和采用，采用的文件就是刚才修改的启动脚本。这条使用记录会回流，和这张卡一起保留。"}
   ]
 }

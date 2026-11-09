@@ -15,8 +15,8 @@ window.PLUGIN_DEMO = {
   ],
   "note": "这是可复现的三方库接入示例，libpng 本身未修改。两个 Agent 在同一台机器的独立工作区依次运行，按阶段并排回看；不比较耗时。原始提示、人工恢复、测试和读取回执见运行依据。",
   "video": {
-    "title": "鸿蒙 PC Python 三方库适配：两个 Agent 跨库复用排查经验",
-    "description": "约 163 秒连续中文配音。保留 DSH 配置与实际加载界面，以 apriltag-python 和 nerdd-module / RDKit 的真实历史资料展示经验整理、检索和跨库方案核对；记忆中心部分为服务器部署流程示意。默认 1080p，可切换 4K。",
+    "title": "鸿蒙 PC Python 三方库适配：记忆卡进入 Agent 执行过程",
+    "description": "约 133 秒连续中文配音。在 DSH 中展开 Agent 1 生成的记忆卡、Raw 聚合与 Candidate 核验，再看卡片自动注入 Agent 2、驱动启动脚本修改，以及采用回执和测试结果。默认 1080p，可切换 4K。",
     "src": "assets/harmony-python-demo-1080p.mp4",
     "poster": "assets/harmony-python-preview.jpg",
     "qualities": [

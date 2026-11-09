@@ -1,0 +1,10 @@
+把启动脚本精简为下面六行，当前任务只需要目录前置与 exec，去掉新增的参数校验、warning 和长注释。然后直接执行 python3 test-launch.py，保持原始退出码，不使用管道、tail 或重定向。
+#!/usr/bin/env bash
+set -euo pipefail
+native_dir=$1
+shift
+export LD_LIBRARY_PATH="$native_dir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+exec "$@"
+
+更新同一 topic_key 的 memory_note，fix 仍提供相对最初五行脚本的实际 unified diff（只有新增 export 一行）。title 用中文，what、why、learned 各不超过 120 字，learned 写完整可执行修法和跨库重定位目录的条件。档案编号与提交放 where，不填 evidence_refs。修复通过的是启动脚本环境测试。
+把 memory-card.md 精简为六个紧凑字段，包含保存后返回的卡片编号、触发条件、原因、3 行以内代码修法、来源与验证范围，总长不超过 700 个字符。最后直接展示这张卡的内容，附上 3 项启动测试通过即可。不要补泛泛总结或录制说明。

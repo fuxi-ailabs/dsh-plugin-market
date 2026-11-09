@@ -2,7 +2,7 @@
 
 Usage: python encode-narrated-video.py FOCUS ORIGINAL AUDIO ASSETS [--font FONT]
 FOCUS: native 3840x1920 WebM files named for narration views.
-ORIGINAL: native 1920x1920 a-3/b-3 clips for the two-Agent closing scene.
+ORIGINAL: native 1920x1920 a-3/b-3 clips for the two-Agent overview scene.
 AUDIO: one continuous narration.mp3 and narration.srt from narration.json.
 Requires Pillow, ffmpeg and ffprobe. All input validation precedes replacement.
 """
@@ -60,13 +60,13 @@ def label_plate(scene, target, font_path):
     label = ImageFont.truetype(str(font_path), 44)
     draw.rectangle((0, 0, 3840, 160), fill="#102e27")
     draw.text((54, 24), "Crowd Memory · 组织级记忆组件", font=title, fill="white")
-    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 历史资料复盘", font=small, fill="#c2dfd3")
-    draw.text((2920, 58), "历史结果与本次操作分开标注", font=small, fill="#c2dfd3")
+    draw.text((54, 104), "鸿蒙 PC · Python 三方库适配 · 轨迹 → 卡片 → 注入 → 采用", font=small, fill="#c2dfd3")
+    draw.text((3120, 58), "DSH · Memory Card", font=small, fill="#c2dfd3")
     if scene["view"] == "two_agents":
         draw.rectangle((0, 160, 1920, 240), fill="#edf0f3")
         draw.rectangle((1920, 160, 3840, 240), fill="#e3f3e8")
-        draw.text((44, 174), "Agent 1 · apriltag-python：提炼排查经验", font=label, fill="#354451")
-        draw.text((1964, 174), "Agent 2 · RDKit：跨库核对与复用", font=label, fill="#17643c")
+        draw.text((44, 174), "Agent 1 · apriltag-python：生成记忆卡", font=label, fill="#354451")
+        draw.text((1964, 174), "Agent 2 · RDKit：卡片进入执行过程", font=label, fill="#17643c")
     else:
         draw.rectangle((0, 160, 3840, 240), fill="#e3f3e8")
         draw.text((54, 174), scene["label"], font=label, fill="#17643c")
@@ -79,7 +79,7 @@ def subtitle_plate(text, target, font_path):
     lines = []
     line = ""
     for token in re.findall(r"[A-Za-z0-9]+|.", text):
-        if draw.textlength(line + token, font=font) > 2500 and line:
+        if draw.textlength(line + token, font=font) > 2500 and line and token not in "，。！？、：；,.!?…":
             lines.append(line.strip())
             line = token
         else:
@@ -161,8 +161,8 @@ def encode(args):
             plate = stage / (sid + "-plate.png")
             label_plate(scene, plate, args.font)
             command = ["ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
-                       "-loop", "1", "-framerate", str(FPS), "-i", str(plate)]
-            filters = ["[0:v]format=yuv420p[base]"]
+                       "-loop", "1", "-framerate", "1", "-i", str(plate)]
+            filters = ["[0:v]fps=30,format=yuv420p[base]"]
             for index, path in enumerate(scene["inputs"], 1):
                 command += ["-threads", "2", "-i", str(path)]
                 filters.append(f"[{index}:v]trim=start=0.5:duration={duration},setpts=PTS-STARTPTS,fps={FPS},format=yuv420p[v{index}]")
@@ -175,7 +175,7 @@ def encode(args):
             for index, cue in enumerate(scene["captions"]):
                 overlay = stage / f"{sid}-caption-{index}.png"
                 subtitle_plate(cue["text"], overlay, args.font)
-                command += ["-loop", "1", "-framerate", str(FPS), "-i", str(overlay)]
+                command += ["-loop", "1", "-framerate", "1", "-i", str(overlay)]
                 stream_index = len(scene["inputs"]) + index + 1
                 after = f"c{index}"
                 filters.append(f"[{current}][{stream_index}:v]overlay=0:0:enable='gte(t,{cue['start']})*lt(t,{cue['end']})'[{after}]")
@@ -185,7 +185,7 @@ def encode(args):
             clip = stage / (sid + ".mp4")
             subprocess.run(command + ["-filter_complex_threads", "2", "-filter_complex", ";".join(filters),
                 "-map", f"[{current}]", "-an", "-t", str(duration),
-                "-c:v", "libx264", "-threads", "4", "-preset", "fast", "-crf", "20", "-pix_fmt", "yuv420p",
+                "-c:v", "libx264", "-threads", "4", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p",
                 "-movflags", "+faststart", str(clip)], check=True)
             output_clips.append(clip)
             elapsed += duration
@@ -198,7 +198,7 @@ def encode(args):
             "-af", f"loudnorm=I=-16:LRA=11:TP=-1.5,aresample=48000,apad,atrim=duration={elapsed}",
             "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(video)], check=True)
         poster = stage / "harmony-python-poster.jpg"
-        poster_time = next(s["start"] for s in scenes if s["id"] == "closing") + 2
+        poster_time = next(s["start"] for s in scenes if s["id"] == "intro") + 2
         subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-ss", str(poster_time), "-i", str(video),
                         "-frames:v", "1", "-q:v", "2", str(poster)], check=True)
         vtt = stage / "harmony-python-zh.vtt"

@@ -1,0 +1,2 @@
+Runtime 在任务结束时才把本地回执封存到 outbox。刚才任务已结束，show-usage.py 已改为只读查询 Runtime SQLite 中的原始回执，可以直接看到先前任务的采用记录。
+现在运行 python3 show-usage.py ../../runtime lr_01a1bec35c267fd68370ff34663f6058，再读取 memory-usage.json。展示回执的卡片编号、pushed、applied、applied_paths 和 revision，使用原始值。说明 applied_via=fix_path 表示工具写入了卡片修复指向的文件，结合之前的 diff 与测试输出展示采用过程。禁止写入或改动任何 Runtime 数据。不重跑修复，不再写 memory_note。最后给出一个简洁“卡片使用回执”表格，不谈录像，不补泛泛总结。
