@@ -30,7 +30,8 @@ window.PLUGIN_DEMO = {
       }
     ],
     "captions": "assets/harmony-python-zh.vtt",
-    "captionsBurnedIn": true
+    "captionsBurnedIn": true,
+    "standalone": true
   },
   "prompt": "在 libpng 接入示例的独立工作区中，先构建 info 目标并复现失败，核对 CMake 依赖、头文件与二进制版本，修复后运行 PNG 信息读取测试；用 memory_note 记录实际原因、修法、验证和适用条件，scope=global，topic_key=libpng/cmake-link-target。再让另一个独立 Agent 处理 roundtrip 目标，先复现失败，再搜索和读取记忆，核对当前目标名与环境，修复后验证 PNG 解码、编码、重新读取的像素一致性。不要修改三方库或用硬编码输出代替测试。"
 };

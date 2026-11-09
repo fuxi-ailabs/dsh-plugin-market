@@ -461,7 +461,7 @@
     "harmony-python-preview.jpg": "sha256:862a7f8028a946bbc2c10b63b0963f7022a353ca6c10cfea5f863dcebf8a332c",
     "harmony-python-zh.vtt": "sha256:bb55cb0347d5e31a5a63335559d75a73ba2ed9a8f200195522c01639a2b45418"
   },
-  "page_scope": "Video metadata and evidence link, plus explicit libpng name in the existing screenshot comparison cross-reference.",
+  "page_scope": "Standalone narrated video section and evidence link, plus explicit libpng name in the existing screenshot comparison cross-reference. An opt-in template flag separates the video from the libpng reproduction prompt.",
   "browser_verification": {
     "default_playback": {
       "width": 1920,

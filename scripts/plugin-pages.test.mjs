@@ -53,6 +53,21 @@ test('a video loops muted only when the page opts in', () => {
   assert.throws(() => validateContent(page), /video.loop/);
 });
 
+test('a standalone video is separate from the example and its reproduction prompt', () => {
+  const page = structuredClone(starter);
+  page.example.video = { ...agent.example.video, standalone: true };
+  page.example.prompt = 'Reproduce only the written example';
+  validateContent(page);
+  const html = renderPage(page);
+  const example = html.slice(html.indexOf('<section id="example"'), html.indexOf('<section id="comparison"'));
+  const exampleEnd = example.indexOf('</section>');
+  assert(example.indexOf('Reproduce only the written example') < exampleEnd);
+  assert(example.indexOf('id="recording"') > exampleEnd);
+  assert(example.includes('aria-labelledby="recording-section-title"'));
+  page.example.video.standalone = 'yes';
+  assert.throws(() => validateContent(page), /video.standalone/);
+});
+
 test('empty demos and unsupported content are rejected', () => {
   const page = structuredClone(starter);
   page.example = { title: '演示' };

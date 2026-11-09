@@ -35,6 +35,7 @@ export function validateContent(p) {
   }
   if (x.video) {
     requireText(x.video.title, 'video.title');
+    if (x.video.standalone !== undefined && typeof x.video.standalone !== 'boolean') throw new Error('video.standalone must be true or false');
     if (x.video.loop !== undefined && typeof x.video.loop !== 'boolean') throw new Error('video.loop must be true or false');
     if (x.video.captionsBurnedIn !== undefined && typeof x.video.captionsBurnedIn !== 'boolean') throw new Error('video.captionsBurnedIn must be true or false');
     if (!/^assets\/[a-z0-9-]+\.(mp4|webm)$/.test(x.video.src) || !/^assets\/[a-z0-9-]+\.jpg$/.test(x.video.poster) || !/^assets\/[a-z0-9-]+\.vtt$/.test(x.video.captions)) throw new Error('Video, poster and captions must be reviewed local assets');
