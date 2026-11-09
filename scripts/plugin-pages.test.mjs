@@ -53,6 +53,17 @@ test('a video loops muted only when the page opts in', () => {
   assert.throws(() => validateContent(page), /video.loop/);
 });
 
+test('a video can offer one published resolution', () => {
+  const page = structuredClone(starter);
+  const src = 'assets/demo-1080p.mp4';
+  page.example.video = { ...agent.example.video, src, qualities: [{ label: '1080p', src }] };
+  validateContent(page);
+  const html = renderPage(page);
+  assert(html.includes('value="assets/demo-1080p.mp4">1080p</option>'));
+  page.example.video.qualities = [];
+  assert.throws(() => validateContent(page), /video.qualities/);
+});
+
 test('burned-in captions opt into the control-safe player layout', async () => {
   const page = structuredClone(starter);
   page.example = { title: '视频演示', video: { ...agent.example.video, captionsBurnedIn: true } };

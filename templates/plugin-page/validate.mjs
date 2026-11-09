@@ -40,7 +40,7 @@ export function validateContent(p) {
     if (x.video.captionsBurnedIn !== undefined && typeof x.video.captionsBurnedIn !== 'boolean') throw new Error('video.captionsBurnedIn must be true or false');
     if (!/^assets\/[a-z0-9-]+\.(mp4|webm)$/.test(x.video.src) || !/^assets\/[a-z0-9-]+\.jpg$/.test(x.video.poster) || !/^assets\/[a-z0-9-]+\.vtt$/.test(x.video.captions)) throw new Error('Video, poster and captions must be reviewed local assets');
     if (x.video.qualities !== undefined) {
-      requireList(x.video.qualities, 'video.qualities', 2);
+      requireList(x.video.qualities, 'video.qualities', 1);
       for (const quality of x.video.qualities) {
         requireText(quality.label, 'video quality label');
         if (!/^assets\/[a-z0-9-]+\.mp4$/.test(quality.src)) throw new Error('Video quality must be a local reviewed MP4');

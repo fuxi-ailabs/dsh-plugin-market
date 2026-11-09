@@ -47,17 +47,12 @@
     "duration_seconds": 152.9
   },
   "media": {
-    "harmony-python-demo.mp4": {
-      "width": 3840,
-      "height": 2160,
-      "duration_seconds": 152.9,
-      "size_bytes": 10226345
-    },
-    "harmony-python-demo-1080p.mp4": {
+    "harmony-python-demo-1080p-redacted.mp4": {
       "width": 1920,
       "height": 1080,
       "duration_seconds": 152.916,
-      "size_bytes": 4246274
+      "size_bytes": 4536737
     }
-  }
+  },
+  "privacy": "画面中的用户名、主机名和个人目录已替换为通用演示标识，封面同步处理。"
 }
