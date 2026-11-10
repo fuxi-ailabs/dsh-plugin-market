@@ -65,8 +65,8 @@
       "height": 1080,
       "fps": "30/1",
       "duration_seconds": 175.767,
-      "size_bytes": 5538441,
-      "sha256": "6900599ed146d217081b810f78d7c6836ee30524f2a27e223c9ab0e32a48c967",
+      "size_bytes": 5532310,
+      "sha256": "bcca6d930cfec4b3b66905c5fb7cba14b481bd8ed2668c6b645c407bac5cf735",
       "faststart": true,
       "complete_decode": "passed"
     }
