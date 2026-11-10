@@ -97,7 +97,7 @@
         "type": "code",
         "title": "开发版：从源码安装与配置",
         "codeLabel": "终端 · 开发版（演示视频中的步骤）",
-        "code": "# 前提：Node 22、DSH 0.2.2、pnpm（dsh plugin 安装插件时使用）\ngit clone -b feat/dsh-native-workflow <workflow-rsi 仓库> workflow-rsi\n(cd workflow-rsi && npm ci && npm run build)\nnpm install --global --prefix tools ./workflow-rsi      # 得到 wie、wrsi-staticflow\nexport PATH=\"$PWD/tools/bin:$PATH\"\n\n# DSH：新建 profile，加载静态工作流插件的引擎和插件包\ndsh --profile staticflow --from-default-profile web --dump-config >/dev/null\ndsh plugin --profile staticflow add ./workflow-rsi/packages/dsh-static-workflow-engine ./workflow-rsi/packages/dsh-static-workflow-bundle\n# 再写 profile 补丁 <DSH_HOME>/profiles/staticflow/cordis.patch.yml：\n# 模型的 provider 与密钥环境变量，staticflow-command 的 revisionsDir（修订收件目录）\n\n# RSI：judge 与停止族策略校验后提交待审，结构算子提交待审，由人准入\nwie judge import --dir <judge 与策略所在目录>\nwie asset register --kind structure-op --id <算子 id> --file <算子.json> --visibility infra-only --submit\nwie asset admit --uri <资产 URI>\n# 基线 run、验证集与 holdout 准备好后，一条命令完成结构搜索与验证\nwie structure improve --loop-config <loop 配置> --base-stop <停止记录>"
+        "code": "# 前提：Node 22、DSH 0.2.2、pnpm（dsh plugin 安装插件时使用），以及 GitCode 上 workflow-rsi 仓库的读权限\ngit clone -b feat/dsh-native-workflow https://gitcode.com/third-party-library-for-harmony/workflow-rsi.git workflow-rsi\n(cd workflow-rsi && npm ci && npm run build)\nnpm install --global --prefix tools ./workflow-rsi      # 得到 wie、wrsi-staticflow\nexport PATH=\"$PWD/tools/bin:$PATH\"\n\n# DSH：新建 profile，加载静态工作流插件的引擎和插件包\ndsh --profile staticflow --from-default-profile web --dump-config >/dev/null\ndsh plugin --profile staticflow add ./workflow-rsi/packages/dsh-static-workflow-engine ./workflow-rsi/packages/dsh-static-workflow-bundle\n# 再写 profile 补丁 <DSH_HOME>/profiles/staticflow/cordis.patch.yml：\n# 模型的 provider 与密钥环境变量，staticflow-command 的 revisionsDir（修订收件目录）\n\n# RSI：judge 与停止族策略校验后提交待审，结构算子提交待审，由人准入\nwie judge import --dir <judge 与策略所在目录>\nwie asset register --kind structure-op --id <算子 id> --file <算子.json> --visibility infra-only --submit\nwie asset admit --uri <资产 URI>\n# 基线 run、验证集与 holdout 准备好后，一条命令完成结构搜索与验证\nwie structure improve --loop-config <loop 配置> --base-stop <停止记录>"
       },
       {
         "type": "code",
@@ -325,7 +325,7 @@
     },
     {
       "question": "静态工作流插件和结构搜索怎么装？",
-      "answer": "目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm。按「看例子」里的开发版步骤从源码构建，用 dsh plugin add 加载本地目录里的引擎和插件包；演示视频从安装、配置一直录到第 2 版通过。已发布的操作台按上方的安装命令安装。"
+      "answer": "目前在 workflow-rsi 的开发分支 feat/dsh-native-workflow 上，尚未发布到 npm。按「看例子」里的开发版步骤，从 GitCode 仓库 third-party-library-for-harmony/workflow-rsi 取源码构建（需要该仓库的读权限），用 dsh plugin add 加载本地目录里的引擎和插件包；演示视频从安装、配置一直录到第 2 版通过。已发布的操作台按上方的安装命令安装。"
     },
     {
       "question": "插件调用失败，先检查哪里？",
