@@ -50,15 +50,15 @@
     "video": {
       "title": "鸿蒙 PC Python 三方库适配中的组织经验复用",
       "description": "约 176 秒连续中文配音，画面标注开发版 / trial。剪辑展示组织中心、双 Runtime 与 Adapter 配置、证据聚合和组织试推发布，再看 DSH 中卡片推送、读取、RDKit 脚本修改与复测。两个节点在本机运行，核验范围为启动脚本的环境传递。视频为 1080p。",
-      "src": "assets/harmony-python-demo-1080p-redacted.mp4",
+      "src": "assets/harmony-python-spoken-1080p.mp4",
       "poster": "assets/harmony-python-preview-redacted.jpg",
       "qualities": [
         {
           "label": "1080p",
-          "src": "assets/harmony-python-demo-1080p-redacted.mp4"
+          "src": "assets/harmony-python-spoken-1080p.mp4"
         }
       ],
-      "captions": "assets/harmony-python-zh.vtt",
+      "captions": "assets/harmony-python-spoken-zh.vtt",
       "captionsBurnedIn": true,
       "standalone": true
     },
