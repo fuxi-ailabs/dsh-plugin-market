@@ -66,5 +66,20 @@
     }
   },
   "privacy": "画面中的用户名、主机名和个人目录已替换为通用演示标识，封面同步处理。",
-  "summary_scope": "任务、首次发布与使用结果摘要。视频由运行片段剪辑，启动镜头补录。"
+  "summary_scope": "任务、首次发布与使用结果摘要。视频由运行片段剪辑，启动镜头补录。",
+  "comparison": {
+    "task": "nerdd-module / RDKit 启动脚本环境传递",
+    "command": "python3 test-launch.py",
+    "before": {
+      "tests": 3,
+      "failed": 3,
+      "exit_code": 1
+    },
+    "after": {
+      "tests": 3,
+      "passed": 3,
+      "exit_code": 0
+    },
+    "presentation": "同一任务记录中的工具结果局部截图，目录信息已脱敏。"
+  }
 }
