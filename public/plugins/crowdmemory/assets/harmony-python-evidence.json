@@ -55,19 +55,19 @@
     "single_continuous_end_to_end_capture": false,
     "startup_retakes": true,
     "synthetic_narration": true,
-    "duration_seconds": 175.767,
-    "narration_updated_at": "2026-11-10",
+    "duration_seconds": 217.067,
+    "narration_updated_at": "2026-11-11",
     "narration_edit": "既有脱敏画面按新口播重定时，替换底部烧录字幕并同步红框。",
-    "subtitles_updated_at": "2026-11-10"
+    "subtitles_updated_at": "2026-11-11"
   },
   "media": {
-    "harmony-python-spoken-1080p.mp4": {
+    "harmony-python-brian-1080p.mp4": {
       "width": 1920,
       "height": 1080,
       "fps": "30/1",
-      "duration_seconds": 175.767,
-      "size_bytes": 5543442,
-      "sha256": "c93802cef31b16d04d7c6a75d5308a7c028aa6a83296f9240efe07adea2b86b6",
+      "duration_seconds": 217.067,
+      "size_bytes": 6130255,
+      "sha256": "6cf1071e610af856a476cc8c7be9de8743019c4103e0f129f360243bc89b32b2",
       "faststart": true,
       "complete_decode": "passed"
     }
@@ -90,17 +90,19 @@
     "presentation": "同一任务记录中的工具结果局部截图，目录信息已脱敏。"
   },
   "narration": {
-    "voice": "zh-CN-YunyangNeural",
+    "voice": "en-US-BrianMultilingualNeural",
     "rate": "+0%",
-    "full_text_tts_requests": 1,
+    "generation_mode": "full_script_single_request",
     "separately_synthesized_voice_segments": 0,
     "word_timestamp_alignment": "matched to all spoken text",
     "subtitle_cues": 30,
     "timed_callout_phases": 38,
+    "subtitle_text_source": "spoken transcript, with standard spellings for library names and acronyms",
+    "subtitle_word_stream_match": true,
     "pause_processing": {
       "kind": "extend_existing_quiet_regions",
       "chapter_boundaries": 11,
-      "added_seconds": 2.35,
+      "added_seconds": 4.612,
       "chapter_gap_range_seconds": [
         0.7,
         0.85
@@ -114,21 +116,11 @@
       {
         "display": "apriltag",
         "spoken": "April Tag"
-      },
-      {
-        "display": "RDKit",
-        "spoken": "R D Kit"
-      },
-      {
-        "display": "TA-Lib",
-        "spoken": "T A Lib"
-      },
-      {
-        "display": "DSH",
-        "spoken": "D S H"
       }
     ],
-    "subtitle_text_source": "spoken transcript, with standard spellings for library names and acronyms",
-    "subtitle_word_stream_match": true
+    "pronunciation_changes": [
+      "中英混读使用 Brian Multilingual 语音。",
+      "两处代码修改说明使用“添加导出语句”。"
+    ]
   }
 }

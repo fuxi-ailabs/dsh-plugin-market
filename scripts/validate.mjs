@@ -42,6 +42,7 @@ const publicPages = new Map([['plugins/skillopt', new Set(['index.html', 'styles
   'media-controls.js', 'media-controls.css', 'assets/coding-agent-demo-1080p.mp4', 'assets/coding-agent-preview.jpg',
   'assets/harmony-python-demo-1080p-redacted.mp4',
   'assets/harmony-python-spoken-1080p.mp4', 'assets/harmony-python-spoken-zh.vtt',
+  'assets/harmony-python-brian-1080p.mp4', 'assets/harmony-python-brian-zh.vtt',
   'assets/harmony-rdkit-before-redacted.jpg', 'assets/harmony-rdkit-after-redacted.jpg',
   'assets/harmony-python-preview-redacted.jpg', 'assets/harmony-python-zh.vtt', 'assets/harmony-python-evidence.json',
 ])], ['plugins/workflow-rsi', new Set([
